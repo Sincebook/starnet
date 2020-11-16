@@ -1,1 +1,1 @@
-export { getOtherInfo } from './test.js'
+export { getOtherInfo } from './test.js';

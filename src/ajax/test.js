@@ -1,5 +1,5 @@
-import http from '@/utils/http'
+import http from '@/utils/http';
 
 export function getOtherInfo (options) {
-  return http.get('http://127.0.0.1:8360/api/index/index', options)
-}
+  return http.get('https://v1.hitokoto.cn/?c=i', options);
+};
