@@ -1,0 +1,83 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font: 14px -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    /* 字体抗锯齿 */
+    background-color: var(--bgColor);
+    color: var(--fontColor);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    /* 去除a标签在移动端点击时的高亮 */
+}
+
+// 去除基本样式
+ol,
+ul,
+li {
+    list-style: none;
+}
+
+// 去除a标签的下划线
+a {
+    text-decoration: none;
+    outline: 0;
+    cursor: pointer;
+}
+
+// 所有图片img 不允许拖拽
+img {
+    -webkit-user-drag: none;
+    vertical-align: middle;
+    border-style: none;
+}
+
+// 超出一行隐藏
+.oneLine {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    -webkit-box-orient: vertical;
+}
+
+// 超出两行隐藏
+.twoLine {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+// 去除基本样式
+input,
+select {
+    outline: none;
+}
+
+// 清除浮动
+.clearFix:after {
+    display: block;
+    content: "";
+    clear: both;
+}
+
+// icon图标全局
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
