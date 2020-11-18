@@ -60,7 +60,7 @@
 <script>
 // @ is an alias to /src
 export default {
-  name: 'XXX',
+  name: 'NavBar',
   data() {
     return {
 

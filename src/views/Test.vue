@@ -27,6 +27,9 @@
       <div>--------</div>
       <actor-card></actor-card>
     </div>
+    <div class="cricism">
+      <criticism></criticism>
+    </div>
   </div>
 </template>
 
@@ -37,6 +40,8 @@ import { mapState } from 'vuex';
 import jobCard from '../components/common/jobCard';
 import companyCard from '../components/common/companyCard';
 import actorCard from '../components/common/actorCard';
+import criticism from '../components/common/criticism';
+
 export default {
   data() {
     return {
@@ -103,7 +108,8 @@ export default {
     SwiperSlide,
     jobCard,
     companyCard,
-    actorCard
+    actorCard,
+    criticism
   },
   directives: {
     swiper: directive
@@ -147,5 +153,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.cricism{
+  width:600px;
+  margin:0 auto;
 }
 </style>
