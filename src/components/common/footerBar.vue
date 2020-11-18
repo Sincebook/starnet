@@ -88,12 +88,7 @@ export default {
     font-size: 18px;
     font-weight: 500;
   }
-  .left {
-  }
-  .center {
-  }
-  .right {
-  }
+
 }
 .footer-fixed {
   //   padding: 0 50px;
