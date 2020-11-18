@@ -1,41 +1,43 @@
 <template>
-  <div class="job-card" @click="deatil">
-    <div class="job-head">
-      <div
-        class="img"
-        :style="{ backgroundImage: 'url(' + item.bg + ')' }"
-      ></div>
-    </div>
-    <div class="job-content">
-      <div class="head">
-        <h2 class="title oneLine">{{ item.title }}</h2>
-        <svg @click.stop="share" class="icon" aria-hidden="true">
-          <use xlink:href="#icon-fenxiang"></use>
-        </svg>
+  <div>
+    <div class="job-card" @click="deatil">
+      <div class="job-head">
+        <div
+          class="img"
+          :style="{ backgroundImage: 'url(' + item.bg + ')' }"
+        ></div>
       </div>
-      <div class="container">
-        <p>发布人：{{ item.name }}</p>
-        <p>面试地点：{{ item.loaction }}</p>
-        <p>年龄要求：{{ item.age }}</p>
-        <p>性别：{{ item.sex }}</p>
-        <p>职位要求：{{ item.require }}</p>
-        <p>薪酬：{{ item.money }}</p>
-        <p>工作周期：{{ item.duration }}</p>
-        <p>开始日期：{{ item.stratTime }}</p>
-        <p>截止日期：{{ item.endTime }}</p>
-      </div>
-      <div class="foot">
-        <div class="left" @click.stop="recommend">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-tuijian"></use>
+      <div class="job-content">
+        <div class="head">
+          <h2 class="title oneLine">{{ item.title }}</h2>
+          <svg @click.stop="share" class="icon" aria-hidden="true">
+            <use xlink:href="#icon-fenxiang"></use>
           </svg>
-          编辑推荐
         </div>
-        <div class="right" @click.stop="collect">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-ai-mark"></use>
-          </svg>
-          点击收藏
+        <div class="container">
+          <p>发布人：{{ item.name }}</p>
+          <p>面试地点：{{ item.loaction }}</p>
+          <p>年龄要求：{{ item.age }}</p>
+          <p>性别：{{ item.sex }}</p>
+          <p>职位要求：{{ item.require }}</p>
+          <p>薪酬：{{ item.money }}</p>
+          <p>工作周期：{{ item.duration }}</p>
+          <p>开始日期：{{ item.stratTime }}</p>
+          <p>截止日期：{{ item.endTime }}</p>
+        </div>
+        <div class="foot">
+          <div class="left" @click.stop="recommend">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-tuijian"></use>
+            </svg>
+            编辑推荐
+          </div>
+          <div class="right" @click.stop="collect">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-ai-mark"></use>
+            </svg>
+            点击收藏
+          </div>
         </div>
       </div>
     </div>
@@ -76,7 +78,8 @@ export default {
   height: 420px;
   transition: all 0.25s;
   &:hover {
-    box-shadow: 10px 20px 10px 0 hsla(255, 9%, 45%, 0.09);
+    box-shadow: -8px -8px 16px -10px rgba(0, 0, 0, 0.3),
+      8px 8px 16px -10px rgba(0, 0, 0, 0.3);
     .job-head .img {
       transform: scale(1.1);
     }
