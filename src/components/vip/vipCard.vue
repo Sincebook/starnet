@@ -1,6 +1,10 @@
 <template>
   <div class="vip-card" :class="'level' + item.level">
-    <div class="tuijan"></div>
+    <div
+      v-if="item.level === 1"
+      class="tuijan"
+      :style="{ backgroundImage: 'url(' + tuijianImg + ')' }"
+    ></div>
     <div class="head">
       <h2 class="title">{{ item.title }}</h2>
       <p class="desc">{{ item.desc }}</p>
@@ -37,7 +41,8 @@ export default {
         '精选个人资料照片',
         '比其他人早1小时刷新工作职位',
         '无限上传照片/视频/音频'
-      ]
+      ],
+      tuijianImg: '//ftp.qnets.cn/since/tuijian.png'
     };
   },
   methods: {
@@ -48,9 +53,20 @@ export default {
 
 <style lang="less" scoped>
 .vip-card {
+  position: relative;
   background-color: #ffffff;
   padding: 25px 35px;
   margin: 10px;
+  .tuijan {
+    position: absolute;
+    top: -12px;
+    left: -10px;
+    width: 75px;
+    height: 75px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+  }
   .head {
     .title {
       color: #e77424;
