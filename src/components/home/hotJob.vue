@@ -1,0 +1,75 @@
+<template>
+  <div class="hot-job">
+    <h2>热点职位 Hot work</h2>
+    <div class="list">
+      <job-card
+        data-aos="fade-up"
+        v-for="item in 6"
+        :item="obj"
+        :key="item"
+      ></job-card>
+    </div>
+    <div class="more">更多</div>
+  </div>
+</template>
+
+<script>
+import jobCard from '../common/jobCard';
+export default {
+  data() {
+    return {
+      obj: {
+        id: 1,
+        bg: '//ftp.qnets.cn/img/2.jpg',
+        title: '邓导电影公开选角',
+        name: '河南森思软件科技有限公司',
+        loaction: '郑州',
+        age: '18-25岁',
+        sex: '女',
+        require: '拥有表演专业职称，丰富的表演经验',
+        money: '有/面议',
+        duration: '6个月',
+        stratTime: '2020-11-17',
+        endTime: '2020-12-12'
+      }
+    };
+  },
+  components: {
+    jobCard
+  }
+};
+</script>
+
+<style lang="less" scoped>
+.hot-job {
+  background-color: #f5f5f5;
+  width: 100%;
+  padding: 80px 0 40px 0;
+  h2 {
+    margin-bottom: 40px;
+  }
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 10vw;
+    height: 1020px;
+    overflow: hidden;
+    /deep/ .job-card {
+      margin: 20px;
+    }
+  }
+  .more {
+    display: inline-block;
+    margin: 15px 0;
+    font-size: 16px;
+    padding: 5px;
+    color: #999;
+    cursor: pointer;
+    transition: all 0.25s;
+    &:hover {
+      color: #222;
+    }
+  }
+}
+</style>
