@@ -1,5 +1,6 @@
 <template>
   <div class="test">
+    <sub-bar :companyType="companyType"></sub-bar>
     <svg class="icon icon-qq2" aria-hidden="true">
       <use xlink:href="#icon-qq2"></use>
     </svg>
@@ -43,7 +44,7 @@ import companyCard from '../components/common/companyCard';
 import actorCard from '../components/common/actorCard';
 import criticism from '../components/common/criticism';
 import criticismInput from '../components/common/criticismInput';
-
+import subBar from '../components/common/subBar';
 export default {
   data() {
     return {
@@ -80,7 +81,8 @@ export default {
         duration: '6个月',
         stratTime: '2020-11-17',
         endTime: '2020-12-12'
-      }
+      },
+      companyType: ['影视公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '这是多余']
     };
   },
   methods: {
@@ -115,7 +117,8 @@ export default {
     companyCard,
     actorCard,
     criticism,
-    criticismInput
+    criticismInput,
+    subBar
   },
   directives: {
     swiper: directive

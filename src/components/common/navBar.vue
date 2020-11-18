@@ -3,7 +3,7 @@
     <div class="left">
       <span
         ><img
-          src="../../assets/images/huixingIcon.png"
+          src="../../assets/images/huixing.png"
           alt="绘星"
           class="nav-icon"
       /></span>
