@@ -1,22 +1,22 @@
 <template>
   <div class="subBar">
     <div class="title">
-      <span>公司分类</span>
-      <span>Company</span>
-      <span>classification</span>
+      <span>{{ nameArr[0] }}</span>
+      <span>{{ nameArr[1] }}</span>
+      <span>{{ nameArr[2] }}</span>
     </div>
     <div class="type" ref="btns">
       <div v-for="(item, index) in btns" :key="item + index">
         {{ item }}
       </div>
     </div>
-    <div class="more" @click="btnMore">{{tag}}</div>
+    <div class="more" @click="btnMore">{{ tag }}</div>
   </div>
 </template>
 <script>
 // @ is an alias to /src
 export default {
-  props: ['companyType'],
+  props: ['companyType', 'nameArr'],
   name: 'subBar',
   data() {
     return {
@@ -88,7 +88,7 @@ export default {
       border: 2px solid rgb(25, 130, 200);
       width: 150px;
       border-radius: 15px;
-      transition: background-color 0.5s;
+      transition: all 0.25s;
       cursor: pointer;
     }
     div:hover {
@@ -101,9 +101,6 @@ export default {
     align-self: flex-end;
     cursor: pointer;
     margin-right: 23%;
-  }
-  &:hover {
-    color: rgb(30, 55, 71);
   }
 }
 </style>

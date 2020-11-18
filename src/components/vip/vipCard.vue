@@ -110,7 +110,7 @@ export default {
       line-height: 40px;
       border-radius: 5px;
       color: #fff;
-      background: chocolate;
+      transition: all 0.25s;
     }
   }
 }
