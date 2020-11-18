@@ -10,7 +10,6 @@
 import NavBar from './components/common/navBar.vue';
 import FooterBar from './components/common/footerBar';
 export default {
-  name: 'XXX',
   data() {
     return {};
   },

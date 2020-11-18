@@ -27,6 +27,9 @@
       <div>--------</div>
       <actor-card></actor-card>
     </div>
+    <div>
+      <pagination allPages="20"></pagination>
+    </div>
   </div>
 </template>
 
@@ -37,6 +40,7 @@ import { mapState } from 'vuex';
 import jobCard from '../components/common/jobCard';
 import companyCard from '../components/common/companyCard';
 import actorCard from '../components/common/actorCard';
+import pagination from '../components/common/pagination';
 export default {
   data() {
     return {
@@ -103,7 +107,8 @@ export default {
     SwiperSlide,
     jobCard,
     companyCard,
-    actorCard
+    actorCard,
+    pagination
   },
   directives: {
     swiper: directive
