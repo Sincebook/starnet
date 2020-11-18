@@ -1,29 +1,28 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Test</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div>
+    <nav-bar></nav-bar>
+    <router-view class="body"></router-view>
+
+    <footer-bar></footer-bar>
   </div>
 </template>
-
-<style lang="less">
-#app {
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+<script>
+// @ is an alias to /src
+import NavBar from './components/common/navBar.vue';
+import FooterBar from './components/common/footerBar';
+export default {
+  name: 'XXX',
+  data() {
+    return {};
+  },
+  components: {
+    NavBar,
+    FooterBar
   }
+};
+</script>
+<style lang='less'>
+.body {
+  min-height: 800px;
 }
 </style>
