@@ -44,7 +44,7 @@ export default {
 .hot-job {
   background-color: #f5f5f5;
   width: 100%;
-  padding: 80px 0 40px 0;
+  padding: 80px 0 40px;
   h2 {
     margin-bottom: 40px;
   }
@@ -52,8 +52,9 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 0 10vw;
     height: 920px;
+    width: 1280px;
+    margin: 0 auto;
     overflow: hidden;
     /deep/ .job-card {
       margin: 20px;

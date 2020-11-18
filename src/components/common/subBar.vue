@@ -1,6 +1,6 @@
 <template>
   <div class="subBar">
-    <div class="title" v-if="nameArr.length">
+    <div class="title">
       <span>{{ nameArr[0] }}</span>
       <span>{{ nameArr[1] }}</span>
       <span>{{ nameArr[2] }}</span>
@@ -105,9 +105,6 @@ export default {
     align-self: flex-end;
     cursor: pointer;
     margin-right: 23%;
-  }
-  &:hover {
-    color: rgb(30, 55, 71);
   }
 }
 </style>
