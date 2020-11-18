@@ -29,6 +29,7 @@
     </div>
     <div class="cricism">
       <criticism></criticism>
+      <criticismInput @submit="submit"></criticismInput>
     </div>
   </div>
 </template>
@@ -41,6 +42,7 @@ import jobCard from '../components/common/jobCard';
 import companyCard from '../components/common/companyCard';
 import actorCard from '../components/common/actorCard';
 import criticism from '../components/common/criticism';
+import criticismInput from '../components/common/criticismInput';
 
 export default {
   data() {
@@ -93,6 +95,9 @@ export default {
     },
     recommend() {
       console.log('recommend');
+    },
+    submit() {
+      console.log('submit');
     }
   },
   mounted() {
@@ -109,7 +114,8 @@ export default {
     jobCard,
     companyCard,
     actorCard,
-    criticism
+    criticism,
+    criticismInput
   },
   directives: {
     swiper: directive
@@ -154,8 +160,8 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.cricism{
-  width:600px;
-  margin:0 auto;
+.cricism {
+  width: 600px;
+  margin: 0 auto;
 }
 </style>
