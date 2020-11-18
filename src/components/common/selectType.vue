@@ -2,25 +2,38 @@
   <div class="select-bar">
     <div class="yy-margin">
       <div class="left">
-        <div @click="company">
+        <div @click="company(), (isRoate1 = !isRoate1)">
           <span>公司</span>
           <span>
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-zhankai" ></use></svg>
-          </span>
-        </div>
-        <div @click="location">
-          <span>区域</span>
-          <span>
-            <svg class="icon" aria-hidden="true">
+            <svg
+              class="icon"
+              :class="isRoate1 ? 'rotate' : ''"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-zhankai"></use>
             </svg>
           </span>
         </div>
-        <div @click="type">
+        <div @click="location(), (isRoate2 = !isRoate2)">
+          <span>区域</span>
+          <span>
+            <svg
+              class="icon"
+              :class="isRoate2 ? 'rotate' : ''"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-zhankai"></use>
+            </svg>
+          </span>
+        </div>
+        <div @click="type(), (isRoate3 = !isRoate3)">
           <span>类别</span>
           <span>
-            <svg class="icon" aria-hidden="true">
+            <svg
+              class="icon"
+              :class="isRoate3 ? 'rotate' : ''"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-zhankai"></use></svg
           ></span>
         </div>
@@ -47,7 +60,9 @@ export default {
   name: 'selectType',
   data() {
     return {
-
+      isRoate1: false,
+      isRoate2: false,
+      isRoate3: false
     };
   },
   components: {
@@ -84,11 +99,10 @@ export default {
   color: rgb(25, 130, 200);
   font-size: 16px;
   font-weight: 500;
-  height: 100%;
   line-height: 50px;
-  margin: 0 10vw;
+  width: 1280px;
+  margin: 0 auto;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   div {
     margin: 0 20px;
@@ -96,6 +110,9 @@ export default {
   .left {
     display: flex;
     justify-content: space-between;
+    .icon {
+      transition: all 0.25s;
+    }
     .search {
       padding-right: 0;
       display: flex;
@@ -139,5 +156,8 @@ export default {
 .select-bar {
   background-color: rgb(223, 217, 217);
   height: 50px;
+}
+.rotate {
+  transform: rotate(180deg);
 }
 </style>

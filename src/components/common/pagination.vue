@@ -161,13 +161,13 @@ export default {
 
 <style lang="less" scoped>
 .pagination-box {
-  margin-bottom: 55px;
+  margin-bottom: 75px;
   justify-content: center;
   align-items: center;
   display: flex;
   .arrow {
-    width: 17px;
-    height: 17px;
+    width: 22px;
+    height: 22px;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -189,20 +189,21 @@ export default {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAAbNJREFUWAnt2L1OwzAQAOCzW/5a1BfoCsyIgYWNBQkhxi5E7YbEwsOwICGWlrBkBSHxACxISMwwwwNULdC/GB3oosgqqeO7sECGXuI49lfn0pwK8L9lr4DKPj37bDuK6h+j0hr2XJybPLUajZfZV/3cgwU6v4hWJgDb6eGVhvvDg8Zjui3Pvs7T2e4bg96w20wMm2eX0brd7nrMAoGOK9Mm4qBYIGPU6zQQtvmiWKCluHanQPUlUSxQs7nTr6jqFSjoSaFYTxkhwvCm1ofeHhhYpjY7uj59IiCcXAolBpJCsXLIvi1BsNsdwPCak1OiK0TAkzCsLcC8V04VAkKYL6owkC9KNIfollE8DgKnnMKKga4pFISTuKCGA7X6ayCaKCvGWiepU/gKuSQ3FnYELhTkgsFXSrrKTJaKhFLRFWNXl4WAfDG4GOIgDkYcxMWIgiQwYiApjAhIEoOgEn74bp3ObdWo8b5E6UoG1g/ju+5uSWIQxQIZA8lbmr4hRdeinvpTZIFAmTcaKB19MTgGC1Q28JCG4D4H83W9PWDe49N2VC/r73pmHJvnoxbv75i88/+9/p+IxM8jYH4iNAAAAABJRU5ErkJggg==);
   }
   .pagination {
-    padding: 0 30px;
+    padding: 0 20px;
     display: flex;
     .pageNum {
       cursor: pointer;
       z-index: 2;
       display: inline-block;
-      font-size: 12px;
-      color: #222;
+      font-size: 16px;
+      font-weight: 500;
+      color: #222222;
       letter-spacing: 0;
       font-family: Arial-Black;
-      padding: 0 13px;
+      padding: 0 14px;
     }
     .active {
-      color: #f25d8e;
+      color: #759cb6;
       position: relative;
       pointer-events: none;
     }

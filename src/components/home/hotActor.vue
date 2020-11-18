@@ -33,9 +33,8 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 0 5vw;
-    height: 980px;
-    overflow: hidden;
+    width: 1280px;
+    margin: 0 auto;
     /deep/ .actor-card {
       margin: 20px;
     }

@@ -38,15 +38,15 @@ export default {
   text-align: center;
   user-select: none;
   position: relative;
-  width: 330px;
+  width: 280px;
   background-color: var(--cardBgColor);
-  height: 450px;
+  height: 400px;
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
   .bgImg {
     width: 100%;
-    height: 300px;
+    height: 250px;
     transition: all 0.25s;
     background-repeat: no-repeat;
     background-position: center center;
