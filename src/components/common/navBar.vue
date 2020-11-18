@@ -48,19 +48,20 @@ a {
   z-index: 999;
   top: 0;
   left: 0;
+  right: 0;
   background-color: transparent !important;
 }
 .nav {
-  width: 100%;
-  min-height: 64px;
+  min-width: 1280px;
   display: flex;
+  height: 64px;
   font-size: 16px;
   background-color: rgb(51, 51, 51);
   color: #fff;
   align-items: center;
   justify-content: space-between;
   .left {
-    flex: 3 0 auto;
+    flex: 5;
     justify-self: start;
     display: flex;
     align-items: center;
@@ -69,8 +70,7 @@ a {
     }
   }
   .right {
-    flex: 2 0 auto;
-    min-width: 550px;
+    flex: 3;
     justify-self: flex-end;
     display: flex;
     align-items: center;

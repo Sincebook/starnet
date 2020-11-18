@@ -25,14 +25,9 @@ export default {
 <style lang="less" scoped>
 .back-img {
   width: 100%;
-  height: 30vw;
+  height: 500px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-}
-@media screen and (max-width: 1200px) {
-  .back-img {
-    height: 45vw;
-  }
 }
 </style>

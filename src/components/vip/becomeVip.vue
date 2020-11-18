@@ -130,35 +130,4 @@ export default {
     flex-wrap: wrap;
   }
 }
-
-@media screen and (max-width: 1200px) {
-  .desc-box {
-    .line {
-      display: none;
-    }
-    .desc {
-      margin: 10px 5vw;
-    }
-  }
-}
-@media screen and (max-width: 600px) {
-  .become-vip {
-    padding-top: 50px;
-    h1 {
-      font-size: 30px;
-      margin-bottom: 30px;
-    }
-    h2 {
-      font-size: 24px;
-      margin-bottom: 30px;
-    }
-    .icon-box {
-      width: 100px;
-      height: 100px;
-    }
-    h3 {
-      font-size: 22px;
-    }
-  }
-}
 </style>

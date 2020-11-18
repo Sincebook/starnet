@@ -28,9 +28,12 @@
       <div>--------</div>
       <actor-card></actor-card>
     </div>
-    <div class="cricism">
-      <criticism></criticism>
-      <criticismInput @submit="submit"></criticismInput>
+    <div>
+      <pagination allPages="20"></pagination>
+      <div class="cricism">
+        <criticism></criticism>
+        <criticismInput @submit="submit"></criticismInput>
+      </div>
     </div>
   </div>
 </template>
@@ -42,6 +45,7 @@ import { mapState } from 'vuex';
 import jobCard from '../components/common/jobCard';
 import companyCard from '../components/common/companyCard';
 import actorCard from '../components/common/actorCard';
+import pagination from '../components/common/pagination';
 import criticism from '../components/common/criticism';
 import criticismInput from '../components/common/criticismInput';
 import subBar from '../components/common/subBar';
@@ -116,6 +120,7 @@ export default {
     jobCard,
     companyCard,
     actorCard,
+    pagination,
     criticism,
     criticismInput,
     subBar
