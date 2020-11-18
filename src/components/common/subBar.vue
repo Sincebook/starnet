@@ -10,7 +10,7 @@
         {{ item }}
       </div>
     </div>
-    <div class="more" @click="btnMore">{{ tag }}</div>
+    <div class="more" @click="btnMore" ref="tag" style="display:none">{{ tag }}</div>
   </div>
 </template>
 <script>
@@ -28,6 +28,7 @@ export default {
   },
   mounted() {
     this.btnsMake();
+    console.log(this.nameArr);
   },
   components: {
 
@@ -39,10 +40,12 @@ export default {
         let str = '';
         for (let i = 0; i < this.companyType.length; i++) {
           str += '150px ';
+          this.$refs.btns.style.gridTemplateColumns = str;
         }
-        this.$refs.btns.style.gridTemplateColumns = str;
       }
+      this.btns = this.companyType;
       if (this.companyType.length > 10) {
+        this.$refs.tag.style.display = 'block';
         this.btns = this.companyType.slice(0, 10);
         this.moreBtns = this.companyType.slice(10);
       }
@@ -65,6 +68,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .subBar {
+  margin: 0 0 10px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,7 +92,7 @@ export default {
       border: 2px solid rgb(25, 130, 200);
       width: 150px;
       border-radius: 15px;
-      transition: all 0.25s;
+      transition: background-color 0.25s;
       cursor: pointer;
     }
     div:hover {
