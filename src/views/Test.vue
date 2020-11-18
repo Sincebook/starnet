@@ -1,5 +1,6 @@
 <template>
   <div class="test">
+    <sub-bar :companyType="companyType"></sub-bar>
     <svg class="icon icon-qq2" aria-hidden="true">
       <use xlink:href="#icon-qq2"></use>
     </svg>
@@ -27,8 +28,14 @@
       <div>--------</div>
       <actor-card></actor-card>
     </div>
+<<<<<<< HEAD
     <div>
       <pagination allPages="20"></pagination>
+=======
+    <div class="cricism">
+      <criticism></criticism>
+      <criticismInput @submit="submit"></criticismInput>
+>>>>>>> c7579967d648c4c154d5687a9f0a8e36635bcba3
     </div>
   </div>
 </template>
@@ -40,7 +47,13 @@ import { mapState } from 'vuex';
 import jobCard from '../components/common/jobCard';
 import companyCard from '../components/common/companyCard';
 import actorCard from '../components/common/actorCard';
+<<<<<<< HEAD
 import pagination from '../components/common/pagination';
+=======
+import criticism from '../components/common/criticism';
+import criticismInput from '../components/common/criticismInput';
+import subBar from '../components/common/subBar';
+>>>>>>> c7579967d648c4c154d5687a9f0a8e36635bcba3
 export default {
   data() {
     return {
@@ -77,7 +90,8 @@ export default {
         duration: '6个月',
         stratTime: '2020-11-17',
         endTime: '2020-12-12'
-      }
+      },
+      companyType: ['影视公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '这是多余']
     };
   },
   methods: {
@@ -92,6 +106,9 @@ export default {
     },
     recommend() {
       console.log('recommend');
+    },
+    submit() {
+      console.log('submit');
     }
   },
   mounted() {
@@ -108,7 +125,13 @@ export default {
     jobCard,
     companyCard,
     actorCard,
+<<<<<<< HEAD
     pagination
+=======
+    criticism,
+    criticismInput,
+    subBar
+>>>>>>> c7579967d648c4c154d5687a9f0a8e36635bcba3
   },
   directives: {
     swiper: directive
@@ -152,5 +175,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.cricism {
+  width: 600px;
+  margin: 0 auto;
 }
 </style>
