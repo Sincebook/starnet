@@ -53,7 +53,7 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
     padding: 0 10vw;
-    height: 1020px;
+    height: 920px;
     overflow: hidden;
     /deep/ .job-card {
       margin: 20px;
