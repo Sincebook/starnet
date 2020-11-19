@@ -341,7 +341,6 @@
       <div class="right">
         <div @click="lasted">最新</div>
         <div @click="hot">热点排名</div>
-        <div @click="best">最佳匹配</div>
       </div>
     </div>
   </div>
@@ -394,11 +393,6 @@ export default {
       if (this.type === 'talent') { }
     },
     hot() {
-      if (this.type === 'job') { }
-      if (this.type === 'company') { }
-      if (this.type === 'talent') { }
-    },
-    best() {
       if (this.type === 'job') { }
       if (this.type === 'company') { }
       if (this.type === 'talent') { }

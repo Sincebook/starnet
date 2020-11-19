@@ -1,6 +1,13 @@
 <template>
   <div>
     <div class="footer-nav">
+      <div>
+        <p><img src="//ftp.qnets.cn/since/logo.png" alt="绘星" class="nav-icon" /></p>
+        <p>年轻的力量</p>
+        <p>专注于传媒招聘</p>
+        <p style="margin:10px 0;">扫一扫，关注我们</p>
+        <p><img src="../../assets/images/since.jpg" alt="" width="100px" height="100px"></p>
+      </div>
       <div class="left">
         <p class="title">关于</p>
         <p>关于我们</p>
@@ -73,7 +80,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .footer-nav {
-  padding: 0 100px;
+  padding: 50px 100px;
   background-color: rgb(51, 51, 51);
   color: #eee;
   display: flex;
@@ -91,7 +98,7 @@ export default {
 
 }
 .footer-fixed {
-  //   padding: 0 50px;
+  padding:10px 0;
   background-color: rgb(34, 33, 33);
   color: #eee;
   display: flex;
