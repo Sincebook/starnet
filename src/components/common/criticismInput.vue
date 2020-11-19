@@ -57,7 +57,7 @@ export default {
     font-size: 20px;
     background-color: rgb(250, 136, 60);
     cursor: pointer;
-    transition: background-color 0.5s;
+    transition: background-color 0.25s;
   }
   .btn:hover {
     background-color: #208b4e;

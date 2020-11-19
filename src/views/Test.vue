@@ -1,5 +1,6 @@
 <template>
   <div class="test">
+    <sub-bar :companyType="companyType" :nameArr="nameArr"></sub-bar>
     <svg class="icon icon-qq2" aria-hidden="true">
       <use xlink:href="#icon-qq2"></use>
     </svg>
@@ -27,9 +28,12 @@
       <div>--------</div>
       <actor-card></actor-card>
     </div>
-    <div class="cricism">
-      <criticism></criticism>
-      <criticismInput @submit="submit"></criticismInput>
+    <div>
+      <pagination allPages="20"></pagination>
+      <div class="cricism">
+        <criticism></criticism>
+        <criticismInput @submit="submit"></criticismInput>
+      </div>
     </div>
   </div>
 </template>
@@ -41,9 +45,10 @@ import { mapState } from 'vuex';
 import jobCard from '../components/common/jobCard';
 import companyCard from '../components/common/companyCard';
 import actorCard from '../components/common/actorCard';
+import pagination from '../components/common/pagination';
 import criticism from '../components/common/criticism';
 import criticismInput from '../components/common/criticismInput';
-
+import subBar from '../components/common/subBar';
 export default {
   data() {
     return {
@@ -80,7 +85,9 @@ export default {
         duration: '6个月',
         stratTime: '2020-11-17',
         endTime: '2020-12-12'
-      }
+      },
+      companyType: ['影视公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '这是多余'],
+      nameArr: ['工作分类', 'Job', 'classification']
     };
   },
   methods: {
@@ -114,8 +121,10 @@ export default {
     jobCard,
     companyCard,
     actorCard,
+    pagination,
     criticism,
-    criticismInput
+    criticismInput,
+    subBar
   },
   directives: {
     swiper: directive

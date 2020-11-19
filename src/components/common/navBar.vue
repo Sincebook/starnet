@@ -1,12 +1,10 @@
 <template>
-  <div class="nav" :class="$route.path === '/home' ? 'newNav' : ''">
+  <div
+    class="nav"
+    :class="$route.path === '/home' || $route.path === '/vip' ? 'newNav' : ''"
+  >
     <div class="left">
-      <span
-        ><img
-          src="../../assets/images/huixingIcon.png"
-          alt="绘星"
-          class="nav-icon"
-      /></span>
+      <span><img :src="logoImg" alt="绘星" class="nav-icon" /></span>
       <router-link to="/home"><span>首页</span></router-link>
       <router-link to="/talent"><span>人才目录</span></router-link>
       <router-link to="/company"><span>公司目录</span></router-link>
@@ -35,9 +33,10 @@
 export default {
   name: 'NavBar',
   data() {
-    return {};
-  },
-  components: {}
+    return {
+      logoImg: '//ftp.qnets.cn/since/logo.png'
+    };
+  }
 };
 </script>
 <style lang='less'>
@@ -49,21 +48,20 @@ a {
   z-index: 999;
   top: 0;
   left: 0;
+  right: 0;
   background-color: transparent !important;
 }
 .nav {
-  width: 100%;
-  min-height: 64px;
+  min-width: 1280px;
   display: flex;
+  height: 64px;
   font-size: 16px;
-  flex-direction: row;
-  flex-wrap: wrap;
   background-color: rgb(51, 51, 51);
   color: #fff;
   align-items: center;
   justify-content: space-between;
   .left {
-    flex: 3 0 auto;
+    flex: 5;
     justify-self: start;
     display: flex;
     align-items: center;
@@ -72,8 +70,7 @@ a {
     }
   }
   .right {
-    flex: 2 0 auto;
-    min-width: 550px;
+    flex: 3;
     justify-self: flex-end;
     display: flex;
     align-items: center;
@@ -114,6 +111,6 @@ a {
   }
 }
 .nav-icon {
-  height: 30px;
+  height: 25px;
 }
 </style>
