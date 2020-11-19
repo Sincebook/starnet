@@ -35,6 +35,9 @@
         <criticismInput @submit="submit"></criticismInput>
       </div>
     </div>
+    <div>
+      <detail-location></detail-location>
+    </div>
   </div>
 </template>
 
@@ -49,6 +52,7 @@ import pagination from '../components/common/pagination';
 import criticism from '../components/common/criticism';
 import criticismInput from '../components/common/criticismInput';
 import subBar from '../components/common/subBar';
+import detailLocation from '../components/job/detailLocation';
 export default {
   data() {
     return {
@@ -123,7 +127,8 @@ export default {
     pagination,
     criticism,
     criticismInput,
-    subBar
+    subBar,
+    detailLocation
   },
   directives: {
     swiper: directive
