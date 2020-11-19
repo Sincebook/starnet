@@ -1,9 +1,9 @@
 <template>
   <div class="job">
     <sub-bar :companyType="companyType" :nameArr="nameArr"></sub-bar>
-    <select-type></select-type>
+    <select-type :type="'job'"></select-type>
     <div class="job-list">
-      <job-card v-for="item in 16" :key="item" :item='obj'></job-card>
+      <job-card v-for="item in 16" :key="item" :item="obj"></job-card>
     </div>
     <pagination allPages="123"></pagination>
   </div>

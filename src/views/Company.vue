@@ -1,7 +1,7 @@
 <template>
   <div class="company">
     <sub-bar :companyType="companyType" :nameArr="nameArr"></sub-bar>
-    <select-type></select-type>
+    <select-type :type="'company'"></select-type>
     <div class="company-list">
       <company-card v-for="item in 16" :key="item"></company-card>
     </div>
