@@ -35,6 +35,10 @@
         <criticismInput @submit="submit"></criticismInput>
       </div>
     </div>
+
+    <div>
+      <detail-header></detail-header>
+    </div>
     <div>
       <detail-location></detail-location>
     </div>
@@ -52,6 +56,7 @@ import pagination from '../components/common/pagination';
 import criticism from '../components/common/criticism';
 import criticismInput from '../components/common/criticismInput';
 import subBar from '../components/common/subBar';
+import detailHeader from '../components/job/detailHeader';
 import detailLocation from '../components/job/detailLocation';
 export default {
   data() {
@@ -128,6 +133,7 @@ export default {
     criticism,
     criticismInput,
     subBar,
+    detailHeader,
     detailLocation
   },
   directives: {
