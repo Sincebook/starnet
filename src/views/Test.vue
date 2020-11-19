@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <sub-bar :companyType="companyType"></sub-bar>
+    <sub-bar :companyType="companyType" :nameArr="nameArr"></sub-bar>
     <svg class="icon icon-qq2" aria-hidden="true">
       <use xlink:href="#icon-qq2"></use>
     </svg>
@@ -86,7 +86,8 @@ export default {
         stratTime: '2020-11-17',
         endTime: '2020-12-12'
       },
-      companyType: ['影视公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '这是多余']
+      companyType: ['影视公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '这是多余'],
+      nameArr: ['工作分类', 'Job', 'classification']
     };
   },
   methods: {
