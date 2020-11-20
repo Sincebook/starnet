@@ -3,7 +3,7 @@
     <sub-bar :nameArr="nameArr" :companyType="talentType"></sub-bar>
     <select-type :type="'talent'"></select-type>
     <div class="talent-list">
-      <actor-card v-for="item in 16" :key="item"></actor-card>
+      <actor-card data-aos="fade-up" v-for="item in 16" :key="item"></actor-card>
     </div>
     <pagination allPages="123"></pagination>
   </div>
