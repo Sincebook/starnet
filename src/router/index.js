@@ -8,6 +8,7 @@ import Job from '../views/Job.vue';
 import Sign from '../views/Sign.vue';
 import Talent from '../views/Talent.vue';
 import Vip from '../views/Vip.vue';
+import companyDetail from '../components/company/companyDetail/companyDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -50,6 +51,10 @@ const routes = [{
     path: '/vip',
     name: 'Vip',
     component: Vip
+  }, {
+    path: '/companyDetail/:id',
+    name: 'companyDetail',
+    component: companyDetail
   }
   // {
   //   path: '/about',

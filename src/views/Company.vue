@@ -3,7 +3,11 @@
     <sub-bar :companyType="companyType" :nameArr="nameArr"></sub-bar>
     <select-type :type="'company'"></select-type>
     <div class="company-list">
-      <company-card v-for="item in 16" :key="item"></company-card>
+      <company-card
+        v-for="item in 16"
+        :key="item"
+        :companyId="id"
+      ></company-card>
     </div>
     <pagination allPages="123"></pagination>
   </div>
@@ -19,14 +23,24 @@ export default {
   data() {
     return {
       companyType: ['影视公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '这是多余'],
-      nameArr: ['公司分类', 'Company', 'classification']
+      nameArr: ['公司分类', 'Company', 'classification'],
+      id: 1
     };
   },
+  created() {
+    console.log(this);
+   },
   components: {
     SubBar,
     SelectType,
     CompanyCard,
     pagination
+  },
+  methods: {
+    // detail(companyId) {
+    //   // router.push({ name: 'user', params: { userId: '123' }})
+    //   this.$router.push({ name: 'companyDetail', params: { companyId } });
+    // }
   }
 };
 </script>
