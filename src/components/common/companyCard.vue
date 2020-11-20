@@ -10,7 +10,8 @@
       <div class="img">
         <img :src="bgImg1" />
       </div>
-      <h2 class="name" @click="detail">华谊兄弟影视公司</h2>
+      <router-link :to="{name:'companyDetail',params:{id:companyId}}">
+      <h2 class="name" @click="detail">华谊兄弟影视公司</h2></router-link>
       <div class="desc">累计达成合作1636单</div>
       <div class="btn-box">
         <div class="btn" @click="email">私信</div>
@@ -22,7 +23,7 @@
 
 <script>
 export default {
-  props: ['item'],
+  props: ['companyId'],
   data() {
     return {
       bgImg: '//ftp.qnets.cn/img/bg2.jpg',
@@ -31,7 +32,7 @@ export default {
   },
   methods: {
     detail() {
-      this.$emit('detail');
+      this.$emit('detail', this.companyId);
     },
     email() {
       this.$emit('email');

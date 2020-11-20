@@ -1,5 +1,5 @@
 <template>
-  <div class="subBar">
+  <div class="subBar" ref="bg">
     <div class="title">
       <span>{{ nameArr[0] }}</span>
       <span>{{ nameArr[1] }}</span>
@@ -10,7 +10,9 @@
         {{ item }}
       </div>
     </div>
-    <div class="more" @click="btnMore" ref="tag" style="display:none">{{ tag }}</div>
+    <div class="more" @click="btnMore" ref="tag" style="display: none">
+      {{ tag }}
+    </div>
   </div>
 </template>
 <script>
@@ -27,8 +29,17 @@ export default {
     };
   },
   mounted() {
+    if (this.$route.fullPath.includes('job')) {
+      this.$refs.bg.className += ' bgjob';
+    }
+    if (this.$route.fullPath.includes('company')) {
+      this.$refs.bg.className += ' bgcompany';
+    }
+    if (this.$route.fullPath.includes('talent')) {
+      this.$refs.bg.className += ' bgtelent';
+    }
+    console.log(this);
     this.btnsMake();
-    console.log(this.nameArr);
   },
   components: {
 
@@ -67,8 +78,33 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+.bgjob {
+  background-image: url(../../assets/images/job.jpg);
+  background-size: auto 400px;
+  background-repeat: no-repeat;
+  color: #fff;
+  .more {
+    color: #fff;
+  }
+}
+.bgtelent {
+  background-image: url(../../assets/images/telent.jpg);
+  background-size: 100%;
+  background-size: auto 400px;
+  color: #fff;
+  .more {
+    color: #fff;
+  }
+}
+.bgcompany {
+  background-image: url(../../assets/images/company.jpg);
+  background-size: 100%;
+  background-size: auto 400px;
+  .more {
+    color: #fff;
+  }
+}
 .subBar {
-  margin: 0 0 10px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
