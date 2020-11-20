@@ -1,11 +1,13 @@
 <template>
   <div class="w_location">
+    <!-- 内容部分 -->
     <div class="content">
       <p>面试地点：上海</p>
       <p>年龄要求：18-40岁</p>
       <p>招聘人数：5人</p>
       <p>职位要求：拥有表演专业职称，丰富的表演经验</p>
-      <p>薪酬：有/面议 拍摄周期：15-20天</p>
+      <p>薪酬：有/面议</p>
+      <p>拍摄周期：15-20天</p>
       <p>发布日期：2020-11-12</p>
       <p>截止日期：2020-12-12</p>
       <p class="blue_color">职业演员可以申请</p>
@@ -40,14 +42,18 @@ export default {
   margin: 0 auto;
   background-color: #ffffff;
   padding-top: 295px / @n;
+  padding-bottom: 295px / @n;
   padding-left: 126px / @n;
-  p {
-    margin-bottom: 121px / @n;
-    font-size: 60.53px / @n;
-    color: #606060;
-  }
-  .blue_color {
-    color: #2f678f;
+  .content {
+    height: 2065px / @n;
+    p {
+      height: 2065px /13 / @n;
+      font-size: 60.53px / @n;
+      color: #606060;
+    }
+    .blue_color {
+      color: #2f678f;
+    }
   }
 }
 </style>

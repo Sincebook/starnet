@@ -3,7 +3,11 @@
     <!-- 上方 -->
     <div class="header_top">
       <div class="header_topl">
-        <h3>陈导电影公开选角</h3>
+        <h3>
+          陈导电影公开选角
+          <img src="../../assets/images/tuijian.png" alt="" />
+          <p>编辑推荐</p>
+        </h3>
 
         <div class="img">
           <img src="../../assets/images/gongsitouxiang.jpg" alt="" />
@@ -78,14 +82,19 @@ export default {
         color: #2f678f;
         margin-bottom: 361px / @n;
 
-        &::after {
-          content: "编辑推荐";
+        img {
+          width: 64px / @n;
+          height: 83px / @n;
+          margin-left: 103px / @n;
+        }
+        p {
+          display: inline-block;
           font-size: 45.13px / @n;
           color: #606060;
-          margin-left: 106px / @n;
+          margin-left: 30px / @n;
+          vertical-align: middle;
         }
       }
-
       .img {
         margin-bottom: 100px / @n;
         img {
