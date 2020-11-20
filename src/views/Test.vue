@@ -1,27 +1,27 @@
 <template>
-  <div class="test">
-    <sub-bar :companyType="companyType" :nameArr="nameArr"></sub-bar>
-    <svg class="icon icon-qq2" aria-hidden="true">
-      <use xlink:href="#icon-qq2"></use>
+  <div class='test'>
+    <sub-bar :companyType='companyType' :nameArr='nameArr'></sub-bar>
+    <svg class='icon icon-qq2' aria-hidden='true'>
+      <use xlink:href='#icon-qq2'></use>
     </svg>
-    <div class="hiko">
-      <p data-aos="zoom-out">{{ test.hitokoto }}--{{ test.from_who }}</p>
+    <div class='hiko'>
+      <p data-aos='zoom-out'>{{ test.hitokoto }}--{{ test.from_who }}</p>
     </div>
-    <swiper data-aos="fade-up" class="swiper" :options="swiperOption">
-      <swiper-slide v-for="item in banners" :key="item.id">
-        <img :src="item.pic"
+    <swiper data-aos='fade-up' class='swiper' :options='swiperOption'>
+      <swiper-slide v-for='item in banners' :key='item.id'>
+        <img :src='item.pic'
       /></swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
-      <div class="swiper-button-prev" slot="button-prev"></div>
-      <div class="swiper-button-next" slot="button-next"></div>
+      <div class='swiper-pagination' slot='pagination'></div>
+      <div class='swiper-button-prev' slot='button-prev'></div>
+      <div class='swiper-button-next' slot='button-next'></div>
     </swiper>
-    <div class="testing">
+    <div class='testing'>
       <job-card
-        :item="obj"
-        @deatil="detail"
-        @recommend="recommend"
-        @collect="collect"
-        @share="share"
+        :item='obj'
+        @deatil='detail'
+        @recommend='recommend'
+        @collect='collect'
+        @share='share'
       ></job-card>
       <div>--------</div>
       <company-card></company-card>
@@ -29,12 +29,25 @@
       <actor-card></actor-card>
     </div>
     <div>
-      <pagination allPages="20"></pagination>
-      <div class="cricism">
+      <pagination allPages='20'></pagination>
+      <div class='cricism'>
         <criticism></criticism>
-        <criticismInput @submit="submit"></criticismInput>
+        <criticismInput @submit='submit'></criticismInput>
       </div>
     </div>
+    <div>
+      <actor></actor>
+    </div>
+    <div>
+      <additionalactor></additionalactor>
+
+    <div>
+      <detail-header></detail-header>
+    </div>
+    <div>
+      <detail-location></detail-location>
+    </div>
+  </div>
   </div>
 </template>
 
@@ -49,6 +62,10 @@ import pagination from '../components/common/pagination';
 import criticism from '../components/common/criticism';
 import criticismInput from '../components/common/criticismInput';
 import subBar from '../components/common/subBar';
+import actor from '../components/job/actor.vue';
+import additionalactor from '../components/job/additionalactor.vue';
+import detailHeader from '../components/job/detailHeader';
+import detailLocation from '../components/job/detailLocation';
 export default {
   data() {
     return {
@@ -108,7 +125,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('getTest');// 测试api的使用
+    this.$store.dispatch('getTest'); // 测试api的使用
   },
   computed: {
     ...mapState({
@@ -124,7 +141,11 @@ export default {
     pagination,
     criticism,
     criticismInput,
-    subBar
+    subBar,
+    actor,
+    additionalactor,
+    detailHeader,
+    detailLocation
   },
   directives: {
     swiper: directive
@@ -132,7 +153,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang='less' scoped>
 .test {
   margin-bottom: 200px;
 }
