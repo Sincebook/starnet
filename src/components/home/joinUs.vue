@@ -44,11 +44,10 @@
   .desc-box {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
     .desc {
-      flex: 1;
-      min-width: 300px;
+      min-width: 400px;
       display: flex;
       align-items: center;
       justify-content: center;

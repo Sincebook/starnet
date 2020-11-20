@@ -52,6 +52,11 @@ export default {
   background-color: var(--cardBgColor);
   height: 400px;
   transition: all 0.25s;
+  &:hover {
+    .company-head .bgImg {
+      transform: scale(1.1);
+    }
+  }
   .company-head {
     position: absolute;
     top: 0;
@@ -90,7 +95,7 @@ export default {
       }
     }
     .name {
-      width: 100%;
+      display: inline-block;
       cursor: pointer;
       color: #759cb6;
       font-weight: 600;
