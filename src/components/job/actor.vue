@@ -1,25 +1,12 @@
 <template>
   <div class="actor">
     <!-- actor1 -->
-    <div class="details w">
+    <div class="details">
       <div class="right-box">
-        <div class="line"></div>
-        <h3>玛丽</h3>
+        <h3>{{ item.name }}</h3>
         <p>
-          雄心勃勃、有趣、活泼、有能力的女性，对生活充满热情。专注于事业，不寻求爱情，但命运在召唤<br />
-          女性，28至40岁
-        </p>
-        <button>立即申请</button>
-      </div>
-    </div>
-    <!-- actor2 -->
-    <div class="details w">
-      <div class="right-box">
-        <div class="line"></div>
-        <h3>宋凯</h3>
-        <p>
-          暖男，脚踏实地，有能力，专一。<br />
-          男性，28至35岁
+          {{ item.info }}<br />
+          {{ item.sexAge }}
         </p>
         <button>立即申请</button>
       </div>
@@ -28,37 +15,27 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ['item']
+};
 </script>
 
 <style lang="less" scoped>
-.w {
-  width: 1350px;
-  background-color: #ffffff;
-  padding: 0;
+.actor {
+  width: 1280px;
+  padding: 0 40px;
   margin: 0 auto;
+  background-color: #fff;
 }
 .details {
-  height: 340px;
-}
-
-.details .right-box {
-  float: right;
-  width: 1250px;
-  height: 365px;
-  // border-top: 1px solid #ececec;
-}
-.line {
-  width: 1250px;
-  height: 3px;
-  background: linear-gradient(to right, #ececec, #ffffff);
-  border-radius: 4px;
+  border-top: 2px solid #e7e4e4;
+  min-height: 340px;
 }
 .right-box h3 {
   font-size: 25px;
   color: #606060;
   margin-bottom: 25px;
-  padding-top: 70px;
+  padding-top: 50px;
 }
 .right-box p {
   font-size: 18px;
@@ -66,6 +43,8 @@ export default {};
   line-height: 53px;
 }
 .right-box button {
+  cursor: pointer;
+  outline: none;
   width: 130px;
   height: 46px;
   font-size: 15px;

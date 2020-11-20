@@ -62,6 +62,7 @@ export default {
     },
     // 查看详情
     deatil() {
+      this.$router.push({ name: 'jobDetail', params: { id: 1 } });
       this.$emit('deatil');
     }
   }

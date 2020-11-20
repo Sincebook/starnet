@@ -40,7 +40,14 @@
     </div>
     <div>
       <additionalactor></additionalactor>
+
+    <div>
+      <detail-header></detail-header>
     </div>
+    <div>
+      <detail-location></detail-location>
+    </div>
+  </div>
   </div>
 </template>
 
@@ -57,6 +64,8 @@ import criticismInput from '../components/common/criticismInput';
 import subBar from '../components/common/subBar';
 import actor from '../components/job/actor.vue';
 import additionalactor from '../components/job/additionalactor.vue';
+import detailHeader from '../components/job/detailHeader';
+import detailLocation from '../components/job/detailLocation';
 export default {
   data() {
     return {
@@ -134,7 +143,9 @@ export default {
     criticismInput,
     subBar,
     actor,
-    additionalactor
+    additionalactor,
+    detailHeader,
+    detailLocation
   },
   directives: {
     swiper: directive

@@ -1,9 +1,8 @@
 <template>
   <div class="actor">
     <!-- actor1 -->
-    <div class="details w">
+    <div class="details">
       <div class="right-box">
-        <div class="line"></div>
         <h3>附加角色（3个）</h3>
         <p>
           几个附加角色: <br />
@@ -23,18 +22,18 @@ export default {};
 </script>
 
 <style lang="less" scoped>
-.w {
-  width: 1350px;
+.actor {
+  width: 1280px;
   background-color: #ffffff;
-  padding: 0;
+  padding: 0 40px;
   margin: 0 auto;
 }
 .details {
-  height: 570px;
+  border-top: 2px solid #e7e4e4;
+  min-height: 340px;
 }
 
-.details .right-box {
-  float: right;
+.right-box {
   width: 1250px;
   height: 541px;
   // border-top: 1px solid #ececec;
@@ -57,6 +56,8 @@ export default {};
   line-height: 53px;
 }
 .right-box button {
+  cursor: pointer;
+  outline: none;
   width: 130px;
   height: 46px;
   font-size: 15px;
