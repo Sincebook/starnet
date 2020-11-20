@@ -35,84 +35,104 @@
         <criticismInput @submit="submit"></criticismInput>
       </div>
     </div>
+    <div>
+      <actor></actor>
+    </div>
+    <div>
+      <additionalactor></additionalactor>
+    </div>
   </div>
 </template>
 
 <script>
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
-import 'swiper/css/swiper.css';
-import { mapState } from 'vuex';
-import jobCard from '../components/common/jobCard';
-import companyCard from '../components/common/companyCard';
-import actorCard from '../components/common/actorCard';
-import pagination from '../components/common/pagination';
-import criticism from '../components/common/criticism';
-import criticismInput from '../components/common/criticismInput';
-import subBar from '../components/common/subBar';
+import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
+import "swiper/css/swiper.css";
+import { mapState } from "vuex";
+import jobCard from "../components/common/jobCard";
+import companyCard from "../components/common/companyCard";
+import actorCard from "../components/common/actorCard";
+import pagination from "../components/common/pagination";
+import criticism from "../components/common/criticism";
+import criticismInput from "../components/common/criticismInput";
+import subBar from "../components/common/subBar";
+import actor from "../components/job/actor.vue";
+import additionalactor from "../components/job/additionalactor.vue";
 export default {
   data() {
     return {
       swiperOption: {
         autoplay: true,
         pagination: {
-          el: '.swiper-pagination',
-          clickable: true
+          el: ".swiper-pagination",
+          clickable: true,
         },
         loop: true,
         initialSlide: 0,
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        }
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
       },
       banners: [
-        { id: 1, pic: '//ftp.qnets.cn/img/bg1.jpg' },
-        { id: 2, pic: '//ftp.qnets.cn/img/bg2.jpg' },
-        { id: 3, pic: '//ftp.qnets.cn/img/bg3.jpg' },
-        { id: 4, pic: '//ftp.qnets.cn/img/bg4.jpg' },
-        { id: 5, pic: '//ftp.qnets.cn/img/bg5.jpg' }
+        { id: 1, pic: "//ftp.qnets.cn/img/bg1.jpg" },
+        { id: 2, pic: "//ftp.qnets.cn/img/bg2.jpg" },
+        { id: 3, pic: "//ftp.qnets.cn/img/bg3.jpg" },
+        { id: 4, pic: "//ftp.qnets.cn/img/bg4.jpg" },
+        { id: 5, pic: "//ftp.qnets.cn/img/bg5.jpg" },
       ],
       obj: {
         id: 1,
-        bg: '//ftp.qnets.cn/img/2.jpg',
-        title: '邓导电影公开选角',
-        name: '河南森思软件科技有限公司',
-        loaction: '郑州',
-        age: '18-25岁',
-        sex: '女',
-        require: '拥有表演专业职称，丰富的表演经验',
-        money: '有/面议',
-        duration: '6个月',
-        stratTime: '2020-11-17',
-        endTime: '2020-12-12'
+        bg: "//ftp.qnets.cn/img/2.jpg",
+        title: "邓导电影公开选角",
+        name: "河南森思软件科技有限公司",
+        loaction: "郑州",
+        age: "18-25岁",
+        sex: "女",
+        require: "拥有表演专业职称，丰富的表演经验",
+        money: "有/面议",
+        duration: "6个月",
+        stratTime: "2020-11-17",
+        endTime: "2020-12-12",
       },
-      companyType: ['影视公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '这是多余']
+      companyType: [
+        "影视公司",
+        "经纪公司",
+        "模特公司",
+        "租赁公司",
+        "经纪公司",
+        "模特公司",
+        "租赁公司",
+        "经纪公司",
+        "模特公司",
+        "租赁公司",
+        "这是多余",
+      ],
     };
   },
   methods: {
     share() {
-      console.log('share');
+      console.log("share");
     },
     collect() {
-      console.log('collect');
+      console.log("collect");
     },
     detail() {
-      console.log('detail');
+      console.log("detail");
     },
     recommend() {
-      console.log('recommend');
+      console.log("recommend");
     },
     submit() {
-      console.log('submit');
-    }
+      console.log("submit");
+    },
   },
   mounted() {
-    this.$store.dispatch('getTest');// 测试api的使用
+    this.$store.dispatch("getTest"); // 测试api的使用
   },
   computed: {
     ...mapState({
-      test: (state) => state.test
-    })
+      test: (state) => state.test,
+    }),
   },
   components: {
     Swiper,
@@ -123,11 +143,13 @@ export default {
     pagination,
     criticism,
     criticismInput,
-    subBar
+    subBar,
+    actor,
+    additionalactor,
   },
   directives: {
-    swiper: directive
-  }
+    swiper: directive,
+  },
 };
 </script>
 
