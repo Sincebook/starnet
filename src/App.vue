@@ -21,6 +21,7 @@ export default {
 </script>
 <style lang='less'>
 .body {
-  min-height: calc(100vh - 199px);
+  // min-height: calc(100vh - 199px);
+  min-height: 100vh;
 }
 </style>

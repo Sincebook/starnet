@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$route.path === '/sign' ? 'newFoot' : ''">
     <div class="footer-nav">
       <div>
         <p><img src="//ftp.qnets.cn/since/logo.png" alt="绘星" class="nav-icon" /></p>
@@ -45,8 +45,7 @@
       </div>
     </div>
     <div class="footer-fixed">
-      <p>版权星绘保留所有权</p>
-
+      <p>版权绘星保留所有权</p>
       <!-- <p>
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-diqiu_jiantou_earth_arrow"></use>
@@ -79,6 +78,19 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+.newFoot {
+  display: none;
+  // position: absolute;
+  // bottom: 0;
+  // z-index: 1;
+  // width: 100%;
+  // .footer-nav {
+  //   display: none;
+  // }
+  // .footer-fixed {
+  //   background-color: transparent;
+  // }
+}
 .footer-nav {
   padding: 50px 100px;
   background-color: rgb(51, 51, 51);
@@ -95,7 +107,6 @@ export default {
     font-size: 18px;
     font-weight: 500;
   }
-
 }
 .footer-fixed {
   padding:10px 0;

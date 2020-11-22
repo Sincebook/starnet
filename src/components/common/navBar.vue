@@ -1,7 +1,13 @@
 <template>
   <div
     class="nav"
-    :class="$route.path === '/home' || $route.path === '/vip' ? 'newNav' : ''"
+    :class="
+      $route.path === '/home' ||
+      $route.path === '/vip' ||
+      $route.path === '/sign'
+        ? 'newNav'
+        : ''
+    "
   >
     <div class="left">
       <span><img :src="logoImg" alt="绘星" class="nav-icon" /></span>
