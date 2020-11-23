@@ -134,6 +134,7 @@ export default {
             }
           }
           div:nth-child(1) {
+            cursor: pointer;
             border: 1px solid rgba(3, 158, 3, 0.705);
             &:hover {
               background-color: rgba(20, 136, 20, 0.623);
@@ -141,6 +142,7 @@ export default {
             }
           }
           div:nth-child(2) {
+            cursor: pointer;
             border: 1px solid rgb(180, 115, 115);
             &:hover {
               background-color: rgb(180, 115, 115);
@@ -148,6 +150,7 @@ export default {
             }
           }
           div:nth-child(3) {
+            cursor: pointer;
             border: 1px solid rgb(180, 115, 115);
             &:hover {
               background-color: rgb(180, 115, 115);
@@ -176,6 +179,7 @@ export default {
     font-size: 16px;
     background-color: rgb(200, 200, 200, 0.8);
     .share-btn1 {
+      cursor: pointer;
       margin-top: 40px;
       font-size: 14px;
       padding: 5px 10px;
@@ -186,6 +190,7 @@ export default {
       color: #fff;
     }
     .share-btn2 {
+      cursor: pointer;
       margin-top: 40px;
       margin-left: 70px;
       font-size: 14px;
