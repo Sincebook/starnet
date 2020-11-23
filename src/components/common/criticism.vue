@@ -34,6 +34,10 @@ export default {
 </script>
 <style lang='less' scoped>
 .citicism {
+  width: 1280px;
+  margin:0 auto;
+  background-color: #fff;
+  padding: 20px;
   .citicism_header {
     font-size: 18px;
     img {

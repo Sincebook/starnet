@@ -97,9 +97,10 @@ export default {
   }
 }
 .bgcompany {
-  background-image: url(../../assets/images/company.jpg);
+  background-image: url(../../assets/images/company1.jpg);
   background-size: 100%;
   background-size: auto 400px;
+  color: #fff;
   .more {
     color: #fff;
   }
@@ -126,7 +127,7 @@ export default {
       text-align: center;
       padding: 10px 15px;
       border: 2px solid rgb(25, 130, 200);
-      width: 150px;
+      width: 130px;
       border-radius: 15px;
       transition: background-color 0.25s;
       cursor: pointer;

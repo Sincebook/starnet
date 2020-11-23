@@ -26,8 +26,12 @@ export default {
 </script>
 <style lang='less'>
 .criticism_input {
-  margin: 20px 0;
+  width: 1280px;
+  height: 200px;
+  margin: 0 auto 0 auto;
+  background-color: #fff;
   position: relative;
+  padding: 0 40px 0 60px;
   .text {
     padding: 10px;
     width: 100%;
@@ -46,12 +50,13 @@ export default {
     position: absolute;
     right: 0;
     margin-top: 20px;
+    margin-right: 40px;
     border-radius: 20px;
     padding: 0 5px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 18%;
+    width: 120px;
     height: 36px;
     color: #fff;
     font-size: 20px;
