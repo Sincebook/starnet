@@ -100,7 +100,7 @@ export default {
         };
     }
     // mounted() {
-    //     this.ifOver = this.$refs.spanBox.offsetHeight > this.$refs.textBox.offsetHeight 
+    //     this.ifOver = this.$refs.spanBox.offsetHeight > this.$refs.textBox.offsetHeight
     // }
 };
 </script>
