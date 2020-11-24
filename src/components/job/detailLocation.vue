@@ -37,7 +37,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .w_location {
-  width: 1280px;
+  width: 960px;
   padding: 50px 20px 50px 40px;
   margin: 20px auto 0 auto;
   background-color: #ffffff;

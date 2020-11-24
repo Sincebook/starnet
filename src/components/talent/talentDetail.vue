@@ -3,20 +3,20 @@
     <talent-header></talent-header>
     <div class="nav">
       <div class="container">
-        <span>个人简介</span>
-        <span>照片</span>
-        <span>视频</span>
-        <span>音频</span>
-        <span>工作经历</span>
-        <span>留言</span>
+        <span @click="changeHash('resume')">个人简介</span>
+        <span @click="changeHash('talentImg')">照片</span>
+        <span @click="changeHash('talentVideo')">视频</span>
+        <span @click="changeHash('talentAudio')">音频</span>
+        <span @click="changeHash('wortRecord')">工作经历</span>
+        <span @click="changeHash('criticism')">留言</span>
       </div>
     </div>
-    <talent-resume></talent-resume>
-    <talent-img></talent-img>
-    <talent-video></talent-video>
-    <talent-audio></talent-audio>
-    <work-record></work-record>
-    <div class="critism">
+    <talent-resume id="resume"></talent-resume>
+    <talent-img id="talentImg"></talent-img>
+    <talent-video id="talentVideo"></talent-video>
+    <talent-audio id="talentAudio"></talent-audio>
+    <work-record id="wortRecord"></work-record>
+    <div class="critism" id="criticism">
       <criticism v-for="item in 3" :key="item"></criticism>
       <criticism-input></criticism-input>
     </div>
@@ -48,6 +48,12 @@ export default {
     workRecord,
     Criticism,
     CriticismInput
+  },
+  methods: {
+    changeHash(id) {
+      console.log(id);
+      document.querySelector('#' + id).scrollIntoView(true);
+    }
   }
 };
 </script>
@@ -66,11 +72,12 @@ export default {
     color: #2d6496;
     span {
       margin: 0 30px;
+      cursor: pointer;
     }
   }
-  .critism{
-      padding: 20px;
-      background-color: #fff;
+  .critism {
+    padding: 20px;
+    background-color: #fff;
   }
 }
 </style>

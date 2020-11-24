@@ -10,6 +10,10 @@
             </svg>
             编辑推荐
           </span>
+          <p style="font-size:14px;font-weight:400;padding:20px 10px;">
+            陈可辛，1962年11月28日出生于中国香港，华语影视导演、编剧、演员、监制。
+            1989年5月25日，担任监制的剧情片《神行太保》上映。1991年3月29日，拍摄的导演处女作《双城故事》上映。1993年，凭借参与执导的喜剧电影《风尘三侠》获得第13届香港电影金像奖最佳导演提名。
+          </p>
         </div>
         <div class="bottom">
           <img :src="job.headerImg" alt="" />
@@ -80,14 +84,15 @@ export default {
 <style lang='less' scoped>
 .detail-header {
   background-color: rgb(245, 245, 245);
-  width: 1280px;
-  margin: 50px auto 0 auto;
+  width: 960px;
+  margin: 20px auto 0 auto;
   display: flex;
   flex-direction: column;
   .title {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     .info {
       position: relative;
       height: 338px;
@@ -118,7 +123,7 @@ export default {
           display: flex;
           justify-content: space-between;
           flex-direction: row;
-          width: 400px;
+          width: 300px;
           div {
             border-radius: 5px;
             border: 1px solid black;
@@ -168,7 +173,8 @@ export default {
       }
     }
     .img {
-      width: 600px;
+      width: 500px;
+      height: 270px;
     }
   }
   .share {
@@ -210,7 +216,7 @@ export default {
       .icon-share {
         font-size: 18px;
       }
-      span{
+      span {
         margin-left: 5px;
       }
     }

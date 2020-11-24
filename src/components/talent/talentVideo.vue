@@ -31,7 +31,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .talent-video {
-  width: 1280px;
+  width: 960px;
   background-color: #fff;
   margin: 40px auto 0 auto;
   padding: 20px;
@@ -45,7 +45,7 @@ export default {
   .videos {
     display: inline-block;
     margin: 20px;
-    width: 580px;
+    width: 420px;
   }
 }
 </style>
