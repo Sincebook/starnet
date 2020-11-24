@@ -68,6 +68,9 @@ export default {
 </script>
 <style lang='less' scoped>
 .subBar {
+  background-image: url(../../assets/images/ding.jpg);
+  background-position: 0 60%;
+  background-size:100% ;
   margin: 0 0 10px 0;
   display: flex;
   flex-direction: column;

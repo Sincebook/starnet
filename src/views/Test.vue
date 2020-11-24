@@ -49,6 +49,7 @@ import pagination from '../components/common/pagination';
 import criticism from '../components/common/criticism';
 import criticismInput from '../components/common/criticismInput';
 import subBar from '../components/common/subBar';
+
 export default {
   data() {
     return {
