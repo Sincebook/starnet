@@ -1,6 +1,11 @@
 <template>
   <div class="actor-card">
-    <div class="bgImg" :style="{ backgroundImage: 'url(' + bgImg + ')' }"></div>
+    <div class="actor-head">
+      <div
+        class="bgImg"
+        :style="{ backgroundImage: 'url(' + bgImg + ')' }"
+      ></div>
+    </div>
     <div class="info">
       <h2 class="name" @click="detail">杨旭/郑州</h2>
       <p class="desc">演员</p>
@@ -21,7 +26,7 @@ export default {
   },
   methods: {
     detail() {
-      this.$emit('detail');
+      // this.$router.push({ name: 'TalentDetail', params: { id: '123' } });
     },
     email() {
       this.$emit('email');
@@ -44,19 +49,35 @@ export default {
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
-  .bgImg {
+  &:hover {
+    .actor-head .bgImg {
+      transform: scale(1.1);
+    }
+  }
+  .actor-head {
+    position: absolute;
+    top: 0;
     width: 100%;
     height: 250px;
-    transition: all 0.25s;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
+    overflow: hidden;
+    .bgImg {
+      width: 100%;
+      height: 100%;
+      transition: all 0.25s;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+  }
+  .info {
+    padding-top: 250px;
   }
   .name {
+    display: inline-block;
     cursor: pointer;
     color: #759cb6;
     font-weight: 600;
-    margin: 10px 0;
+    margin: 10px 0 0 0;
     transition: all 0.25s;
     &:hover {
       color: #0d7bc4;
