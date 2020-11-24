@@ -23,7 +23,7 @@ export default {};
 
 <style lang="less" scoped>
 .actor {
-  width: 1280px;
+  width: 960px;
   background-color: #ffffff;
   padding: 0 40px;
   margin: 0 auto;
