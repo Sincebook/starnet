@@ -11,6 +11,7 @@
        </div>
     </div>
     <company-intro :com="company" :comInfor="comInformation"></company-intro>
+    <company-video></company-video>
   </div>
 </template>
 <script>
@@ -18,6 +19,7 @@
 
 import CompanyBrief from './companyBrief.vue';
 import CompanyIntro from './companyIntro.vue';
+import CompanyVideo from './companyVideo.vue';
 
 export default {
   name: 'XXX',
@@ -54,7 +56,8 @@ export default {
   },
   components: {
     CompanyBrief,
-    CompanyIntro
+    CompanyIntro,
+    CompanyVideo
 
   }
 };
