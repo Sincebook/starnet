@@ -62,32 +62,35 @@
             </div>
         </div>
         <div class="introFooter">
-                <div :class="['txt', { 'over-hidden': !unfold }]" ref="textBox">
-                    <span ref="spanBox">{{comInfor.content}}</span>
-                </div>
-                <div class="btn" v-if="ifOver" @click="unfold = !unfold">{{unfold ? '收起' : '展开'}}
-                    <svg class="icon icon-zhankai" aria-hidden="true">
-                       <use xlink:href="#icon-zhankai"></use>
-                    </svg>
-               </div>
+                {{isExpend? comInfor.content : capitalize(comInfor.content)}}
+                <span @click="expendClick" class="expend">
+                    {{isExpend? '收起': '展开'}}
+                <i :class="isExpend ? 'up-arrow-isactive': ''" class="down-arrow"  ></i>
+                </span>
         </div>
     </div>
 </template>
+
 <script>
 export default {
     props: {
         content: {
-                type: String,
-                default: ''
+                type: Object,
+                default () {
+                     return {};
+                 }
             },
         com: {
-                type: Array,
-                default: () => []
-
+                type: Object,
+                default () {
+                    return {};
+                 }
         },
         comInfor: {
-                type: Array,
-                default: () => []
+                type: Object,
+                default () {
+                    return {};
+                 }
         }
     },
     computed: {
@@ -95,16 +98,27 @@ export default {
     },
     data() {
         return {
-            ifOver: false, // 文本是否超出三行，默认否
-            unfold: false // 文本是否是展开状态 默认为收起
+            isExpend: false
         };
+    },
+    methods: {
+        expendClick() {
+            this.isExpand = !this.isExpand;
+        },
+        capitalize: function(value) {
+            if (!value) return '';
+            value = value.toString();
+            if (value.length > 100) {
+                return value.substr(0, 100);
+            } else {
+                return value;
+            }
+        }
     }
-    // mounted() {
-    //     this.ifOver = this.$refs.spanBox.offsetHeight > this.$refs.textBox.offsetHeight
-    // }
 };
 </script>
-<style lang="less">
+
+<style lang="less" >
 .companyIntro{
   margin-top:40px;
   width:1440px;
@@ -163,24 +177,18 @@ export default {
     background-color: green;
 }
 .words{
-    font-weight: 400;
-    line-height: 60px;
+    font-weight: 400 ;
+    line-height: 60px ;
     color: rgba(6, 15, 38, 1);
     word-wrap:break-word;
     word-break:normal;
 }
-.txt {
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 5px;
+.up-arrow-isactive{
+    display: inline-block; width: 0px; height: 0px; border: 10px solid transparent; overflow: hidden;
+    border-top: none; border-bottom-color: red;
 }
-.over-hidden {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-}
-.btn {
-  color: red;
+.down-arrow{
+    display: inline-block; width: 0px; height: 0px; border: 10px solid transparent; overflow: hidden;
+    border-bottom: none; border-top-color: orange;;
 }
 </style>
