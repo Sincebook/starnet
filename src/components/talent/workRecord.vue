@@ -39,7 +39,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .work-record {
-  width: 1280px;
+  width: 960px;
   margin: 20px auto;
   background-color: #fff;
   padding: 20px;
@@ -54,7 +54,7 @@ export default {
     padding-left: 30px;
     line-height: 20px;
     height: 20px;
-    background-color: rgb(200, 200, 200);
+    // background-color: rgb(200, 200, 200);
     color: #2d6496;
     font-weight: 600;
   }
@@ -74,7 +74,7 @@ export default {
     .show-all {
     position: absolute;
     bottom: 10px;
-    right: 100px;
+    right: 10px;
     cursor: pointer;
   }
 }

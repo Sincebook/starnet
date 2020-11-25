@@ -44,7 +44,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .talent-audio {
-  width: 1280px;
+  width: 960px;
   background-color: #fff;
   padding: 20px;
   margin: 20px auto;

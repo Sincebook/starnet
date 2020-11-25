@@ -26,7 +26,7 @@ export default {
 </script>
 <style lang='less'>
 .criticism_input {
-  width: 1280px;
+  width: 960px;
   height: 200px;
   margin: 0 auto 0 auto;
   background-color: #fff;
