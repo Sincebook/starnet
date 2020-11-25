@@ -2,14 +2,20 @@
   <div class="actor">
     <!-- actor1 -->
     <div class="details">
+      <h3>{{ item.name }}</h3>
       <div class="right-box">
-        <h3>{{ item.name }}</h3>
-        <p>
+        <img
+          :src="item.src"
+          alt=""
+        />
+        <span>
+          {{ item.info }}<br />
+          {{ item.sexAge }}<br>
           {{ item.info }}<br />
           {{ item.sexAge }}
-        </p>
-        <button>立即申请</button>
+        </span>
       </div>
+      <button>立即申请</button>
     </div>
   </div>
 </template>
@@ -30,28 +36,38 @@ export default {
 .details {
   border-top: 2px solid #e7e4e4;
   min-height: 340px;
+  padding: 20px 0;
+  h3 {
+    font-size: 25px;
+    color: #606060;
+    margin-bottom: 20px;
+  }
+  button {
+    cursor: pointer;
+    outline: none;
+    width: 100px;
+    height: 35px;
+    font-size: 15px;
+    color: #ffffff;
+    border: 0;
+    border-radius: 10px;
+    margin-top: 25px;
+    background-color: #22ac38;
+  }
 }
-.right-box h3 {
-  font-size: 25px;
-  color: #606060;
-  margin-bottom: 25px;
-  padding-top: 50px;
-}
-.right-box p {
-  font-size: 18px;
-  color: #606060;
-  line-height: 53px;
-}
-.right-box button {
-  cursor: pointer;
-  outline: none;
-  width: 130px;
-  height: 46px;
-  font-size: 15px;
-  color: #ffffff;
-  border: 0;
-  border-radius: 10px;
-  margin-top: 25px;
-  background-color: #22ac38;
+.right-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  span {
+    margin: 0 10px;
+    font-size: 18px;
+    line-height: 32px;
+    color: #606060;
+  }
+  img {
+    width: 180px;
+    height: 250px;
+  }
 }
 </style>
