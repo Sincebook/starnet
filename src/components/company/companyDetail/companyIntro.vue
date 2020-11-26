@@ -62,15 +62,13 @@
             </div>
         </div>
         <div class="introFooter">
-                {{isExpend? comInfor.content : capitalize(comInfor.content)}}
-                <span @click="expendClick" class="expend">
-                    {{isExpend? '收起': '展开'}}
-                <i :class="isExpend ? 'up-arrow-isactive': ''" class="down-arrow"  ></i>
-                </span>
+                   <p class="container my-info" ref="myInfo">
+                    {{comInfor.content}}
+                    </p>
+                    <p @click="tagChange" class="show-all">{{ tag }}</p>
         </div>
     </div>
 </template>
-
 <script>
 export default {
     props: {
@@ -98,39 +96,31 @@ export default {
     },
     data() {
         return {
-            isExpend: false
+             tag: '展开'
         };
     },
     methods: {
-        expendClick() {
-            this.isExpand = !this.isExpand;
-        },
-        capitalize: function(value) {
-            if (!value) return '';
-            value = value.toString();
-            if (value.length > 100) {
-                return value.substr(0, 100);
-            } else {
-                return value;
-            }
-        }
+        tagChange() {
+        this.tag = this.tag === '展开' ? '收起' : '展开';
+        this.$refs.myInfo.className = this.$refs.myInfo.className.includes('my-info') ? 'container' : 'container my-info';
+      }
     }
 };
 </script>
 
 <style lang="less" >
 .companyIntro{
-  margin-top:40px;
-  width:1440px;
-  height:1000px;
-  background-color: pink;
+  padding-bottom:25px;
+  width:960px;
+  margin:0 auto;
+  background-color: white;
+  margin-bottom: 60px;
 }
 .introHeader{
     margin:0 auto;
-    width: 1200px;
+    width: 960px;
     height:100px;
     text-align: center ;
-    background-color: green;
 }
 .introction{
     display: inline-block;
@@ -141,26 +131,25 @@ export default {
 }
 .introMiddle{
     margin:0 auto;
-    width: 1200px;
+    width: 960px;
     height:270px;
-    background-color: red;
 }
 .introMiddle .com{
-    width:580px;
+    width:700px;
     height:270px;
     margin:0 auto;
-    background-color: yellow;
 }
 .introMiddle .com p{
     display: inline-block;
-    width:290px;
+    width:350px;
     height:30px;
     margin-top:10px;
+    padding-left: 50px;
 }
 .introMiddle .com p :first-child{
     margin-right:10px;
     display: inline-block;
-    width:100px;
+    width:120px;
     height:30px;
     color:grey;
 }
@@ -172,23 +161,27 @@ export default {
 }
 .introFooter{
     margin:0 auto;
-    width: 1200px;
-    height:390px;
-    background-color: green;
+    width: 960px;
+    position: relative;
 }
-.words{
-    font-weight: 400 ;
-    line-height: 60px ;
-    color: rgba(6, 15, 38, 1);
-    word-wrap:break-word;
-    word-break:normal;
-}
-.up-arrow-isactive{
-    display: inline-block; width: 0px; height: 0px; border: 10px solid transparent; overflow: hidden;
-    border-top: none; border-bottom-color: red;
-}
-.down-arrow{
-    display: inline-block; width: 0px; height: 0px; border: 10px solid transparent; overflow: hidden;
-    border-bottom: none; border-top-color: orange;;
-}
+.container {
+    padding-top:30px;
+    margin:0 auto;
+    width: 760px;
+    color: #868c8c;
+    line-height: 40px;
+  }
+  .my-info {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+    .show-all {
+    position: absolute;
+    bottom: -15px;
+    right: 70px;
+    cursor: pointer;
+  }
 </style>

@@ -6,6 +6,7 @@
         :playsinline="true"
         :options="playerOptions"
       ></video-player>
+      <!-- <span>第六届上海节</br><span>  -->
   </div>
 </template>
 <script>
@@ -28,7 +29,7 @@ export default {
         fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
         sources: [{
           type: 'video/mp4', // 类型
-          src: 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm' // url地址
+          src: '' // url地址
         }],
         poster: '', // 封面地址
         notSupportedMessage: '此视频暂无法播放，请稍后再试', // 允许覆盖Video.js无法播放媒体源时显示的默认信息。

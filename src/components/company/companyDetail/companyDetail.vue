@@ -3,24 +3,28 @@
     <company-brief></company-brief>
     <div class="companyNav">
        <div class="navcontent">
-           <a class="navword" href="#comIntro">公司简介</a>
-           <a class="navword" href="#comImage">图片</a>
-           <a class="navword" href="#comVideo">视频</a>
-           <a class="navword" href="#comPerform" >公司业绩</a>
-           <a class="navword" href="#comMark" >留言</a>
+           <a @click="changeHash('comIntro')" >公司简介</a>
+           <a @click="changeHash('comImage')">图片</a>
+           <a @click="changeHash('comVideo')">视频</a>
+           <a @click="changeHash('comPerform')" >公司业绩</a>
+           <a @click="changeHash('comMark')">留言</a>
        </div>
     </div>
-    <company-intro :com="company" :comInfor="comInformation"></company-intro>
-    <company-video></company-video>
+    <company-intro :com="company" :comInfor="comInformation" id="comIntro"></company-intro>
+    <company-image id="comImage"></company-image>
+    <company-video id="comVideo"></company-video>
+    <company-perform id="comPerform"></company-perform>
+    <company-mark id="comMark"></company-mark>
   </div>
 </template>
 <script>
 // @ is an alias to /src
-
 import CompanyBrief from './companyBrief.vue';
 import CompanyIntro from './companyIntro.vue';
+import CompanyImage from './companyImage.vue';
 import CompanyVideo from './companyVideo.vue';
-
+import CompanyPerform from './companyPerform.vue';
+import CompanyMark from './companyMark.vue';
 export default {
   name: 'XXX',
   data() {
@@ -57,8 +61,17 @@ export default {
   components: {
     CompanyBrief,
     CompanyIntro,
-    CompanyVideo
+    CompanyImage,
+    CompanyVideo,
+    CompanyPerform,
+    CompanyMark
 
+  },
+  methods: {
+    changeHash(id) {
+      console.log(id);
+      document.querySelector('#' + id).scrollIntoView(true);
+    }
   }
 };
 </script>
@@ -73,15 +86,18 @@ export default {
     background-color: gray;
 }
 .navcontent{
-    width: 400px;
+    width: 600px;
     height:20px;
     padding-top: 20px;
     margin:0 auto;
 }
-.navword{
-    color: steelblue;
-    margin: 0 20px;
-    font-weight: 800;
+.navcontent a{
+  display:inline-block;
+  width: 56px;
+  margin: 0 32px;
+  color:steelblue;
+  font-weight: 800;
 
 }
+
 </style>
