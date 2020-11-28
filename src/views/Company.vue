@@ -18,6 +18,7 @@ import SubBar from '../components/common/subBar.vue';
 import SelectType from '../components/common/selectType.vue';
 import CompanyCard from '../components/common/companyCard.vue';
 import pagination from '../components/common/pagination';
+import { findHotCompany } from '@/ajax/index.js';
 export default {
   name: 'Company',
   data() {
@@ -28,8 +29,11 @@ export default {
     };
   },
   created() {
+    findHotCompany().then(res => {
+      console.log(res);
+    });
     console.log(this);
-   },
+  },
   components: {
     SubBar,
     SelectType,
