@@ -19,9 +19,9 @@
                     </svg>
                 </div>
         </div>
-        <div class="cbFooter">
+        <div class="cbFooter" ref="footer">
             <div class="include">
-                <div @click="changecolor" v-for="item in btns" :key="item.id" class="type">
+                <div @click="changeColor(index)" v-for="(item,index) in btns" :key="item.id" class="type" :ref="'change'+index">
                  {{ item }}
                 </div>
             </div>
@@ -29,19 +29,22 @@
     </div>
 </template>
 <script>
+
 export default {
     data() {
         return {
           btns: ['私信', '关注', '粉丝 4165', '成交 1111'],
           bgImg: require('@/assets/images/dswcb1.jpeg'),
-          bgImg1: require('@/assets/images/dswcb2.png')
+          bgImg1: require('@/assets/images/dswcb2.png'),
+          showmode: false
     };
   },
   methods: {
-      changecolor: function() {
-          console.log(this);
-      }
-  }
+    //   changeColor(e) {
+    //   console.log(1111);
+    //   console.log(this.$refs['change' + e][0]);
+    //   this.$refs['change' + e][0].style.border = 'blue 2px solid';
+    }
 };
 </script>
 <style lang="less" scoped>
@@ -52,10 +55,10 @@ export default {
 }
 .cbHeader{
 //   position: relative;
-  width: 1200px;
+  width: 960px;
   height:390px;
   margin:0 auto;
-  padding-top:50px;
+  padding-top:35px;
   position:relative;
 }
 .cbMiddle{
@@ -89,7 +92,7 @@ export default {
     // position:absolute;
 }
 .comname{
-    color:steelblue;
+    color:#2D6496;
     font-size:16px;
     display: inline-block;
     padding-left:435px;
@@ -114,6 +117,10 @@ export default {
     width: 500px;
     height:50px;
     margin: 0 auto;
+    div:hover{
+        cursor: pointer;
+        border:solid 2px lightblue;
+    }
 }
 .type{
     width:100px ;

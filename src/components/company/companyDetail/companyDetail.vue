@@ -52,8 +52,8 @@ export default {
     };
   },
   created() {
-    console.log(this);
-    console.log(this.$route.params.id);
+    // console.log(this);
+    // console.log(this.$route.params.id);
   },
   mounted() {
 
@@ -78,13 +78,12 @@ export default {
 
 <style lang='less'>
 .companyDetail{
-  padding-bottom: 40px;
-  background-color: lightgray;
+  background-color: #F5F5F5;
 }
 .companyNav{
-    width: 1440px;
+    width: 100%;
     height:60px;
-    background-color: gray;
+    background-color: #C8C8C8;
 }
 .navcontent{
     width: 600px;
@@ -96,7 +95,7 @@ export default {
   display:inline-block;
   width: 56px;
   margin: 0 32px;
-  color:steelblue;
+  color:#2D6496;
   font-weight: 800;
 
 }

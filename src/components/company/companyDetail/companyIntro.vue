@@ -157,7 +157,7 @@ export default {
     display: inline-block;
     width:170px;
     height:30px;
-    color:steelblue;
+    color:#2D6496;
 }
 .introFooter{
     margin:0 auto;

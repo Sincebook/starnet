@@ -51,22 +51,22 @@ export default {
 
 }
 .coorperation :first-child{
-    background-color: gray;
+    background-color: #C8C8C8;
     padding-left: 30px;
     font-size: 16px;
     height:30px;
     padding-top: 5px;
     font-weight: bold;
-    color: darkblue;
+    color: #2D6496;
 }
 .glory :first-child{
-    background-color: gray;
+    background-color: #C8C8C8;
     padding-left: 30px;
     font-size: 16px;
     height:30px;
     padding-top: 5px;
     font-weight: bold;
-    color: darkblue;
+    color: #2D6496;
 }
 .coorperation :last-child{
     margin: 20px 0;
