@@ -2,12 +2,14 @@
   <div class="talent-video">
     <p class="title">视频</p>
     <div class="video-list">
-      <videos
+      <div
         v-for="(item, index) in srcs"
         :key="item + index"
-        :src="item"
         class="videos"
-      ></videos>
+        @click="changePlayer"
+      >
+        <videos :src="item" :videoId="'page' + index"></videos>
+      </div>
     </div>
     <pagination allPages="20" style="margin-bottom: 0"></pagination>
   </div>
@@ -20,8 +22,19 @@ export default {
   name: 'talentVideo',
   data() {
     return {
-      srcs: ['https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm', 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm', 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm', 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm']
+      srcs: ['https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm', 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm', 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm', 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'],
+      lastTarget: null
     };
+  },
+  methods: {
+    changePlayer(e) {
+      if (!this.lastTarget) {
+        this.lastTarget = e.target;
+      } else {
+        this.lastTarget.pause();
+        this.lastTarget = e.target;
+      }
+    }
   },
   components: {
     Videos,

@@ -12,10 +12,10 @@
           {{ item.info }}<br />
           {{ item.sexAge }}<br>
           {{ item.info }}<br />
-          {{ item.sexAge }}
+          {{ item.sexAge }}<br>
+          <button>立即申请</button>
         </span>
       </div>
-      <button>立即申请</button>
     </div>
   </div>
 </template>
@@ -43,6 +43,8 @@ export default {
     margin-bottom: 20px;
   }
   button {
+    position: absolute;
+    bottom: 0;
     cursor: pointer;
     outline: none;
     width: 100px;
@@ -56,6 +58,7 @@ export default {
   }
 }
 .right-box {
+  position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
