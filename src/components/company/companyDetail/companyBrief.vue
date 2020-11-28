@@ -1,130 +1,139 @@
 <template>
-    <div class="company-breif">
-        <div class="cbHeader">
-            <img :src="bgImg" class="comimg1"/>
-            <img :src="bgImg1" class="comimg2">
-        </div>
-        <div class="cbMiddle" >
-                <span class="comname">华谊兄弟影视公司</span>
-                <div class="iconSum">
-                    <span class="share">分 享</span>
-                    <svg class="icon icon-weixin1" aria-hidden="true">
-                       <use xlink:href="#icon-weixin1"></use>
-                    </svg>
-                    <svg class="icon icon-weibo" aria-hidden="true">
-                         <use xlink:href="#icon-weibo"></use>
-                    </svg>
-                    <svg class="icon icon-diqiu_jiantou_earth_arrow" aria-hidden="true">
-                        <use xlink:href="#icon-diqiu_jiantou_earth_arrow"></use>
-                    </svg>
-                </div>
-        </div>
-        <div class="cbFooter">
-            <div class="include">
-                <div @click="changecolor" v-for="item in btns" :key="item.id" class="type">
-                 {{ item }}
-                </div>
-            </div>
-        </div>
+  <div class="company-breif">
+    <div class="cbHeader">
+      <img :src="bgImg" class="comimg1" />
+      <img :src="bgImg1" class="comimg2" />
     </div>
+    <div class="cbMiddle">
+      <span class="comname">华谊兄弟影视公司</span>
+      <div class="iconSum">
+        <span class="share">分 享</span>
+        <svg class="icon icon-weixin1" aria-hidden="true">
+          <use xlink:href="#icon-weixin1"></use>
+        </svg>
+        <svg class="icon icon-weibo" aria-hidden="true">
+          <use xlink:href="#icon-weibo"></use>
+        </svg>
+        <svg class="icon icon-diqiu_jiantou_earth_arrow" aria-hidden="true">
+          <use xlink:href="#icon-diqiu_jiantou_earth_arrow"></use>
+        </svg>
+      </div>
+    </div>
+    <div class="cbFooter" ref="footer">
+      <div class="include">
+        <div
+          @click="changecolor(index)"
+          v-for="(item, index) in btns"
+          :key="item.id"
+          class="type"
+          :ref="'changecolor' + index"
+        >
+          {{ item }}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
-    data() {
-        return {
-          btns: ['私信', '关注', '粉丝 4165', '成交 1111'],
-          bgImg: require('@/assets/images/dswcb1.jpeg'),
-          bgImg1: require('@/assets/images/dswcb2.png')
+  data() {
+    return {
+      btns: ['私信', '关注', '粉丝 4165', '成交 1111'],
+      bgImg: require('@/assets/images/dswcb1.jpeg'),
+      bgImg1: require('@/assets/images/dswcb2.png')
     };
   },
+  mounted() {
+    console.log(this.$refs.footer);
+  },
   methods: {
-      changecolor: function() {
-          console.log(this);
-      }
+    changecolor: function (e) {
+      console.log(e);
+      //   console.log($event);
+      //   console.log(this);
+      console.log(this.$refs.changecolor0);
+      console.log(this.$refs['changecolor' + e][0]);
+    }
   }
 };
 </script>
 <style lang="less" scoped>
-.company-breif{
-  width:960px;
-  height:505px;
+.company-breif {
+  width: 960px;
+  height: 505px;
   margin: 0 auto;
 }
-.cbHeader{
-//   position: relative;
+.cbHeader {
+  //   position: relative;
   width: 1200px;
-  height:390px;
-  margin:0 auto;
-  padding-top:50px;
-  position:relative;
+  height: 390px;
+  margin: 0 auto;
+  padding-top: 50px;
+  position: relative;
 }
-.cbMiddle{
+.cbMiddle {
   width: 960px;
-  height:30px;
-  margin:0 auto;
-
+  height: 30px;
+  margin: 0 auto;
 }
-.cbFooter{
+.cbFooter {
   width: 960px;
-  height:100px;
-  margin:0 auto;
-
+  height: 100px;
+  margin: 0 auto;
 }
-.comimg1{
-    margin:0 auto;
-    width: 960px;
-    height:300px;
-    position:absolute;
-
+.comimg1 {
+  margin: 0 auto;
+  width: 960px;
+  height: 300px;
+  position: absolute;
 }
-.comimg2{
-    margin:0 auto;
-    position: absolute;
-    height: 80px;
-    width:80px;
-    top:290px;
-    left:460px;
-    border:2px solid white;
-    border-radius:50%;
-    // position:absolute;
+.comimg2 {
+  margin: 0 auto;
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  top: 290px;
+  left: 460px;
+  border: 2px solid white;
+  border-radius: 50%;
+  // position:absolute;
 }
-.comname{
-    color:steelblue;
-    font-size:16px;
-    display: inline-block;
-    padding-left:435px;
-
+.comname {
+  color: steelblue;
+  font-size: 16px;
+  display: inline-block;
+  padding-left: 435px;
 }
-.active{
-    border:solid 1px green;
+.active {
+  border: solid 1px green;
 }
-.iconSum{
-    float:right;
+.iconSum {
+  float: right;
 }
-.icon{
-    margin: 0 4px;
+.icon {
+  margin: 0 4px;
 }
-.share{
-    font-size: 12px;
-    color: grey;
-    margin-right: 10px;
+.share {
+  font-size: 12px;
+  color: grey;
+  margin-right: 10px;
 }
-.include{
-    padding-left:20px;
-    width: 500px;
-    height:50px;
-    margin: 0 auto;
+.include {
+  padding-left: 20px;
+  width: 500px;
+  height: 50px;
+  margin: 0 auto;
 }
-.type{
-    width:100px ;
-    height:30px;
-    border:solid 1px grey;
-    text-align: center;
-    margin: 20px 10px;
-    float:left;
-    padding:5px 0;
-    font-size:14px;
-    border-radius:5px;
-    color:grey;
+.type {
+  width: 100px;
+  height: 30px;
+  border: solid 1px grey;
+  text-align: center;
+  margin: 20px 10px;
+  float: left;
+  padding: 5px 0;
+  font-size: 14px;
+  border-radius: 5px;
+  color: grey;
 }
 </style>
