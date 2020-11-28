@@ -21,7 +21,7 @@
         </div>
         <div class="cbFooter">
             <div class="include">
-                <div @click="changecolor" v-for="(item, index) in btns" :key="index" class="type">
+                <div @click="changecolor" v-for="item in btns" :key="item.id" class="type">
                  {{ item }}
                 </div>
             </div>
@@ -46,8 +46,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .company-breif{
-  width:1440px;
+  width:960px;
   height:505px;
+  margin: 0 auto;
 }
 .cbHeader{
 //   position: relative;
@@ -58,20 +59,20 @@ export default {
   position:relative;
 }
 .cbMiddle{
-  width: 1200px;
+  width: 960px;
   height:30px;
   margin:0 auto;
 
 }
 .cbFooter{
-  width: 1200px;
+  width: 960px;
   height:100px;
   margin:0 auto;
 
 }
 .comimg1{
     margin:0 auto;
-    width: 1200px;
+    width: 960px;
     height:300px;
     position:absolute;
 
@@ -82,7 +83,7 @@ export default {
     height: 80px;
     width:80px;
     top:290px;
-    left:560px;
+    left:460px;
     border:2px solid white;
     border-radius:50%;
     // position:absolute;
@@ -91,7 +92,7 @@ export default {
     color:steelblue;
     font-size:16px;
     display: inline-block;
-    padding-left:535px;
+    padding-left:435px;
 
 }
 .active{
@@ -108,8 +109,8 @@ export default {
     color: grey;
     margin-right: 10px;
 }
-
 .include{
+    padding-left:20px;
     width: 500px;
     height:50px;
     margin: 0 auto;

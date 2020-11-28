@@ -27,10 +27,13 @@ export default {
 </script>
 <style lang='less' scoped>
 .com-video{
+    background-color: white;
     width: 960px;
     margin: 45px auto;
 }
 .video{
+  padding-top:40px;
+  padding-bottom:40px;
   font-size:16px;
   font-weight:800;
   text-align: center;

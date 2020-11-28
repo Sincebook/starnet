@@ -78,6 +78,7 @@ export default {
 
 <style lang='less'>
 .companyDetail{
+  padding-bottom: 40px;
   background-color: lightgray;
 }
 .companyNav{
