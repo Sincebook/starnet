@@ -86,7 +86,7 @@ export default {
   computed: {
     pages() {
       const foldPage = this.foldPage; // 规定最多显示的页数tag
-      console.log(this.page);
+      // console.log(this.page);
       const current = Number(this.page); // 当前页数
       const halfFoldPage = Math.floor((foldPage - 2) / 2);
 
