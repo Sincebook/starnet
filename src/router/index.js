@@ -11,6 +11,7 @@ import Vip from '../views/Vip.vue';
 import PersonalCenter from '../views/PersonalCenter.vue';
 import companyDetail from '../components/company/companyDetail/companyDetail.vue';
 import jobDetail from '../components/job/jobDetail.vue';
+import talentDetail from '../components/talent/talentDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -68,6 +69,11 @@ const routes = [{
     path: '/jobDetail/:id',
     name: 'jobDetail',
     component: jobDetail
+  },
+  {
+    path: '/talentDetail/:id',
+    name: 'talentDetail',
+    component: talentDetail
   }
   // {
   //   path: '/about',

@@ -7,7 +7,8 @@
       ></div>
     </div>
     <div class="info">
-      <h2 class="name" @click="detail">杨旭/郑州</h2>
+      <router-link :to="{name:'talentDetail',params:{id:id}}">
+      <h2 class="name" @click="detail">杨旭/郑州</h2></router-link>
       <p class="desc">演员</p>
       <div class="btn-box">
         <div class="btn" @click="email">私信</div>
@@ -19,6 +20,7 @@
 
 <script>
 export default {
+  props: ['id'],
   data() {
     return {
       bgImg: '//ftp.qnets.cn/img/bg3.jpg'

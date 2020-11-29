@@ -1,6 +1,6 @@
 <template>
   <div class="subBar" ref="bg">
-    <div class="title">
+    <!-- <div class="title">
       <span>{{ nameArr[0] }}</span>
       <span>{{ nameArr[1] }}</span>
       <span>{{ nameArr[2] }}</span>
@@ -12,7 +12,7 @@
     </div>
     <div class="more" @click="btnMore" ref="tag" style="display: none">
       {{ tag }}
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -38,40 +38,40 @@ export default {
     if (this.$route.fullPath.includes('talent')) {
       this.$refs.bg.className += ' bgtelent';
     }
-    console.log(this);
-    this.btnsMake();
+    // console.log(this);
+    // this.btnsMake();
   },
   components: {
 
   },
   methods: {
-    btnsMake() {
-      // 根据传回来的分类的多少来显示按钮
-      if (this.companyType.length <= 4) {
-        let str = '';
-        for (let i = 0; i < this.companyType.length; i++) {
-          str += '150px ';
-          this.$refs.btns.style.gridTemplateColumns = str;
-        }
-      }
-      this.btns = this.companyType;
-      if (this.companyType.length > 10) {
-        this.$refs.tag.style.display = 'block';
-        this.btns = this.companyType.slice(0, 10);
-        this.moreBtns = this.companyType.slice(10);
-      }
-    },
-    btnMore() {
-      if (this.flag) {
-        this.btns = this.btns.concat(this.moreBtns);
-        this.tag = '收起';
-        this.flag = false;
-      } else {
-        this.btns = this.btns.slice(0, 10);
-        this.tag = '更多...';
-        this.flag = true;
-      }
-    }
+    // btnsMake() {
+    //   // 根据传回来的分类的多少来显示按钮
+    //   if (this.companyType.length <= 4) {
+    //     let str = '';
+    //     for (let i = 0; i < this.companyType.length; i++) {
+    //       str += '150px ';
+    //       this.$refs.btns.style.gridTemplateColumns = str;
+    //     }
+    //   }
+    //   this.btns = this.companyType;
+    //   if (this.companyType.length > 10) {
+    //     this.$refs.tag.style.display = 'block';
+    //     this.btns = this.companyType.slice(0, 10);
+    //     this.moreBtns = this.companyType.slice(10);
+    //   }
+    // },
+    // btnMore() {
+    //   if (this.flag) {
+    //     this.btns = this.btns.concat(this.moreBtns);
+    //     this.tag = '收起';
+    //     this.flag = false;
+    //   } else {
+    //     this.btns = this.btns.slice(0, 10);
+    //     this.tag = '更多...';
+    //     this.flag = true;
+    //   }
+    // }
   },
   watch: {
   }
@@ -97,14 +97,16 @@ export default {
   }
 }
 .bgcompany {
-  background-image: url(../../assets/images/company.jpg);
+  background-image: url(../../assets/images/company1.jpg);
   background-size: 100%;
   background-size: auto 400px;
+  color: #fff;
   .more {
     color: #fff;
   }
 }
 .subBar {
+  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,7 +128,7 @@ export default {
       text-align: center;
       padding: 10px 15px;
       border: 2px solid rgb(25, 130, 200);
-      width: 150px;
+      width: 130px;
       border-radius: 15px;
       transition: background-color 0.25s;
       cursor: pointer;
