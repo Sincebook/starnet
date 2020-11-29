@@ -4,7 +4,8 @@ module.exports = {
   devServer: {
     proxy: {
       '/': {
-        target: 'http://star.ti01.cn/',
+        // target: 'http://star.ti01.cn/',
+        target: 'http://120.53.246.144:9091/',
         changeOrigin: true
       }
       // '/bingpic': {

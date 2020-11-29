@@ -7,6 +7,9 @@ export {
 }
 from './sign.js';
 export {
-  findHotCompany
+  findHotCompany,
+  findByUptime,
+  findByCategory,
+  findByTwo
 }
 from './company.js';
