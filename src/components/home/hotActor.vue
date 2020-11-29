@@ -25,9 +25,9 @@ export default {
 .hot-actor {
   background-color: #ffffff;
   width: 100%;
-  padding: 80px 0 40px 0;
+  padding: 30px 0;
   h2 {
-    margin-bottom: 40px;
+    margin-bottom: 10px;
   }
   .list {
     display: flex;
