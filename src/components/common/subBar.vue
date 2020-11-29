@@ -38,7 +38,7 @@ export default {
     if (this.$route.fullPath.includes('talent')) {
       this.$refs.bg.className += ' bgtelent';
     }
-    console.log(this);
+    // console.log(this);
     // this.btnsMake();
   },
   components: {
