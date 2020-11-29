@@ -46,7 +46,7 @@ export default {
 .achieve{
     font-weight: bold;
     font-size: 18px;
-    padding:40px 0;
+    padding:20px 0;
     text-align:center;
 
 }

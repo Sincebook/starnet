@@ -10,7 +10,6 @@
       <p>第六届上海电影节</p>
       <p>2012.3.14</p>
       <p>在上海市举行的电影开幕式，本公司参加了xx开幕式表演...</p>
-      <p>点击查看详情</p>
     </div>
   </div>
 </template>
@@ -54,7 +53,7 @@ export default {
 <style lang='less' scoped>
 .video-card {
   width: 290px;
-  height: 350px;
+  height: 260px;
   background-color: white;
 }
 .desc{
@@ -63,19 +62,12 @@ export default {
   height: 180px;
 }
 .desc p{
-  margin:20px 0;
+  margin:5px 0;
   padding-left: 10px;
 }
 .desc :first-child{
   font-weight: 800;
   font-size:16px;
-
-}
-.desc :last-child{
-  position: absolute;
-  right:0;
-  bottom: 0;
-  padding-right: 10px;
 
 }
 </style>

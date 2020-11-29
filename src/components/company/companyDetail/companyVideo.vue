@@ -32,9 +32,9 @@ export default {
     margin: 45px auto;
 }
 .video{
-  padding-top:40px;
-  padding-bottom:40px;
-  font-size:16px;
+  padding-top:20px;
+  // padding-bottom:5px;
+  font-size:18px;
   font-weight:800;
   text-align: center;
   height: 55px;

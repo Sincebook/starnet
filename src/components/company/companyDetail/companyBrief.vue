@@ -58,7 +58,6 @@ export default {
   width: 960px;
   height:390px;
   margin:0 auto;
-  padding-top:35px;
   position:relative;
 }
 .cbMiddle{

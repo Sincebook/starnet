@@ -25,9 +25,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .company-image{
-    padding-top:30px;
+    padding-top:15px;
     width:960px;
-    height:630px;
+    height:890px;
     margin: 0 auto;
     text-align: center;
     background-color: white;
@@ -36,7 +36,7 @@ export default {
 .photo{
     font-weight: 800;
     font-size: 18px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .imgList{
     margin-bottom:20px;
@@ -44,7 +44,7 @@ export default {
 }
 .imgList img{
     width : 280px;
-    height: 120px;
+    height: 210px;
     margin: 20px 10px;
 
 }
