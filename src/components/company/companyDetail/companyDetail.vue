@@ -76,7 +76,7 @@ export default {
 };
 </script>
 
-<style lang='less'>
+<style lang='less' scoped>
 .companyDetail{
   background-color: #F5F5F5;
 }

@@ -108,7 +108,7 @@ export default {
 };
 </script>
 
-<style lang="less" >
+<style lang="less" scoped>
 .companyIntro{
   padding-bottom:25px;
   width:960px;
