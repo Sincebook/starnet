@@ -5,7 +5,7 @@
             <img :src="bgImg1" class="comimg2">
         </div>
         <div class="cbMiddle" >
-                <span class="comname">华谊兄弟影视公司</span>
+                <span class="comname">华&nbsp;谊&nbsp;兄&nbsp;弟&nbsp;影&nbsp;视&nbsp;公&nbsp;司</span>
                 <div class="iconSum">
                     <span class="share">分 享</span>
                     <svg class="icon icon-weixin1" aria-hidden="true">
@@ -50,13 +50,13 @@ export default {
 <style lang="less" scoped>
 .company-breif{
   width:960px;
-  height:505px;
+  height:485px;
   margin: 0 auto;
 }
 .cbHeader{
 //   position: relative;
   width: 960px;
-  height:390px;
+  height:370px;
   margin:0 auto;
   position:relative;
 }
@@ -68,7 +68,7 @@ export default {
 }
 .cbFooter{
   width: 960px;
-  height:100px;
+  height:80px;
   margin:0 auto;
 
 }
@@ -84,7 +84,7 @@ export default {
     position: absolute;
     height: 80px;
     width:80px;
-    top:290px;
+    top:260px;
     left:460px;
     border:2px solid white;
     border-radius:50%;
@@ -92,9 +92,10 @@ export default {
 }
 .comname{
     color:#2D6496;
-    font-size:16px;
+    font-size:18px;
     display: inline-block;
-    padding-left:435px;
+    padding-left:415px;
+    font-weight: 800;
 
 }
 .active{
