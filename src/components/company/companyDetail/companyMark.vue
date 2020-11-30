@@ -38,7 +38,6 @@ export default {
 
 }
 .leavemessages{
-    background-color: #C8C8C8;
     padding-left: 30px;
     font-size: 16px;
     height:30px;
@@ -48,19 +47,19 @@ export default {
     position:relative;
     .mg{
         position: absolute;
-        left: 30px;
+        left: 20px;
 
     }
     .recent{
         position: absolute;
-        right: 250px;
+        right: 120px;
 
     }
     .sort{
         display: inline-block;
-        width:100px;
+        width:70px;
         position: absolute;
-        right: 30px;
+        right: 0px;
 
     }
 }
