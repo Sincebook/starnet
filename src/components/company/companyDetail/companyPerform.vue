@@ -97,6 +97,7 @@ export default {
   .show-all {
     cursor: pointer;
     bottom: 0px;
-    right: 70px;
+    right: 20px;
+    position: absolute;
   }
 </style>
