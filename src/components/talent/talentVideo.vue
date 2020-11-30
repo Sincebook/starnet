@@ -37,7 +37,7 @@ export default {
   padding: 20px;
   text-align: center;
   .title {
-    margin: 0px auto 20px auto;
+    margin: 0px  auto;
     text-align: center;
     font-size: 18px;
     font-weight: 600;

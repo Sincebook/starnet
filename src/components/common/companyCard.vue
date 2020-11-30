@@ -3,16 +3,17 @@
     <div class="company-head">
       <div
         class="bgImg"
-        :style="{ backgroundImage: 'url(' + bgImg + ')' }"
+        :style="{ backgroundImage: 'url(' + item.image + ')' }"
       ></div>
     </div>
     <div class="company-content">
       <div class="img">
-        <img :src="bgImg1" />
+        <img :src="item.logo" />
       </div>
-      <router-link :to="{name:'companyDetail',params:{id:companyId}}">
-      <h2 class="name" @click="detail">华谊兄弟影视公司</h2></router-link>
-      <div class="desc">累计达成合作1636单</div>
+      <router-link :to="{ name: 'companyDetail', params: { id: item.id } }">
+        <h2 class="name" @click="detail">{{item.name}}</h2></router-link
+      >
+      <div class="desc">累计达成合作{{item.oknum}}单</div>
       <div class="btn-box">
         <div class="btn" @click="email">私信</div>
         <div class="btn" @click="follow">关注</div>
@@ -23,7 +24,7 @@
 
 <script>
 export default {
-  props: ['companyId'],
+  props: ['item'],
   data() {
     return {
       bgImg: '//ftp.qnets.cn/img/bg2.jpg',
