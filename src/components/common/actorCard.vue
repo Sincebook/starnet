@@ -3,13 +3,13 @@
     <div class="actor-head">
       <div
         class="bgImg"
-        :style="{ backgroundImage: 'url(' + bgImg + ')' }"
+        :style="{ backgroundImage: 'url(' + item.image + ')' }"
       ></div>
     </div>
     <div class="info">
-      <router-link :to="{name:'talentDetail',params:{id:id}}">
-      <h2 class="name" @click="detail">杨旭/郑州</h2></router-link>
-      <p class="desc">演员</p>
+      <router-link :to="{name:'talentDetail',params:{id:item.id}}">
+      <h2 class="name" @click="detail">{{item.name}}/{{item.workArea}}</h2></router-link>
+      <p class="desc">{{item.vocation}}</p>
       <div class="btn-box">
         <div class="btn" @click="email">私信</div>
         <div class="btn" @click="follow">关注</div>
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  props: ['id'],
+  props: ['item'],
   data() {
     return {
       bgImg: '//ftp.qnets.cn/img/bg3.jpg'

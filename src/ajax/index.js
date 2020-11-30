@@ -13,3 +13,11 @@ export {
   findByTwo
 }
 from './company.js';
+export {
+  findHotJob
+}
+from './job';
+export {
+  findByTalentNew
+}
+from './talent';
