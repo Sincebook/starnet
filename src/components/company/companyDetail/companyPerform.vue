@@ -51,7 +51,6 @@ export default {
 
 }
 .coorperation :first-child{
-    background-color: #C8C8C8;
     padding-left: 30px;
     font-size: 16px;
     height:30px;
@@ -60,16 +59,15 @@ export default {
     color: #2D6496;
 }
 .glory :first-child{
-    background-color: #C8C8C8;
     padding-left: 30px;
     font-size: 16px;
     height:30px;
-    padding-top: 5px;
+    padding-top: 25px;
     font-weight: bold;
     color: #2D6496;
 }
 .coorperation :last-child{
-    margin: 20px 0;
+    // margin: 20px 0;
     padding:0 30px;
     line-height: 40px;
     height:60px;
@@ -79,7 +77,7 @@ export default {
 .glory{
     position: relative;
     overflow: hidden;
-    margin:0 auto;
+    margin:10px auto;
 }
 .glory-record{
     margin: 20px 0;
