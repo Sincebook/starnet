@@ -14,3 +14,11 @@ export {
   getCompanyInfoById
 }
 from './company.js';
+export {
+  findHotJob
+}
+from './job';
+export {
+  findByTalentNew
+}
+from './talent';

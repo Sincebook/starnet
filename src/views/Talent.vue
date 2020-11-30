@@ -1,11 +1,16 @@
 <template>
   <div class="talent">
-    <sub-bar :nameArr="nameArr" :companyType="talentType"></sub-bar>
+    <sub-bar></sub-bar>
     <select-type :type="'talent'"></select-type>
     <div class="talent-list">
-      <actor-card data-aos="fade-up" v-for="item in 16" :key="item" :id="'1'"></actor-card>
+      <actor-card
+        data-aos="fade-up"
+        v-for="item in cards"
+        :key="item.id"
+        :item='item'
+      ></actor-card>
     </div>
-    <pagination allPages="123"></pagination>
+    <pagination :allPages="allpages" @getProjects="changePage"></pagination>
   </div>
 </template>
 
@@ -14,12 +19,25 @@ import subBar from '../components/common/subBar';
 import SelectType from '../components/common/selectType';
 import actorCard from '../components/common/actorCard';
 import pagination from '../components/common/pagination';
+import { findByTalentNew } from '@/ajax';
 export default {
   data() {
     return {
-      nameArr: ['人才分类', 'Talent', 'classification'],
-      talentType: ['租赁公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '租赁公司']
+      cards: null,
+      allpages: 1
     };
+  },
+  created() {
+    this.changePage(1);
+  },
+  methods: {
+    changePage(page) {
+      findByTalentNew({ page }).then(res => {
+        console.log(res);
+        this.cards = res.data;
+        // this.allpages = res.data.allpage;
+      });
+    }
   },
   components: {
     subBar,

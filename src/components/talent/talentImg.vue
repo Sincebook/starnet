@@ -1,6 +1,6 @@
 <template>
   <div class="talent-img">
-    <p class="title">照&nbsp;片</p>
+    <p class="title">照片</p>
     <div class="img-list">
       <viewer :images='imgs'>
         <img v-for="src in imgs" :src="src" :key="src" alt="">
@@ -31,11 +31,11 @@ export default {
   width: 960px;
   margin: 40px auto 0 auto;
   background-color: #fff;
-  padding-top: 40px;
+  padding-top: 20px;
   text-align: center;
   padding-bottom: 30px;
   .title {
-    margin: 0px auto 40px auto;
+    margin: 0px auto 20px auto;
     text-align: center;
     font-size: 18px;
     font-weight: 600;

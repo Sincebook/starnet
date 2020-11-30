@@ -2,10 +2,14 @@
   <div class="job">
     <sub-bar :companyType="companyType" :nameArr="nameArr"></sub-bar>
     <select-type :type="'job'"></select-type>
-    <div class="job-list">
-      <job-card v-for="item in 16" :key="item" :item="obj"></job-card>
+    <div class="job-list" v-if="cards">
+      <job-card v-for="item in cards" :key="item.id" :item="item"></job-card>
     </div>
-    <pagination allPages="123"></pagination>
+    <pagination
+      :allPages="allpages"
+      v-if="allpages"
+      @getProjects="changePage"
+    ></pagination>
   </div>
 </template>
 <script>
@@ -14,6 +18,7 @@ import SubBar from '../components/common/subBar.vue';
 import SelectType from '../components/common/selectType.vue';
 import JobCard from '../components/common/jobCard.vue';
 import pagination from '../components/common/pagination';
+import { findHotJob } from '@/ajax';
 export default {
   name: 'Job',
   data() {
@@ -33,8 +38,24 @@ export default {
         duration: '6个月',
         stratTime: '2020-11-17',
         endTime: '2020-12-12'
-      }
+      },
+      cards: null,
+      allpages: null
     };
+  },
+  created() {
+    this.changePage(1);
+  },
+  methods: {
+    changePage(page) {
+      // 加上时间戳现在请不到数据
+    // let timestamp = Date.parse(new Date()) - 24 * 60 * 60 * 7;
+    findHotJob({ page: 1 }).then(res => {
+      console.log(res);
+      this.cards = res.data.jobs;
+      this.allpages = res.data.allpage;
+    });
+    }
   },
   components: {
     SubBar,

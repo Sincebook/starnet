@@ -6,7 +6,7 @@ import axios from 'axios';
  * @param { any } data
  * @param errMsg
  */
-function ajax(method, url, params, errMsg = '网络或服务器异常，请重试') {
+function ajax(method, url, params) {
   // eslint-disable-next-line promise/param-names
   return new Promise((reslove, reject) => {
     let ajaxParams = {};

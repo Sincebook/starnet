@@ -2,14 +2,18 @@
   <div class="company">
     <sub-bar :companyType="companyType" :nameArr="nameArr"></sub-bar>
     <select-type :type="'company'"></select-type>
-    <div class="company-list">
+    <div class="company-list" v-if="cards">
       <company-card
-        v-for="item in 16"
-        :key="item"
-        :companyId="id"
+        v-for="item in cards"
+        :key="item.id"
+        :item="item"
       ></company-card>
     </div>
-    <pagination allPages="123"></pagination>
+    <pagination
+      :allPages="allpages"
+      v-if="allpages"
+      @getProjects="changePage"
+    ></pagination>
   </div>
 </template>
 <script>
@@ -18,29 +22,20 @@ import SubBar from '../components/common/subBar.vue';
 import SelectType from '../components/common/selectType.vue';
 import CompanyCard from '../components/common/companyCard.vue';
 import pagination from '../components/common/pagination';
-import { findByCategory, findByTwo, findHotCompany, findByUptime } from '@/ajax/index.js';
+import { findByUptime } from '@/ajax/index.js';
 export default {
   name: 'Company',
   data() {
     return {
       companyType: ['影视公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '这是多余'],
       nameArr: ['公司分类', 'Company', 'classification'],
-      id: 1
+      id: 1,
+      cards: null,
+      allpages: null
     };
   },
   created() {
-    findByTwo({ type: '演员' }).then(res => {
-      console.log(res);
-    });
-    findByCategory({ category: '选秀公司', type: 2 }).then(res => {
-      console.log(res);
-    });
-    findHotCompany().then(res => {
-      console.log(res);
-    });
-    findByUptime({ page: 1 }).then(res => {
-      console.log(res);
-    });
+    this.changePage(1);
   },
   components: {
     SubBar,
@@ -48,11 +43,17 @@ export default {
     CompanyCard,
     pagination
   },
+  computed: {
+  },
   methods: {
-    // detail(companyId) {
-    //   // router.push({ name: 'user', params: { userId: '123' }})
-    //   this.$router.push({ name: 'companyDetail', params: { companyId } });
-    // }
+    changePage(page) {
+      findByUptime({ page }).then(res => {
+      // console.log(res);
+      this.cards = res.data.companyInfoVOs;
+      this.allpages = res.data.allpage;
+      // console.log(this.cards);
+    });
+    }
   }
 };
 </script>
