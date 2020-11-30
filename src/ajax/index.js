@@ -10,6 +10,7 @@ export {
   findHotCompany,
   findByUptime,
   findByCategory,
-  findByTwo
+  findByTwo,
+  getCompanyInfoById
 }
 from './company.js';

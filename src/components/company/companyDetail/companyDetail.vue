@@ -2,15 +2,19 @@
   <div class="companyDetail">
     <company-brief></company-brief>
     <div class="companyNav">
-       <div class="navcontent">
-           <a @click="changeHash('comIntro')" >公司简介</a>
-           <a @click="changeHash('comImage')">图片</a>
-           <a @click="changeHash('comVideo')">视频</a>
-           <a @click="changeHash('comPerform')" >公司业绩</a>
-           <a @click="changeHash('comMark')">留言</a>
-       </div>
+      <div class="navcontent">
+        <a @click="changeHash('comIntro')">公司简介</a>
+        <a @click="changeHash('comImage')">图片</a>
+        <a @click="changeHash('comVideo')">视频</a>
+        <a @click="changeHash('comPerform')">公司业绩</a>
+        <a @click="changeHash('comMark')">留言</a>
+      </div>
     </div>
-    <company-intro :com="company" :comInfor="comInformation" id="comIntro"></company-intro>
+    <company-intro
+      :com="company"
+      :comInfor="comInformation"
+      id="comIntro"
+    ></company-intro>
     <company-image id="comImage"></company-image>
     <company-video id="comVideo"></company-video>
     <company-perform id="comPerform"></company-perform>
@@ -25,7 +29,9 @@ import CompanyImage from './companyImage.vue';
 import CompanyVideo from './companyVideo.vue';
 import CompanyPerform from './companyPerform.vue';
 import CompanyMark from './companyMark.vue';
+import { getCompanyInfoById } from '@/ajax';
 export default {
+  props: ['companyId'],
   name: 'XXX',
   data() {
     return {
@@ -52,6 +58,7 @@ export default {
     };
   },
   created() {
+    this.getCompanyInfo();
     // console.log(this);
     // console.log(this.$route.params.id);
   },
@@ -68,6 +75,11 @@ export default {
 
   },
   methods: {
+    getCompanyInfo() {
+      getCompanyInfoById({ id: this.companyId }).then(res => {
+        console.log(res);
+      });
+    },
     changeHash(id) {
       console.log(id);
       document.querySelector('#' + id).scrollIntoView(true);
@@ -77,27 +89,25 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.companyDetail{
-  background-color: #F5F5F5;
+.companyDetail {
+  background-color: #f5f5f5;
 }
-.companyNav{
-    width: 100%;
-    height:60px;
-    background-color: #C8C8C8;
+.companyNav {
+  width: 100%;
+  height: 60px;
+  background-color: #c8c8c8;
 }
-.navcontent{
-    width: 600px;
-    height:20px;
-    padding-top: 20px;
-    margin:0 auto;
+.navcontent {
+  width: 600px;
+  height: 20px;
+  padding-top: 20px;
+  margin: 0 auto;
 }
-.navcontent a{
-  display:inline-block;
+.navcontent a {
+  display: inline-block;
   width: 56px;
   margin: 0 32px;
-  color:#2D6496;
+  color: #2d6496;
   font-weight: 800;
-
 }
-
 </style>

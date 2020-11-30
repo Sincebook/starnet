@@ -14,3 +14,7 @@ export function findByCategory(params) {
 export function findByTwo(params) {
   return http.get('/api/companyinfo/findByTwo', params);
 }
+
+export function getCompanyInfoById(params) {
+  return http.get('/api/companyinfo/findById', params);
+}
