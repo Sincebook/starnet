@@ -99,7 +99,7 @@ export default {
     .show-all {
       position: absolute;
       bottom: 5px;
-      right: 10px;
+      right: 20px;
       cursor: pointer;
     }
   }
