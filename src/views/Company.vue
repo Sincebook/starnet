@@ -18,6 +18,7 @@ import SubBar from '../components/common/subBar.vue';
 import SelectType from '../components/common/selectType.vue';
 import CompanyCard from '../components/common/companyCard.vue';
 import pagination from '../components/common/pagination';
+import { findByCategory, findByTwo, findHotCompany, findByUptime } from '@/ajax/index.js';
 export default {
   name: 'Company',
   data() {
@@ -28,8 +29,19 @@ export default {
     };
   },
   created() {
-    console.log(this);
-   },
+    findByTwo({ type: '演员' }).then(res => {
+      console.log(res);
+    });
+    findByCategory({ category: '选秀公司', type: 2 }).then(res => {
+      console.log(res);
+    });
+    findHotCompany().then(res => {
+      console.log(res);
+    });
+    findByUptime({ page: 1 }).then(res => {
+      console.log(res);
+    });
+  },
   components: {
     SubBar,
     SelectType,
