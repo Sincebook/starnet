@@ -29,9 +29,10 @@ import CompanyImage from './companyImage.vue';
 import CompanyVideo from './companyVideo.vue';
 import CompanyPerform from './companyPerform.vue';
 import CompanyMark from './companyMark.vue';
-import { getCompanyInfoById } from '@/ajax';
+import { getComInfoById } from '@/ajax';
+import { getComVideoById } from '@/ajax';
+
 export default {
-  props: ['companyId'],
   name: 'XXX',
   data() {
     return {
@@ -41,15 +42,9 @@ export default {
         money: '2004年9月1日',
         city: '2004年9月1日',
         form: '2004年9月1日',
-        chairman: '2004年9月1日',
-        property: '2004年9月1日',
-        director: '2004年9月1日',
-        slogan: '2004年9月1日',
         code: '2004年9月1日',
-        type: '2004年9月1日',
         range: '2004年9月1日',
-        tv: '2004年9月1日',
-        stock: '2004年9月1日'
+        show: '2004年9月1日'
       },
       comInformation: {
         content: '华谊兄弟传媒股份有限公司是中国大陆一家知名综合性民营娱乐集团，由王中军、王中磊兄弟在1994年创立，1998年投资著名导演冯小刚的影片《没完没了》、姜文导演的影片《鬼子来了》正式进入电影行业。因每年投资冯小刚的贺岁片而声名鹊起，随后全面进入传媒产业，投资及运营电影、电视剧、艺人经纪、唱片、娱乐营销等领域，在这些领域都取得了不错的成绩，并且在2005年成立华谊兄弟传媒集团。2009年9月27日，证监会创业板发行审核委员会公告，华谊兄弟传媒股份有限公司（首发）获得通过，这意味着华谊兄弟成为了首家获准公开发行股票的娱乐公司; 也迈出了其境内上市至关重要的一步。2017年5月11日，华谊兄弟传媒集团入选第九届全国“文化企业30强”。 [1] 2019年7月8日，中共华谊兄弟传媒股份有限公司委员会正式成立。'
@@ -58,12 +53,8 @@ export default {
     };
   },
   created() {
-    this.getCompanyInfo();
-    // console.log(this);
-    // console.log(this.$route.params.id);
-  },
-  mounted() {
-
+    this.getCompanyInfo(),
+    this.getCompanyVideo()
   },
   components: {
     CompanyBrief,
@@ -76,10 +67,24 @@ export default {
   },
   methods: {
     getCompanyInfo() {
-      getCompanyInfoById({ id: this.companyId }).then(res => {
+      getComInfoById({ id: this.$route.params.id }).then(res => {
         console.log(res);
+        // eslint-disable-next-line promise/param-names
+        this.company.time = res.data.createTime.substring(0, 10);
+        this.company.person = res.data.legalPerson;
+        this.company.money = res.data.capital;
+        this.company.city = res.data.area;
+        this.company.form = res.data.category;
+        this.company.code = res.data.organizationCode;
+        this.company.range = res.data.managementRange;
+        this.company.show = res.data.opus;
       });
     },
+    // getCompanyVideo() {
+    //   getComVideoById( {id :this.$route.params.id}).then(res => {
+    //     console.log(res);
+    //   });
+    // },
     changeHash(id) {
       console.log(id);
       document.querySelector('#' + id).scrollIntoView(true);

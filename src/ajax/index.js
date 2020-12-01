@@ -11,7 +11,8 @@ export {
   findByUptime,
   findByCategory,
   findByTwo,
-  getCompanyInfoById
+  getComInfoById,
+  getComVideo
 }
 from './company.js';
 export {

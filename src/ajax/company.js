@@ -15,6 +15,9 @@ export function findByTwo(params) {
   return http.get('/api/companyinfo/findByTwo', params);
 }
 
-export function getCompanyInfoById(params) {
+export function getComInfoById(params) {
   return http.get('/api/companyinfo/findById', params);
 }
+export function getComVideo(params) {
+  return http.get('api/companyvideo/findById', params);
+};

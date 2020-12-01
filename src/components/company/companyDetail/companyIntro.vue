@@ -22,44 +22,20 @@
           <span>{{ com.city }}</span>
         </p>
         <p>
-          <span>企业类型:</span>
+          <span>公司类别:</span>
           <span>{{ com.form }}</span>
-        </p>
-        <p>
-          <span>董事长:</span>
-          <span>{{ com.chairman }}</span>
-        </p>
-        <p>
-          <span>公司性质:</span>
-          <span>{{ com.property }}</span>
-        </p>
-        <p>
-          <span>董事:</span>
-          <span>{{ com.director }}</span>
-        </p>
-        <p>
-          <span>公司口号:</span>
-          <span>{{ com.slogan }}</span>
         </p>
         <p>
           <span>组织机构代码:</span>
           <span>{{ com.code }}</span>
         </p>
         <p>
-          <span>公司类别:</span>
-          <span>{{ com.type }}</span>
-        </p>
-        <p>
           <span>经营范围:</span>
           <span>{{ com.range }}</span>
         </p>
         <p>
-          <span>合作电视台:</span>
-          <span>{{ com.tv }}</span>
-        </p>
-        <p>
-          <span>股票代码:</span>
-          <span>{{ com.stock }}</span>
+          <span>公司代表作:</span>
+          <span class="showWork">{{ com.show }}</span>
         </p>
       </div>
     </div>
@@ -77,7 +53,8 @@ export default {
     content: {
       type: Object,
       default() {
-        return {};
+        return {
+        };
       }
     },
     com: {
@@ -134,19 +111,26 @@ export default {
 .introMiddle {
   margin: 0 auto;
   width: 960px;
-  height: 270px;
+  // height: 270px;
 }
 .introMiddle .com {
   width: 700px;
-  height: 270px;
+  // height: 270px;
   margin: 0 auto;
 }
 .introMiddle .com p {
   display: inline-block;
   width: 350px;
   height: 30px;
+  line-height: 30px;
+  // text-align: center;
   margin-top: 10px;
   padding-left: 50px;
+  .showWork {
+    overflow: hidden; //超出的文本隐藏
+    text-overflow: ellipsis; //溢出用省略号显示
+    white-space: nowrap; //溢出不换行
+  }
 }
 .introMiddle .com p :first-child {
   margin-right: 10px;
@@ -160,6 +144,8 @@ export default {
   width: 170px;
   height: 30px;
   color: #2d6496;
+  padding-top: 10px;
+
 }
 .introFooter {
   margin: 0 auto;
@@ -167,7 +153,7 @@ export default {
   position: relative;
 }
 .container {
-  padding-top: 30px;
+  padding-top: 20px;
   margin: 0 auto;
   width: 760px;
   color: #868c8c;
