@@ -1,11 +1,18 @@
 <template>
   <div class="company">
-    <sub-bar :companyType="companyType" :nameArr="nameArr"></sub-bar>
-    <select-type :type="'company'"></select-type>
+    <sub-bar></sub-bar>
+    <select-type
+      :type="'company'"
+      @newType="typeToPage"
+      @nameSearch="nameSearch"
+      @lasted="lasted"
+      @hot="hot"
+    ></select-type>
     <div class="company-list" v-if="cards">
+      <div v-if="!cards.length" style="margin: 50px auto">暂无数据...</div>
       <company-card
         v-for="item in cards"
-        :key="item.id"
+        :key="item.userid"
         :item="item"
       ></company-card>
     </div>
@@ -22,16 +29,15 @@ import SubBar from '../components/common/subBar.vue';
 import SelectType from '../components/common/selectType.vue';
 import CompanyCard from '../components/common/companyCard.vue';
 import pagination from '../components/common/pagination';
-import { findByUptime } from '@/ajax/index.js';
+import { findByUptime, findByTwo, findComByName, findHotCompany } from '@/ajax/index.js';
 export default {
   name: 'Company',
   data() {
     return {
-      companyType: ['影视公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '这是多余'],
-      nameArr: ['公司分类', 'Company', 'classification'],
-      id: 1,
       cards: null,
-      allpages: null
+      allpages: null,
+      select: 'uptime',
+      typeObj: null
     };
   },
   created() {
@@ -46,13 +52,59 @@ export default {
   computed: {
   },
   methods: {
+    // 改变页数
     changePage(page) {
-      findByUptime({ page }).then(res => {
-      // console.log(res);
-      this.cards = res.data.companyInfoVOs;
-      this.allpages = res.data.allpage;
-      // console.log(this.cards);
-    });
+      if (this.select === 'uptime') {
+        findByUptime({ page }).then(res => {
+          console.log(res);
+          this.cards = res.data.companyInfoVOs;
+          this.allpages = res.data.allpage;
+          // console.log(this.cards);
+        });
+      }
+      if (this.select === 'type') {
+        this.typeObj[page] = page;
+        this.typeToPage(this.typeObj);
+      }
+    },
+    // 根据名字搜索
+    nameSearch(name) {
+      console.log(name);
+      if (!name) { this.changePage(1); return; }
+      findComByName({ name }).then(res => {
+        console.log(res);
+        this.cards = res.data;
+        this.allpages = 1;// 只返回一页
+      });
+    },
+    // 根据类型搜索
+    typeToPage(obj) {
+      console.log(obj);
+      // { area: obj.area, category: obj.category + '公司', page: 1 }
+      this.typeObj = obj;
+      findByTwo(obj).then(res => {
+        console.log(res);
+        this.cards = res.data.companyInfoVOs;
+        this.allpages = res.data.allpage;
+      });
+    },
+    lasted() {
+      console.log('最新');
+      this.changePage(1);
+    },
+    hot() {
+      console.log('最热');
+      findHotCompany().then(res => {
+        console.log(res);
+        this.cards = res.data;
+        this.allpages = 1;// 最热只有一页
+      });
+    },
+    typeToName(name) {
+      console.log(name);
+      findComByName({ name }).then(res => {
+        console.log(res);
+      });
     }
   }
 };
@@ -63,11 +115,12 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 1280px;
-    margin: 50px auto;
+    width: 920px;
+    margin: 10px auto;
     /deep/ .company-card {
-      width: 280px;
-      margin: 20px;
+      width: 210px;
+      height: 290px;
+      margin: 10px;
     }
   }
 }

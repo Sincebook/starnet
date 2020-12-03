@@ -63,7 +63,7 @@ export default {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 150px;
+    height: 120px;
     overflow: hidden;
     .bgImg {
       width: 100%;
@@ -76,7 +76,7 @@ export default {
   }
   .company-content {
     width: 100%;
-    padding: 150px 25px 10px 25px;
+    padding: 100px 25px 20px 25px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -88,21 +88,25 @@ export default {
       align-items: center;
       img {
         position: absolute;
-        top: 85px;
+        top: 60px;
         padding: 4px;
         background-color: #fff;
-        width: 136px;
-        height: 136px;
+        width: 90px;
+        height: 90px;
         border-radius: 50%;
       }
     }
     .name {
+      width: 180px;
       display: inline-block;
       cursor: pointer;
       color: #759cb6;
       font-weight: 600;
       margin-bottom: 20px;
       transition: all 0.25s;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       &:hover {
         color: #0d7bc4;
       }
@@ -111,7 +115,7 @@ export default {
       width: 100%;
       width: 100%;
       color: var(--fontColor);
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       font-size: 13px;
     }
     .btn-box {
@@ -121,7 +125,7 @@ export default {
       justify-content: space-around;
       .btn {
         width: 40%;
-        height: 40px;
+        height: 30px;
         border-radius: 4px;
         font-size: 16px;
         transition: all 0.25s;
