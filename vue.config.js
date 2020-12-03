@@ -3,7 +3,7 @@ module.exports = {
   // 跨域代理
   devServer: {
     proxy: {
-      '/': {
+      '/api': {
         // target: 'http://star.ti01.cn/',
         target: 'http://120.53.246.144:9091/',
         ws: true, // 代理websockets
