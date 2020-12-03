@@ -2,13 +2,13 @@
   <div class="actor">
     <!-- actor1 -->
     <div class="details">
-      <h3>{{ item.name }}</h3>
       <div class="right-box">
         <img
           :src="item.src"
           alt=""
         />
         <span>
+          <h3>{{ item.name }}</h3>
           {{ item.info }}<br />
           {{ item.sexAge }}<br>
           {{ item.info }}<br />
@@ -35,24 +35,25 @@ export default {
 }
 .details {
   border-top: 2px solid #e7e4e4;
-  min-height: 340px;
+  min-height: 200px;
   padding: 20px 0;
   h3 {
-    font-size: 25px;
-    color: #606060;
-    margin-bottom: 20px;
+    margin-top: 2px;
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 14px;
   }
   button {
     position: absolute;
     bottom: 0;
     cursor: pointer;
     outline: none;
-    width: 100px;
-    height: 35px;
-    font-size: 15px;
+    width: 80px;
+    height: 28px;
+    font-size: 14px;
     color: #ffffff;
     border: 0;
-    border-radius: 10px;
+    border-radius: 5px;
     margin-top: 25px;
     background-color: #22ac38;
   }
@@ -64,13 +65,13 @@ export default {
   align-items: flex-start;
   span {
     margin: 0 10px;
-    font-size: 18px;
-    line-height: 32px;
-    color: #606060;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
   }
   img {
-    width: 180px;
-    height: 250px;
+    width: 120px;
+    height: 160px;
   }
 }
 </style>

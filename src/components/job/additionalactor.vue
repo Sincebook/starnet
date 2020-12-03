@@ -30,12 +30,12 @@ export default {};
 }
 .details {
   border-top: 2px solid #e7e4e4;
-  min-height: 340px;
+  min-height: 200px;
 }
 
 .right-box {
   width: 1250px;
-  height: 541px;
+  height: 350px;
   // border-top: 1px solid #ececec;
 }
 .line {
@@ -45,26 +45,26 @@ export default {};
   border-radius: 4px;
 }
 .right-box h3 {
-  font-size: 25px;
-  color: #606060;
-  margin-bottom: 25px;
-  padding-top: 70px;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+  padding-top: 30px;
 }
 .right-box p {
-  font-size: 18px;
+  font-size: 15px;
   color: #606060;
-  line-height: 53px;
+  line-height: 30px;
 }
 .right-box button {
   cursor: pointer;
   outline: none;
-  width: 130px;
-  height: 46px;
+  width: 120px;
+  height: 32px;
   font-size: 15px;
   color: #ffffff;
   border: 0;
   border-radius: 10px;
-  margin-top: 25px;
+  margin-top: 15px;
   background-color: #22ac38;
 }
 </style>

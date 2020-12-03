@@ -50,20 +50,19 @@
       </div>
     </div>
     <div class="content">
-      <components @goCelebrity="goCelebrity" :is="child"></components>
+      <keep-alive>
+        <components @goCelebrity="goCelebrity" :is="child"></components
+      ></keep-alive>
     </div>
   </div>
 </template>
 
 <script>
-import info from '../components/personalCenter/info';
-import celebrity from '../components/personalCenter/celebrity';
-import cv from '../components/personalCenter/cv';
+import info from '../components/corporateCenter/info';
+import celebrity from '../components/corporateCenter/celebrity';
+import honor from '../components/corporateCenter/honor';
+import recruit from '../components/corporateCenter/recruit';
 import message from '../components/personalCenter/message';
-import works from '../components/personalCenter/works';
-import safe from '../components/personalCenter/safe';
-import deliver from '../components/personalCenter/deliver';
-import collect from '../components/personalCenter/collect';
 import follow from '../components/personalCenter/follow';
 import report from '../components/personalCenter/report';
 export default {
@@ -71,16 +70,13 @@ export default {
     return {
       isCelebrity: false,
       menu: [
-        { id: 1, title: '个人资料', child: 'info' },
-        { id: 2, title: '实名认证', child: 'celebrity' },
-        { id: 3, title: '账号安全', child: 'safe' },
-        { id: 4, title: '我的简历', child: 'cv' },
+        { id: 1, title: '企业信息', child: 'info' },
+        { id: 2, title: '企业认证', child: 'celebrity' },
+        { id: 3, title: '企业荣誉', child: 'honor' },
+        { id: 4, title: '在招职位', child: 'recruit' },
         { id: 5, title: '我的私信', child: 'message' },
-        { id: 6, title: '我的作品', child: 'works' },
-        { id: 7, title: '投递记录', child: 'deliver' },
-        { id: 8, title: '我的收藏', child: 'collect' },
-        { id: 9, title: '我的关注', child: 'follow' },
-        { id: 10, title: '举报中心', child: 'report' }
+        { id: 6, title: '我的关注', child: 'follow' },
+        { id: 7, title: '举报中心', child: 'report' }
       ],
       activeIndex: 1,
       child: 'info',
@@ -99,12 +95,9 @@ export default {
   components: {
     info,
     celebrity,
-    cv,
+    honor,
+    recruit,
     message,
-    works,
-    safe,
-    deliver,
-    collect,
     follow,
     report
   }

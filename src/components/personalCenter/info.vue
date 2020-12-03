@@ -33,16 +33,6 @@
           <el-form-item label="昵称" prop="nick">
             <el-input v-model="ruleForm.nick"></el-input>
           </el-form-item>
-          <el-form-item label="实名认证"
-            ><el-link
-              icon="el-icon-edit"
-              @click="goCelebrity()"
-              :disabled="isCelebrity ? true : false"
-              :underline="false"
-              :type="isCelebrity ? 'success' : 'info'"
-              >{{ isCelebrity ? "已认证" : "未认证" }}</el-link
-            >
-          </el-form-item>
           <el-form-item label="性别" prop="sex">
             <el-select v-model="ruleForm.sex" placeholder="请选择性别">
               <el-option
@@ -99,7 +89,6 @@ import country from './country.json';
 export default {
   data() {
     return {
-      isCelebrity: false,
       ruleForm: {
         imageUrl: '//ftp.qnets.cn/img/bg3.jpg',
         nick: '空帆船',
@@ -138,9 +127,6 @@ export default {
     };
   },
   methods: {
-    goCelebrity() {
-      this.$emit('goCelebrity');
-    },
     submitForm() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
