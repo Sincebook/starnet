@@ -164,7 +164,7 @@ export default {
             }
           }
           span {
-            color: #759cb6;
+            color: #409EFF;
             font-weight: 600;
           }
         }
@@ -195,7 +195,7 @@ export default {
   }
 }
 .active {
-  background: #759cb6;
+  background: #409EFF;
   color: #fff;
 }
 </style>

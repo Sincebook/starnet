@@ -12,6 +12,15 @@
         placeholder="请输入需要添加的公司荣誉"
       ></el-input>
       <div class="btn">
+        <el-date-picker
+          class="time-input"
+          v-model="time"
+          type="date"
+          placeholder="请选择时间"
+          format="yyyy 年 MM 月 dd 日"
+          value-format="timestamp"
+        >
+        </el-date-picker>
         <el-button type="primary" @click="addHonor">添加</el-button>
       </div>
     </div>
@@ -57,6 +66,7 @@ export default {
   data() {
     return {
       desc: '',
+      time: '',
       currentPage1: 1
     };
   },
@@ -83,7 +93,7 @@ export default {
       margin-top: 25px;
       width: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
     }
   }
   .info {

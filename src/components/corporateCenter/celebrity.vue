@@ -11,30 +11,6 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <div class="desc">
-          <el-upload
-            class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess2"
-            :before-upload="beforeAvatarUpload"
-          >
-            <img
-              v-if="ruleForm.companyImg"
-              :src="ruleForm.companyImg"
-              class="avatar"
-            />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-          <el-input
-            resize="none"
-            type="textarea"
-            :autosize="{ minRows: 6, maxRows: 6 }"
-            v-model="ruleForm.desc"
-            placeholder="请输入公司简介和代表作品"
-          ></el-input>
-        </div>
-
         <el-form-item label="公司Logo" prop="companyLogo">
           <el-upload
             class="avatar-uploader logo"
@@ -103,6 +79,17 @@
             placeholder="请输入经营范围"
           ></el-input>
         </el-form-item>
+        <el-form-item label="公司简介" prop="desc">
+          <el-input
+            resize="none"
+            type="textarea"
+            :show-word-limit="true"
+            maxlength="500"
+            :autosize="{ minRows: 6, maxRows: 6 }"
+            v-model="ruleForm.desc"
+            placeholder="请输入公司简介和代表作品"
+          ></el-input>
+        </el-form-item>
         <el-form-item label="营业执照" prop="companyIdcard">
           <el-upload
             class="avatar-uploader"
@@ -134,7 +121,6 @@ export default {
     return {
       ruleForm: {
         companyLogo: '//ftp.qnets.cn/img/bg3.jpg',
-        companyImg: '',
         companyIdcard: '//ftp.qnets.cn/img/bg1.jpg',
         id: '',
         name: '森思',
@@ -167,6 +153,9 @@ export default {
         ],
         range: [
           { required: true, message: '经营范围不能为空', trigger: 'blur' }
+        ],
+        desc: [
+          { required: true, message: '公司简介不能为空', trigger: 'blur' }
         ],
         companyIdcard: [
           { required: true, message: '营业执照不能为空', trigger: 'blur' }
@@ -203,9 +192,6 @@ export default {
     handleAvatarSuccess1(res, file) {
       this.ruleForm.companyIdcard = URL.createObjectURL(file.raw);
     },
-    handleAvatarSuccess2(res, file) {
-      this.ruleForm.companyImg = URL.createObjectURL(file.raw);
-    },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
@@ -235,38 +221,19 @@ export default {
     flex-wrap: wrap;
     margin-bottom: 25px;
   }
-  .desc {
-    display: flex;
-    margin-bottom: 25px;
-    width: 100%;
-    .el-textarea {
-      flex: 1;
-      margin-left: 25px;
-    }
-    /deep/ .avatar-uploader {
-      height: 135px;
-    }
-    .avatar-uploader-icon {
-      font-size: 28px;
-      color: #8c939d;
-      width: 135px;
-      height: 135px;
-      line-height: 135px;
-      text-align: center;
-    }
-    .avatar {
-      width: 135px;
-      height: 135px;
-      display: block;
-      cursor: pointer;
-    }
-  }
   .el-form-item {
     width: 50%;
     .el-input,
     .el-select,
-    .el-cascader {
+    .el-cascader,
+    .el-textarea {
+      position: relative;
       width: 100%;
+      /deep/.el-input__count {
+        height: 20px;
+        bottom: 15px;
+        right: 20px;
+      }
     }
     .logo {
       height: 54px;
@@ -284,6 +251,9 @@ export default {
         display: block;
         cursor: pointer;
       }
+    }
+    &:nth-last-child(3) {
+      width: 100%;
     }
     &:nth-last-child(2) {
       width: 100%;
