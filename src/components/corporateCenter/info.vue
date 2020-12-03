@@ -18,11 +18,6 @@
       </div>
     </div>
     <div class="info" v-else>
-      <div class="desc">
-        <el-image class="companyImg" fit="cover" :src="ruleForm.companyImg">
-        </el-image>
-        <div class="textarea">{{ ruleForm.desc }}</div>
-      </div>
       <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="公司Logo：" class="logo">
           <el-image class="companyLogo" fit="cover" :src="ruleForm.companyLogo">
@@ -48,6 +43,9 @@
         </el-form-item>
         <el-form-item label="经营范围：">
           <span>{{ ruleForm.range }}</span>
+        </el-form-item>
+        <el-form-item label="经营范围：">
+          <div class="textarea">{{ ruleForm.desc }}</div>
         </el-form-item>
         <el-form-item label="营业执照：">
           <el-image
@@ -120,20 +118,6 @@ export default {
       height: 135px;
       border-radius: 5px;
     }
-    .textarea {
-      flex: 1;
-      border: 1px dashed rgba(153, 153, 153, 0.5);
-      border-radius: 5px;
-      height: 135px;
-      text-overflow: -o-ellipsis-lastline;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 7;
-      line-clamp: 7;
-      -webkit-box-orient: vertical;
-      margin-left: 25px;
-    }
   }
   .el-form-item {
     width: 50%;
@@ -144,10 +128,27 @@ export default {
     &:last-child {
       margin-top: 10px;
     }
+    &:nth-last-child(2) {
+      width: 90%;
+    }
     .companyLogo {
       height: 54px;
       width: 54px;
       border-radius: 5px;
+    }
+    .textarea {
+      line-height: 28px;
+      padding: 8px 14px;
+      border: 1px dashed rgba(153, 153, 153, 0.5);
+      border-radius: 5px;
+      // height: 135px;
+      text-overflow: -o-ellipsis-lastline;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 7;
+      line-clamp: 7;
+      -webkit-box-orient: vertical;
     }
     .companyIdcard {
       height: 108px;
