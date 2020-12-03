@@ -1,6 +1,6 @@
 <template>
   <div class="w_location">
-    <p style="font-size:24px;font-weight:600;margin-bottom:10px;">剧组详情</p>
+    <p style="font-size:24px;font-weight:600;margin-bottom:10px;">工作详情</p>
     <!-- 内容部分 -->
     <div class="content">
       <p>面试地点：{{ info.location }}</p>
@@ -11,7 +11,7 @@
       <p>拍摄周期：{{ info.period }}</p>
       <p>发布日期：{{ info.start }}</p>
       <p>截止日期：{{ info.end }}</p>
-      <p class="blue_color">职业演员可以申请</p>
+      <p class="blue_color">申请条件</p>
       <p>
         {{ info.desc }}
       </p>
@@ -44,14 +44,15 @@ export default {
   background-color: #ffffff;
   .content {
     p {
-      height: 50px;
-      line-height: 50px;
-      font-size: 18px;
+      height: 30px;
+      line-height: 32px;
+      font-size: 14px;
       color: #606060;
     }
     .blue_color {
-      font-size: 22px;
-      font-weight: 500;
+      font-size: 15px;
+      font-weight: 700;
+      color:#333;
     }
   }
 }
