@@ -34,7 +34,7 @@ export default {
   name: 'Company',
   data() {
     return {
-      cards: null,
+      cards: [{ id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }, { id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }, { id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }, { id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }, { id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }, { id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }],
       allpages: null,
       select: 'uptime',
       typeObj: null

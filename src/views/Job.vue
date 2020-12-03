@@ -10,7 +10,11 @@
     ></select-type>
     <div class="job-list" v-if="cards">
       <div v-if="!cards.length" style="margin: 50px auto">暂无数据...</div>
-      <job-card v-for="item in cards" :key="item.id" :item="item"></job-card>
+      <job-card
+        v-for="(item, index) in cards"
+        :key="index+item.id"
+        :item="item"
+      ></job-card>
     </div>
     <pagination :allPages="allpages" @getProjects="changePage"></pagination>
   </div>
@@ -26,7 +30,7 @@ export default {
   name: 'Job',
   data() {
     return {
-      cards: null,
+      cards: [{ title: '--/--', jobneed: '...', age: '--/--', collect: 0, id: 1, image: '', job: '--/--', launch: '--/--', money: '$$', place: '--/--', sex: '--/--', type: '1', uptime: '--/--', userid: '1', worktime: '--/--' }, { title: '--/--', jobneed: '...', age: '--/--', collect: 0, id: 1, image: '', job: '--/--', launch: '--/--', money: '$$', place: '--/--', sex: '--/--', type: '1', uptime: '--/--', userid: '1', worktime: '--/--' }, { title: '--/--', jobneed: '...', age: '--/--', collect: 0, id: 1, image: '', job: '--/--', launch: '--/--', money: '$$', place: '--/--', sex: '--/--', type: '1', uptime: '--/--', userid: '1', worktime: '--/--' }, { title: '--/--', jobneed: '...', age: '--/--', collect: 0, id: 1, image: '', job: '--/--', launch: '--/--', money: '$$', place: '--/--', sex: '--/--', type: '1', uptime: '--/--', userid: '1', worktime: '--/--' }, { title: '--/--', jobneed: '...', age: '--/--', collect: 0, id: 1, image: '', job: '--/--', launch: '--/--', money: '$$', place: '--/--', sex: '--/--', type: '1', uptime: '--/--', userid: '1', worktime: '--/--' }, { title: '--/--', jobneed: '...', age: '--/--', collect: 0, id: 1, image: '', job: '--/--', launch: '--/--', money: '$$', place: '--/--', sex: '--/--', type: '1', uptime: '--/--', userid: '1', worktime: '--/--' }],
       allpages: null,
       select: 'uptime',
       params: null
@@ -42,7 +46,6 @@ export default {
         // 加上时间戳现在请不到数据
         // let timestamp = Date.parse(new Date()) - 24 * 60 * 60 * 7;
         findJobUptime({ page: 1 }).then(res => {
-          // console.log(res);
           this.cards = res.data.jobs;
           this.allpages = res.data.allpage;
         });

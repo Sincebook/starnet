@@ -29,7 +29,7 @@ import { findByTalentNew, findByName, findHotTalent, findByThree } from '@/ajax'
 export default {
   data() {
     return {
-      cards: null,
+      cards: [{ id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }, { id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }, { id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }, { id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }, { id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }, { id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }],
       allpages: 1,
       select: 'uptime',
       params: ''
