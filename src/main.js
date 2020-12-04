@@ -29,8 +29,13 @@ import {
   TabPane,
   Alert,
   Link,
-  Image
+  Image,
+  Checkbox
 } from 'element-ui';
+import VueCoreVideoPlayer from 'vue-core-video-player';
+Vue.use(VueCoreVideoPlayer, {
+  lang: 'zh-CN'
+});
 Vue.config.roductionTip = false;
 Vue.use(Viewer);
 Vue.use(Upload);
@@ -50,6 +55,7 @@ Vue.use(TabPane);
 Vue.use(Alert);
 Vue.use(Link);
 Vue.use(Image);
+Vue.use(Checkbox);
 Viewer.setDefaults({
   Options: {
     inline: true,

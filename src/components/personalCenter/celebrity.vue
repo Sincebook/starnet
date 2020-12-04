@@ -19,32 +19,30 @@
           class="demo-ruleForm"
         >
           <el-form-item label="真实姓名" prop="name">
-            <el-input :disabled="disabled" v-model="ruleForm.name"></el-input>
+            <el-input :disabled="disabled" v-model="ruleForm.name" placeholder="请输入真实姓名"></el-input>
           </el-form-item>
           <el-form-item label="身份证号" prop="idcard">
-            <el-input :disabled="disabled" v-model="ruleForm.idcard"></el-input>
+            <el-input :disabled="disabled" v-model="ruleForm.idcard" placeholder="请输入身份证号"></el-input>
           </el-form-item>
-          <el-form-item v-if="!disabled" label="证件照" prop="idimg">
+          <el-form-item v-if="!disabled" label="证件照" prop="imageFile">
             <el-upload
               class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              :http-request="upload"
+              action=""
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
-              :disabled="disabled"
             >
-              <img
-                v-if="ruleForm.imageUrl"
-                :src="ruleForm.imageUrl"
-                class="avatar"
-              />
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
               <i
                 v-else
                 class="el-icon-plus avatar-uploader-icon"
               ></i> </el-upload
           ></el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm()">提交</el-button>
+          <el-form-item v-if="!disabled">
+            <el-button type="primary" :disabled="!flag" @click="submitForm()"
+              >提交</el-button
+            >
             <el-button @click="resetForm()">重置</el-button>
           </el-form-item>
         </el-form>
@@ -54,13 +52,19 @@
 </template>
 
 <script>
+import {
+  celebrity
+} from '../../ajax/index';
 export default {
   data() {
     return {
+      flag: true,
+      timer: null,
+      imageUrl: '',
       ruleForm: {
-        imageUrl: '',
-        name: 'xxx',
-        idcard: 'xxxxxxxxxxxxxxx'
+        imageFile: '',
+        name: '',
+        idcard: ''
       },
       rules: {
         name: [
@@ -71,26 +75,43 @@ export default {
           { required: true, message: '身份证号不能为空', trigger: 'blur' },
           { min: 18, max: 18, message: '身份证号格式不正确', trigger: 'blur' }
         ],
-        idimg: [
-          { required: true, message: '证件照不能为空', trigger: 'blur' }
+        imageFile: [
+          { required: true, message: '证件图不能为空', trigger: 'change' }
         ]
       },
       disabled: false
     };
   },
   methods: {
+    async upload(content) {
+      this.ruleForm.imageFile = content.file;
+    },
     submitForm() {
-      this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
+      // 通过 节流函数 实现3s只执行一次
+      if (this.flag) {
+        // 逻辑代码
+        this.$refs.ruleForm.validate((valid) => {
+          if (valid) {
+            celebrity(this.ruleForm).then(item => {
+              if (item.code === '0') {
+                return true;
+              } else {
+                this.$message.error(item.errMsg);
+              }
+            });
+          } else {
+            return false;
+          }
+        });
+        this.flag = false;
+        this.timer = setTimeout(() => {
+          this.flag = true;
+        }, 3000);
+      }
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
+      this.imageUrl = '';
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);

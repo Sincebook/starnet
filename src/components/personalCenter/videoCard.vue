@@ -1,39 +1,38 @@
 <template>
   <div class="video">
-    <video ref="video" :src="item.src"></video>
-    <div class="btn" @click="playing(index)">
-      <svg class="icon" aria-hidden="true">
-        <use :xlink:href="!item.isPlay ? '#icon-play' : '#icon-pause'"></use>
-      </svg>
+    <vue-core-video-player
+      :autoplay="false"
+      :src="item.path"
+    ></vue-core-video-player>
+    <div class="content">
+      <div class="title">我的跳舞视频</div>
+      <el-button type="danger" size="small" plain>删除</el-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['item', 'index'],
-  methods: {
-    playing(index) {
-      this.$emit('playing', index);
-    }
-  }
+  props: ['item']
 };
 </script>
 
 <style lang="less" scoped>
 .video {
-  position: relative;
-  background-color: rgba(0, 0, 0, 0.75);
-  .btn {
-    position: absolute;
-    cursor: pointer;
-    top: 50%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    .icon {
-      font-size: 30px;
-      color: rgba(255, 255, 255, .75);
-    }
+  display: flex;
+  background-color: rgba(245, 245, 245, 1);
+  /deep/.error-icon,
+  /deep/a.btn-pause,
+  /deep/a.btn-play,
+  /deep/.setting-control > div:not(:last-child) {
+    display: none;
+  }
+  .content {
+    margin: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }
 </style>

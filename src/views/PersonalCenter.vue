@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import info from '../components/personalCenter/info';
 import celebrity from '../components/personalCenter/celebrity';
 import cv from '../components/personalCenter/cv';
@@ -95,6 +96,14 @@ export default {
     goCelebrity() {
       this.tabChange(2, 'celebrity');
     }
+  },
+  mounted() {
+    this.$store.dispatch('getMineInfo'); // 获取个人信息
+  },
+  computed: {
+    ...mapState({
+      userInfo: (state) => state.userInfo
+    })
   },
   components: {
     info,
@@ -164,7 +173,7 @@ export default {
             }
           }
           span {
-            color: #409EFF;
+            color: #409eff;
             font-weight: 600;
           }
         }
@@ -195,7 +204,7 @@ export default {
   }
 }
 .active {
-  background: #409EFF;
+  background: #409eff;
   color: #fff;
 }
 </style>

@@ -22,7 +22,7 @@ export default {
   name: 'talentVideo',
   data() {
     return {
-      srcs: ['https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm', 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm', 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm', 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'],
+      srcs: ['https://media.vued.vanthink.cn/sparkle_your_name_am720p.mp4', 'https://media.vued.vanthink.cn/sparkle_your_name_am720p.mp4', 'https://media.vued.vanthink.cn/sparkle_your_name_am720p.mp4', 'https://media.vued.vanthink.cn/sparkle_your_name_am720p.mp4'],
       lastTarget: null
     };
   },

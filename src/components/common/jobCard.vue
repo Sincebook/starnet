@@ -1,11 +1,8 @@
 <template>
   <div>
-    <div class="job-card" @click="deatil">
+    <div class="job-card" @click="deatil(item.id)">
       <div class="job-head">
-        <div
-          class="img"
-          :style="{ backgroundImage: 'url(' + item.image + ')' }"
-        ></div>
+        <el-image class="img" :src="item.image" fit="cover"></el-image>
       </div>
       <div class="job-content">
         <div class="head">
@@ -61,9 +58,8 @@ export default {
       this.$emit('collect');
     },
     // 查看详情
-    deatil() {
-      this.$router.push({ name: 'jobDetail', params: { id: 1 } });
-      this.$emit('deatil');
+    deatil(id) {
+      this.$router.push({ name: 'jobDetail', params: { id: id } });
     }
   }
 };
@@ -78,6 +74,8 @@ export default {
   background-color: var(--cardBgColor);
   height: 420px;
   transition: all 0.25s;
+  box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
+    4px 4px 8px -5px rgba(0, 0, 0, 0.1);
   &:hover {
     box-shadow: -8px -8px 16px -10px rgba(0, 0, 0, 0.3),
       8px 8px 16px -10px rgba(0, 0, 0, 0.3);
@@ -95,9 +93,6 @@ export default {
       width: 100%;
       height: 100%;
       transition: all 0.25s;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
     }
   }
   .job-content {
