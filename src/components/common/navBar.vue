@@ -61,7 +61,7 @@ a {
   min-width: 1280px;
   display: flex;
   height: 64px;
-  font-size: 16px;
+  font-size: 14px;
   background-color: rgb(51, 51, 51);
   color: #fff;
   align-items: center;
