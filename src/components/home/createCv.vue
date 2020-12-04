@@ -14,8 +14,12 @@
 <script>
 export default {
   methods: {
-    createCv() { },
-    lookVip() { }
+    createCv() {
+      // 判断 没登录跳转到登录页面  登陆后跳转到个人中心
+    },
+    lookVip() {
+      this.$router.push('/vip');
+    }
   }
 };
 </script>

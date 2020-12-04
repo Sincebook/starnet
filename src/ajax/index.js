@@ -3,7 +3,10 @@ export {
 }
 from './test.js';
 export {
-  getSignBg
+  getSignBg,
+  getCode,
+  registerUser,
+  loginUser
 }
 from './sign.js';
 export {
@@ -29,3 +32,18 @@ export {
   findHotTalent
 }
 from './talent';
+
+export {
+  mineInfo,
+  celebrity,
+  mineInfoDetail,
+  extraInfoDetail,
+  mineMessage,
+  mineOpus
+}
+from './personalCenter';
+export {
+  findHotJobs,
+  findHotTalents
+}
+from './home';

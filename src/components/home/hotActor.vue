@@ -2,18 +2,40 @@
   <div class="hot-actor">
     <h2>热点人才 Hot talents</h2>
     <div class="list">
-      <actor-card data-aos="fade-up" v-for="item in 8" :key="item"></actor-card>
+      <actor-card
+        data-aos="fade-up"
+        v-for="(item, index) in list"
+        :key="index"
+        :item="item"
+      ></actor-card>
     </div>
-    <div class="more">更多</div>
+    <div class="more" @click="go">更多</div>
   </div>
 </template>
 
 <script>
 import actorCard from '../common/actorCard';
+import { findHotTalents } from '../../ajax/index';
 export default {
   data() {
     return {
+      list: []
     };
+  },
+  methods: {
+    getHotJobs() {
+      findHotTalents().then(res => {
+        if (res.code === '0') {
+          this.list = res.data;
+        }
+      });
+    },
+    go() {
+      this.$router.push('/talent');
+    }
+  },
+  created() {
+    this.getHotJobs();
   },
   components: {
     actorCard
@@ -34,6 +56,7 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
     width: 1280px;
+    height: 880px;
     margin: 0 auto;
     /deep/ .actor-card {
       margin: 20px;

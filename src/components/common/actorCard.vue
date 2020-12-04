@@ -1,15 +1,15 @@
 <template>
   <div class="actor-card">
     <div class="actor-head">
-      <div
-        class="bgImg"
-        :style="{ backgroundImage: 'url(' + item.image + ')' }"
-      ></div>
+      <el-image class="bgImg" :src="item.image" fit="cover"></el-image>
     </div>
     <div class="info">
-      <router-link :to="{name:'talentDetail',params:{id:item.id}}">
-      <h2 class="name" @click="detail">{{item.name}}/{{item.workArea}}</h2></router-link>
-      <p class="desc">{{item.vocation}}</p>
+      <router-link :to="{ name: 'talentDetail', params: { id: item.id } }">
+        <h2 class="name">
+          {{ item.name }}/{{ item.workArea }}
+        </h2></router-link
+      >
+      <p class="desc">{{ item.vocation }}</p>
       <div class="btn-box">
         <div class="btn" @click="email">私信</div>
         <div class="btn" @click="follow">关注</div>
@@ -21,15 +21,7 @@
 <script>
 export default {
   props: ['item'],
-  data() {
-    return {
-      bgImg: '//ftp.qnets.cn/img/bg3.jpg'
-    };
-  },
   methods: {
-    detail() {
-      // this.$router.push({ name: 'TalentDetail', params: { id: '123' } });
-    },
     email() {
       this.$emit('email');
     },
@@ -66,9 +58,6 @@ export default {
       width: 100%;
       height: 100%;
       transition: all 0.25s;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
     }
   }
   .info {

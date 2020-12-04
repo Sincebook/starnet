@@ -62,11 +62,15 @@
 </template>
 
 <script>
+import {
+  mineMessage
+} from '../../ajax/index';
 export default {
   data() {
     return {
       bgImg: '//ftp.qnets.cn/img/bg3.jpg',
       currentPage1: 1,
+      nums: 7,
       replay: '',
       replayTitle: '',
       dialogVisible: false
@@ -80,6 +84,11 @@ export default {
       this.replayTitle = item;
       this.replay = '';
     }
+  },
+  created() {
+    mineMessage({ page: this.currentPage1, num: this.nums }).then(res => {
+      console.log(res);
+    });
   }
 };
 </script>

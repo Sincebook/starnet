@@ -1,39 +1,54 @@
 <template>
   <div class="audio">
-    <audio ref="audio" :src="item.src"></audio>
-    <div class="btn" @click="playing(index)">
-      <svg class="icon" aria-hidden="true">
-        <use :xlink:href="!item.isPlay ? '#icon-play' : '#icon-pause'"></use>
-      </svg>
-    </div>
+    <aplayer
+      :music="music"
+      :list="list"
+      :autoplay="false"
+      :listFolded="false"
+    />
   </div>
 </template>
 
 <script>
+import aplayer from 'vue-aplayer';
 export default {
-  props: ['item', 'index'],
-  methods: {
-    playing(index) {
-      this.$emit('playing', index);
-    }
+  props: ['item'],
+  data() {
+    return {
+      music: {
+        title: 'secret base~君がくれたもの~',
+        artist: 'Silent Siren',
+        src: require('@/assets/images/04.mp3'),
+        pic: require('@/assets/images/job.jpg')
+      },
+      list: [{
+        title: '文爱',
+        artist: 'CG',
+        src: require('@/assets/images/CG - 文爱.mp3'),
+        pic: require('@/assets/images/telent.jpg')
+      }, {
+        title: 'secret base~君がくれたもの~',
+        artist: 'Silent Siren',
+        src: require('@/assets/images/04.mp3'),
+        pic: require('@/assets/images/company1.jpg')
+      }, {
+        title: '文爱',
+        artist: 'CG',
+        src: require('@/assets/images/CG - 文爱.mp3'),
+        pic: require('@/assets/images/company.jpg')
+      }, {
+        title: '文爱',
+        artist: 'CG',
+        src: require('@/assets/images/CG - 文爱.mp3'),
+        pic: require('@/assets/images/company.jpg')
+      }]
+    };
+  },
+  components: {
+    aplayer
   }
 };
 </script>
 
 <style lang="less" scoped>
-.audio {
-  position: relative;
-  background-color: rgba(0, 0, 0, 0.75);
-  .btn {
-    position: absolute;
-    cursor: pointer;
-    top: 50%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    .icon {
-      font-size: 30px;
-      color: rgba(255, 255, 255, 0.75);
-    }
-  }
-}
 </style>
