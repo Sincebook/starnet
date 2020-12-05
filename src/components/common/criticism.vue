@@ -1,8 +1,8 @@
 <template>
   <div class="citicism">
     <div class="citicism_header">
-      <img :src="headerImg" alt="" />
-      <span>{{ name }}</span>
+      <img :src="item.head" alt="" />
+      <span>{{ item.name }}</span>
       <!-- <span class="diamonds">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-diamonds"></use>
@@ -11,7 +11,7 @@
     </div>
     <div class="citicism_container">
       <p class="my-info" ref="myInfo">
-        {{ content }}
+        {{ item.word }}
       </p>
       <p class="show-all" @click="showAll">{{ tag }}</p>
     </div>
@@ -21,11 +21,12 @@
 // @ is an alias to /src
 export default {
   name: 'Criticism',
+  props: ['item'],
   data() {
     return {
-      headerImg: '//ftp.qnets.cn/img/bg3.jpg',
-      name: '小枝丫',
-      content: '非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。',
+      // headerImg: '//ftp.qnets.cn/img/bg3.jpg',
+      // name: '小枝丫',
+      // content: '非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。非常不错的公司，愿意给新人锻炼的机会，以后会更加努力提升自己的专业技能，来完成更好的角色。',
       tag: '展开'
     };
   },

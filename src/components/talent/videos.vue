@@ -28,7 +28,7 @@ export default {
         fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
         sources: [{
           type: 'video/mp4', // 类型
-          src: '' // url地址
+          src: this.src // url地址
         }],
         poster: '', // 封面地址
         notSupportedMessage: '此视频暂无法播放，请稍后再试', // 允许覆盖Video.js无法播放媒体源时显示的默认信息。
@@ -43,9 +43,6 @@ export default {
   },
   components: {
     videoPlayer
-  },
-  created() {
-    this.playerOptions.sources.src = this.src;
   }
 };
 </script>

@@ -8,23 +8,34 @@
         class="videos"
         @click="changePlayer"
       >
-        <videos :src="item" :videoId="'page' + index"></videos>
+        <videos :src="item.path" :videoId="'page' + index"></videos>
       </div>
     </div>
-    <pagination allPages="20" style="margin-bottom: 0"></pagination>
+    <pagination
+      :allPages="allpages"
+      style="margin-bottom: 0"
+      @getProjects="changePage"
+    ></pagination>
   </div>
 </template>
 <script>
 import Pagination from '../common/pagination.vue';
 import Videos from './videos.vue';
+import { getUserImg } from '@/ajax';
 // @ is an alias to /src
 export default {
+  props: ['userid'],
   name: 'talentVideo',
   data() {
     return {
-      srcs: ['https://media.vued.vanthink.cn/sparkle_your_name_am720p.mp4', 'https://media.vued.vanthink.cn/sparkle_your_name_am720p.mp4', 'https://media.vued.vanthink.cn/sparkle_your_name_am720p.mp4', 'https://media.vued.vanthink.cn/sparkle_your_name_am720p.mp4'],
-      lastTarget: null
+      srcs: [],
+      lastTarget: null,
+      allpages: 1,
+      obj: { type: 2 }
     };
+  },
+  created() {
+    this.getData(1);
   },
   methods: {
     changePlayer(e) {
@@ -34,6 +45,18 @@ export default {
         this.lastTarget.pause();
         this.lastTarget = e.target;
       }
+    },
+    changePage(page) {
+      this.getData(page);
+    },
+    getData(page) {
+      this.obj.page = page;
+      this.obj.userid = this.userid;
+      getUserImg(this.obj).then(res => {
+        // console.log(res);
+        this.srcs = res.data.datas;
+        this.allpages = res.data.allpage;
+      });
     }
   },
   components: {
@@ -50,7 +73,7 @@ export default {
   padding: 20px;
   text-align: center;
   .title {
-    margin: 0px  auto;
+    margin: 0px auto;
     text-align: center;
     font-size: 18px;
     font-weight: 600;

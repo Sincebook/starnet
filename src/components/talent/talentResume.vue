@@ -20,14 +20,14 @@
         </p>
       </div>
       <div style="color: rgb(45, 100, 150)">
-        <p>中国</p>
-        <p>女</p>
-        <p>汉族</p>
-        <p>江西省南昌市</p>
-        <p>1978年7月12日</p>
-        <p>演员、歌手</p>
-        <p>骏起菲阳文化传媒有限公司</p>
-        <p>《天龙八部》</p>
+        <p>{{ data.contry }}</p>
+        <p>{{ data.sex }}</p>
+        <p>{{ data.nation }}</p>
+        <p>{{ data.workArea }}</p>
+        <p v-if="data.birthTime">{{ data.birthTime.substring(0, 10) }}</p>
+        <p>{{ data.vocation }}</p>
+        <p>{{ data.company }}</p>
+        <p>{{ data.representativeWork }}</p>
       </div>
       <div>
         <p>身<span style="margin-left: 28px"></span>高：</p>
@@ -41,22 +41,27 @@
         <p>头发类型：</p>
       </div>
       <div style="color: rgb(45, 100, 150)">
-        <p>168cm<span style="opacity: 0">哈</span></p>
-        <p>59.3kg<span style="opacity: 0">哈</span></p>
-        <p>77<span style="opacity: 0">哈</span></p>
-        <p>64<span style="opacity: 0">哈</span></p>
-        <p>棕色</p>
-        <p>白色</p>
-        <p>黑色</p>
+        <p v-if="data.height">
+          {{ data.height }}cm<span style="opacity: 0">哈</span>
+        </p>
+        <p v-if="data.weight">
+          {{ data.weight }}kg<span style="opacity: 0">哈</span>
+        </p>
+        <p v-if="data.bust">
+          {{ data.bust }}<span style="opacity: 0">哈</span>
+        </p>
+        <p v-if="data.buttock">
+          {{ data.buttock }}<span style="opacity: 0">哈</span>
+        </p>
+        <p v-if="data.eyeColour">{{ data.eyeColour }}色</p>
+        <p v-if="data.skinColour">{{ data.skinColour }}色</p>
+        <p v-if="data.hairColour">{{ data.hairColour }}色</p>
         <!-- <p>
           长</p> -->
-        <p>直</p>
+        <p v-if="data.hairType">{{ data.hairType }}</p>
       </div>
       <div class="header">
-        <img
-          src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=624234275,205532134&fm=26&gp=0.jpg"
-          alt=""
-        />
+        <img :src="data.image" alt="" />
         <div class="info">
           <p>
             <!-- <span
@@ -85,22 +90,32 @@
             </span>
           </p>
           <p>
-            刘涛 <span style="font-size: 14px; color: #868c8c">涛涛、涛姐</span>
+            {{ data.name }}
+            <span style="font-size: 14px; color: #868c8c">{{
+              data.nickname
+            }}</span>
           </p>
           <p>
-            <span>私&nbsp;&nbsp;信</span>
-            <span>关&nbsp;&nbsp;注</span>
-            <span>粉丝&nbsp;&nbsp;{{ 4236 }}</span>
+            <span @click="msgIt">私&nbsp;&nbsp;信</span>
+            <span @click="watchIt">{{ two }}</span>
+            <span style="font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle;" :title="funs">粉丝&nbsp;&nbsp;{{ funs }}</span>
           </p>
         </div>
       </div>
     </div>
+    <div class="msg" ref="msg" style="display: none">
+      <el-input placeholder="请输入内容" v-model="input2">
+        <el-button
+          slot="append"
+          icon="el-icon-right"
+          @click="sendMsg"
+          style="color: #2d6496"
+        ></el-button>
+      </el-input>
+    </div>
     <div class="introduce">
       <p class="my-info" ref="myInfo" style="margin: 20px">
-        我是一名角色演员，居住在汉普郡的莱明顿，年龄在50 –
-        65岁之间。我有15年以上的经验,以前是一名专业演员，在剧院音乐剧剧目夏季和哑剧中工作。拥有企业商业电视和小型演讲和角色扮演配音经验。我在意大利孔蒂舞台学校学习表演艺术课程。对表演充满热情。到目前为止，我已经出演了50部短片、商业广告和音乐。
-        我是一名角色演员，居住在汉普郡的莱明顿，年龄在50 –
-        65岁之间。我有15年以上的经验,以前是一名专业演员，在剧院音乐剧剧目夏季和哑剧中工作。拥有企业商业电视和小型演讲和角色扮演配音经验。我在意大利孔蒂舞台学校学习表演艺术课程。对表演充满热情。到目前为止，我已经出演了50部短片、商业广告和音乐...
+        {{ data.selfEvaluation }}
       </p>
       <p class="show-all" @click="showAll">{{ tag }}</p>
     </div>
@@ -108,20 +123,59 @@
 </template>
 <script>
 // @ is an alias to /src
+import { watchIt, noWatch, addMsg, getFuns } from '@/ajax';
 export default {
+  props: ['data'],
   name: 'talentResume',
   data() {
     return {
-      tag: '展开'
+      tag: '展开',
+      two: '关  注',
+      input2: '',
+      funs: '--/--'
     };
   },
-  components: {
-
+  created() {
+    this.getfuns();
   },
   methods: {
     showAll() {
       this.tag = this.tag === '展开' ? '收起' : '展开';
       this.$refs.myInfo.className = this.$refs.myInfo.className === 'my-info' ? '' : 'my-info';
+    },
+    msgIt() {
+      if (this.$refs.msg.style.display === 'block') {
+        this.$refs.msg.style.display = 'none';
+      } else {
+        this.$refs.msg.style.display = 'block';
+      }
+    },
+    sendMsg() {
+      this.msgIt();
+      addMsg({ toid: this.data.userid, word: this.input2 }).then(res => {
+        console.log(res);
+        this.input2 = '';
+      });
+    },
+    watchIt() {
+      if (this.two === '已关注') {
+        this.two = '关  注';
+        noWatch({ starid: this.data.userid }).then(res => {
+          console.log(res);
+        });
+      } else {
+        this.two = '已关注';
+        console.log(this.data.userid);
+        watchIt({ starid: this.data.userid, name: this.data.name, image: this.data.image }).then(res => {
+          console.log(res);
+        });
+      }
+    },
+    getfuns() {
+      getFuns({ userid: this.data.userid }).then(res => {
+        // console.log(res);
+        this.funs = res.data;
+      });
     }
   }
 };
@@ -147,6 +201,7 @@ export default {
       width: 250px;
       margin: 0;
       margin-top: 30px;
+      margin-left: 30px;
       img {
         width: 240px;
         height: 240px;
@@ -198,6 +253,15 @@ export default {
             color: #fff;
             background-color: rgba(20, 136, 20, 0.623);
           }
+          span:last-child {
+            border: 0px;
+            &:hover {
+              border: 0;
+              color: #333;
+              background-color: #fff;
+              cursor: auto;
+            }
+          }
         }
       }
     }
@@ -216,12 +280,17 @@ export default {
     right: 20px;
     cursor: pointer;
   }
-  .introduce{
+  .introduce {
     position: absolute;
     overflow: hidden;
     width: 580px;
     top: 300px;
     left: 55px;
+  }
+  .msg {
+    width: 300px;
+    position: absolute;
+    right: 50px;
   }
 }
 </style>
