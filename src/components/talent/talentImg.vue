@@ -2,23 +2,53 @@
   <div class="talent-img">
     <p class="title">照片</p>
     <div class="img-list">
-      <viewer :images='imgs'>
-        <img v-for="src in imgs" :src="src" :key="src" alt="">
+      <viewer :images="imgs">
+        <img
+          v-for="(src, index) in imgs"
+          :src="src"
+          :key="'hahah' + index"
+          alt=""
+        />
       </viewer>
     </div>
-    <pagination allPages="20" style="margin-bottom: 0"></pagination>
+    <pagination
+      :allPages="allpages"
+      style="margin-bottom: 0"
+      @getProjects="changePage"
+    ></pagination>
   </div>
 </template>
 <script>
 import Pagination from '../common/pagination.vue';
 // @ is an alias to /src
-
+import { getUserImg } from '@/ajax';
 export default {
+  props: ['userid'],
   name: 'talentImg',
   data() {
     return {
-      imgs: ['https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4249824861,1695522234&fm=26&gp=0.jpg', 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=624006971,3563395241&fm=26&gp=0.jpg', 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3311716126,126037072&fm=26&gp=0.jpg', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3181616003,475692136&fm=26&gp=0.jpg', 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1600501436,2517205260&fm=26&gp=0.jpg', 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=577967484,3039187055&fm=26&gp=0.jpg', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2982749276,2021516327&fm=11&gp=0.jpg', 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=638565862,3535289266&fm=26&gp=0.jpg']
+      imgs: [require('@/assets/images/white.png')],
+      allpages: 1,
+      obj: { type: 1 }
     };
+  },
+  created() {
+    this.getData(1);
+  },
+  methods: {
+    changePage(page) {
+      this.getData(page);
+    },
+    getData(page) {
+      console.log(this.userid);
+      this.obj.page = page;
+      this.obj.userid = this.userid;
+      getUserImg(this.obj).then(res => {
+        console.log(res);
+        this.imgs = res.data.datas;
+        this.allpages = res.data.allpage;
+      });
+    }
   },
   components: {
     Pagination

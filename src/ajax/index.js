@@ -29,3 +29,15 @@ export {
   findHotTalent
 }
 from './talent';
+export {
+  userinfoById,
+  noWatch,
+  watchIt,
+  addMsg,
+  getFuns,
+  getUserImg,
+  getUserWork,
+  getAllMomes,
+  addMemos
+}
+from './talentDetail';
