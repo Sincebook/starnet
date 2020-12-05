@@ -6,7 +6,8 @@ export {
   getSignBg,
   getCode,
   registerUser,
-  loginUser
+  loginUser,
+  wxLogin
 }
 from './sign.js';
 export {
@@ -31,7 +32,9 @@ export {
   mineInfoDetail,
   extraInfoDetail,
   mineMessage,
-  mineOpus
+  mineOpus,
+  mineDeliver,
+  cancelDeliver
 }
 from './personalCenter';
 export {

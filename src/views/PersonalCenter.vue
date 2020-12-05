@@ -2,35 +2,39 @@
   <div class="center">
     <div class="left">
       <div class="info">
-        <div
-          class="user-img"
-          :style="{ backgroundImage: 'url(' + bgImg + ')' }"
-        ></div>
+        <el-avatar class="user-img" src="" fit="cover"
+          ><img
+            src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+        /></el-avatar>
         <div class="user-info">
           <div class="nick">
-            <div class="name">空帆船</div>
+            <div class="name">
+              {{
+                userInfo.user.name == null ? "未设置昵称" : userInfo.user.name
+              }}
+            </div>
             <div class="vip">
               <el-link
                 icon="el-icon-edit"
                 @click="goCelebrity()"
-                :disabled="isCelebrity ? true : false"
+                :disabled="userInfo.user.status !== 1 ? true : false"
                 :underline="false"
-                :type="isCelebrity ? 'success' : 'info'"
-                >{{ isCelebrity ? "已认证" : "未认证" }}</el-link
+                :type="userInfo.user.status !== 1 ? 'success' : 'info'"
+                >{{ userInfo.user.status !== 1 ? "已认证" : "未认证" }}</el-link
               >
             </div>
           </div>
           <div class="counts">
             <div>
-              粉丝<span>{{ 23827 | setNum }}</span>
+              粉丝<span>{{ userInfo.user.funs | setNum }}</span>
             </div>
             <el-divider direction="vertical"></el-divider>
             <div>
-              关注<span>{{ 1210 | setNum }}</span>
+              关注<span>{{ userInfo.collectNum | setNum }}</span>
             </div>
             <el-divider direction="vertical"></el-divider>
             <div>
-              收藏<span>{{ 21000 | setNum }}</span>
+              收藏<span>{{ userInfo.likeNum | setNum }}</span>
             </div>
           </div>
         </div>
@@ -56,7 +60,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {
+  mineInfo
+} from '../ajax/index';
 import info from '../components/personalCenter/info';
 import celebrity from '../components/personalCenter/celebrity';
 import cv from '../components/personalCenter/cv';
@@ -70,7 +76,6 @@ import report from '../components/personalCenter/report';
 export default {
   data() {
     return {
-      isCelebrity: false,
       menu: [
         { id: 1, title: '个人资料', child: 'info' },
         { id: 2, title: '实名认证', child: 'celebrity' },
@@ -85,7 +90,16 @@ export default {
       ],
       activeIndex: 1,
       child: 'info',
-      bgImg: '//ftp.qnets.cn/img/bg3.jpg'
+      userInfo: {
+        user: {
+          head: null,
+          name: null,
+          status: 1,
+          funs: 0
+        },
+        collectNum: 0,
+        likeNum: 0
+      }
     };
   },
   methods: {
@@ -96,14 +110,6 @@ export default {
     goCelebrity() {
       this.tabChange(2, 'celebrity');
     }
-  },
-  mounted() {
-    this.$store.dispatch('getMineInfo'); // 获取个人信息
-  },
-  computed: {
-    ...mapState({
-      userInfo: (state) => state.userInfo
-    })
   },
   components: {
     info,
@@ -116,6 +122,17 @@ export default {
     collect,
     follow,
     report
+  },
+  created() {
+    mineInfo().then(res => {
+      if (res.code === '0') {
+        this.userInfo = res.data;
+      } else {
+        this.$message.error(res.errMsg);
+      }
+    }).catch(err => {
+      return err;
+    });
   }
 };
 </script>
@@ -139,12 +156,6 @@ export default {
         width: 80px;
         height: 80px;
         margin: 0 20px;
-        overflow: hidden;
-        border-radius: 40px;
-        background-color: #ccc;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: cover;
       }
       .user-info {
         .nick,

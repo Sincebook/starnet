@@ -6,7 +6,6 @@
   </div>
 </template>
 <script>
-// @ is an alias to /src
 import NavBar from './components/common/navBar.vue';
 import FooterBar from './components/common/footerBar';
 export default {
