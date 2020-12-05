@@ -32,8 +32,11 @@
               placeholder="请输入昵称"
             ></el-input>
           </el-form-item>
+          <el-form-item label="手机号">
+            <el-input disabled v-model="phone"></el-input>
+          </el-form-item>
           <el-form-item>
-            <el-button type="primary" :disabled="!flag" @click="submitForm()"
+            <el-button type="primary" :disabled="flag" @click="submitForm()"
               >提交</el-button
             >
             <el-button @click="resetForm()">重置</el-button>
@@ -46,8 +49,7 @@
 
 <script>
 import {
-  mineInfoDetail,
-  extraInfoDetail
+  mineInfo
 } from '../../ajax/index';
 export default {
   data() {
@@ -57,17 +59,17 @@ export default {
         avatarImg: '',
         nick: ''
       },
+      phone: '',
       rules: {
         nick: [
           { required: true, message: '昵称不能为空', trigger: 'blur' },
-          { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
+          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
         ],
         avatarImg: [
           { required: true, message: '头像不能为空', trigger: 'change' }
         ]
       },
-      flag: true,
-      timer: null
+      flag: false
     };
   },
   methods: {
@@ -75,27 +77,22 @@ export default {
       this.ruleForm.avatarImg = content.file;
     },
     submitForm() {
-      // 通过 节流函数 实现3s只执行一次
-      if (this.flag) {
-        // 逻辑代码
-        this.$refs.ruleForm.validate((valid) => {
-          if (valid) {
-            extraInfoDetail(this.ruleForm).then(item => {
-              if (item.code === '0') {
-                return true;
-              } else {
-                this.$message.error(item.errMsg);
-              }
-            });
-          } else {
-            return false;
-          }
-        });
-        this.flag = false;
-        this.timer = setTimeout(() => {
-          this.flag = true;
-        }, 3000);
-      }
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          // this.flag = true;
+          // extraInfoDetail(this.ruleForm).then(item => {
+          //   if (item.code === '0') {
+          //     this.flag = false;
+          //     return true;
+          //   } else {
+          //     this.$message.error(item.errMsg);
+          //     this.flag = false;
+          //   }
+          // });
+        } else {
+          return false;
+        }
+      });
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
@@ -117,15 +114,16 @@ export default {
     }
   },
   created() {
-    mineInfoDetail().then(res => {
+    mineInfo().then(res => {
       if (res.code === '0') {
-        this.ruleForm.avatarImg = (res.data.image === null ? '' : res.data.image);
-        this.ruleForm.nick = (res.data.nickname === null ? '' : res.data.nickname);
-        this.ruleForm.sex = (res.data.sex === null ? '' : res.data.sex);
-        this.ruleForm.nation = (res.data.nation === null ? '' : res.data.nation);
-        this.ruleForm.country = (res.data.country === null ? '' : res.data.country);
-        this.ruleForm.home = (res.data.country === null ? [] : res.data.home);
+        this.ruleForm.nick = res.data.user.name;
+        this.phone = res.data.user.phone;
+        this.imageUrl = res.data.user.head;
+      } else {
+        this.$message.error(res.errMsg);
       }
+    }).catch(err => {
+      return err;
     });
   }
 };

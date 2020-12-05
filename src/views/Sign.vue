@@ -1,7 +1,7 @@
 <template>
   <div class="sign-box" :style="{ backgroundImage: 'url(' + signBg + ')' }">
     <div class="sign">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName">
         <el-tab-pane label="登录" name="first">
           <el-form
             :model="ruleForm"
@@ -49,7 +49,7 @@
                   <use xlink:href="#icon-qq2"></use></svg
                 >QQ登录
               </div>
-              <div class="btn">
+              <div class="btn" @click="wxLogin()">
                 <svg class="icon icon-weixin" aria-hidden="true">
                   <use xlink:href="#icon-weixin1"></use></svg
                 >微信登录
@@ -122,7 +122,8 @@ import { mapState } from 'vuex';
 import {
   getCode,
   registerUser,
-  loginUser
+  loginUser,
+  wxLogin
 } from '../ajax/index';
 export default {
   data() {
@@ -170,9 +171,6 @@ export default {
     })
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
     getCodes(id) {
       const reg = /^1[3|4|5|6|7|8|9]\d{9}$/;
       if (id === '1' && reg.test(this.ruleForm1.phone)) {
@@ -228,6 +226,8 @@ export default {
           } else {
             this.$message.error(res.errMsg);
           }
+        }).catch(err => {
+          return err;
         });
       }
     },
@@ -246,6 +246,8 @@ export default {
             } else {
               this.$message.error(res.errMsg);
             }
+          }).catch(err => {
+            return err;
           });
         } else {
           return false;
@@ -267,6 +269,8 @@ export default {
             } else {
               this.$message.error(res.errMsg);
             }
+          }).catch(err => {
+            return err;
           });
         } else {
           return false;
@@ -282,6 +286,11 @@ export default {
       } else {
         callback();
       }
+    },
+    wxLogin() {
+      wxLogin().then(res => {
+        console.log(res);
+      });
     }
   }
 };

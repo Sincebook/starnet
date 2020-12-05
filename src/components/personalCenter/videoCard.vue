@@ -1,11 +1,10 @@
 <template>
   <div class="video">
-    <vue-core-video-player
-      :autoplay="false"
-      :src="item.path"
-    ></vue-core-video-player>
+    <div @click="play(item)">
+      <el-image :src="item.path" fit="cover"></el-image>
+    </div>
     <div class="content">
-      <div class="title">我的跳舞视频</div>
+      <div class="title twoLine">{{ item.description }}</div>
       <el-button type="danger" size="small" plain>删除</el-button>
     </div>
   </div>
@@ -13,19 +12,26 @@
 
 <script>
 export default {
-  props: ['item']
+  props: ['item'],
+  methods: {
+    play(item) {
+      this.$emit('play', item);
+    }
+  }
 };
 </script>
 
 <style lang="less" scoped>
 .video {
+  width: 425px;
+  margin: 7.5px;
   display: flex;
   background-color: rgba(245, 245, 245, 1);
-  /deep/.error-icon,
-  /deep/a.btn-pause,
-  /deep/a.btn-play,
-  /deep/.setting-control > div:not(:last-child) {
-    display: none;
+  .el-image {
+    display: block;
+    width: 260px;
+    height: 160px;
+    cursor: pointer;
   }
   .content {
     margin: 15px;
@@ -33,6 +39,12 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+  &:nth-child(2n + 1) {
+    margin-left: 0;
+  }
+  &:nth-child(2n + 2) {
+    margin-right: 0;
   }
 }
 </style>

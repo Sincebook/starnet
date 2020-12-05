@@ -65,9 +65,9 @@ export default {
 .hot-job {
   background-color: #f5f5f5;
   width: 100%;
-  padding: 80px 0 40px;
+  padding: 40px 0;
   h2 {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
   .list {
     display: flex;

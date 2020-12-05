@@ -15,3 +15,7 @@ export function registerUser(options) {
 export function loginUser(options) {
   return http.post('/api/user/login', options);
 };
+// 微信登录
+export function wxLogin(obj) {
+  return http.get('/api/login', obj);
+};

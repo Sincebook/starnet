@@ -88,6 +88,8 @@ export default {
   created() {
     mineMessage({ page: this.currentPage1, num: this.nums }).then(res => {
       console.log(res);
+    }).catch(err => {
+      return err;
     });
   }
 };

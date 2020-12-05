@@ -30,14 +30,18 @@ import {
   Alert,
   Link,
   Image,
-  Checkbox
+  Checkbox,
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu
 } from 'element-ui';
-import VueCoreVideoPlayer from 'vue-core-video-player';
-Vue.use(VueCoreVideoPlayer, {
-  lang: 'zh-CN'
-});
 Vue.config.roductionTip = false;
 Vue.use(Viewer);
+Vue.use(Dropdown);
+Vue.use(DropdownItem);
+Vue.use(DropdownMenu);
+Vue.use(Avatar);
 Vue.use(Upload);
 Vue.use(Select);
 Vue.use(Input);

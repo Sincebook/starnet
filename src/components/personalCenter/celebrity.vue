@@ -19,12 +19,18 @@
           class="demo-ruleForm"
         >
           <el-form-item label="真实姓名" prop="name">
-            <el-input :disabled="disabled" v-model="ruleForm.name" placeholder="请输入真实姓名"></el-input>
+            <el-input
+              v-model="ruleForm.name"
+              placeholder="请输入真实姓名"
+            ></el-input>
           </el-form-item>
           <el-form-item label="身份证号" prop="idcard">
-            <el-input :disabled="disabled" v-model="ruleForm.idcard" placeholder="请输入身份证号"></el-input>
+            <el-input
+              v-model="ruleForm.idcard"
+              placeholder="请输入身份证号"
+            ></el-input>
           </el-form-item>
-          <el-form-item v-if="!disabled" label="证件照" prop="imageFile">
+          <el-form-item label="证件照" prop="imageFile">
             <el-upload
               class="avatar-uploader"
               :http-request="upload"
@@ -39,8 +45,8 @@
                 class="el-icon-plus avatar-uploader-icon"
               ></i> </el-upload
           ></el-form-item>
-          <el-form-item v-if="!disabled">
-            <el-button type="primary" :disabled="!flag" @click="submitForm()"
+          <el-form-item>
+            <el-button type="primary" :disabled="flag" @click="submitForm()"
               >提交</el-button
             >
             <el-button @click="resetForm()">重置</el-button>
@@ -58,8 +64,7 @@ import {
 export default {
   data() {
     return {
-      flag: true,
-      timer: null,
+      flag: false,
       imageUrl: '',
       ruleForm: {
         imageFile: '',
@@ -72,14 +77,12 @@ export default {
           { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
         ],
         idcard: [
-          { required: true, message: '身份证号不能为空', trigger: 'blur' },
-          { min: 18, max: 18, message: '身份证号格式不正确', trigger: 'blur' }
+          { required: true, validator: this.checkIdNum, trigger: 'blur' }
         ],
         imageFile: [
           { required: true, message: '证件图不能为空', trigger: 'change' }
         ]
-      },
-      disabled: false
+      }
     };
   },
   methods: {
@@ -87,27 +90,24 @@ export default {
       this.ruleForm.imageFile = content.file;
     },
     submitForm() {
-      // 通过 节流函数 实现3s只执行一次
-      if (this.flag) {
-        // 逻辑代码
-        this.$refs.ruleForm.validate((valid) => {
-          if (valid) {
-            celebrity(this.ruleForm).then(item => {
-              if (item.code === '0') {
-                return true;
-              } else {
-                this.$message.error(item.errMsg);
-              }
-            });
-          } else {
-            return false;
-          }
-        });
-        this.flag = false;
-        this.timer = setTimeout(() => {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
           this.flag = true;
-        }, 3000);
-      }
+          celebrity(this.ruleForm).then(item => {
+            if (item.code === '0') {
+              this.flag = false;
+              return true;
+            } else {
+              this.$message.error(item.errMsg);
+              this.flag = false;
+            }
+          }).catch(err => {
+            return err;
+          });
+        } else {
+          return false;
+        }
+      });
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
@@ -127,6 +127,16 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
+    },
+    checkIdNum(rule, value, callback) {
+      const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+      if (!value) {
+        return callback(new Error('证件号码不能为空'));
+      } else if (!reg.test(value)) {
+        return callback(new Error('证件号码不正确'));
+      } else {
+        callback();
+      }
     }
   }
 };
