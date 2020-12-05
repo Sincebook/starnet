@@ -14,15 +14,23 @@ export {
   findHotCompany,
   findByUptime,
   findByCategory,
-  findByTwo
+  findByTwo,
+  fingComInfo,
+  findComByName
 }
 from './company.js';
 export {
-  findHotJob
+  findHotJob,
+  findJobByName,
+  findJobUptime,
+  findJobByThree
 }
 from './job';
 export {
-  findByTalentNew
+  findByTalentNew,
+  findByThree,
+  findByName,
+  findHotTalent
 }
 from './talent';
 

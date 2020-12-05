@@ -12,7 +12,7 @@
           </svg>
         </div>
         <div class="container">
-          <p>发布人：{{ item.launch }}</p>
+          <p class="job-require">发布人：{{ item.launch }}</p>
           <p>面试地点：{{ item.place }}</p>
           <p>年龄要求：{{ item.age }}</p>
           <p>性别：{{ item.sex }}</p>
@@ -70,9 +70,9 @@ export default {
   cursor: pointer;
   user-select: none;
   position: relative;
-  width: 360px;
+  width: 330px;
   background-color: var(--cardBgColor);
-  height: 420px;
+  height: 390px;
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
@@ -98,7 +98,7 @@ export default {
   .job-content {
     text-align: left;
     width: 100%;
-    padding: 110px 25px 10px 25px;
+    padding: 105px 20px 0px 20px;
     height: 100%;
     position: relative;
     .job-require {
@@ -110,15 +110,16 @@ export default {
   .head {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     .title {
       color: #759cb6;
+      font-size: 18px;
       flex: 1;
     }
     .icon {
       color: var(--fontColor);
       cursor: pointer;
-      font-size: 20px;
+      font-size: 18px;
       transition: all 0.25s;
       transform: translateX(4px);
       &:hover {
@@ -141,7 +142,7 @@ export default {
     .right {
       cursor: pointer;
       position: absolute;
-      height: 30px;
+      height: 5px;
       display: flex;
       align-items: center;
       transition: all 0.25s;
@@ -152,7 +153,7 @@ export default {
     .left {
       left: 0;
       .icon {
-        font-size: 25px;
+        font-size: 20px;
       }
     }
     .right {

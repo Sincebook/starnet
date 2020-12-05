@@ -83,6 +83,13 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });
 Vue.prototype.$message = Message;
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
+  next();
+});
 new Vue({
   router,
   store,
