@@ -5,9 +5,7 @@
     </div>
     <div class="info">
       <router-link :to="{ name: 'talentDetail', params: { id: item.id } }">
-        <h2 class="name">
-          {{ item.name }}/{{ item.workArea }}
-        </h2></router-link
+        <h2 class="name">{{ item.name }}/{{ item.workArea }}</h2></router-link
       >
       <p class="desc">{{ item.vocation }}</p>
       <div class="btn-box">
@@ -37,9 +35,9 @@ export default {
   text-align: center;
   user-select: none;
   position: relative;
-  width: 210px;
+  width: 280px;
   background-color: var(--cardBgColor);
-  height: 290px;
+  height: 400px;
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
@@ -52,7 +50,7 @@ export default {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 190px;
+    height: 250px;
     overflow: hidden;
     .bgImg {
       width: 100%;
@@ -61,11 +59,10 @@ export default {
     }
   }
   .info {
-    padding-top: 190px;
+    padding-top: 250px;
   }
   .name {
     display: inline-block;
-    font-size: 18px;
     cursor: pointer;
     color: #759cb6;
     font-weight: 600;
@@ -77,8 +74,8 @@ export default {
   }
   .desc {
     color: var(--fontColor);
-    margin: 5px 0 8px 0;
-    font-size: 14px;
+    margin: 15px 0 20px 0;
+    font-size: 16px;
   }
   .btn-box {
     width: 100%;
@@ -87,7 +84,7 @@ export default {
     justify-content: space-evenly;
     .btn {
       width: 33%;
-      height: 32px;
+      height: 40px;
       border-radius: 4px;
       font-size: 16px;
       transition: all 0.25s;
