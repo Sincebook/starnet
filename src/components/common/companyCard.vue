@@ -1,19 +1,16 @@
 <template>
   <div class="company-card">
     <div class="company-head">
-      <div
-        class="bgImg"
-        :style="{ backgroundImage: 'url(' + item.image + ')' }"
-      ></div>
+      <el-image class="bgImg" :src="item.image" fit="cover"></el-image>
     </div>
     <div class="company-content">
       <div class="img">
-        <img :src="item.logo" />
+        <el-image class="aimg" :src="item.logo" fit="cover"></el-image>
       </div>
       <router-link :to="{ name: 'companyDetail', params: { id: item.id } }">
-        <h2 class="name" @click="detail">{{item.name}}</h2></router-link
+        <h2 class="name" @click="detail">{{ item.name }}</h2></router-link
       >
-      <div class="desc">累计达成合作{{item.oknum}}单</div>
+      <div class="desc">累计达成合作{{ item.oknum }}单</div>
       <div class="btn-box">
         <div class="btn" @click="email">私信</div>
         <div class="btn" @click="follow">关注</div>
@@ -69,9 +66,6 @@ export default {
       width: 100%;
       height: 100%;
       transition: all 0.25s;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
     }
   }
   .company-content {
@@ -86,10 +80,9 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      img {
+      .aimg {
         position: absolute;
-        top: 60px;
-        padding: 4px;
+        top: 85px;
         background-color: #fff;
         width: 90px;
         height: 90px;

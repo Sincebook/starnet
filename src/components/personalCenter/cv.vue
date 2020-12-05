@@ -20,10 +20,10 @@
             placeholder="请输入爱称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="身高" prop="hight">
+        <el-form-item label="身高" prop="height">
           <el-input
             type="number"
-            v-model="ruleForm.hight"
+            v-model="ruleForm.height"
             placeholder="请输入身高"
           ></el-input>
         </el-form-item>
@@ -33,6 +33,45 @@
             v-model="ruleForm.weight"
             placeholder="请输入体重"
           ></el-input>
+        </el-form-item>
+        <el-form-item label="性别" prop="sex">
+          <el-select v-model="ruleForm.sex" placeholder="请选择性别">
+            <el-option
+              v-for="item in sexList"
+              :key="item.value"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="民族" prop="nation">
+          <el-select v-model="ruleForm.nation" placeholder="请选择民族">
+            <el-option
+              v-for="item in nationList.nation"
+              :key="item.id"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="国籍" prop="country">
+          <el-select v-model="ruleForm.country" placeholder="请选择国籍">
+            <el-option
+              v-for="item in countryList.country"
+              :key="item.en"
+              :value="item.cn"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="居住地" prop="home">
+          <el-cascader
+            clearable
+            v-model="ruleForm.home"
+            :props="{ label: 'value' }"
+            :options="homeList.home"
+            placeholder="请选择居住地"
+          ></el-cascader>
         </el-form-item>
         <el-form-item label="眼睛颜色" prop="eyeColor">
           <el-input
@@ -102,14 +141,24 @@
 </template>
 
 <script>
+import nation from './nation.json';
+import home from './home.json';
+import country from './country.json';
+import {
+  mineInfoDetail
+} from '../../ajax/index';
 export default {
   data() {
     return {
       ruleForm: {
         name: '',
         nickname: '',
-        hight: '',
+        height: '',
         weight: '',
+        country: '',
+        nation: '',
+        sex: '',
+        home: [],
         eyeColor: '',
         skinColor: '',
         hairColor: '',
@@ -127,11 +176,23 @@ export default {
         nickname: [
           { required: true, message: '爱称不能为空', trigger: 'blur' }
         ],
-        hight: [
+        height: [
           { required: true, message: '身高不能为空', trigger: 'blur' }
         ],
         weight: [
           { required: true, message: '体重不能为空', trigger: 'blur' }
+        ],
+        country: [
+          { required: true, message: '国籍不能为空', trigger: 'blur' }
+        ],
+        nation: [
+          { required: true, message: '民族不能为空', trigger: 'blur' }
+        ],
+        sex: [
+          { required: true, message: '性别不能为空', trigger: 'blur' }
+        ],
+        home: [
+          { required: true, message: '居住地不能为空', trigger: 'blur' }
         ],
         eyeColor: [
           { required: true, message: '眼睛颜色不能为空', trigger: 'blur' }
@@ -161,6 +222,14 @@ export default {
           { required: true, message: '个人描述不能为空', trigger: 'blur' }
         ]
       },
+      homeList: [],
+      countryList: [],
+      nationList: [],
+      sexList: [{
+        value: '男'
+      }, {
+        value: '女'
+      }],
       disabled: false
     };
   },
@@ -178,6 +247,34 @@ export default {
     resetForm() {
       this.$refs.ruleForm.resetFields();
     }
+  },
+  created() {
+    mineInfoDetail().then(res => {
+      if (res.code === '0') {
+        this.ruleForm.name = (res.data.name === null ? '' : res.data.name);
+        this.ruleForm.nickname = (res.data.nickname === null ? '' : res.data.nickname);
+        this.ruleForm.height = (res.data.height === null ? '' : res.data.height);
+        this.ruleForm.weight = (res.data.weight === null ? '' : res.data.weight);
+        this.ruleForm.country = (res.data.country === null ? '' : res.data.country);
+        this.ruleForm.nation = (res.data.nation === null ? '' : res.data.nation);
+        this.ruleForm.sex = (res.data.sex === null ? '' : res.data.sex);
+        this.ruleForm.home = (res.data.country === null ? [] : res.data.home);
+        this.ruleForm.eyeColor = (res.data.eyeColour === null ? '' : res.data.eyeColour);
+        this.ruleForm.skinColor = (res.data.skinColour === null ? '' : res.data.skinColour);
+        this.ruleForm.hairColor = (res.data.hairColour === null ? '' : res.data.hairColour);
+        this.ruleForm.hairType = (res.data.hairType === null ? '' : res.data.hairType);
+        this.ruleForm.birthday = (res.data.birthTime === null ? '' : res.data.birthTime);
+        this.ruleForm.job = (res.data.vocation === null ? '' : res.data.vocation);
+        this.ruleForm.company = (res.data.company === null ? '' : res.data.company);
+        this.ruleForm.works = (res.data.representativeWork === null ? '' : res.data.representativeWork);
+        this.ruleForm.desc = (res.data.selfEvaluation === null ? '' : res.data.selfEvaluation);
+      }
+    });
+  },
+  mounted() {
+    this.nationList = nation;
+    this.homeList = home;
+    this.countryList = country;
   }
 };
 </script>

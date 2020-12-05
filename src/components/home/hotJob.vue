@@ -4,35 +4,56 @@
     <div class="list">
       <job-card
         data-aos="fade-up"
-        v-for="item in 6"
-        :item="obj"
-        :key="item"
+        v-for="item in list"
+        :item="item"
+        :key="item.id"
       ></job-card>
     </div>
-    <div class="more">更多</div>
+    <div class="more" @click="go">更多</div>
   </div>
 </template>
 
 <script>
 import jobCard from '../common/jobCard';
+import { findHotJobs } from '../../ajax/index';
 export default {
   data() {
     return {
+      // obj: {
+      //   id: 1,
+      //   bg: '//ftp.qnets.cn/img/2.jpg',
+      //   title: '邓导电影公开选角',
+      //   name: '河南森思软件科技有限公司',
+      //   loaction: '郑州',
+      //   age: '18-25岁',
+      //   sex: '女',
+      //   require: '拥有表演专业职称，丰富的表演经验',
+      //   money: '有/面议',
+      //   duration: '6个月',
+      //   stratTime: '2020-11-17',
+      //   endTime: '2020-12-12'
+      // },
       obj: {
-        id: 1,
-        bg: '//ftp.qnets.cn/img/2.jpg',
-        title: '邓导电影公开选角',
-        name: '河南森思软件科技有限公司',
-        loaction: '郑州',
-        age: '18-25岁',
-        sex: '女',
-        require: '拥有表演专业职称，丰富的表演经验',
-        money: '有/面议',
-        duration: '6个月',
-        stratTime: '2020-11-17',
-        endTime: '2020-12-12'
-      }
+        page: 1
+      },
+      list: []
     };
+  },
+  methods: {
+    getHotJobs() {
+      findHotJobs(this.obj).then(res => {
+        if (res.code === '0') {
+          this.list = res.data.jobs.slice(0, 6);
+        }
+        console.log(res);
+      });
+    },
+    go() {
+      this.$router.push('/job');
+    }
+  },
+  created() {
+    this.getHotJobs();
   },
   components: {
     jobCard
