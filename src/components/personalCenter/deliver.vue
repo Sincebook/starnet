@@ -4,9 +4,7 @@
       <div class="name">投递记录</div>
       <el-dropdown style="cursor: pointer">
         <span class="el-dropdown-link">
-          条件筛选({{ tj }})<i
-            class="el-icon-arrow-down el-icon--right"
-          ></i>
+          条件筛选({{ tj }})<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
@@ -19,8 +17,16 @@
       </el-dropdown>
     </div>
     <div class="info">
-      <div class="list" v-show="flag">
-        <div class="item-box" v-for="item in list" :key="item.id">
+      <el-alert
+        v-if="!isHave"
+        title="暂无投递"
+        type="warning"
+        :closable="false"
+        show-icon
+      >
+      </el-alert>
+      <div v-else class="list">
+        <div class="item-box" v-for="item in list.applys" :key="item.id">
           <div class="item">
             <el-image
               class="user-img"
@@ -28,27 +34,31 @@
               fit="cover"
             ></el-image>
             <div class="user-info">
-              <div class="user-name">{{ item.rolename }}</div>
-              <div class="content oneLine">
-                {{ item.roledes }}
+              <div class="head">
+                <span class="user-name">{{ item.rolename }}</span>
+                <span class="user-vip">{{ item.status }}</span>
               </div>
-              <div class="content status">{{ item.status }}</div>
+              <div class="content twoLine">{{ item.roledes }}</div>
             </div>
             <div class="user-btn">
-              <el-button
-                type="primary"
-                size="mini"
-                plain
-                @click="openDialog(item), (dialogVisible = true)"
-                >查看详情</el-button
-              >
-              <el-button
-                type="danger"
-                size="mini"
-                plain
-                @click="cancel(item.id)"
-                >取消投递</el-button
-              >
+              <div>
+                <el-button
+                  type="primary"
+                  size="mini"
+                  plain
+                  @click="watchDetail(item.jobid)"
+                  >查看详情</el-button
+                >
+              </div>
+              <div>
+                <el-button
+                  type="danger"
+                  size="mini"
+                  plain
+                  @click="cancel(item.id)"
+                  >取消投递</el-button
+                >
+              </div>
             </div>
           </div>
           <el-divider></el-divider>
@@ -58,38 +68,14 @@
     <div class="footer-page">
       <el-pagination
         @current-change="handleCurrentChange"
-        :current-page.sync="currentPage1"
-        :page-size="7"
+        :current-page.sync="currentPage"
+        :page-size="6"
         layout="prev, pager, next"
-        :page-count="allPage"
+        :page-count="list.allpage"
         hide-on-single-page
       >
       </el-pagination>
     </div>
-    <el-dialog title="详情" :visible.sync="dialogVisible" width="600px">
-      <div class="detail">
-        <div class="content">
-          <span class="label">角色图：</span>
-          <el-image
-            class="user-img"
-            :src="selectItem.roleimage"
-            fit="cover"
-          ></el-image>
-        </div>
-        <div class="content">
-          <span class="label">角色名：</span>
-          <span class="desc">{{ selectItem.rolename }}</span>
-        </div>
-        <div class="content">
-          <span class="label">角色描述：</span>
-          <span class="desc">{{ selectItem.roledes }}</span>
-        </div>
-        <div class="content">
-          <span class="label">状态：</span>
-          <span class="desc">{{ selectItem.status }}</span>
-        </div>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -101,48 +87,55 @@ import {
 export default {
   data() {
     return {
+      isHave: true,
       tiaojian: [
         { id: 0, value: '全部', code: 'a' },
         { id: 1, value: '待查看', code: 'w' },
         { id: 2, value: '已查看', code: 'h' },
-        { id: 3, value: '拒绝', code: 'r' },
-        { id: 4, value: '已录用', code: 's' }
+        { id: 3, value: '有意向', code: 'c' },
+        { id: 4, value: '已拒绝', code: 'r' },
+        { id: 5, value: '已录用', code: 's' }
       ],
-      flag: false,
       filter: 'a',
       list: [],
-      selectItem: {},
-      allPage: 1,
-      currentPage1: 1,
-      dialogVisible: false
+      nums: 6,
+      currentPage: 1
     };
   },
   methods: {
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-    },
-    openDialog(item) {
-      this.selectItem = item;
+      mineDeliver({
+        filter: this.filter,
+        num: this.nums,
+        page: val
+      }).then(res => {
+        if (res.code === '0') {
+          this.isHave = true;
+          this.list = res.data;
+        } else {
+          this.isHave = false;
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
     },
     getDeliver() {
       mineDeliver({
         filter: this.filter,
-        page: this.currentPage1
+        num: this.nums,
+        page: this.currentPage
       }).then(res => {
         if (res.code === '0') {
           this.$message({
             message: '筛选成功',
             type: 'success'
           });
-          this.allPage = res.data.allpage;
-          this.list = res.data.applys;
-          this.flag = true;
+          this.isHave = true;
+          this.list = res.data;
         } else {
-          this.$message({
-            message: '暂无记录',
-            type: 'warning'
-          });
-          this.flag = false;
+          this.isHave = false;
+          this.$message.error(res.errMsg);
         }
       }).catch(err => {
         return err;
@@ -150,55 +143,46 @@ export default {
     },
     clickItem(item) {
       this.filter = item.code;
-      this.currentPage1 = 1;
+      this.currentPage = 1;
       this.getDeliver();
     },
+    // 取消投递
     cancel(id) {
       cancelDeliver({ id: id }).then(res => {
         if (res.code === '0') {
-          this.flag = false;
-          this.currentPage1 = 1;
-          mineDeliver({
-            filter: this.filter,
-            page: this.currentPage1
-          }).then(res => {
-            if (res.code === '0') {
-              this.allPage = res.data.allpage;
-              this.list = res.data.applys;
-              this.flag = true;
-            } else {
-              this.$message({
-                message: '暂无记录',
-                type: 'warning'
-              });
-              this.flag = false;
-            }
-          }).catch(err => {
-            return err;
+          this.$message({
+            message: '取消成功',
+            type: 'success'
           });
+          if (this.list.datas.length === 1 && this.currentPage !== 1) {
+            this.handleCurrentChange(this.currentPage - 1);
+          } else {
+            this.handleCurrentChange(this.currentPage);
+          }
         } else {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
         return err;
       });
+    },
+    // 查看详情
+    watchDetail(id) {
+      this.$router.push({ name: 'jobDetail', params: { id: id } });
     }
   },
   created() {
     mineDeliver({
       filter: this.filter,
-      page: this.currentPage1
+      num: this.nums,
+      page: this.currentPage
     }).then(res => {
       if (res.code === '0') {
-        this.allPage = res.data.allpage;
-        this.list = res.data.applys;
-        this.flag = true;
+        this.isHave = true;
+        this.list = res.data;
       } else {
-        this.$message({
-          message: '暂无记录',
-          type: 'warning'
-        });
-        this.flag = false;
+        this.isHave = false;
+        this.$message.error(res.errMsg);
       }
     }).catch(err => {
       return err;
@@ -235,20 +219,34 @@ export default {
         }
         .user-info {
           flex: 1;
+          height: 80px;
           margin: 0 20px;
           overflow: hidden;
           word-wrap: break-word;
-          .content {
-            margin-top: 5px;
+          .head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
           }
-          .status {
-            text-align: right;
+          .content {
+            margin-top: 3px;
+            height: 57px;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
           }
         }
         .user-name {
+          height: 20px;
           font-size: 15px;
           font-weight: 600;
           margin-right: 10px;
+        }
+        .user-btn {
+          height: 80px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
         }
       }
     }

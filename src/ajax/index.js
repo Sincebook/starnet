@@ -36,13 +36,24 @@ from './talent';
 
 export {
   mineInfo,
+  extraInfo,
   celebrity,
   mineInfoDetail,
   extraInfoDetail,
+  extraInfoDetail1,
   mineMessage,
   mineOpus,
+  addOpus,
+  deleteOpus,
   mineDeliver,
-  cancelDeliver
+  cancelDeliver,
+  replayMessage,
+  deteleMessage,
+  mineCollect,
+  cancelCollect,
+  mineFollow,
+  cancelFollow,
+  report
 }
 from './personalCenter';
 export {

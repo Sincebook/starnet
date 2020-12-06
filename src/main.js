@@ -34,10 +34,12 @@ import {
   Avatar,
   Dropdown,
   DropdownItem,
-  DropdownMenu
+  DropdownMenu,
+  Popconfirm
 } from 'element-ui';
 Vue.config.roductionTip = false;
 Vue.use(Viewer);
+Vue.use(Popconfirm);
 Vue.use(Dropdown);
 Vue.use(DropdownItem);
 Vue.use(DropdownMenu);
@@ -82,8 +84,30 @@ AOS.init(); // aos动画初始化
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });
-Vue.prototype.$message = Message;
-
+Vue.prototype.$message = function (msg) {
+  Message({
+    ...msg,
+    duration: 1000
+  });
+};
+Vue.prototype.$message.error = function (msg) {
+  return Message.error({
+    message: msg,
+    duration: 1000
+  });
+};
+Vue.prototype.$message.warnning = function (msg) {
+  return Message.error({
+    message: msg,
+    duration: 1000
+  });
+};
+Vue.prototype.$message.success = function (msg) {
+  return Message.success({
+    message: msg,
+    duration: 1000
+  });
+};
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title;
