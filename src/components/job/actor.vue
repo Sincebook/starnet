@@ -3,17 +3,14 @@
     <!-- actor1 -->
     <div class="details">
       <div class="right-box">
-        <img
-          :src="item.src"
-          alt=""
-        />
+        <img :src="item.image" alt="" />
         <span>
-          <h3>{{ item.name }}</h3>
-          {{ item.info }}<br />
-          {{ item.sexAge }}<br>
-          {{ item.info }}<br />
-          {{ item.sexAge }}<br>
-          <button>立即申请</button>
+          <h3>
+            {{ item.name }}<span style="font-size: 14px">{{ item.sex }}</span
+            ><span>{{ item.age }}岁</span>
+          </h3>
+          <p>{{ item.description }}</p>
+          <button @click="apply">{{ btn }}</button>
         </span>
       </div>
     </div>
@@ -21,8 +18,38 @@
 </template>
 
 <script>
+import { applyJob, isApply } from '@/ajax';
 export default {
-  props: ['item']
+  props: ['item'],
+  data() {
+    return {
+      btn: '立即申请'
+    };
+  },
+  created() {
+    this.isApply();
+  },
+  methods: {
+    apply() {
+      if (this.btn === '已申请') {
+        return;
+      }
+      applyJob({ jobid: this.item.jobid, roleid: this.item.id }).then(res => {
+        if (!res.data) {
+          this.btn = '已申请';
+        }
+        // console.log(res);
+      });
+    },
+    isApply() {
+      isApply({ jobid: this.item.jobid, roleid: this.item.id }).then(res => {
+        if (res.code === '0') {
+          this.btn = '已申请';
+        }
+        // console.log(res);
+      });
+    }
+  }
 };
 </script>
 

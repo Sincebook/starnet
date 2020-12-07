@@ -3,7 +3,9 @@
     <div class="title">
       <div class="info" ref="info">
         <div class="top">
-          <span class="job-title">{{ job.title }}</span>
+          <span class="job-title" :title="job1.title">{{
+            job1.title.substring(0, 20)
+          }}</span>
           <span
             class="icon-qq2"
             style="
@@ -19,7 +21,7 @@
             >
               <use xlink:href="#icon-xunzhang"></use>
             </svg>
-            编辑推荐
+            {{ job1.type == 1 ? "正常" : "编辑推荐" }}
           </span>
           <span
             class="icon-qq2"
@@ -50,7 +52,7 @@
             >
               <use xlink:href="#icon-fenxiang"></use></svg
             >&nbsp;分享
-            <div class="fenxiang-card" ref="fenxiangCard" style="display: none">
+            <!-- <div class="fenxiang-card" ref="fenxiangCard" style="display: none">
               <div class="dialog-box">
                 <span class="bot"></span>
                 <span class="top"></span>
@@ -70,73 +72,148 @@
                   <use xlink:href="#icon-weibo"></use>
                 </svg>
               </span>
-            </div>
+            </div> -->
           </span>
           <p style="font-size: 14px; font-weight: 400; padding: 20px 10px">
-            陈可辛，1962年11月28日出生于中国香港，华语影视导演、编剧、演员、监制。
-            1989年5月25日，担任监制的剧情片《神行太保》上映。1991年3月29日，拍摄的导演处女作《双城故事》上映。1993年，凭借参与执导的喜剧电影《风尘三侠》获得第13届香港电影金像奖最佳导演提名。2005年12月1日，执导的爱情歌舞片《如果·爱》上映，由此获得第43届台湾电影金马奖最佳导演奖
-            [7]
-            。2007年12月12日，执导的古装动作片《投名状》上映，凭借该片获得第45届台湾电影金马奖、第27届香港电影金像奖的最佳导演奖
-            [8-9] 。
+            {{ job1.description }}
           </p>
         </div>
         <div class="bottom">
-          <img :src="job.headerImg" alt="" />
-          <span>{{ job.company }}</span>
+          <img :src="user.head" alt="" v-if="user" />
+          <span v-if="user" :title="user.name">{{ user.name }}</span>
           <div class="btn">
-            <span style="
-              color: rgb(150, 140, 140);
-              font-size: 16px;
-              margin-left: 5px;
-            ">
+            <span
+              style="
+                color: rgb(150, 140, 140);
+                font-size: 16px;
+                margin-left: 5px;
+              "
+              @click="msgIt"
+            >
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-Asset"></use></svg
               >&nbsp;私信
             </span>
-            <span style="
-              color: rgb(150, 140, 140);
-              font-size: 16px;
-              margin-left: 5px;
-              border-left:1px solid rgba(150, 140, 140, 0.6);
-            "><svg class="icon"  aria-hidden="true">
-                <use xlink:href="#icon-guanzhu"></use></svg
-              >&nbsp;关注</span>
-            <span style="color: rgb(150, 140, 140); border-left:1px solid rgba(150, 140, 140, 0.6);">
-              粉丝<span style="font-size: 15px">{{ job.fans }}</span>
+            <span
+              style="
+                color: rgb(150, 140, 140);
+                font-size: 16px;
+                margin-left: 5px;
+                border-left: 1px solid rgba(150, 140, 140, 0.6);
+              "
+              ref="guanzhu"
+              @click="guanzhu"
+              ><svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-guanzhu1"></use></svg
+              >&nbsp;{{ guan }}</span
+            >
+            <span
+              style="
+                color: rgb(150, 140, 140);
+                border-left: 1px solid rgba(150, 140, 140, 0.6);
+              "
+            >
+              粉丝<span style="font-size: 15px; color: rgb(150, 140, 140)">{{
+                user.funs
+              }}</span>
             </span>
           </div>
         </div>
       </div>
-      <img :src="job.bgImg" alt="" class="img" />
+      <img :src="job1.image" alt="" class="img" />
+    </div>
+    <!-- 私信对接弹窗 -->
+    <div class="msg" ref="msg" style="display: none">
+      <el-input placeholder="请输入内容" v-model="input2">
+        <el-button
+          slot="append"
+          icon="el-icon-right"
+          @click="sendMsg"
+          style="color: #2d6496"
+        ></el-button>
+      </el-input>
     </div>
   </div>
 </template>
 <script>
 // @ is an alias to /src
+import { watchIt, noWatch, getUserNH, addMsg, isFun } from '@/ajax';
 export default {
   name: 'detailHeader',
-  props: ['job'],
+  props: ['job1', 'id'],
   data() {
     return {
-
+      user: '',
+      input2: '',
+      guan: '关注'
     };
   },
-  components: {
-
+  created() {
+    this.getUserInfo();
+  },
+  methods: {
+    getUserInfo() {
+      getUserNH({ id: this.id }).then(res => {
+        console.log(res);
+        this.user = res.data;
+        this.isFun();
+      });
+    },
+    msgIt() {
+      if (this.$refs.msg.style.display === 'block') {
+        this.$refs.msg.style.display = 'none';
+      } else {
+        this.$refs.msg.style.display = 'block';
+      }
+    },
+    sendMsg() {
+      if (this.input2) {
+        addMsg({ toid: this.user.id, word: this.input2 }).then(res => {
+          this.$refs.msg.style.display = 'none';
+          this.input2 = '';
+          // console.log(res);
+        });
+      }
+    },
+    guanzhu() {
+      if (this.guan === '关注') {
+        this.$refs.guanzhu.style.color = 'rgba(202, 49, 49, 0.732)';
+        this.guan = '已关注';
+        watchIt({ starid: this.user.id, name: this.user.name, image: this.user.head }).then(res => {
+          // console.log(res);
+        });
+      } else {
+        this.$refs.guanzhu.style.color = 'rgb(150, 140, 140)';
+        this.guan = '关注';
+        noWatch({ starid: this.user.id }).then(res => {
+          // console.log(res);
+        });
+      }
+    },
+    // 判断该用户是否关注了该明星
+    isFun() {
+      isFun({ starid: this.user.id }).then(res => {
+        if (res.data) {
+          this.$refs.guanzhu.style.color = 'rgba(202, 49, 49, 0.732)';
+          this.guan = '已关注';
+        }
+        // console.log(res);
+      });
+    }
   },
   mounted() {
-    this.$nextTick(() => {
-      let that = this;
-      this.$refs.fenxiang.onmouseenter = function () {
-        that.$refs.fenxiangCard.style.display = 'block';
-      };
-      // this.$refs.info.onmousover = function () {
-      //   that.$refs.fenxiangCard.style.display = 'none';
-      // };
-      this.$refs.fenxiang.onmouseleave = function () {
-        that.$refs.fenxiangCard.style.display = 'none';
-      };
-    });
+    // this.$nextTick(() => {
+    //   let that = this;
+    //   this.$refs.fenxiang.onmouseenter = function () {
+    //     that.$refs.fenxiangCard.style.display = 'block';
+    //   };
+    //   // this.$refs.info.onmousover = function () {
+    //   //   that.$refs.fenxiangCard.style.display = 'none';
+    //   // };
+    //   this.$refs.fenxiang.onmouseleave = function () {
+    //     that.$refs.fenxiangCard.style.display = 'none';
+    //   };
+    // });
   }
 };
 </script>
@@ -145,6 +222,7 @@ export default {
   background-color: rgb(245, 245, 245);
   width: 960px;
   margin: 20px auto 0 auto;
+  position: relative;
   display: flex;
   flex-direction: column;
   .title {
@@ -161,13 +239,16 @@ export default {
       height: 240px;
       .top {
         margin: 20px 0;
-        font-size:24px;
+        font-size: 24px;
         .job-title {
+          // width: 200px;
+          // margin-right: 90px;
           color: #333;
-          font-weight:600;
+          font-weight: 600;
         }
         .icon-qq2 {
           // margin-left: 10px;
+          // float: right;
           font-size: 16px;
           cursor: pointer;
           .icon {
@@ -193,6 +274,7 @@ export default {
           top: 70px;
           right: 10px;
           font-size: 24px;
+          width: 110px;
           span {
             margin: 0 5px;
           }
@@ -227,6 +309,7 @@ export default {
         position: absolute;
         bottom: 0px;
         // line-height: 50px;
+        white-space: nowrap;
         font-size: 18px;
         height: 50px;
         img {
@@ -236,17 +319,18 @@ export default {
         }
         span {
           margin-left: 10px;
-          color:#333;
-
+          color: #333;
+          cursor: pointer;
         }
         .btn {
+          display: inline-block;
           font-size: 16px;
-          position: relative;
+          // position: relative;
           top: -38px;
-          left: 210px;
+          // left: 210px;
           // height: 30px;
           // width: 300px;
-          .icon{
+          .icon {
             font-size: 20px;
           }
         }
@@ -257,6 +341,13 @@ export default {
       height: 150px;
       margin-top: -30px;
     }
+  }
+  .msg {
+    border-radius: 5px;
+    width: 240px;
+    position: absolute;
+    left: 90px;
+    bottom: -15px;
   }
 }
 </style>
