@@ -11,6 +11,11 @@ export {
 }
 from './sign.js';
 export {
+  bindPhone,
+  getBindCode
+}
+from './bind.js';
+export {
   findHotCompany,
   findByUptime,
   findByCategory,
