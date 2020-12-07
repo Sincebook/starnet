@@ -1,5 +1,5 @@
 <template>
-  <div class="talent-video">
+  <div class="talent-video" v-if="srcs.length">
     <p class="title">视频</p>
     <div class="video-list">
       <div
@@ -54,8 +54,10 @@ export default {
       this.obj.userid = this.userid;
       getUserImg(this.obj).then(res => {
         // console.log(res);
-        this.srcs = res.data.datas;
-        this.allpages = res.data.allpage;
+        if (res.data) {
+          this.srcs = res.data.datas;
+          this.allpages = res.data.allpage;
+        }
       });
     }
   },

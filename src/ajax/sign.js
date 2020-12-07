@@ -17,5 +17,5 @@ export function loginUser(options) {
 };
 // 微信登录
 export function wxLogin(obj) {
-  return http.get('/api/login', obj);
+  return http.get('/api/wechat/login', obj);
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="talent-img">
+  <div class="talent-img" v-if="imgs.length">
     <p class="title">照片</p>
     <div class="img-list">
       <viewer :images="imgs">
@@ -27,7 +27,7 @@ export default {
   name: 'talentImg',
   data() {
     return {
-      imgs: [require('@/assets/images/white.png')],
+      imgs: [],
       allpages: 1,
       obj: { type: 1 }
     };
@@ -45,8 +45,10 @@ export default {
       this.obj.userid = this.userid;
       getUserImg(this.obj).then(res => {
         console.log(res);
-        this.imgs = res.data.datas;
-        this.allpages = res.data.allpage;
+        if (res.data) {
+          this.imgs = res.data.datas;
+          this.allpages = res.data.allpage;
+        }
       });
     }
   },

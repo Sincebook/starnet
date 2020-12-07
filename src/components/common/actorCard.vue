@@ -9,22 +9,87 @@
       >
       <p class="desc">{{ item.vocation }}</p>
       <div class="btn-box">
-        <div class="btn" @click="email">私信</div>
-        <div class="btn" @click="follow">关注</div>
+        <div class="btn" @click="msgIt">私信</div>
+        <div class="btn" @click="watchIt">{{ two }}</div>
       </div>
+    </div>
+    <!-- 私信对接弹窗 -->
+    <div class="msg" ref="msg" style="display: none">
+      <el-input placeholder="请输入内容" v-model="input2">
+        <el-button
+          slot="append"
+          icon="el-icon-right"
+          @click="sendMsg"
+          style="color: #2d6496"
+        ></el-button>
+      </el-input>
     </div>
   </div>
 </template>
 
 <script>
+import { watchIt, noWatch, addMsg, userinfoById } from '@/ajax';
 export default {
   props: ['item'],
+  data() {
+    return {
+      input2: '',
+      two: '关注',
+      userid: '',
+      name: '',
+      image: ''
+    };
+  },
+  created() {
+    // console.log(this.item.id);
+  },
   methods: {
     email() {
       this.$emit('email');
     },
     follow() {
       this.$emit('follow');
+    },
+    msgIt() {
+      if (this.$refs.msg.style.display === 'block') {
+        this.$refs.msg.style.display = 'none';
+      } else {
+        this.$refs.msg.style.display = 'block';
+      }
+    },
+    async sendMsg() {
+      if (!this.userid) {
+        await userinfoById({ id: this.item.id }).then(res => {
+          this.userid = res.data.userid;
+          this.name = res.data.name;
+          this.image = res.data.image;
+        });
+      }
+      this.msgIt();
+      addMsg({ toid: this.userid, word: this.input2 }).then(res => {
+        console.log(res);
+        this.input2 = '';
+      });
+    },
+    async watchIt() {
+      if (!this.userid) {
+        await userinfoById({ id: this.item.id }).then(res => {
+          this.userid = res.data.userid;
+          this.name = res.data.name;
+          this.image = res.data.image;
+        });
+      }
+      if (this.two === '已关注') {
+        this.two = '关  注';
+        noWatch({ starid: this.userid }).then(res => {
+          console.log(res);
+        });
+      } else {
+        this.two = '已关注';
+        watchIt({ starid: this.userid, name: this.name, image: this.image }).then(res => {
+          console.log(res);
+        });
+      }
     }
   }
 };
@@ -62,7 +127,11 @@ export default {
     padding-top: 250px;
   }
   .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     display: inline-block;
+    width: 230px;
     cursor: pointer;
     color: #759cb6;
     font-weight: 600;
@@ -108,6 +177,14 @@ export default {
         }
       }
     }
+  }
+  .msg {
+    border: 1px solid #208b4e;
+    border-radius: 5px;
+    width: 240px;
+    position: absolute;
+    right: 0px;
+    bottom: -30px;
   }
 }
 </style>

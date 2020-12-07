@@ -1,5 +1,5 @@
 <template>
-  <div class="talent-audio">
+  <div class="talent-audio" v-if="music">
     <p class="title">音频</p>
     <aplayer
       :music="music"
@@ -39,9 +39,11 @@ export default {
       this.obj.userid = this.userid;
       getUserImg(this.obj).then(res => {
         console.log(res);
-        this.music = { title: res.data[0].description, src: res.data[0].path, artist: this.formatDate(parseInt(res.data[0].uptime)) };
-        for (let i = 1; i < res.data.length; i++) {
-          this.list.push({ title: res.data[i].description, src: res.data[i].path, artist: this.formatDate(parseInt(res.data[i].uptime)) });
+        if (res.data) {
+          this.music = { title: res.data[0].description, src: res.data[0].path, artist: this.formatDate(parseInt(res.data[0].uptime)) };
+          for (let i = 1; i < res.data.length; i++) {
+            this.list.push({ title: res.data[i].description, src: res.data[i].path, artist: this.formatDate(parseInt(res.data[i].uptime)) });
+          }
         }
       });
     },

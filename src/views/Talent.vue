@@ -103,12 +103,26 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 920px;
+  width: 1180px;
   margin: 10px auto;
   /deep/ .actor-card {
-    width: 210px;
-    height: 300px;
-    margin: 10px;
+    width: 240px;
+    height: 360px;
+    margin: 20px 10px;
+    .actor-head{
+      height: 230px;
+    }
+    .info{
+      padding-top:230px;
+    }
+    .desc{
+      margin: 10px 0 10px 0;
+    }
+    .btn-box{
+      .btn{
+        height: 33px;
+      }
+    }
   }
 }
 </style>

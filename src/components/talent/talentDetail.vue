@@ -37,7 +37,7 @@
           margin: 0 auto;
           text-align: center;
         "
-        v-if="critism"
+        v-if="critism.length"
       >
         <span style="cursor: pointer" @click="showMoreCritism"
          >查看更多...</span

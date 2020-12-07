@@ -105,10 +105,10 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 920px;
+    width: 1180px;
     margin: 10px auto;
     /deep/ .job-card {
-      width: 220px;
+      width: 240px;
       height: 380px;
       margin: 5px;
     }
