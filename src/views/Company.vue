@@ -115,12 +115,14 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 920px;
+    width: 1180px;
     margin: 10px auto;
     /deep/ .company-card {
-      width: 210px;
-      height: 290px;
+      width: 240px;
+      height: 330px;
       margin: 10px;
+      .company-head{
+      }
     }
   }
 }

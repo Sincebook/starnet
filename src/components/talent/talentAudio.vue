@@ -1,5 +1,5 @@
 <template>
-  <div class="talent-audio">
+  <div class="talent-audio" v-if="music">
     <p class="title">音频</p>
     <aplayer
       :music="music"

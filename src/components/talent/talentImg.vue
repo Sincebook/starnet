@@ -1,5 +1,5 @@
 <template>
-  <div class="talent-img">
+  <div class="talent-img" v-if="imgs.length">
     <p class="title">照片</p>
     <div class="img-list">
       <viewer :images="imgs">
@@ -27,7 +27,7 @@ export default {
   name: 'talentImg',
   data() {
     return {
-      imgs: [require('@/assets/images/white.png')],
+      imgs: [],
       allpages: 1,
       obj: { type: 1 }
     };
