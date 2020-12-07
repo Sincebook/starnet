@@ -78,3 +78,12 @@ export {
   findHotTalents
 }
 from './home';
+export {
+  getJobById,
+  getUserNH,
+  isFun,
+  getAllRoles,
+  applyJob,
+  isApply
+}
+from './jobDetail';

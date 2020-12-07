@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { watchIt, noWatch, addMsg, userinfoById } from '@/ajax';
+import { watchIt, noWatch, addMsg, userinfoById, isFun } from '@/ajax';
 export default {
   props: ['item'],
   data() {
@@ -42,6 +42,7 @@ export default {
   },
   created() {
     // console.log(this.item.id);
+    this.getInfo();
   },
   methods: {
     email() {
@@ -57,14 +58,22 @@ export default {
         this.$refs.msg.style.display = 'block';
       }
     },
-    async sendMsg() {
-      if (!this.userid) {
-        await userinfoById({ id: this.item.id }).then(res => {
+    // 获取userid
+    getInfo() {
+      userinfoById({ id: this.item.id }).then(res => {
+        // console.log(res);
+        if (res.data) {
           this.userid = res.data.userid;
           this.name = res.data.name;
           this.image = res.data.image;
-        });
-      }
+          this.isFun();
+        }
+      });
+    },
+    async sendMsg() {
+      // if (!this.userid) {
+      //   await this.getInfo();
+      // }
       this.msgIt();
       addMsg({ toid: this.userid, word: this.input2 }).then(res => {
         console.log(res);
@@ -72,17 +81,15 @@ export default {
       });
     },
     async watchIt() {
-      if (!this.userid) {
-        await userinfoById({ id: this.item.id }).then(res => {
-          this.userid = res.data.userid;
-          this.name = res.data.name;
-          this.image = res.data.image;
-        });
-      }
+      // if (!this.userid) {
+      //   await this.getInfo();
+      // }
       if (this.two === '已关注') {
         this.two = '关  注';
         noWatch({ starid: this.userid }).then(res => {
           console.log(res);
+        }, reason => {
+          console.log(reason);
         });
       } else {
         this.two = '已关注';
@@ -90,6 +97,15 @@ export default {
           console.log(res);
         });
       }
+    },
+    // 判断该用户是否关注了该明星
+    isFun() {
+      isFun({ starid: this.userid }).then(res => {
+        if (res.data) {
+          this.two = '已关注';
+        }
+        // console.log(res);
+      });
     }
   }
 };
