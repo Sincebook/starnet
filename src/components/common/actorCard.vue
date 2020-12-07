@@ -41,7 +41,7 @@ export default {
     };
   },
   created() {
-    console.log(this.item.id);
+    // console.log(this.item.id);
   },
   methods: {
     email() {
