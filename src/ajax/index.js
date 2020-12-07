@@ -1,8 +1,4 @@
 export {
-  getOtherInfo
-}
-from './test.js';
-export {
   getSignBg,
   getCode,
   registerUser,

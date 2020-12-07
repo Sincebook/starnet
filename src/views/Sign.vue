@@ -118,67 +118,60 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import {
-  getCode,
-  registerUser,
-  loginUser,
-  wxLogin
-} from '../ajax/index';
+import { mapState } from "vuex";
+import { getCode, registerUser, loginUser, wxLogin } from "../ajax/index";
 export default {
   data() {
     return {
       rememberPwd: false,
       typeList: [
-        { id: 1, value: '个人用户' },
-        { id: 4, value: '企业用户' }
+        { id: 1, value: "个人用户" },
+        { id: 4, value: "企业用户" },
       ],
       ruleForm: {
-        phone: '',
-        code: ''
+        phone: "",
+        code: "",
       },
       ruleForm1: {
-        phone: '',
-        code: '',
-        type: ''
+        phone: "",
+        code: "",
+        type: "",
       },
       rules: {
         phone: [
-          { required: true, validator: this.checkPhone, trigger: 'blur' }
+          { required: true, validator: this.checkPhone, trigger: "blur" },
         ],
         type: [
-          { required: true, message: '注册类型不能为空', trigger: 'change' }
+          { required: true, message: "注册类型不能为空", trigger: "change" },
         ],
-        code: [
-          { required: true, message: '验证码不能为空', trigger: 'blur' }
-        ]
+        code: [{ required: true, message: "验证码不能为空", trigger: "blur" }],
       },
-      activeName: 'first',
+      activeName: "first",
       isCode1: false,
-      count1: '',
+      count1: "",
       timer1: null,
       isCode2: false,
-      count2: '',
-      timer2: null
+      count2: "",
+      timer2: null,
     };
   },
   mounted() {
-    this.$store.dispatch('getSignBg');
+    this.$store.dispatch("getSignBg");
   },
   computed: {
     ...mapState({
-      signBg: (state) => state.signBg
-    })
+      signBg: (state) => state.signBg,
+    }),
   },
   methods: {
     getCodes(id) {
       const reg = /^1[3|4|5|6|7|8|9]\d{9}$/;
-      if (id === '1' && reg.test(this.ruleForm1.phone)) {
+      if (id === "1" && reg.test(this.ruleForm1.phone)) {
         getCode({
           type: id,
-          phone: this.ruleForm1.phone
-        }).then(res => {
-          if (res.code === '0') {
+          phone: this.ruleForm1.phone,
+        }).then((res) => {
+          if (res.code === "0") {
             if (!this.timer1) {
               this.count1 = 60;
               this.isCode1 = true;
@@ -193,62 +186,66 @@ export default {
               }, 1000);
             }
             this.$message({
-              message: '验证码已发送',
-              type: 'success'
+              message: "验证码已发送",
+              type: "success",
             });
           } else {
             this.$message.error(res.errMsg);
           }
         });
-      } else if (id === '2' && reg.test(this.ruleForm.phone)) {
+      } else if (id === "2" && reg.test(this.ruleForm.phone)) {
         getCode({
           type: id,
-          phone: this.ruleForm.phone
-        }).then(res => {
-          if (res.code === '0') {
-            if (!this.timer2) {
-              this.count2 = 60;
-              this.isCode2 = true;
-              this.timer2 = setInterval(() => {
-                if (this.count2 > 0 && this.count2 <= 60) {
-                  this.count2--;
-                } else {
-                  this.isCode2 = false;
-                  clearInterval(this.timer2);
-                  this.timer2 = null;
-                }
-              }, 1000);
+          phone: this.ruleForm.phone,
+        })
+          .then((res) => {
+            if (res.code === "0") {
+              if (!this.timer2) {
+                this.count2 = 60;
+                this.isCode2 = true;
+                this.timer2 = setInterval(() => {
+                  if (this.count2 > 0 && this.count2 <= 60) {
+                    this.count2--;
+                  } else {
+                    this.isCode2 = false;
+                    clearInterval(this.timer2);
+                    this.timer2 = null;
+                  }
+                }, 1000);
+              }
+              this.$message({
+                message: "验证码已发送",
+                type: "success",
+              });
+            } else {
+              this.$message.error(res.errMsg);
             }
-            this.$message({
-              message: '验证码已发送',
-              type: 'success'
-            });
-          } else {
-            this.$message.error(res.errMsg);
-          }
-        }).catch(err => {
-          return err;
-        });
+          })
+          .catch((err) => {
+            return err;
+          });
       }
     },
     login() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          loginUser(this.ruleForm).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                message: '登录成功，正在跳转...',
-                type: 'success'
-              });
-              setTimeout(() => {
-                this.$router.push('/home');
-              }, 1500);
-            } else {
-              this.$message.error(res.errMsg);
-            }
-          }).catch(err => {
-            return err;
-          });
+          loginUser(this.ruleForm)
+            .then((res) => {
+              if (res.code === "0") {
+                this.$message({
+                  message: "登录成功，正在跳转...",
+                  type: "success",
+                });
+                setTimeout(() => {
+                  this.$router.push("/home");
+                }, 1500);
+              } else {
+                this.$message.error(res.errMsg);
+              }
+            })
+            .catch((err) => {
+              return err;
+            });
         } else {
           return false;
         }
@@ -257,21 +254,23 @@ export default {
     register() {
       this.$refs.ruleForm1.validate((valid) => {
         if (valid) {
-          registerUser(this.ruleForm1).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                message: '注册成功，正在跳转...',
-                type: 'success'
-              });
-              setTimeout(() => {
-                this.$router.push('/personalCenter');
-              }, 1500);
-            } else {
-              this.$message.error(res.errMsg);
-            }
-          }).catch(err => {
-            return err;
-          });
+          registerUser(this.ruleForm1)
+            .then((res) => {
+              if (res.code === "0") {
+                this.$message({
+                  message: "注册成功，正在跳转...",
+                  type: "success",
+                });
+                setTimeout(() => {
+                  this.$router.push("/personalCenter");
+                }, 1500);
+              } else {
+                this.$message.error(res.errMsg);
+              }
+            })
+            .catch((err) => {
+              return err;
+            });
         } else {
           return false;
         }
@@ -280,19 +279,27 @@ export default {
     checkPhone(rule, value, callback) {
       const reg = /^1[3|4|5|6|7|8|9]\d{9}$/;
       if (!value) {
-        return callback(new Error('手机号不能为空'));
+        return callback(new Error("手机号不能为空"));
       } else if (!reg.test(value)) {
-        return callback(new Error('手机号格式不正确'));
+        return callback(new Error("手机号格式不正确"));
       } else {
         callback();
       }
     },
     wxLogin() {
-      wxLogin().then(res => {
-        console.log(res);
-      });
-    }
-  }
+      wxLogin()
+        .then((res) => {
+          if (res.code === "0") {
+            window.location.href = res.data;
+          } else {
+            this.$message.error(res.errMsg);
+          }
+        })
+        .catch((err) => {
+          return err;
+        });
+    },
+  },
 };
 </script>
 
