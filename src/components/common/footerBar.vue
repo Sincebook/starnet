@@ -45,7 +45,13 @@
       </div>
     </div>
     <div class="footer-fixed">
-      <p>版权绘星保留所有权</p>
+      <div style="width:1180px;padding:10px">
+          <a>Copyright © 2020.杭州绘星网络科技有限公司 All rights reserved.</a>
+        <ul style="float:right">
+						<i class="sprite bg2"></i>
+						<a style="color:white" href="http://www.beian.miit.gov.cn">豫ICP备18010577号</a>
+				</ul>
+      </div>
       <!-- <p>
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-diqiu_jiantou_earth_arrow"></use>
@@ -92,7 +98,7 @@ export default {
   // }
 }
 .footer-nav {
-  padding: 50px 100px;
+  padding: 40px 240px;
   background-color: rgb(51, 51, 51);
   color: #eee;
   display: flex;
@@ -109,16 +115,28 @@ export default {
   }
 }
 .footer-fixed {
-  padding:10px 0;
+  padding:10px 360px;
   background-color: rgb(34, 33, 33);
   color: #eee;
   display: flex;
-  justify-content: center;
+  // justify-content: center;
   p {
     margin: 10px 0;
   }
   .icon {
     font-size: 18px;
   }
+}
+.sprite {
+    display: inline-block;
+    background-image: url(http://s1.hdslb.com/bfs/seed/jinkela/footer-v2/images/hz_icon.png);
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-right: 3px;
+}
+.bg2 {
+    width: 18px;
+    height: 20px;
+    background-position: -41px 0px;
 }
 </style>
