@@ -2,70 +2,15 @@
   <div class="sign-box" :style="{ backgroundImage: 'url(' + signBg + ')' }">
     <div class="sign">
       <el-tabs v-model="activeName">
-        <el-tab-pane label="登录" name="first">
+        <el-tab-pane label="绑定手机号" name="first">
           <el-form
             :model="ruleForm"
             :rules="rules"
             ref="ruleForm"
             class="demo-ruleForm"
-            ><el-form-item prop="phone">
-              <el-input
-                @input="ruleForm.phone = ruleForm.phone.replace(/\D/g, '')"
-                type="text"
-                maxlength="11"
-                v-model="ruleForm.phone"
-                placeholder="请输入手机号"
-              >
-                <template slot="suffix">
-                  <div class="send-btn" @click="getCodes('2')">
-                    {{ isCode2 ? count2 : "获取验证码" }}
-                  </div></template
-                ></el-input
-              ></el-form-item
-            ><el-form-item prop="code" style="margin-bottom: 15px">
-              <el-input
-                @input="ruleForm.code = ruleForm.code.replace(/\D/g, '')"
-                type="text"
-                v-model="ruleForm.code"
-                placeholder="请输入验证码"
-              ></el-input> </el-form-item
-            ><el-checkbox style="margin-bottom: 15px" v-model="rememberPwd"
-              >记住密码</el-checkbox
-            ><el-form-item>
-              <el-button style="width: 100%" type="primary" @click="login()"
-                >登录</el-button
-              >
-            </el-form-item>
-            <div class="tips">
-              登录即同意<el-link :underline="false" type="primary"
-                >《绘星使用协议》</el-link
-              >&<el-link :underline="false" type="primary"
-                >《隐私协议》</el-link
-              >
-            </div>
-            <div class="others-btn">
-              <div class="btn">
-                <svg class="icon icon-qq" aria-hidden="true">
-                  <use xlink:href="#icon-qq2"></use></svg
-                >QQ登录
-              </div>
-              <div class="btn" @click="wxLogin()">
-                <svg class="icon icon-weixin" aria-hidden="true">
-                  <use xlink:href="#icon-weixin1"></use></svg
-                >微信登录
-              </div>
-            </div>
-          </el-form>
-        </el-tab-pane>
-        <el-tab-pane label="注册" name="second">
-          <el-form
-            :model="ruleForm1"
-            :rules="rules"
-            ref="ruleForm1"
-            class="demo-ruleForm"
           >
             <el-form-item prop="type">
-              <el-select v-model="ruleForm1.type" placeholder="请选择注册类型">
+              <el-select v-model="ruleForm.type" placeholder="请选择用户类型">
                 <el-option
                   v-for="item in typeList"
                   :key="item.id"
@@ -75,36 +20,38 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item prop="phone">
+            <el-form-item prop="phoneNum">
               <el-input
-                @input="ruleForm1.phone = ruleForm1.phone.replace(/\D/g, '')"
+                @input="
+                  ruleForm.phoneNum = ruleForm.phoneNum.replace(/\D/g, '')
+                "
                 type="text"
                 maxlength="11"
-                v-model="ruleForm1.phone"
+                v-model="ruleForm.phoneNum"
                 placeholder="请输入手机号"
               >
                 <template slot="suffix">
-                  <div class="send-btn" @click="getCodes('1')">
-                    {{ isCode1 ? count1 : "获取验证码" }}
+                  <div class="send-btn" @click="getCodes()">
+                    {{ isCode ? count : "获取验证码" }}
                   </div></template
                 ></el-input
               >
             </el-form-item>
             <el-form-item prop="code">
               <el-input
-                @input="ruleForm1.code = ruleForm1.code.replace(/\D/g, '')"
+                @input="ruleForm.code = ruleForm.code.replace(/\D/g, '')"
                 type="text"
-                v-model="ruleForm1.code"
+                v-model="ruleForm.code"
                 placeholder="请输入验证码"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button style="width: 100%" type="primary" @click="register()"
-                >注册</el-button
+              <el-button style="width: 100%" type="primary" @click="bind()"
+                >绑定</el-button
               >
             </el-form-item>
             <div class="tips">
-              注册即同意<el-link :underline="false" type="primary"
+              绑定即同意<el-link :underline="false" type="primary"
                 >《绘星使用协议》</el-link
               >&<el-link :underline="false" type="primary"
                 >《隐私协议》</el-link
@@ -120,30 +67,24 @@
 <script>
 import { mapState } from 'vuex';
 import {
-  getCode,
-  registerUser,
-  loginUser,
-  wxLogin
+  getBindCode,
+  bindPhone
 } from '../ajax/index';
 export default {
   data() {
     return {
-      rememberPwd: false,
       typeList: [
+        { id: 0, value: '已注册用户' },
         { id: 1, value: '个人用户' },
         { id: 4, value: '企业用户' }
       ],
       ruleForm: {
-        phone: '',
-        code: ''
-      },
-      ruleForm1: {
-        phone: '',
+        phoneNum: '',
         code: '',
         type: ''
       },
       rules: {
-        phone: [
+        phoneNum: [
           { required: true, validator: this.checkPhone, trigger: 'blur' }
         ],
         type: [
@@ -154,12 +95,9 @@ export default {
         ]
       },
       activeName: 'first',
-      isCode1: false,
-      count1: '',
-      timer1: null,
-      isCode2: false,
-      count2: '',
-      timer2: null
+      isCode: false,
+      count: '',
+      timer: null
     };
   },
   mounted() {
@@ -171,51 +109,23 @@ export default {
     })
   },
   methods: {
-    getCodes(id) {
+    getCodes() {
       const reg = /^1[3|4|5|6|7|8|9]\d{9}$/;
-      if (id === '1' && reg.test(this.ruleForm1.phone)) {
-        getCode({
-          type: id,
-          phone: this.ruleForm1.phone
+      if (reg.test(this.ruleForm.phoneNum)) {
+        getBindCode({
+          phoneNum: this.ruleForm.phoneNum
         }).then(res => {
           if (res.code === '0') {
-            if (!this.timer1) {
-              this.count1 = 60;
-              this.isCode1 = true;
-              this.timer1 = setInterval(() => {
-                if (this.count1 > 0 && this.count1 <= 60) {
-                  this.count1--;
+            if (!this.timer) {
+              this.count = 60;
+              this.isCode = true;
+              this.timer = setInterval(() => {
+                if (this.count > 0 && this.count <= 60) {
+                  this.count--;
                 } else {
-                  this.isCode1 = false;
-                  clearInterval(this.timer1);
-                  this.timer1 = null;
-                }
-              }, 1000);
-            }
-            this.$message({
-              message: '验证码已发送',
-              type: 'success'
-            });
-          } else {
-            this.$message.error(res.errMsg);
-          }
-        });
-      } else if (id === '2' && reg.test(this.ruleForm.phone)) {
-        getCode({
-          type: id,
-          phone: this.ruleForm.phone
-        }).then(res => {
-          if (res.code === '0') {
-            if (!this.timer2) {
-              this.count2 = 60;
-              this.isCode2 = true;
-              this.timer2 = setInterval(() => {
-                if (this.count2 > 0 && this.count2 <= 60) {
-                  this.count2--;
-                } else {
-                  this.isCode2 = false;
-                  clearInterval(this.timer2);
-                  this.timer2 = null;
+                  this.isCode = false;
+                  clearInterval(this.timer);
+                  this.timer = null;
                 }
               }, 1000);
             }
@@ -231,36 +141,14 @@ export default {
         });
       }
     },
-    login() {
+    bind() {
+      console.log(123);
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          loginUser(this.ruleForm).then(res => {
+          bindPhone(this.ruleForm).then(res => {
             if (res.code === '0') {
               this.$message({
-                message: '登录成功，正在跳转...',
-                type: 'success'
-              });
-              setTimeout(() => {
-                this.$router.push('/home');
-              }, 1500);
-            } else {
-              this.$message.error(res.errMsg);
-            }
-          }).catch(err => {
-            return err;
-          });
-        } else {
-          return false;
-        }
-      });
-    },
-    register() {
-      this.$refs.ruleForm1.validate((valid) => {
-        if (valid) {
-          registerUser(this.ruleForm1).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                message: '注册成功，正在跳转...',
+                message: '绑定成功，正在跳转...',
                 type: 'success'
               });
               setTimeout(() => {
@@ -286,11 +174,6 @@ export default {
       } else {
         callback();
       }
-    },
-    wxLogin() {
-      wxLogin().then(res => {
-        console.log(res);
-      });
     }
   }
 };
