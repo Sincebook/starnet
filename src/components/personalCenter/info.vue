@@ -10,8 +10,9 @@
           :rules="rules"
           ref="ruleForm"
           label-width="100px"
+          :disabled="flag"
         >
-          <el-form-item label="头像" prop="avatarImg">
+          <el-form-item label="头像">
             <el-upload
               class="avatar-uploader"
               :http-request="upload"
@@ -37,7 +38,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" :disabled="flag" @click="submitForm()"
-              >提交</el-button
+              >保存</el-button
             >
             <el-button @click="resetForm()">重置</el-button>
           </el-form-item>
@@ -49,9 +50,10 @@
 
 <script>
 import {
-  mineInfo
+  extraInfo
 } from '../../ajax/index';
 export default {
+  props: ['info'],
   data() {
     return {
       imageUrl: '',
@@ -62,11 +64,7 @@ export default {
       phone: '',
       rules: {
         nick: [
-          { required: true, message: '昵称不能为空', trigger: 'blur' },
-          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
-        ],
-        avatarImg: [
-          { required: true, message: '头像不能为空', trigger: 'change' }
+          { required: true, validator: this.checkNick, trigger: 'blur' }
         ]
       },
       flag: false
@@ -79,18 +77,24 @@ export default {
     submitForm() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          // this.flag = true;
-          // extraInfoDetail(this.ruleForm).then(item => {
-          //   if (item.code === '0') {
-          //     this.flag = false;
-          //     return true;
-          //   } else {
-          //     this.$message.error(item.errMsg);
-          //     this.flag = false;
-          //   }
-          // });
-        } else {
-          return false;
+          this.flag = true;
+          extraInfo({
+            name: this.ruleForm.nick,
+            head: this.ruleForm.avatarImg
+          }).then(res => {
+            if (res.code === '0') {
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              });
+              this.$emit('change');
+            } else {
+              this.$message.error(res.errMsg);
+            }
+            this.flag = false;
+          }).catch(err => {
+            return err;
+          });
         }
       });
     },
@@ -111,20 +115,32 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
+    },
+    checkNick(rule, value, callback) {
+      const reg = /^[\w\u4e00-\u9fa5]+$/gi;
+      if (!value) {
+        return callback(new Error('昵称不能为空'));
+      } else if (!reg.test(value)) {
+        return callback(new Error('只允许设置中文、英文、数字、下划线'));
+      } else if (value.length < 2 || value.length > 8) {
+        return callback(new Error('长度在 2 到 8 个字符'));
+      } else {
+        callback();
+      }
     }
   },
+  watch: {
+    info: function (newVal, oldVal) {
+      this.ruleForm.nick = newVal.name;
+      this.phone = newVal.phone;
+      this.imageUrl = newVal.head;
+    },
+    deep: true
+  },
   created() {
-    mineInfo().then(res => {
-      if (res.code === '0') {
-        this.ruleForm.nick = res.data.user.name;
-        this.phone = res.data.user.phone;
-        this.imageUrl = res.data.user.head;
-      } else {
-        this.$message.error(res.errMsg);
-      }
-    }).catch(err => {
-      return err;
-    });
+    this.ruleForm.nick = this.info.name;
+    this.phone = this.info.phone;
+    this.imageUrl = this.info.head;
   }
 };
 </script>

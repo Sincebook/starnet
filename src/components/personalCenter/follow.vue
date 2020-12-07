@@ -4,26 +4,40 @@
       <div class="name">我的关注</div>
     </div>
     <div class="info">
-      <div class="list">
-        <div class="item-box" v-for="item in 6" :key="item">
+      <el-alert
+        v-if="!isHave"
+        title="暂无关注"
+        type="warning"
+        :closable="false"
+        show-icon
+      ></el-alert>
+      <div v-else class="list">
+        <div class="item-box" v-for="item in list.stars" :key="item.id">
           <div class="item">
-            <div
-              class="user-img"
-              :style="{ backgroundImage: 'url(' + bgImg + ')' }"
-            ></div>
+            <el-image class="user-img" :src="item.image" fit="cover"></el-image>
             <div class="user-info">
-              <div class="user-name">陈中</div>
-              <div class="content twoLine">
-                现代都市女性的职场发展史，该角色设置将为魅力四射，自信的表演者，他们可以有才艺技能，适应能力强
-                男演员或女演员 具有有效期内护照，可以接受出国拍摄要求
-                勤奋的角色，健康的水平，有趣的精神和脚踏实地是必不可少的
-              </div>
+              <div class="user-name">{{ item.name }}</div>
+              <div class="content twoLine">{{ item.selfEvaluation }}</div>
             </div>
             <div class="user-btn">
-              <el-button type="primary" size="mini" plain @click="detail()"
-                >个人主页</el-button
-              >
-              <el-button type="danger" size="mini" plain>取消关注</el-button>
+              <div>
+                <el-button
+                  type="primary"
+                  size="mini"
+                  plain
+                  @click="watchDetail(item.id)"
+                  >个人主页</el-button
+                >
+              </div>
+              <div>
+                <el-button
+                  type="danger"
+                  size="mini"
+                  plain
+                  @click="cancel(item.id)"
+                  >取消关注</el-button
+                >
+              </div>
             </div>
           </div>
           <el-divider></el-divider>
@@ -33,10 +47,11 @@
     <div class="footer-page">
       <el-pagination
         @current-change="handleCurrentChange"
-        :current-page.sync="currentPage1"
-        :page-size="7"
-        layout="total, prev, pager, next"
-        :total="123"
+        :current-page.sync="currentPage"
+        :page-size="6"
+        layout="prev, pager, next"
+        :page-count="list.allpage"
+        hide-on-single-page
       >
       </el-pagination>
     </div>
@@ -44,20 +59,76 @@
 </template>
 
 <script>
+import {
+  mineFollow,
+  cancelFollow
+} from '../../ajax/index';
 export default {
   data() {
     return {
-      bgImg: '//ftp.qnets.cn/img/bg3.jpg',
-      currentPage1: 1
+      isHave: true,
+      list: [],
+      currentPage: 1,
+      nums: 6
     };
   },
   methods: {
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      mineFollow({
+        num: this.nums,
+        page: val
+      }).then(res => {
+        if (res.code === '0') {
+          this.isHave = true;
+          this.list = res.data;
+        } else {
+          this.isHave = false;
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
     },
-    detail() {
-      // todo跳转到详情页
+    // 取消关注
+    cancel(id) {
+      cancelFollow({ starid: id }).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            message: '取消成功',
+            type: 'success'
+          });
+          if (this.list.datas.length === 1 && this.currentPage !== 1) {
+            this.handleCurrentChange(this.currentPage - 1);
+          } else {
+            this.handleCurrentChange(this.currentPage);
+          }
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
+    },
+    // 查看个人主页
+    watchDetail(id) {
+      this.$router.push({ name: 'talentDetail', params: { id: id } });
     }
+  },
+  created() {
+    mineFollow({
+      num: this.nums,
+      page: this.currentPage
+    }).then(res => {
+      if (res.code === '0') {
+        this.isHave = true;
+        this.list = res.data;
+      } else {
+        this.isHave = false;
+        this.$message.error(res.errMsg);
+      }
+    }).catch(err => {
+      return err;
+    });
   }
 };
 </script>
@@ -76,27 +147,37 @@ export default {
           width: 80px;
           height: 80px;
           border-radius: 5px;
-          background-color: #ccc;
-          background-repeat: no-repeat;
-          background-position: center center;
-          background-size: cover;
         }
         .user-info {
           flex: 1;
+          height: 80px;
           margin: 0 20px;
           overflow: hidden;
           word-wrap: break-word;
+          .head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
           .content {
-            margin-top: 5px;
-            span {
-              margin-right: 15px;
-            }
+            margin-top: 3px;
+            height: 57px;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
           }
         }
         .user-name {
+          height: 20px;
           font-size: 15px;
           font-weight: 600;
           margin-right: 10px;
+        }
+        .user-btn {
+          height: 80px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
         }
       }
     }

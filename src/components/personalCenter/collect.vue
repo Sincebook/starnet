@@ -4,29 +4,56 @@
       <div class="name">我的收藏</div>
     </div>
     <div class="info">
-      <div class="list">
-        <div class="item-box" v-for="item in 6" :key="item">
+      <el-alert
+        v-if="!isHave"
+        title="暂无收藏"
+        type="warning"
+        :closable="false"
+        show-icon
+      >
+      </el-alert>
+      <div v-else class="list">
+        <div class="item-box" v-for="item in list.datas" :key="item.id">
           <div class="item">
-            <div
-              class="user-img"
-              :style="{ backgroundImage: 'url(' + bgImg + ')' }"
-            ></div>
+            <el-image class="user-img" :src="item.image" fit="cover"></el-image>
             <div class="user-info">
-              <div class="user-name">韦小宝</div>
+              <div class="user-name">
+                <span class="head">{{ item.title }}</span>
+                <span>{{ item.launch }}</span>
+              </div>
               <div class="content">
-                <span>面试地点：上海</span> <span>年龄要求：18-40岁</span>
+                <span>职位：{{ item.job }}</span>
+                <span
+                  >时间：{{ Number(item.begintime) | formatDate }} -
+                  {{ Number(item.endtime) | formatDate }}</span
+                >
               </div>
-              <div class="content oneLine">
-                现代都市女性的职场发展史，该角色设置将为魅力四射，自信的表演者，他们可以有才艺技能，适应能力强
-                男演员或女演员 具有有效期内护照，可以接受出国拍摄要求
-                勤奋的角色，健康的水平，有趣的精神和脚踏实地是必不可少的
+              <div class="content">
+                <span>面试地点：{{ item.place }}</span>
+                <span>年龄要求：{{ item.age }}岁</span>
+                <span>薪资：{{ item.money }}</span>
               </div>
+              <div class="content oneLine">要求：{{ item.jobneed }}</div>
             </div>
             <div class="user-btn">
-              <el-button type="primary" size="mini" plain @click="detail()"
-                >查看详情</el-button
-              >
-              <el-button type="danger" size="mini" plain>删除</el-button>
+              <div>
+                <el-button
+                  type="primary"
+                  size="mini"
+                  plain
+                  @click="watchDetail(item.id)"
+                  >查看详情</el-button
+                >
+              </div>
+              <div>
+                <el-button
+                  type="danger"
+                  size="mini"
+                  plain
+                  @click="cancel(item.id)"
+                  >取消收藏</el-button
+                >
+              </div>
             </div>
           </div>
           <el-divider></el-divider>
@@ -36,10 +63,11 @@
     <div class="footer-page">
       <el-pagination
         @current-change="handleCurrentChange"
-        :current-page.sync="currentPage1"
-        :page-size="7"
-        layout="total, prev, pager, next"
-        :total="123"
+        :current-page.sync="currentPage"
+        :page-size="6"
+        layout="prev, pager, next"
+        :page-count="list.allpage"
+        hide-on-single-page
       >
       </el-pagination>
     </div>
@@ -47,19 +75,82 @@
 </template>
 
 <script>
+import {
+  mineCollect,
+  cancelCollect
+} from '../../ajax/index';
+import { formatDate } from '../../assets/js/date.js';
 export default {
   data() {
     return {
-      bgImg: '//ftp.qnets.cn/img/bg3.jpg',
-      currentPage1: 1
+      isHave: true,
+      list: [],
+      currentPage: 1,
+      nums: 6
     };
   },
   methods: {
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      mineCollect({
+        num: this.nums,
+        page: val
+      }).then(res => {
+        if (res.code === '0') {
+          this.isHave = true;
+          this.list = res.data;
+        } else {
+          this.isHave = false;
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
     },
-    detail() {
-      // todo跳转到详情页
+    // 取消收藏
+    cancel(id) {
+      cancelCollect({ jobid: id }).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            message: '取消成功',
+            type: 'success'
+          });
+          if (this.list.datas.length === 1 && this.currentPage !== 1) {
+            this.handleCurrentChange(this.currentPage - 1);
+          } else {
+            this.handleCurrentChange(this.currentPage);
+          }
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
+    },
+    // 查看详情
+    watchDetail(id) {
+      this.$router.push({ name: 'jobDetail', params: { id: id } });
+    }
+  },
+  created() {
+    mineCollect({
+      num: this.nums,
+      page: this.currentPage
+    }).then(res => {
+      if (res.code === '0') {
+        this.isHave = true;
+        this.list = res.data;
+      } else {
+        this.isHave = false;
+        this.$message.error(res.errMsg);
+      }
+    }).catch(err => {
+      return err;
+    });
+  },
+  filters: {
+    formatDate(time) {
+      var date = new Date(time);
+      return formatDate(date, 'yyyy-MM-dd');
     }
   }
 };
@@ -79,27 +170,38 @@ export default {
           width: 80px;
           height: 80px;
           border-radius: 5px;
-          background-color: #ccc;
-          background-repeat: no-repeat;
-          background-position: center center;
-          background-size: cover;
         }
         .user-info {
           flex: 1;
+          height: 80px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
           margin: 0 20px;
           overflow: hidden;
           word-wrap: break-word;
           .content {
-            margin-top: 5px;
             span {
               margin-right: 15px;
             }
           }
         }
         .user-name {
-          font-size: 15px;
-          font-weight: 600;
-          margin-right: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .head {
+            font-size: 15px;
+            font-weight: 600;
+            margin-right: 10px;
+          }
+        }
+        .user-btn {
+          height: 80px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
         }
       }
     }

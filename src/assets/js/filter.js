@@ -9,6 +9,7 @@ let setNum = function (val) {
     return num;
   }
 };
+
 export {
   setNum
 };

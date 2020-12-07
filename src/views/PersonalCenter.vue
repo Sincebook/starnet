@@ -2,7 +2,7 @@
   <div class="center">
     <div class="left">
       <div class="info">
-        <el-avatar class="user-img" src="" fit="cover"
+        <el-avatar class="user-img" :src="userInfo.user.head" fit="cover"
           ><img
             src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
         /></el-avatar>
@@ -54,7 +54,12 @@
       </div>
     </div>
     <div class="content">
-      <components @goCelebrity="goCelebrity" :is="child"></components>
+      <components
+        :info="userInfo.user"
+        @change="changeInfo"
+        @goCelebrity="goCelebrity"
+        :is="child"
+      ></components>
     </div>
   </div>
 </template>
@@ -95,6 +100,7 @@ export default {
           head: null,
           name: null,
           status: 1,
+          phone: '',
           funs: 0
         },
         collectNum: 0,
@@ -109,6 +115,17 @@ export default {
     },
     goCelebrity() {
       this.tabChange(2, 'celebrity');
+    },
+    changeInfo() {
+      mineInfo().then(res => {
+        if (res.code === '0') {
+          this.userInfo = res.data;
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
     }
   },
   components: {
@@ -156,6 +173,10 @@ export default {
         width: 80px;
         height: 80px;
         margin: 0 20px;
+        img {
+          width: 80px;
+          height: 80px;
+        }
       }
       .user-info {
         .nick,
