@@ -1,5 +1,5 @@
 <template>
-  <div class="talent-video">
+  <div class="talent-video" v-if="srcs.length">
     <p class="title">视频</p>
     <div class="video-list">
       <div

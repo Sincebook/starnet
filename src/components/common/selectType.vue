@@ -459,7 +459,7 @@ export default {
   font-size: 14px;
   font-weight: 500;
   line-height: 50px;
-  width: 920px;
+  width: 1010px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
