@@ -39,9 +39,12 @@ export default {
   },
   methods: {
     changePlayer(e) {
+      // console.log('hhhh');
+      // console.log(e.target);
       if (!this.lastTarget) {
         this.lastTarget = e.target;
       } else {
+        // console.log(this.lastTarget);
         this.lastTarget.pause();
         this.lastTarget = e.target;
       }
@@ -54,7 +57,7 @@ export default {
       this.obj.userid = this.userid;
       getUserImg(this.obj).then(res => {
         // console.log(res);
-        if (res.data) {
+        if (res.code === '0') {
           this.srcs = res.data.datas;
           this.allpages = res.data.allpage;
         }
