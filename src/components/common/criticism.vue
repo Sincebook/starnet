@@ -13,7 +13,7 @@
       <p class="my-info" ref="myInfo">
         {{ item.word }}
       </p>
-      <p class="show-all" @click="showAll">{{ tag }}</p>
+      <p class="show-all" @click="showAll" v-show="item.word.length>180">{{ tag }}</p>
     </div>
   </div>
 </template>

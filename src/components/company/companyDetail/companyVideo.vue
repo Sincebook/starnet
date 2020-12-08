@@ -1,29 +1,62 @@
 <template>
   <div class="com-video">
     <p class="video">视&nbsp;频</p>
-    <video-card
-      v-for="item in videos"
-      :key="item.id"
+    <div
+      v-for="item in companyVideos"
+      :key="item.id + item.userid"
+      @click="changePlayer"
       class="videos"
-      :ding="item"
-    ></video-card>
-    <pagination allPages="20" class="videoPag"></pagination>
+    >
+      <video-card :ding="item"></video-card>
+    </div>
+    <pagination
+      :allPages="allpages"
+      class="videoPag"
+      @getProjects="changePage"
+    ></pagination>
   </div>
 </template>
 <script>
 import VideoCard from './videoCard.vue';
 import Pagination from '../../common/pagination.vue';
-
+import { getComVideoByUserId } from '@/ajax';
 // @ is an alias to /src
 export default {
   name: 'companyVideo',
-  props: ['videos'],
+  props: ['userid'],
   data() {
     return {
+      companyVideos: '',
+      lastTarget: null,
+      allpages: 1
     };
   },
   created() {
     // console.log(this.videos);
+    this.getCompanyVideo(1);
+  },
+  methods: {
+    changePlayer(e) {
+      if (!this.lastTarget) {
+        this.lastTarget = e.target;
+      } else {
+        this.lastTarget.pause();
+        this.lastTarget = e.target;
+      }
+    },
+    changePage(page) {
+      this.getCompanyVideo(page);
+    },
+    getCompanyVideo(page) {
+      // console.log(this.userid);
+      getComVideoByUserId({ userid: this.userid, page: page }).then(res => {
+        // console.log(res);
+        if (res.code === '0') {
+          this.companyVideos = res.data.companyVideos;
+          this.allpages = res.data.allpage;
+        }
+      });
+    }
   },
   components: {
     VideoCard,
@@ -51,12 +84,12 @@ export default {
   margin: 0 auto;
 }
 .videos {
-  margin: 20px 10px;
+  margin: 10px 10px;
   display: inline-block;
   width: 300px;
 }
 .videoPag {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   height: 90px;
 }
 </style>

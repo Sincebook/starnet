@@ -29,7 +29,7 @@ export default {
     return {
       imgs: [],
       allpages: 1,
-      obj: { type: 1 }
+      obj: { type: 1, num: 8 }
     };
   },
   created() {

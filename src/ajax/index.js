@@ -90,6 +90,9 @@ export {
   isFun,
   getAllRoles,
   applyJob,
-  isApply
+  isApply,
+  starJob,
+  isStar,
+  noStarJob
 }
 from './jobDetail';

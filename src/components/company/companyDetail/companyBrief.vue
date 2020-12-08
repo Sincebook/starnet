@@ -5,9 +5,7 @@
       <img :src="bgImg1" class="comimg2" />
     </div>
     <div class="cbMiddle">
-      <span class="comname"
-        >华&nbsp;谊&nbsp;兄&nbsp;弟&nbsp;影&nbsp;视&nbsp;公&nbsp;司</span
-      >
+      <span class="comname">{{ 'item.name' }}</span>
       <div class="iconSum">
         <span class="share">分 享</span>
         <svg class="icon icon-weixin1" aria-hidden="true">
@@ -25,8 +23,8 @@
       <div class="include">
         <div class="msg" @click="msgIt">私信</div>
         <div class="attention">关注</div>
-        <div class="fans">粉丝{{ fansNums }}</div>
-        <div class="deal">成交{{ deal }}</div>
+        <span class="fans">粉丝{{ fansNums }}</span>
+        <span class="deal">成交{{ item.oknum }}</span>
       </div>
     </div>
     <div class="msg1" ref="msg" style="display: none">
@@ -45,7 +43,7 @@
 import { showFunsNumsByUserId, sendMessageToId } from '@/ajax';
 
 export default {
-  props: ['userid'],
+  props: ['userid', 'item'],
   data() {
     return {
       bgImg: require('@/assets/images/dswcb1.jpeg'),
@@ -59,7 +57,6 @@ export default {
   },
   created() {
     this.funNums();
-    this.msgTo();
   },
   methods: {
     //   privateMessage(){ }
@@ -111,9 +108,11 @@ export default {
   position: relative;
 }
 .cbMiddle {
+  text-align: center;
   width: 960px;
   height: 30px;
-  margin: 0 auto;
+  padding-left: 143px;
+  // margin: 0 auto;
 }
 .cbFooter {
   width: 960px;
@@ -140,8 +139,8 @@ export default {
 .comname {
   color: #2d6496;
   font-size: 18px;
-  display: inline-block;
-  padding-left: 415px;
+  // display: inline-block;
+  // padding-left: 415px;
   font-weight: 800;
 }
 .active {
@@ -159,6 +158,7 @@ export default {
   margin-right: 10px;
 }
 .include {
+  text-align: center;
   padding-left: 20px;
   width: 500px;
   height: 50px;
@@ -180,24 +180,40 @@ export default {
   color: grey;
 }
 .msg {
+  display: inline-block;
   width: 100px;
   padding: 5px 0;
 }
 .attention {
+  display: inline-block;
   width: 100px;
   padding: 5px 0;
 }
 .fans {
+  cursor: not-allowed;
+  display: inline-block;
+  border: 1px solid grey;
+  border-radius: 5px;
+  color: grey;
+  // line-height: 30px;
   padding: 5px 10px;
 }
 .deal {
-  padding: 5px 10px;
+  cursor: not-allowed;
+  display: inline-block;
+  margin-top: 20px;
+  margin-left: 10px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  color: grey;
+  // line-height: 30px;
+  padding: 5px 30px;
 }
 .msg1 {
   width: 300px;
   position: absolute;
   right: 50px;
-//   left: -670px;
-//   top: -23px;
+  //   left: -670px;
+  //   top: -23px;
 }
 </style>

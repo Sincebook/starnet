@@ -36,7 +36,7 @@ export default {
       // console.log(this.$route.params.id);
       getJobById({ id: this.$route.params.id }).then(res => {
         this.jobInfo = res.data;
-        console.log(res);
+        // console.log(res);
       });
     },
     // 获取所有角色
