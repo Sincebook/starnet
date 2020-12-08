@@ -8,10 +8,12 @@
         :closable="false"
         title="一个账号只可以和一个实名信息绑定，无法解绑或更换"
         type="warning"
+        show-icon
       >
       </el-alert>
       <div class="info-content">
         <el-form
+          :disabled="flag"
           :model="ruleForm"
           :rules="rules"
           ref="ruleForm"
@@ -30,25 +32,8 @@
               placeholder="请输入身份证号"
             ></el-input>
           </el-form-item>
-          <el-form-item label="证件照" prop="imageFile">
-            <el-upload
-              class="avatar-uploader"
-              :http-request="upload"
-              action=""
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-              <i
-                v-else
-                class="el-icon-plus avatar-uploader-icon"
-              ></i> </el-upload
-          ></el-form-item>
           <el-form-item>
-            <el-button type="primary" :disabled="flag" @click="submitForm()"
-              >提交</el-button
-            >
+            <el-button type="primary" @click="submitForm()">提交</el-button>
             <el-button @click="resetForm()">重置</el-button>
           </el-form-item>
         </el-form>
@@ -65,11 +50,10 @@ export default {
   data() {
     return {
       flag: false,
-      imageUrl: '',
       ruleForm: {
-        imageFile: '',
         name: '',
-        idcard: ''
+        idcard: '',
+        imageFile: 's'
       },
       rules: {
         name: [
@@ -78,17 +62,11 @@ export default {
         ],
         idcard: [
           { required: true, validator: this.checkIdNum, trigger: 'blur' }
-        ],
-        imageFile: [
-          { required: true, message: '证件图不能为空', trigger: 'change' }
         ]
       }
     };
   },
   methods: {
-    async upload(content) {
-      this.ruleForm.imageFile = content.file;
-    },
     submitForm() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
@@ -112,21 +90,6 @@ export default {
     resetForm() {
       this.$refs.ruleForm.resetFields();
       this.imageUrl = '';
-    },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
     },
     checkIdNum(rule, value, callback) {
       const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
@@ -162,29 +125,5 @@ export default {
     align-items: center;
     height: 60px;
   }
-}
-/deep/.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-/deep/ .avatar-uploader {
-  height: 110px;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 108px;
-  height: 108px;
-  line-height: 108px;
-  text-align: center;
-}
-.avatar {
-  width: 108px;
-  height: 108px;
-  display: block;
-  cursor: pointer;
 }
 </style>

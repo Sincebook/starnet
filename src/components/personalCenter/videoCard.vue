@@ -1,11 +1,13 @@
 <template>
   <div class="video">
-    <div @click="play(item)">
-      <el-image :src="item.path" fit="cover"></el-image>
+    <div style="cursor: pointer" @click="play(item)">
+      <video class="el-image" :src="item.path"></video>
     </div>
     <div class="content">
       <div class="title twoLine">{{ item.description }}</div>
-      <el-button type="danger" size="small" plain>删除</el-button>
+      <el-button type="danger" size="small" @click="deleteWorks" plain
+        >删除</el-button
+      >
     </div>
   </div>
 </template>
@@ -14,8 +16,11 @@
 export default {
   props: ['item'],
   methods: {
-    play(item) {
-      this.$emit('play', item);
+    play() {
+      this.$emit('play');
+    },
+    deleteWorks() {
+      this.$emit('deleteWorks');
     }
   }
 };
@@ -31,7 +36,8 @@ export default {
     display: block;
     width: 260px;
     height: 160px;
-    cursor: pointer;
+    object-fit: cover;
+    pointer-events: none;
   }
   .content {
     margin: 15px;
