@@ -5,136 +5,99 @@
     </div>
     <div class="info">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="我的照片" name="first">
+        <el-tab-pane label="我的照片" name="1">
           <div class="list">
-            <el-image v-for="item in 16" :key="item" :src="src"></el-image>
+            <div class="img-item" v-for="item in imgList" :key="item.id">
+              <el-image
+                :preview-src-list="imgList1"
+                :src="item.path"
+                fit="cover"
+              ></el-image>
+              <div class="content">
+                <div class="titles twoLine">{{ item.description }}</div>
+                <el-button type="danger" size="small" plain>删除</el-button>
+              </div>
+            </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="我的视频" name="second"
+        <el-tab-pane label="我的视频" name="2"
           ><div class="list">
             <video-card
-              @playing="playing"
-              v-for="(item, index) in videoList"
+              @play="playVideo"
+              v-for="item in videoList"
               :key="item.id"
               :item="item"
-              :index="index"
             ></video-card>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="我的音频" name="third"
-          ><div class="list">
-            <audio-card
-              @playing="playing1"
-              v-for="(item, index) in audioList"
-              :key="item.id"
-              :item="item"
-              :index="index"
-            ></audio-card></div
-        ></el-tab-pane>
+        <el-tab-pane label="我的音频" name="3">
+          <audio-card :item="audioList"></audio-card>
+        </el-tab-pane>
       </el-tabs>
       <el-button class="upload" size="mini" type="primary">上传作品</el-button>
     </div>
-    <div class="footer-page">
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage1"
-        :page-size="7"
-        layout="total, prev, pager, next"
-        :total="123"
-      >
-      </el-pagination>
-    </div>
+    <el-dialog
+      :destroy-on-close="true"
+      :before-close="handleClose"
+      :title="selectVideo.description"
+      :visible.sync="dialogVisible"
+      width="60%"
+    >
+      <video ref="video" controls :src="selectVideo.path"></video>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import videoCard from './videoCard';
 import audioCard from './audioCard';
+import {
+  mineOpus
+} from '../../ajax/index';
 export default {
   data() {
     return {
-      activeName: 'first',
+      activeName: '1',
+      currentPage: '1',
       src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
-      currentPage1: 1,
-      videoElement: [],
-      audioElement: [],
-      videoIndex: 0,
-      audioIndex: 0,
-      videoList: [
-        { id: 0, src: 'https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4', isPlay: false },
-        { id: 1, src: 'https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4', isPlay: false },
-        { id: 2, src: 'https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4', isPlay: false },
-        { id: 3, src: 'https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4', isPlay: false },
-        { id: 4, src: 'https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4', isPlay: false }
-      ],
-      audioList: [
-        { id: 0, src: 'https://music.163.com/song/media/outer/url?id=33894312.mp3', isPlay: false },
-        { id: 1, src: 'https://music.163.com/song/media/outer/url?id=405998841.mp3', isPlay: false },
-        { id: 2, src: 'https://music.163.com/song/media/outer/url?id=33894312.mp3', isPlay: false },
-        { id: 3, src: 'https://music.163.com/song/media/outer/url?id=405998841.mp3', isPlay: false },
-        { id: 4, src: 'https://music.163.com/song/media/outer/url?id=33894312.mp3', isPlay: false }
-      ]
+      videoList: [],
+      audioList: [],
+      imgList: [],
+      imgList1: [],
+      dialogVisible: false,
+      selectVideo: []
     };
   },
-  mounted() {
-    this.videoElement = document.getElementsByTagName('video');
-    this.audioElement = document.getElementsByTagName('audio');
+  created() {
+    this.getOpus();
   },
   methods: {
+    getOpus() {
+      mineOpus({ type: this.activeName, page: this.currentPage }).then(res => {
+        if (res.code === '0') {
+          if (this.activeName === '2') {
+            this.videoList = res.data.datas;
+          } else if (this.activeName === '3') {
+            this.audioList = res.data.datas;
+          } else {
+            this.imgList = res.data.datas;
+            this.imgList.forEach(item => {
+              this.imgList1.push(item.path);
+            });
+          }
+        }
+      });
+    },
     handleClick() {
-      this.currentPage1 = 1;
-      if (this.activeName !== 'second') {
-        this.videoList[this.videoIndex].isPlay = false;
-        this.videoElement[this.videoIndex].pause();
-      }
-      if (this.activeName !== 'third') {
-        this.audioList[this.audioIndex].isPlay = false;
-        this.audioElement[this.audioIndex].pause();
-      }
-      console.log(this.activeName);
+      this.getOpus();
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    handleClose(done) {
+      this.$refs.video.pause();
+      done();
     },
-    playing(index) {
-      if (this.videoIndex === index && this.videoList[index].isPlay === true) {
-        this.videoList[index].isPlay = false;
-        this.videoElement[index].pause();
-        return;
-      }
-      const videoElement = this.videoElement;
-      if (videoElement && videoElement.length > 0) {
-        for (let i = 0; i < videoElement.length; i++) {
-          if (i === index) {
-            this.videoIndex = i;
-            this.videoList[i].isPlay = true;
-            this.videoElement[i].play();
-          } else {
-            this.videoList[i].isPlay = false;
-            this.videoElement[i].pause();
-          }
-        }
-      }
-    },
-    playing1(index) {
-      if (this.audioIndex === index && this.audioList[index].isPlay === true) {
-        this.audioList[index].isPlay = false;
-        this.audioElement[index].pause();
-        return;
-      }
-      const audioElement = this.audioElement;
-      if (audioElement && audioElement.length > 0) {
-        for (let i = 0; i < audioElement.length; i++) {
-          if (i === index) {
-            this.audioIndex = i;
-            this.audioList[i].isPlay = true;
-            this.audioElement[i].play();
-          } else {
-            this.audioList[i].isPlay = false;
-            this.audioElement[i].pause();
-          }
-        }
-      }
+    playVideo(item) {
+      this.selectVideo = item;
+      this.dialogVisible = true;
     }
   },
   components: {
@@ -159,40 +122,28 @@ export default {
     .list {
       display: flex;
       flex-wrap: wrap;
-    }
-    .el-image {
-      width: 205px;
-      height: 135px;
-      margin: 7.5px;
-      &:nth-child(4n + 1) {
-        margin-left: 0;
+      .img-item {
+        width: 425px;
+        margin: 7.5px;
+        display: flex;
+        background-color: rgba(245, 245, 245, 1);
+        .content {
+          margin: 15px;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        &:nth-child(2n + 1) {
+          margin-left: 0;
+        }
+        &:nth-child(2n + 2) {
+          margin-right: 0;
+        }
       }
-      &:nth-child(4n + 4) {
-        margin-right: 0;
-      }
-    }
-    /deep/.video,
-    /deep/video {
-      width: 205px;
-      height: 135px;
-      margin: 7.5px;
-      &:nth-child(4n + 1) {
-        margin-left: 0;
-      }
-      &:nth-child(4n + 4) {
-        margin-right: 0;
-      }
-    }
-    /deep/.audio,
-    /deep/audio {
-      width: 205px;
-      height: 135px;
-      margin: 7.5px;
-      &:nth-child(4n + 1) {
-        margin-left: 0;
-      }
-      &:nth-child(4n + 4) {
-        margin-right: 0;
+      .el-image {
+        width: 260px;
+        height: 160px;
       }
     }
   }
@@ -205,11 +156,11 @@ export default {
     align-items: center;
     height: 60px;
   }
-  .footer-page {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 20px;
-  }
+}
+
+video {
+  width: 100%;
+  border: none;
+  outline: none;
 }
 </style>

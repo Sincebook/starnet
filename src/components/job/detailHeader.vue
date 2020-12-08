@@ -152,14 +152,19 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    background: white;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 20px;
     .info {
       position: relative;
-      height: 338px;
+      height: 240px;
       .top {
         margin: 20px 0;
-        font-size: 36px;
+        font-size:24px;
         .job-title {
           color: #333;
+          font-weight:600;
         }
         .icon-qq2 {
           // margin-left: 10px;
@@ -230,13 +235,15 @@ export default {
           border-radius: 30px;
         }
         span {
-          margin-left: 5px;
+          margin-left: 10px;
+          color:#333;
+
         }
         .btn {
           font-size: 16px;
           position: relative;
           top: -38px;
-          left: 200px;
+          left: 210px;
           // height: 30px;
           // width: 300px;
           .icon{
@@ -246,8 +253,9 @@ export default {
       }
     }
     .img {
-      width: 410px;
-      height: 350px;
+      width: 200px;
+      height: 150px;
+      margin-top: -30px;
     }
   }
 }

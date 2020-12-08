@@ -11,14 +11,43 @@
         <span @click="changeHash('criticism')">留言</span>
       </div>
     </div>
-    <talent-resume id="resume"></talent-resume>
-    <talent-img id="talentImg"></talent-img>
-    <talent-video id="talentVideo"></talent-video>
-    <talent-audio id="talentAudio"></talent-audio>
-    <work-record id="wortRecord"></work-record>
-    <div class="critism" id="criticism">
-      <criticism v-for="item in 3" :key="item"></criticism>
-      <criticism-input></criticism-input>
+    <talent-resume id="resume" :data="resume"></talent-resume>
+    <talent-img id="talentImg" :userid="userid" v-if="userid"></talent-img>
+    <talent-video
+      id="talentVideo"
+      :userid="userid"
+      v-if="userid"
+    ></talent-video>
+    <talent-audio
+      id="talentAudio"
+      :userid="userid"
+      v-if="userid"
+    ></talent-audio>
+    <work-record id="wortRecord" :userid="userid" v-if="userid"></work-record>
+    <div class="critism" id="criticism" v-if="critism">
+      <criticism
+        v-for="item in critismFive"
+        :key="item.name + item.id"
+        :item="item"
+      ></criticism>
+      <div
+        style="
+          background-color: #fff;
+          width: 960px;
+          margin: 0 auto;
+          text-align: center;
+        "
+        v-if="critism"
+      >
+        <span style="cursor: pointer" @click="showMoreCritism"
+         >查看更多...</span
+        >
+      </div>
+      <criticism-input
+        v-if="userid"
+        :userid="userid"
+        @resetCritism="resetCritism"
+      ></criticism-input>
     </div>
   </div>
 </template>
@@ -32,11 +61,15 @@ import TalentImg from './talentImg.vue';
 import TalentResume from './talentResume.vue';
 import TalentVideo from './talentVideo.vue';
 import workRecord from './workRecord.vue';
+import { userinfoById, getAllMomes } from '@/ajax';
 export default {
   name: 'talentDetail',
   data() {
     return {
-
+      userid: '',
+      resume: '',
+      critism: '',
+      critismFive: ''
     };
   },
   components: {
@@ -49,10 +82,39 @@ export default {
     Criticism,
     CriticismInput
   },
+  created() {
+    this.userinfo();
+  },
   methods: {
+    // 锚点
     changeHash(id) {
-      console.log(id);
+      // console.log(id);
       document.querySelector('#' + id).scrollIntoView(true);
+    },
+    // 简介
+    userinfo() {
+      console.log(this.$route.params);
+      userinfoById({ id: this.$route.params.id }).then(res => {
+        // console.log(res);
+        this.userid = res.data.userid;
+        this.resume = res.data;
+        this.getMomes();
+      });
+    },
+    // 获取留言
+    getMomes() {
+      getAllMomes({ toid: this.userid }).then(res => {
+        // console.log(res);
+        this.critism = res.data;
+        this.critismFive = this.critism.slice(0, 5);
+      });
+    },
+    // 刷新留言列表
+    resetCritism() {
+      this.getMomes();
+    },
+    showMoreCritism() {
+      this.critismFive = this.critism;
     }
   }
 };

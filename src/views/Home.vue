@@ -88,6 +88,7 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
+    overflow: hidden;
     .bgImg {
       position: relative;
       z-index: 2;

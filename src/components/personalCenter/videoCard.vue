@@ -1,20 +1,21 @@
 <template>
   <div class="video">
-    <video ref="video" :src="item.src"></video>
-    <div class="btn" @click="playing(index)">
-      <svg class="icon" aria-hidden="true">
-        <use :xlink:href="!item.isPlay ? '#icon-play' : '#icon-pause'"></use>
-      </svg>
+    <div @click="play(item)">
+      <el-image :src="item.path" fit="cover"></el-image>
+    </div>
+    <div class="content">
+      <div class="title twoLine">{{ item.description }}</div>
+      <el-button type="danger" size="small" plain>删除</el-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['item', 'index'],
+  props: ['item'],
   methods: {
-    playing(index) {
-      this.$emit('playing', index);
+    play(item) {
+      this.$emit('play', item);
     }
   }
 };
@@ -22,18 +23,28 @@ export default {
 
 <style lang="less" scoped>
 .video {
-  position: relative;
-  background-color: rgba(0, 0, 0, 0.75);
-  .btn {
-    position: absolute;
+  width: 425px;
+  margin: 7.5px;
+  display: flex;
+  background-color: rgba(245, 245, 245, 1);
+  .el-image {
+    display: block;
+    width: 260px;
+    height: 160px;
     cursor: pointer;
-    top: 50%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    .icon {
-      font-size: 30px;
-      color: rgba(255, 255, 255, .75);
-    }
+  }
+  .content {
+    margin: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  &:nth-child(2n + 1) {
+    margin-left: 0;
+  }
+  &:nth-child(2n + 2) {
+    margin-right: 0;
   }
 }
 </style>

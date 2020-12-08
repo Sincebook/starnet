@@ -1,14 +1,16 @@
 <template>
   <div class="criticism_input">
-    <textarea class="text" placeholder="请输入评论内容"></textarea>
+    <textarea class="text" placeholder="请输入评论内容" ref="input"></textarea>
     <!-- <input type="text" class="text"/> -->
     <div class="btn" @click="submit"><span>提</span><span>交</span></div>
   </div>
 </template>
 <script>
 // @ is an alias to /src
+import { addMemos } from '@/ajax';
 export default {
-  name: 'XXX',
+  props: ['userid'],
+  name: 'critismInput',
   data() {
     return {
 
@@ -19,7 +21,17 @@ export default {
   },
   methods: {
     submit() {
-      this.$emit('submit');
+      let word = this.$refs.input.value;
+      if (!word) {
+        return;
+      }
+      console.log(word);
+      console.log(this.userid);
+      addMemos({ toid: parseInt(this.userid), word: word }).then(res => {
+        console.log(res);
+      });
+      this.$refs.input.value = '';
+      this.$emit('resetCritism');
     }
   }
 };

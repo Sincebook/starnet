@@ -1,11 +1,8 @@
 <template>
   <div>
-    <div class="job-card" @click="deatil">
+    <div class="job-card" @click="deatil(item.id)">
       <div class="job-head">
-        <div
-          class="img"
-          :style="{ backgroundImage: 'url(' + item.image + ')' }"
-        ></div>
+        <el-image class="img" :src="item.image" fit="cover"></el-image>
       </div>
       <div class="job-content">
         <div class="head">
@@ -15,7 +12,7 @@
           </svg>
         </div>
         <div class="container">
-          <p>发布人：{{ item.launch }}</p>
+          <p class="job-require">发布人：{{ item.launch }}</p>
           <p>面试地点：{{ item.place }}</p>
           <p>年龄要求：{{ item.age }}</p>
           <p>性别：{{ item.sex }}</p>
@@ -61,9 +58,8 @@ export default {
       this.$emit('collect');
     },
     // 查看详情
-    deatil() {
-      this.$router.push({ name: 'jobDetail', params: { id: 1 } });
-      this.$emit('deatil');
+    deatil(id) {
+      this.$router.push({ name: 'jobDetail', params: { id: id } });
     }
   }
 };
@@ -74,10 +70,12 @@ export default {
   cursor: pointer;
   user-select: none;
   position: relative;
-  width: 360px;
+  width: 330px;
   background-color: var(--cardBgColor);
-  height: 420px;
+  height: 390px;
   transition: all 0.25s;
+  box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
+    4px 4px 8px -5px rgba(0, 0, 0, 0.1);
   &:hover {
     box-shadow: -8px -8px 16px -10px rgba(0, 0, 0, 0.3),
       8px 8px 16px -10px rgba(0, 0, 0, 0.3);
@@ -95,15 +93,12 @@ export default {
       width: 100%;
       height: 100%;
       transition: all 0.25s;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
     }
   }
   .job-content {
     text-align: left;
     width: 100%;
-    padding: 110px 25px 10px 25px;
+    padding: 105px 20px 0px 20px;
     height: 100%;
     position: relative;
     .job-require {
@@ -115,15 +110,16 @@ export default {
   .head {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     .title {
       color: #759cb6;
+      font-size: 18px;
       flex: 1;
     }
     .icon {
       color: var(--fontColor);
       cursor: pointer;
-      font-size: 20px;
+      font-size: 18px;
       transition: all 0.25s;
       transform: translateX(4px);
       &:hover {
@@ -146,7 +142,7 @@ export default {
     .right {
       cursor: pointer;
       position: absolute;
-      height: 30px;
+      height: 5px;
       display: flex;
       align-items: center;
       transition: all 0.25s;
@@ -157,7 +153,7 @@ export default {
     .left {
       left: 0;
       .icon {
-        font-size: 25px;
+        font-size: 20px;
       }
     }
     .right {

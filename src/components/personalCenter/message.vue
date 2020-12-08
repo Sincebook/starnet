@@ -14,7 +14,7 @@
             <div class="user-info">
               <span class="user-name">百事可乐</span>
               <span class="user-vip">普通会员</span>
-              <div class="content twoLine">和进攻机会</div>
+              <div class="content twoLine">asdasd</div>
             </div>
             <div class="user-btn">
               <el-button
@@ -62,11 +62,15 @@
 </template>
 
 <script>
+import {
+  mineMessage
+} from '../../ajax/index';
 export default {
   data() {
     return {
       bgImg: '//ftp.qnets.cn/img/bg3.jpg',
       currentPage1: 1,
+      nums: 7,
       replay: '',
       replayTitle: '',
       dialogVisible: false
@@ -80,6 +84,13 @@ export default {
       this.replayTitle = item;
       this.replay = '';
     }
+  },
+  created() {
+    mineMessage({ page: this.currentPage1, num: this.nums }).then(res => {
+      console.log(res);
+    }).catch(err => {
+      return err;
+    });
   }
 };
 </script>
@@ -110,6 +121,7 @@ export default {
           word-wrap: break-word;
           .content {
             margin-top: 5px;
+            height: 38px;
           }
         }
         .user-name {

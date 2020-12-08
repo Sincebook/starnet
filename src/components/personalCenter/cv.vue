@@ -20,10 +20,10 @@
             placeholder="请输入爱称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="身高" prop="hight">
+        <el-form-item label="身高" prop="height">
           <el-input
             type="number"
-            v-model="ruleForm.hight"
+            v-model="ruleForm.height"
             placeholder="请输入身高"
           ></el-input>
         </el-form-item>
@@ -34,21 +34,60 @@
             placeholder="请输入体重"
           ></el-input>
         </el-form-item>
-        <el-form-item label="眼睛颜色" prop="eyeColor">
+        <el-form-item label="性别" prop="sex">
+          <el-select v-model="ruleForm.sex" placeholder="请选择性别">
+            <el-option
+              v-for="item in sexList"
+              :key="item.value"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="民族" prop="nation">
+          <el-select v-model="ruleForm.nation" placeholder="请选择民族">
+            <el-option
+              v-for="item in nationList.nation"
+              :key="item.id"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="国籍" prop="country">
+          <el-select v-model="ruleForm.country" placeholder="请选择国籍">
+            <el-option
+              v-for="item in countryList.country"
+              :key="item.en"
+              :value="item.cn"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="居住地" prop="home">
+          <el-cascader
+            clearable
+            v-model="ruleForm.home"
+            :props="{ label: 'value' }"
+            :options="homeList.home"
+            placeholder="请选择居住地"
+          ></el-cascader>
+        </el-form-item>
+        <el-form-item label="眼睛颜色" prop="eyeColour">
           <el-input
-            v-model="ruleForm.eyeColor"
+            v-model="ruleForm.eyeColour"
             placeholder="请输入眼睛颜色"
           ></el-input>
         </el-form-item>
-        <el-form-item label="皮肤颜色" prop="skinColor">
+        <el-form-item label="皮肤颜色" prop="skinColour">
           <el-input
-            v-model="ruleForm.skinColor"
+            v-model="ruleForm.skinColour"
             placeholder="请输入皮肤颜色"
           ></el-input>
         </el-form-item>
-        <el-form-item label="头发颜色" prop="hairColor">
+        <el-form-item label="头发颜色" prop="hairColour">
           <el-input
-            v-model="ruleForm.hairColor"
+            v-model="ruleForm.hairColour"
             placeholder="请输入头发颜色"
           ></el-input>
         </el-form-item>
@@ -58,9 +97,9 @@
             placeholder="请输入头发类型"
           ></el-input>
         </el-form-item>
-        <el-form-item label="出生日期" prop="birthday">
+        <el-form-item label="出生日期" prop="birthTime">
           <el-date-picker
-            v-model="ruleForm.birthday"
+            v-model="ruleForm.birthTime"
             type="date"
             placeholder="请选择出生日期"
             format="yyyy 年 MM 月 dd 日"
@@ -68,8 +107,11 @@
           >
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="职业" prop="job">
-          <el-input v-model="ruleForm.job" placeholder="请输入职业"></el-input>
+        <el-form-item label="职业" prop="vocation">
+          <el-input
+            v-model="ruleForm.vocation"
+            placeholder="请输入职业"
+          ></el-input>
         </el-form-item>
         <el-form-item label="经济公司" prop="company">
           <el-input
@@ -77,18 +119,18 @@
             placeholder="请输入经济公司"
           ></el-input>
         </el-form-item>
-        <el-form-item label="代表作" prop="works">
+        <el-form-item label="代表作" prop="representativeWork">
           <el-input
-            v-model="ruleForm.works"
+            v-model="ruleForm.representativeWork"
             placeholder="请输入代表作"
           ></el-input>
         </el-form-item>
-        <el-form-item label="个人描述" prop="desc">
+        <el-form-item label="个人描述" prop="selfEvaluation">
           <el-input
             resize="none"
             type="textarea"
             :autosize="{ minRows: 6, maxRows: 6 }"
-            v-model="ruleForm.desc"
+            v-model="ruleForm.selfEvaluation"
             placeholder="请输入个人描述"
           ></el-input>
         </el-form-item>
@@ -102,23 +144,34 @@
 </template>
 
 <script>
+import nation from './nation.json';
+import home from './home.json';
+import country from './country.json';
+import {
+  mineInfoDetail,
+  extraInfoDetail
+} from '../../ajax/index';
 export default {
   data() {
     return {
       ruleForm: {
         name: '',
         nickname: '',
-        hight: '',
+        height: '',
         weight: '',
-        eyeColor: '',
-        skinColor: '',
-        hairColor: '',
+        country: '',
+        nation: '',
+        sex: '',
+        home: [],
+        eyeColour: '',
+        skinColour: '',
+        hairColour: '',
         hairType: '',
-        birthday: '',
-        job: '',
+        birthTime: '',
+        vocation: '',
         company: '',
-        works: '',
-        desc: ''
+        representativeWork: '',
+        selfEvaluation: ''
       },
       rules: {
         name: [
@@ -127,50 +180,82 @@ export default {
         nickname: [
           { required: true, message: '爱称不能为空', trigger: 'blur' }
         ],
-        hight: [
+        height: [
           { required: true, message: '身高不能为空', trigger: 'blur' }
         ],
         weight: [
           { required: true, message: '体重不能为空', trigger: 'blur' }
         ],
-        eyeColor: [
+        country: [
+          { required: true, message: '国籍不能为空', trigger: 'blur' }
+        ],
+        nation: [
+          { required: true, message: '民族不能为空', trigger: 'blur' }
+        ],
+        sex: [
+          { required: true, message: '性别不能为空', trigger: 'blur' }
+        ],
+        home: [
+          { required: true, message: '居住地不能为空', trigger: 'blur' }
+        ],
+        eyeColour: [
           { required: true, message: '眼睛颜色不能为空', trigger: 'blur' }
         ],
-        skinColor: [
+        skinColour: [
           { required: true, message: '皮肤颜色不能为空', trigger: 'blur' }
         ],
-        hairColor: [
+        hairColour: [
           { required: true, message: '头发颜色不能为空', trigger: 'blur' }
         ],
         hairType: [
           { required: true, message: '头发类型不能为空', trigger: 'blur' }
         ],
-        birthday: [
+        birthTime: [
           { required: true, message: '出生日期不能为空', trigger: 'blur' }
         ],
-        job: [
+        vocation: [
           { required: true, message: '职业不能为空', trigger: 'blur' }
         ],
         company: [
           { required: true, message: '经济公司不能为空', trigger: 'blur' }
         ],
-        works: [
+        representativeWork: [
           { required: true, message: '代表作不能为空', trigger: 'blur' }
         ],
-        desc: [
+        selfEvaluation: [
           { required: true, message: '个人描述不能为空', trigger: 'blur' }
         ]
       },
-      disabled: false
+      homeList: [],
+      countryList: [],
+      nationList: [],
+      sexList: [{
+        value: '男'
+      }, {
+        value: '女'
+      }],
+      flag: false
     };
   },
   methods: {
     submitForm() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.flag = true;
+          extraInfoDetail(this.ruleForm).then(res => {
+            if (res.code === '0') {
+              this.$message({
+                message: '提交成功',
+                type: 'suceess'
+              });
+            } else {
+              this.$message.error(res.errMsg);
+            }
+            this.flag = false;
+          }).catch(err => {
+            return err;
+          });
         } else {
-          console.log('error submit!!');
           return false;
         }
       });
@@ -178,6 +263,36 @@ export default {
     resetForm() {
       this.$refs.ruleForm.resetFields();
     }
+  },
+  created() {
+    mineInfoDetail().then(res => {
+      if (res.code === '0') {
+        this.ruleForm.name = (res.data.name === null ? '' : res.data.name);
+        this.ruleForm.nickname = (res.data.nickname === null ? '' : res.data.nickname);
+        this.ruleForm.height = (res.data.height === null ? '' : res.data.height);
+        this.ruleForm.weight = (res.data.weight === null ? '' : res.data.weight);
+        this.ruleForm.country = (res.data.country === null ? '' : res.data.country);
+        this.ruleForm.nation = (res.data.nation === null ? '' : res.data.nation);
+        this.ruleForm.sex = (res.data.sex === null ? '' : res.data.sex);
+        this.ruleForm.home = (res.data.home === null ? [] : res.data.home);
+        this.ruleForm.eyeColour = (res.data.eyeColour === null ? '' : res.data.eyeColour);
+        this.ruleForm.skinColour = (res.data.skinColour === null ? '' : res.data.skinColour);
+        this.ruleForm.hairColour = (res.data.hairColour === null ? '' : res.data.hairColour);
+        this.ruleForm.hairType = (res.data.hairType === null ? '' : res.data.hairType);
+        this.ruleForm.birthTime = (res.data.birthTime === null ? '' : res.data.birthTime);
+        this.ruleForm.vocation = (res.data.vocation === null ? '' : res.data.vocation);
+        this.ruleForm.company = (res.data.company === null ? '' : res.data.company);
+        this.ruleForm.representativeWork = (res.data.representativeWork === null ? '' : res.data.representativeWork);
+        this.ruleForm.selfEvaluation = (res.data.selfEvaluation === null ? '' : res.data.selfEvaluation);
+      }
+    }).catch(err => {
+      return err;
+    });
+  },
+  mounted() {
+    this.nationList = nation;
+    this.homeList = home;
+    this.countryList = country;
   }
 };
 </script>

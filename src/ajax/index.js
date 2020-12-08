@@ -3,7 +3,11 @@ export {
 }
 from './test.js';
 export {
-  getSignBg
+  getSignBg,
+  getCode,
+  registerUser,
+  loginUser,
+  wxLogin
 }
 from './sign.js';
 export {
@@ -11,19 +15,50 @@ export {
   findByUptime,
   findByCategory,
   findByTwo,
-  getComInfoById,
-  getComVideoByUserId,
-  getComPhotosByUserId,
-  getComGradeByUserId,
-  showFunsNumsByUserId,
-  sendMessageToId
+  fingComInfo,
+  findComByName
 }
 from './company.js';
 export {
-  findHotJob
+  findHotJob,
+  findJobByName,
+  findJobUptime,
+  findJobByThree
 }
 from './job';
 export {
-  findByTalentNew
+  findByTalentNew,
+  findByThree,
+  findByName,
+  findHotTalent
 }
 from './talent';
+export {
+  userinfoById,
+  noWatch,
+  watchIt,
+  addMsg,
+  getFuns,
+  getUserImg,
+  getUserWork,
+  getAllMomes,
+  addMemos
+}
+from './talentDetail';
+
+export {
+  mineInfo,
+  celebrity,
+  mineInfoDetail,
+  extraInfoDetail,
+  mineMessage,
+  mineOpus,
+  mineDeliver,
+  cancelDeliver
+}
+from './personalCenter';
+export {
+  findHotJobs,
+  findHotTalents
+}
+from './home';

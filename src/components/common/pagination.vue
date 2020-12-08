@@ -161,7 +161,7 @@ export default {
 
 <style lang="less" scoped>
 .pagination-box {
-  margin-bottom: 75px;
+  margin-bottom: 15px;
   justify-content: center;
   align-items: center;
   display: flex;

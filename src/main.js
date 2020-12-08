@@ -29,10 +29,19 @@ import {
   TabPane,
   Alert,
   Link,
-  Image
+  Image,
+  Checkbox,
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu
 } from 'element-ui';
 Vue.config.roductionTip = false;
 Vue.use(Viewer);
+Vue.use(Dropdown);
+Vue.use(DropdownItem);
+Vue.use(DropdownMenu);
+Vue.use(Avatar);
 Vue.use(Upload);
 Vue.use(Select);
 Vue.use(Input);
@@ -50,6 +59,7 @@ Vue.use(TabPane);
 Vue.use(Alert);
 Vue.use(Link);
 Vue.use(Image);
+Vue.use(Checkbox);
 Viewer.setDefaults({
   Options: {
     inline: true,
@@ -73,6 +83,13 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });
 Vue.prototype.$message = Message;
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
+  next();
+});
 new Vue({
   router,
   store,
