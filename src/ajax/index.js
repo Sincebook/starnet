@@ -12,7 +12,7 @@ export {
   findByCategory,
   findByTwo,
   getComInfoById,
-  getComVideo
+  getComVideoByUserId
 }
 from './company.js';
 export {

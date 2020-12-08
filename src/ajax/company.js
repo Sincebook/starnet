@@ -18,6 +18,6 @@ export function findByTwo(params) {
 export function getComInfoById(params) {
   return http.get('/api/companyinfo/findById', params);
 }
-export function getComVideo(params) {
-  return http.get('api/companyvideo/findById', params);
+export function getComVideoByUserId(params) {
+  return http.get('api/companyvideo/findByUserid', params);
 };
