@@ -8,6 +8,7 @@ import Job from '../views/Job.vue';
 import Sign from '../views/Sign.vue';
 import Talent from '../views/Talent.vue';
 import Vip from '../views/Vip.vue';
+import BindPhone from '../views/BindPhone.vue';
 import PersonalCenter from '../views/PersonalCenter.vue';
 import CorporateCenter from '../views/CorporateCenter.vue';
 import companyDetail from '../components/company/companyDetail/companyDetail.vue';
@@ -63,6 +64,14 @@ const routes = [{
     component: Sign,
     meta: {
       title: '登录'
+    }
+  },
+  {
+    path: '/bindPhone',
+    name: 'BindPhone',
+    component: BindPhone,
+    meta: {
+      title: '绑定手机号'
     }
   },
   {
