@@ -48,7 +48,7 @@ export default {
   methods: {
     changePage(page) {
       findByUptime({ page }).then(res => {
-      console.log(res);
+      // console.log(res);
       this.cards = res.data.companyInfoVOs;
       this.allpages = res.data.allpage;
       // console.log(this.cards);

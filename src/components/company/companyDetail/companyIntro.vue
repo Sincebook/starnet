@@ -41,7 +41,7 @@
     </div>
     <div class="introFooter">
       <p class="container my-info" ref="myInfo">
-        {{ comInfor.content }}
+        {{ comInfor.description }}
       </p>
       <p @click="tagChange" class="show-all">{{ tag }}</p>
     </div>

@@ -21,3 +21,18 @@ export function getComInfoById(params) {
 export function getComVideoByUserId(params) {
   return http.get('api/companyvideo/findByUserid', params);
 };
+export function getComPhotosByUserId(params) {
+  return http.get('api/opus/findByTypeAndUserId', params);
+}
+export function getComGradeByUserId(params) {
+  return http.get('api/companygrade/findByUserid', params);
+}
+export function showFunsNumsByUserId(params) {
+  return http.get('api/funs/findByUserid', params);
+}
+export function attentionByStarId(params) {
+  return http.get('api/funs/add`', params);
+}
+export function sendMessageToId(params) {
+  return http.post('api/message/add', params);
+}

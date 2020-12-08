@@ -5,7 +5,7 @@
       v-for="item in videos"
       :key="item.id"
       class="videos"
-      :ding="item.video"
+      :ding="item"
     ></video-card>
     <pagination allPages="20" class="videoPag"></pagination>
   </div>
@@ -23,9 +23,7 @@ export default {
     };
   },
   created() {
-    // console.log(111);
     // console.log(this.videos);
-    console.log(this.videos[0].video);
   },
   components: {
     VideoCard,
