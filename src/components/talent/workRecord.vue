@@ -74,7 +74,7 @@ export default {
     .show-all {
     position: absolute;
     bottom: 10px;
-    right: 10px;
+    right: 20px;
     cursor: pointer;
   }
 }

@@ -4,7 +4,7 @@
       <div class="job-head">
         <div
           class="img"
-          :style="{ backgroundImage: 'url(' + item.bg + ')' }"
+          :style="{ backgroundImage: 'url(' + item.image + ')' }"
         ></div>
       </div>
       <div class="job-content">
@@ -15,15 +15,15 @@
           </svg>
         </div>
         <div class="container">
-          <p>发布人：{{ item.name }}</p>
-          <p>面试地点：{{ item.loaction }}</p>
+          <p>发布人：{{ item.launch }}</p>
+          <p>面试地点：{{ item.place }}</p>
           <p>年龄要求：{{ item.age }}</p>
           <p>性别：{{ item.sex }}</p>
-          <p>职位要求：{{ item.require }}</p>
+          <p class="job-require">职位要求：{{ item.jobneed }}</p>
           <p>薪酬：{{ item.money }}</p>
-          <p>工作周期：{{ item.duration }}</p>
-          <p>开始日期：{{ item.stratTime }}</p>
-          <p>截止日期：{{ item.endTime }}</p>
+          <p>工作周期：{{ item.worktime }}</p>
+          <p>开始日期：{{ item.begintime }}</p>
+          <p>截止日期：{{ item.endtime }}</p>
         </div>
         <div class="foot">
           <div class="left" @click.stop="recommend">
@@ -106,6 +106,11 @@ export default {
     padding: 110px 25px 10px 25px;
     height: 100%;
     position: relative;
+    .job-require {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
   .head {
     display: flex;

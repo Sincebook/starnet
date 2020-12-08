@@ -38,29 +38,28 @@ export default {
 
 }
 .leavemessages{
-    background-color: gray;
     padding-left: 30px;
     font-size: 16px;
     height:30px;
     padding-top: 5px;
     font-weight: bold;
-    color: darkblue;
+    color: #2D6496;
     position:relative;
     .mg{
         position: absolute;
-        left: 30px;
+        left: 20px;
 
     }
     .recent{
         position: absolute;
-        right: 250px;
+        right: 120px;
 
     }
     .sort{
         display: inline-block;
-        width:100px;
+        width:70px;
         position: absolute;
-        right: 30px;
+        right: 0px;
 
     }
 }

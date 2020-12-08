@@ -2,9 +2,9 @@
     <div class="company-image">
         <p class="photo">图&nbsp;片</p>
         <div class="imgList">
-            <img v-for="src in imgs" :key="src.id" :src="src" >
+            <img v-for="src in imgs" :key="src.id" :src="src.path" >
         </div>
-        <pagination allPages="20" ></pagination>
+        <pagination class="imspagination" allPages="20" ></pagination>
     </div>
 </template>
 
@@ -12,9 +12,10 @@
 import Pagination from '../../common/pagination.vue';
 
 export default {
+    props: ['imgs'],
     data() {
         return {
-             imgs: [require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg')]
+            //  imgs: [require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg'), require('@/assets/images/dswcb3.jpg')]
         };
     },
     components: {
@@ -25,9 +26,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .company-image{
-    padding-top:30px;
+    padding-top:15px;
+    // padding-bottom: 5px;
     width:960px;
-    height:630px;
     margin: 0 auto;
     text-align: center;
     background-color: white;
@@ -36,16 +37,15 @@ export default {
 .photo{
     font-weight: 800;
     font-size: 18px;
-    margin-top: 20px;
-}
-.imgList{
-    margin-bottom:20px;
-
+    margin-top: 10px;
 }
 .imgList img{
     width : 280px;
-    height: 120px;
+    height: 210px;
     margin: 20px 10px;
 
+}
+.imspagination{
+    height:100px;
 }
 </style>

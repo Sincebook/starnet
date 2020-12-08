@@ -22,9 +22,9 @@
             "
             v-show="isRoate1"
           >
-            <li>森思传媒有限公司</li>
-            <li>华谊兄弟影视公司</li>
-            <li>华章演艺公司</li>
+            <li title="森思传媒有限公司">森思传媒有限公司</li>
+            <li title="华谊兄弟影视公司">华谊兄弟影视公司</li>
+            <li title="华章演艺公司">华章演艺公司</li>
           </ul>
         </div>
         <div @click="companyLocation(), (isRoate2 = !isRoate2)">
@@ -50,7 +50,7 @@
             <li>上海</li>
             <li>北京</li>
             <li>横店</li>
-            <li>郑州建业华谊</li>
+            <li title="郑州建业华谊">郑州建业华谊</li>
           </ul>
         </div>
         <div @click="companyType(), (isRoate3 = !isRoate3)">
@@ -360,7 +360,7 @@ export default {
     };
   },
   created() {
-    console.log(this);
+    // console.log(this);
   },
   components: {
 
@@ -423,8 +423,14 @@ export default {
       text-align: center;
       background-color: rgb(223, 217, 217);
       padding: 10px 20px;
-      transform: translate(-38%);
+      transform: translate(-30%);
       border-radius: 0 0 20px 20px;
+      li{
+        width: 70px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
     }
     .icon {
       transition: all 0.25s;

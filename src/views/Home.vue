@@ -6,6 +6,10 @@
           class="bgImg"
           :style="{ backgroundImage: 'url(' + item.pic + ')' }"
         ></div>
+        <div
+          class="bgImg-cover"
+          :style="{ backgroundImage: 'url(' + item.pic + ')' }"
+        ></div>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -70,21 +74,43 @@ export default {
   width: 100%;
   margin: 0 auto;
 }
+.bg-box {
+  width: 100%;
+  height: 460px;
+}
 .swiper-container {
   --swiper-theme-color: rgba(255, 255, 255, 0.5); /* 设置Swiper风格 */
   // --swiper-navigation-color: rgba(255, 255, 255, 0.5); /* 单独设置按钮颜色 */
   // --swiper-navigation-size: 5vw; /* 设置按钮大小 */
   width: 100%;
-  height: 100vh; //805px
+  height: 460px;
   .swiper-slide {
     width: 100%;
     height: 100%;
+    position: relative;
     .bgImg {
+      position: relative;
+      z-index: 2;
+      width: 1240px;
+      height: 396px;
+      margin: 0 auto;
+      transform: translateY(64px);
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+    .bgImg-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
       width: 100%;
       height: 100%;
       background-repeat: no-repeat;
       background-position: center center;
       background-size: cover;
+      filter: blur(20px);
+      transform: scale(1.5);
     }
   }
 }
