@@ -15,6 +15,12 @@ export {
   findByUptime,
   findByCategory,
   findByTwo,
+  getComInfoById,
+  getComVideoByUserId,
+  getComPhotosByUserId,
+  getComGradeByUserId,
+  showFunsNumsByUserId,
+  sendMessageToId,
   fingComInfo,
   findComByName
 }
