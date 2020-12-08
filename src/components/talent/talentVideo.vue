@@ -44,7 +44,7 @@ export default {
       if (!this.lastTarget) {
         this.lastTarget = e.target;
       } else {
-        console.log(this.lastTarget);
+        // console.log(this.lastTarget);
         this.lastTarget.pause();
         this.lastTarget = e.target;
       }
