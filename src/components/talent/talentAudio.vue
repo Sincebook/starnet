@@ -21,12 +21,6 @@ export default {
   data() {
     return {
       music: '',
-      // {
-      //   title: '文爱',
-      //   artist: 'CG',
-      //   src: require('@/assets/images/CG - 文爱.mp3')
-      //   // pic: require('@/assets/images/telent.jpg')
-      // }
       list: [],
       obj: { type: 3, page: 1 }// 先默认第一页，其实不分页
     };
@@ -38,10 +32,12 @@ export default {
     getData() {
       this.obj.userid = this.userid;
       getUserImg(this.obj).then(res => {
-        console.log(res);
-        this.music = { title: res.data[0].description, src: res.data[0].path, artist: this.formatDate(parseInt(res.data[0].uptime)) };
-        for (let i = 1; i < res.data.length; i++) {
-          this.list.push({ title: res.data[i].description, src: res.data[i].path, artist: this.formatDate(parseInt(res.data[i].uptime)) });
+        // console.log(res);
+        if (res.code === '0') {
+          this.music = { title: res.data[0].description, src: res.data[0].path, artist: this.formatDate(parseInt(res.data[0].uptime)) };
+          for (let i = 1; i < res.data.length; i++) {
+            this.list.push({ title: res.data[i].description, src: res.data[i].path, artist: this.formatDate(parseInt(res.data[i].uptime)) });
+          }
         }
       });
     },

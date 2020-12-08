@@ -1,12 +1,25 @@
 <template>
-  <div :class="$route.path === '/sign' ? 'newFoot' : ''">
+  <div v-if="$route.path !== '/sign' && $route.path !== '/bindPhone'">
     <div class="footer-nav">
       <div>
-        <p><img src="//ftp.qnets.cn/since/logo.png" alt="绘星" class="nav-icon" /></p>
+        <p>
+          <img
+            src="//ftp.qnets.cn/since/logo.png"
+            alt="绘星"
+            class="nav-icon"
+          />
+        </p>
         <p>年轻的力量</p>
         <p>专注于传媒招聘</p>
-        <p style="margin:10px 0;">扫一扫，关注我们</p>
-        <p><img src="../../assets/images/since.jpg" alt="" width="100px" height="100px"></p>
+        <p style="margin: 10px 0">扫一扫，关注我们</p>
+        <p>
+          <img
+            src="../../assets/images/since.jpg"
+            alt=""
+            width="100px"
+            height="100px"
+          />
+        </p>
       </div>
       <div class="left">
         <p class="title">关于</p>
@@ -109,7 +122,7 @@ export default {
   }
 }
 .footer-fixed {
-  padding:10px 0;
+  padding: 10px 0;
   background-color: rgb(34, 33, 33);
   color: #eee;
   display: flex;

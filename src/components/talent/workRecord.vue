@@ -1,9 +1,13 @@
 <template>
   <div class="work-record my-info" ref="myInfo" v-if="works">
     <p class="title">工作经历</p>
-    <div v-for="(value,item, index) in works" :key="item+index" >
+    <div v-for="(value, item, index) in works" :key="item + index">
       <p class="tit">{{ item }}</p>
-      <p class="container" v-for="item in works[item]" :key="item.id+ item.userid">
+      <p
+        class="container"
+        v-for="item in works[item]"
+        :key="item.id + item.userid"
+      >
         {{ item.description }}<br />
       </p>
     </div>
@@ -40,16 +44,18 @@ export default {
     },
     getData() {
       getUserWork({ userid: this.userid }).then(res => {
-        console.log(res);
+        // console.log(res);
         let obj = {};
-        res.data.forEach(item => {
-          if (obj[item.title]) {
-            obj[item.title].push(item);
-          } else {
-            obj[item.title] = [item];
-          }
-        });
-        this.works = obj;
+        if (res.code === '0') {
+          res.data.forEach(item => {
+            if (obj[item.title]) {
+              obj[item.title].push(item);
+            } else {
+              obj[item.title] = [item];
+            }
+          });
+          this.works = obj;
+        }
       });
     }
   }
@@ -89,13 +95,13 @@ export default {
   }
 }
 .my-info {
-    height: 400px;
-    overflow: hidden;
-    // display: -webkit-box;
-    // overflow: hidden;
-    // text-overflow: ellipsis;
-    // -webkit-line-clamp: 3;
-    // line-clamp: 3;
-    // -webkit-box-orient: vertical;
-  }
+  height: 400px;
+  overflow: hidden;
+  // display: -webkit-box;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  // -webkit-line-clamp: 3;
+  // line-clamp: 3;
+  // -webkit-box-orient: vertical;
+}
 </style>
