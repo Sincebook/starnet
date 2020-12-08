@@ -42,7 +42,7 @@ export default {
     changePage(page) {
       if (this.select === 'uptime') {
         findByTalentNew({ page }).then(res => {
-          console.log(res);
+          // console.log(res);
           this.cards = res.data.datas;
           this.allpages = res.data.allpage;
         });
@@ -65,14 +65,14 @@ export default {
       });
     },
     nameSearch(name) {
-      console.log(name);
+      // console.log(name);
       if (!name) { // 输入名字为空时，搜索最新的人才
         this.select = 'uptime';
         this.changePage(1);
         return;
       }
       findByName({ name }).then(res => {
-        console.log(res);
+        // console.log(res);
         this.cards = res.data.datas;
         this.allpages = res.data.allpage;
       });
@@ -83,7 +83,7 @@ export default {
     },
     hot() {
       findHotTalent().then(res => {
-        console.log(res);
+        // console.log(res);
         this.cards = res.data;
         // this.allpages = res.data.allpage;
       });

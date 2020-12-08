@@ -5,7 +5,7 @@
       <viewer :images="imgs">
         <img
           v-for="(src, index) in imgs"
-          :src="src"
+          :src="src.path"
           :key="'hahah' + index"
           alt=""
         />
@@ -40,13 +40,15 @@ export default {
       this.getData(page);
     },
     getData(page) {
-      console.log(this.userid);
+      // console.log(this.userid);
       this.obj.page = page;
       this.obj.userid = this.userid;
       getUserImg(this.obj).then(res => {
-        console.log(res);
-        this.imgs = res.data.datas;
-        this.allpages = res.data.allpage;
+        // console.log(res);
+        if (res.code === '0') {
+          this.imgs = res.data.datas;
+          this.allpages = res.data.allpage;
+        }
       });
     }
   },

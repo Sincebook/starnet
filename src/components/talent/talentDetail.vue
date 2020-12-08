@@ -40,7 +40,7 @@
         v-if="critism.length"
       >
         <span style="cursor: pointer" @click="showMoreCritism"
-         >查看更多...</span
+          >查看更多...</span
         >
       </div>
       <criticism-input
@@ -89,11 +89,13 @@ export default {
     // 锚点
     changeHash(id) {
       // console.log(id);
-      document.querySelector('#' + id).scrollIntoView(true);
+      if (document.querySelector('#' + id)) {
+        document.querySelector('#' + id).scrollIntoView(true);
+      }
     },
     // 简介
     userinfo() {
-      console.log(this.$route.params);
+      // console.log(this.$route.params);
       userinfoById({ id: this.$route.params.id }).then(res => {
         // console.log(res);
         this.userid = res.data.userid;
