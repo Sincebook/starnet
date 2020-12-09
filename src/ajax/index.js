@@ -16,6 +16,12 @@ export {
   findByUptime,
   findByCategory,
   findByTwo,
+  getComInfoById,
+  getComVideoByUserId,
+  getComPhotosByUserId,
+  getComGradeByUserId,
+  showFunsNumsByUserId,
+  sendMessageToId,
   fingComInfo,
   findComByName
 }
@@ -80,6 +86,9 @@ export {
   isFun,
   getAllRoles,
   applyJob,
-  isApply
+  isApply,
+  starJob,
+  isStar,
+  noStarJob
 }
 from './jobDetail';

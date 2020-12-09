@@ -1,20 +1,60 @@
 <template>
   <div class="companyDetail">
-    <company-brief></company-brief>
+    <company-brief
+      :userid="userid"
+      v-if="userid"
+      :item="company"
+    ></company-brief>
     <div class="companyNav">
-       <div class="navcontent">
-           <a @click="changeHash('comIntro')" >公司简介</a>
-           <a @click="changeHash('comImage')">图片</a>
-           <a @click="changeHash('comVideo')">视频</a>
-           <a @click="changeHash('comPerform')" >公司业绩</a>
-           <a @click="changeHash('comMark')">留言</a>
-       </div>
+      <div class="navcontent">
+        <a @click="changeHash('comIntro')">公司简介</a>
+        <a @click="changeHash('comImage')">图片</a>
+        <a @click="changeHash('comVideo')">视频</a>
+        <a @click="changeHash('comPerform')">公司业绩</a>
+        <a @click="changeHash('comMark')">留言</a>
+      </div>
     </div>
-    <company-intro :com="company" :comInfor="comInformation" id="comIntro"></company-intro>
-    <company-image id="comImage"></company-image>
-    <company-video id="comVideo"></company-video>
-    <company-perform id="comPerform"></company-perform>
-    <company-mark id="comMark"></company-mark>
+    <company-intro
+      :com="company"
+      :comInfor="comInformation"
+      id="comIntro"
+    ></company-intro>
+    <company-image id="comImage" v-if="userid" :userid="userid"></company-image>
+    <company-video id="comVideo" :userid="userid" v-if="userid"></company-video>
+    <company-perform
+      id="comPerform"
+      :userid="userid"
+      v-if="userid"
+    ></company-perform>
+    <!-- <company-mark id="comMark"></company-mark> -->
+    <div class="critism" id="criticism" v-if="critism">
+      <criticism
+        v-for="item in critismFive"
+        :key="item.name + item.id"
+        :item="item"
+      ></criticism>
+      <div
+        style="
+          background-color: #fff;
+          width: 960px;
+          margin: 0 auto;
+          text-align: center;
+        "
+        v-if="critism.length"
+      >
+        <span
+          style="cursor: pointer"
+          @click="showMoreCritism"
+          v-if="!isClickMore"
+          >查看更多...</span
+        >
+      </div>
+      <criticism-input
+        v-if="userid"
+        :userid="userid"
+        @resetCritism="resetCritism"
+      ></criticism-input>
+    </div>
   </div>
 </template>
 <script>
@@ -24,39 +64,48 @@ import CompanyIntro from './companyIntro.vue';
 import CompanyImage from './companyImage.vue';
 import CompanyVideo from './companyVideo.vue';
 import CompanyPerform from './companyPerform.vue';
-import CompanyMark from './companyMark.vue';
+import Criticism from '../../common/criticism.vue';
+import CriticismInput from '../../common/criticismInput.vue';
+// import CompanyMark from './companyMark.vue';
+import {
+  getComInfoById,
+  getAllMomes
+  // attentionByStarId,
+  // sendMessageToId
+} from '@/ajax';
+
 export default {
   name: 'XXX',
+  // props: ['name'],
   data() {
     return {
       company: {
-        time: '2004年9月1日',
-        person: '2004年9月1日',
-        money: '2004年9月1日',
-        city: '2004年9月1日',
-        form: '2004年9月1日',
-        chairman: '2004年9月1日',
-        property: '2004年9月1日',
-        director: '2004年9月1日',
-        slogan: '2004年9月1日',
-        code: '2004年9月1日',
-        type: '2004年9月1日',
-        range: '2004年9月1日',
-        tv: '2004年9月1日',
-        stock: '2004年9月1日'
+        time: '',
+        person: '',
+        money: '',
+        city: '',
+        form: '',
+        code: '',
+        range: '',
+        show: '',
+        oknum: 0
       },
       comInformation: {
-        content: '华谊兄弟传媒股份有限公司是中国大陆一家知名综合性民营娱乐集团，由王中军、王中磊兄弟在1994年创立，1998年投资著名导演冯小刚的影片《没完没了》、姜文导演的影片《鬼子来了》正式进入电影行业。因每年投资冯小刚的贺岁片而声名鹊起，随后全面进入传媒产业，投资及运营电影、电视剧、艺人经纪、唱片、娱乐营销等领域，在这些领域都取得了不错的成绩，并且在2005年成立华谊兄弟传媒集团。2009年9月27日，证监会创业板发行审核委员会公告，华谊兄弟传媒股份有限公司（首发）获得通过，这意味着华谊兄弟成为了首家获准公开发行股票的娱乐公司; 也迈出了其境内上市至关重要的一步。2017年5月11日，华谊兄弟传媒集团入选第九届全国“文化企业30强”。 [1] 2019年7月8日，中共华谊兄弟传媒股份有限公司委员会正式成立。'
-
-      }
+        description: ''
+      },
+      userid: '',
+      comvideos: '',
+      images: '',
+      critism: '',
+      critismFive: '',
+      isClickMore: false
     };
   },
   created() {
-    // console.log(this);
-    // console.log(this.$route.params.id);
-  },
-  mounted() {
-
+    // console.log(this.name);
+    this.getCompanyInfo();
+    // console÷.log(this.userid);
+    //  this.getCompanyVideo();
   },
   components: {
     CompanyBrief,
@@ -64,40 +113,89 @@ export default {
     CompanyImage,
     CompanyVideo,
     CompanyPerform,
-    CompanyMark
+    Criticism,
+    CriticismInput
+    // CompanyMark
 
   },
   methods: {
+    getCompanyInfo() {
+      getComInfoById({ id: this.$route.params.id }).then(res => {
+        // console.log(res);
+        if (res.code === '0') {
+          this.userid = res.data.userid;
+          this.getMomes();
+          // this.getCompanyVideo();
+          // this.getComPhotos();
+          // this.getComGrade();
+          this.company.time = res.data.createTime.substring(0, 10);
+          this.company.person = res.data.legalPerson;
+          this.company.money = res.data.capital;
+          this.company.city = res.data.area;
+          this.company.form = res.data.category;
+          this.company.code = res.data.organizationCode;
+          this.company.range = res.data.managementRange;
+          this.company.show = res.data.opus;
+          this.comInformation.description = res.data.description;
+          this.company.oknum = res.data.oknum;
+        }
+      });
+    },
     changeHash(id) {
-      console.log(id);
-      document.querySelector('#' + id).scrollIntoView(true);
+      // console.log(id);
+      if (document.querySelector('#' + id)) {
+        document.querySelector('#' + id).scrollIntoView(true);
+      }
+    },
+    // 获取留言
+    getMomes() {
+      getAllMomes({ toid: this.userid }).then(res => {
+        // console.log(res);
+        this.critism = res.data;
+        if (!this.isClickMore) {
+          this.critismFive = this.critism.slice(0, 5);
+        } else {
+          this.critismFive = res.data;
+        }
+      });
+    },
+    // 刷新留言列表
+    resetCritism() {
+      this.getMomes();
+    },
+    showMoreCritism() {
+      if (this.critismFive.length === this.critism.length) return;
+      this.critismFive = this.critism;
+      this.isClickMore = true;
     }
   }
 };
 </script>
 
 <style lang='less' scoped>
-.companyDetail{
-  background-color: #F5F5F5;
+.companyDetail {
+  background-color: #f5f5f5;
 }
-.companyNav{
-    width: 100%;
-    height:60px;
-    background-color: #C8C8C8;
+.companyNav {
+  width: 100%;
+  height: 60px;
+  background-color: #c8c8c8;
 }
-.navcontent{
-    width: 600px;
-    height:20px;
-    padding-top: 20px;
-    margin:0 auto;
+.navcontent {
+  width: 600px;
+  height: 20px;
+  padding-top: 20px;
+  margin: 0 auto;
 }
-.navcontent a{
-  display:inline-block;
+.navcontent a {
+  display: inline-block;
   width: 56px;
   margin: 0 32px;
-  color:#2D6496;
+  color: #2d6496;
   font-weight: 800;
-
 }
-
+.critism {
+  padding: 20px;
+  background-color: #fff;
+}
 </style>

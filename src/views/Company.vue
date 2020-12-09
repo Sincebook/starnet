@@ -56,7 +56,7 @@ export default {
     changePage(page) {
       if (this.select === 'uptime') {
         findByUptime({ page }).then(res => {
-          console.log(res);
+          // console.log(res);
           this.cards = res.data.companyInfoVOs;
           this.allpages = res.data.allpage;
           // console.log(this.cards);
@@ -120,9 +120,7 @@ export default {
     /deep/ .company-card {
       width: 240px;
       height: 330px;
-      margin: 10px;
-      .company-head{
-      }
+      margin: 20px 10px;
     }
   }
 }

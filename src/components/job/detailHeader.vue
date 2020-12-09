@@ -30,28 +30,21 @@
               font-size: 16px;
               border-left: 1px solid rgba(150, 140, 140, 0.6);
             "
+            @click="star"
           >
-            <svg
-              class="icon icon-qq2"
-              aria-hidden="true"
-              style="color: rgb(81, 156, 234)"
-            >
+            <svg class="icon icon-qq2" ref="star" aria-hidden="true">
               <use xlink:href="#icon-shoucang"></use>
             </svg>
-            收藏
+            {{ shoucang }}
           </span>
           <span
             class="fenxiang"
-            style="border-left: 1px solid rgba(150, 140, 140, 0.6)"
+            style="
+              border-left: 1px solid rgba(150, 140, 140, 0.6);
+              padding-left: 5px;
+            "
             ref="fenxiang"
-          >
-            <svg
-              class="icon"
-              aria-hidden="true"
-              style="color: rgb(81, 156, 234); font-size: 18px"
-            >
-              <use xlink:href="#icon-fenxiang"></use></svg
-            >&nbsp;分享
+            >&nbsp;&nbsp;分享
             <!-- <div class="fenxiang-card" ref="fenxiangCard" style="display: none">
               <div class="dialog-box">
                 <span class="bot"></span>
@@ -73,6 +66,33 @@
                 </svg>
               </span>
             </div> -->
+          </span>
+          <span style="color: rgb(150, 140, 140)" @click="share(1)">
+            <svg
+              class="icon icon-qq2"
+              aria-hidden="true"
+              style="font-size: 18px"
+            >
+              <use xlink:href="#icon-weixin1"></use>
+            </svg>
+          </span>
+          <span style="color: rgb(150, 140, 140)" @click="share(2)">
+            <svg
+              class="icon icon-qq2"
+              aria-hidden="true"
+              style="font-size: 18px"
+            >
+              <use xlink:href="#icon-qq2"></use>
+            </svg>
+          </span>
+          <span style="color: rgb(150, 140, 140)" @click="share(3)">
+            <svg
+              class="icon icon-qq2"
+              aria-hidden="true"
+              style="font-size: 18px"
+            >
+              <use xlink:href="#icon-weibo"></use>
+            </svg>
           </span>
           <p style="font-size: 14px; font-weight: 400; padding: 20px 10px">
             {{ job1.description }}
@@ -137,7 +157,7 @@
 </template>
 <script>
 // @ is an alias to /src
-import { watchIt, noWatch, getUserNH, addMsg, isFun } from '@/ajax';
+import { watchIt, noWatch, getUserNH, addMsg, isFun, starJob, isStar, noStarJob } from '@/ajax';
 export default {
   name: 'detailHeader',
   props: ['job1', 'id'],
@@ -145,20 +165,23 @@ export default {
     return {
       user: '',
       input2: '',
-      guan: '关注'
+      guan: '关注',
+      shoucang: '收藏'
     };
   },
   created() {
     this.getUserInfo();
   },
   methods: {
+    // 请求公司头像和名称
     getUserInfo() {
       getUserNH({ id: this.id }).then(res => {
-        console.log(res);
+        // console.log(res);
         this.user = res.data;
         this.isFun();
       });
     },
+    // 私信
     msgIt() {
       if (this.$refs.msg.style.display === 'block') {
         this.$refs.msg.style.display = 'none';
@@ -199,6 +222,71 @@ export default {
         }
         // console.log(res);
       });
+      // 判断是否收藏了该job
+      isStar({ jobid: this.id }).then(res => {
+        // console.log(res);
+        if (res.code === '0') {
+          this.$refs.star.style.color = 'rgb(81, 156, 234)';
+          this.shoucang = '已收藏';
+        }
+      });
+    },
+    star() {
+      if (this.shoucang === '已收藏') {
+        noStarJob({ jobid: this.id }).then(res => {
+          if (res.code === '0') {
+            this.$refs.star.style.color = 'rgb(150, 140, 140)';
+            this.shoucang = '收藏';
+          } else {
+            this.$message.error(res.errMsg);
+          }
+        });
+        return;
+      }
+      starJob({ jobid: this.id }).then(res => {
+        console.log(res);
+        if (res.code === '0') {
+          this.$refs.star.style.color = 'rgb(81, 156, 234)';
+          this.shoucang = '已收藏';
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      });
+    },
+    // 分享，参数：1为微信，2为qq，3为微博
+    // http://starnet.since88.cn/#/jobDetail/1
+    share(index) {
+      let url = window.location.href + '#' + this.id;
+      if (index === 1) {
+        this.$message({
+          message: '请将链接复制到微信...'
+        });
+        // window.open('http://qr.liantu.com/api.php?text=' + encodeURIComponent(url), 'weixin', 'height=320,width=320');
+      }
+      if (index === 2) {
+        this.shareQQ();
+      }
+      if (index === 3) {
+        window.open('http://v.t.sina.com.cn/share/share.php?title=' + this.job1.title + '&url=' + url + '&content=utf-8&sourceUrl=' + this.job1.description + '&pic=' + this.job1.image, 'newwindow', 'height:400,width:400,top:100,left:100'
+        );
+      }
+    },
+    shareQQ() {
+      var param = {
+        url: window.location.href,
+        desc: this.job1.description, /* 分享理由 */
+        title: this.job1.title || '', /* 分享标题(可选) */
+        summary: '', /* 分享描述(可选) */
+        pics: this.job1.image || '', /* 分享图片(可选) */
+        flash: '', /* 视频地址(可选) */
+        site: '' /* 分享来源 (可选) */
+      };
+      var s = [];
+      for (var i in param) {
+        s.push(i + '=' + encodeURIComponent(param[i] || ''));
+      }
+      var targetUrl = 'http://connect.qq.com/widget/shareqq/iframe_index.html?' + s.join('&');
+      window.open(targetUrl, 'qq', 'height=520, width=720');
     }
   },
   mounted() {
@@ -262,10 +350,7 @@ export default {
           font-size: 18px;
           color: rgb(150, 140, 140);
           font-size: 16px;
-          cursor: pointer;
-          &:hover {
-            color: rgb(81, 156, 234);
-          }
+          // cursor: pointer;
         }
         .fenxiang-card {
           border: 1px solid rgba(150, 140, 140, 0.2);

@@ -3,7 +3,9 @@
     <!-- actor1 -->
     <div class="details">
       <div class="right-box">
+        <viewer>
         <img :src="item.image" alt="" />
+        </viewer>
         <span>
           <h3>
             {{ item.name }}<span style="font-size: 14px">{{ item.sex }}</span
@@ -90,6 +92,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
+  height: 160px;
   span {
     margin: 0 10px;
     font-size: 14px;
@@ -98,7 +101,7 @@ export default {
   }
   img {
     width: 120px;
-    height: 160px;
+    // height: 100px;
   }
 }
 </style>

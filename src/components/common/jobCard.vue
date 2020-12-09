@@ -6,9 +6,14 @@
       </div>
       <div class="job-content">
         <div class="head">
-          <h2 class="title oneLine">{{ item.title }}</h2>
-          <svg @click.stop="share" class="icon" aria-hidden="true">
-            <use xlink:href="#icon-fenxiang"></use>
+          <h2 class="title oneLine" :title="item.title">
+            {{ item.title.slice(0, 9) }}
+          </h2>
+          <svg @click.stop="share(1)" class="icon" aria-hidden="true">
+            <use xlink:href="#icon-weixin1"></use>
+          </svg>
+          <svg @click.stop="share(3)" class="icon" aria-hidden="true">
+            <use xlink:href="#icon-weibo"></use>
           </svg>
         </div>
         <div class="container">
@@ -27,13 +32,13 @@
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-tuijian"></use>
             </svg>
-            编辑推荐
+            {{ item.type === 1 ? "正常" : "编辑推荐" }}
           </div>
           <div class="right" @click.stop="collect">
-            <svg class="icon" aria-hidden="true">
+            <svg class="icon" aria-hidden="true" ref="star">
               <use xlink:href="#icon-ai-mark"></use>
             </svg>
-            点击收藏
+            {{ shoucang }}
           </div>
         </div>
       </div>
@@ -42,12 +47,35 @@
 </template>
 
 <script>
+import { starJob, isStar, noStarJob } from '@/ajax';
 export default {
   props: ['item'],
+  data() {
+    return {
+      shoucang: '点击收藏'
+    };
+  },
+  created() {
+    // console.log(this.item.id);
+    this.item.begintime = this.$formatDate(this.item.begintime);
+    this.item.endtime = this.$formatDate(this.item.endtime);
+    this.isStar();
+  },
   methods: {
     // 分享
-    share() {
-      this.$emit('share');
+    share(index) {
+      let url = window.location.href + '#' + this.item.id;
+      console.log(url);
+      if (index === 3) {
+        window.open('http://v.t.sina.com.cn/share/share.php?title=' + this.item.title + '&url=' + url + '&content=utf-8&sourceUrl=' + this.item.description + '&pic=' + this.item.image, 'newwindow', 'height:400,width:400,top:100,left:100'
+        );
+      }
+      if (index === 1) {
+        this.$message({
+          message: '请将链接复制到微信...'
+        });
+        // window.open('http://qr.liantu.com/api.php?text=' + encodeURIComponent(url), 'weixin', 'height=320,width=320');
+      }
     },
     // 推荐
     recommend() {
@@ -55,7 +83,37 @@ export default {
     },
     // 收藏
     collect() {
-      this.$emit('collect');
+      // this.$emit('collect');
+      if (this.shoucang === '已收藏') {
+        noStarJob({ jobid: this.item.id }).then(res => {
+          if (res.code === '0') {
+            this.$refs.star.style.color = 'rgb(150, 140, 140)';
+            this.shoucang = '点击收藏';
+          } else {
+            this.$message.error(res.errMsg);
+          }
+        });
+        return;
+      }
+      starJob({ jobid: this.item.id }).then(res => {
+        console.log(res);
+        if (res.code === '0') {
+          this.$refs.star.style.color = 'rgb(81, 156, 234)';
+          this.shoucang = '已收藏';
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      });
+    },
+    // 判断是否收藏
+    isStar() {
+      isStar({ jobid: this.item.id }).then(res => {
+        // console.log(res);
+        if (res.code === '0') {
+          this.$refs.star.style.color = 'rgb(81, 156, 234)';
+          this.shoucang = '已收藏';
+        }
+      });
     },
     // 查看详情
     deatil(id) {

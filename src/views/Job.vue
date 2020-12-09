@@ -12,7 +12,7 @@
       <div v-if="!cards.length" style="margin: 50px auto">暂无数据...</div>
       <job-card
         v-for="(item, index) in cards"
-        :key="index+item.id"
+        :key="index + item.id"
         :item="item"
       ></job-card>
     </div>
@@ -45,9 +45,12 @@ export default {
       if (this.select === 'uptime') {
         // 加上时间戳现在请不到数据
         // let timestamp = Date.parse(new Date()) - 24 * 60 * 60 * 7;
-        findJobUptime({ page: 1 }).then(res => {
-          this.cards = res.data.jobs;
-          this.allpages = res.data.allpage;
+        findJobUptime({ page: page }).then(res => {
+          // console.log(res);
+          if (res.code === '0') {
+            this.cards = res.data.jobs;
+            this.allpages = res.data.allpage;
+          }
         });
         return;
       }

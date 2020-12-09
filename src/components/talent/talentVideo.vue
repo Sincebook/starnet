@@ -31,7 +31,7 @@ export default {
       srcs: [],
       lastTarget: null,
       allpages: 1,
-      obj: { type: 2 }
+      obj: { type: 2, num: 4 }
     };
   },
   created() {
@@ -39,12 +39,11 @@ export default {
   },
   methods: {
     changePlayer(e) {
-      // console.log('hhhh');
-      // console.log(e.target);
+      console.log(this.lastTarget);
+      if (e.target.localName !== 'video') return;
       if (!this.lastTarget) {
         this.lastTarget = e.target;
       } else {
-        // console.log(this.lastTarget);
         this.lastTarget.pause();
         this.lastTarget = e.target;
       }
