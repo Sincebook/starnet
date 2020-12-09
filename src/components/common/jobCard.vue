@@ -9,10 +9,10 @@
           <h2 class="title oneLine" :title="item.title">
             {{ item.title.slice(0, 9) }}
           </h2>
-          <svg @click.stop="share" class="icon" aria-hidden="true">
+          <svg @click.stop="share(1)" class="icon" aria-hidden="true">
             <use xlink:href="#icon-weixin1"></use>
           </svg>
-          <svg @click.stop="share" class="icon" aria-hidden="true">
+          <svg @click.stop="share(3)" class="icon" aria-hidden="true">
             <use xlink:href="#icon-weibo"></use>
           </svg>
         </div>
@@ -63,8 +63,19 @@ export default {
   },
   methods: {
     // 分享
-    share() {
-      this.$emit('share');
+    share(index) {
+      let url = window.location.href + '#' + this.item.id;
+      console.log(url);
+      if (index === 3) {
+        window.open('http://v.t.sina.com.cn/share/share.php?title=' + this.item.title + '&url=' + url + '&content=utf-8&sourceUrl=' + this.item.description + '&pic=' + this.item.image, 'newwindow', 'height:400,width:400,top:100,left:100'
+        );
+      }
+      if (index === 1) {
+        this.$message({
+          message: '请将链接复制到微信...'
+        });
+        // window.open('http://qr.liantu.com/api.php?text=' + encodeURIComponent(url), 'weixin', 'height=320,width=320');
+      }
     },
     // 推荐
     recommend() {

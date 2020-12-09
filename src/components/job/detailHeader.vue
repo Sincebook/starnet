@@ -256,7 +256,7 @@ export default {
     // 分享，参数：1为微信，2为qq，3为微博
     // http://starnet.since88.cn/#/jobDetail/1
     share(index) {
-      let url = window.location.href;
+      let url = window.location.href + '#' + this.id;
       if (index === 1) {
         this.$message({
           message: '请将链接复制到微信...'
