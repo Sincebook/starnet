@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     changePlayer(e) {
+      if (e.target.localName !== 'video') return;
       if (!this.lastTarget) {
         this.lastTarget = e.target;
       } else {
