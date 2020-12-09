@@ -119,12 +119,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import {
-  getCode,
-  registerUser,
-  loginUser,
-  wxLogin
-} from '../ajax/index';
+import { getCode, registerUser, loginUser, wxLogin } from '../ajax/index';
 export default {
   data() {
     return {
@@ -149,9 +144,7 @@ export default {
         type: [
           { required: true, message: '注册类型不能为空', trigger: 'change' }
         ],
-        code: [
-          { required: true, message: '验证码不能为空', trigger: 'blur' }
-        ]
+        code: [{ required: true, message: '验证码不能为空', trigger: 'blur' }]
       },
       activeName: 'first',
       isCode1: false,
@@ -177,7 +170,7 @@ export default {
         getCode({
           type: id,
           phone: this.ruleForm1.phone
-        }).then(res => {
+        }).then((res) => {
           if (res.code === '0') {
             if (!this.timer1) {
               this.count1 = 60;
@@ -203,52 +196,56 @@ export default {
       } else if (id === '2' && reg.test(this.ruleForm.phone)) {
         getCode({
           type: id,
-          phone: this.ruleForm.phone
-        }).then(res => {
-          if (res.code === '0') {
-            if (!this.timer2) {
-              this.count2 = 60;
-              this.isCode2 = true;
-              this.timer2 = setInterval(() => {
-                if (this.count2 > 0 && this.count2 <= 60) {
-                  this.count2--;
-                } else {
-                  this.isCode2 = false;
-                  clearInterval(this.timer2);
-                  this.timer2 = null;
-                }
-              }, 1000);
+          phone: this.ruleForm.phon
+        })
+          .then((res) => {
+            if (res.code === '0') {
+              if (!this.timer2) {
+                this.count2 = 60;
+                this.isCode2 = true;
+                this.timer2 = setInterval(() => {
+                  if (this.count2 > 0 && this.count2 <= 60) {
+                    this.count2--;
+                  } else {
+                    this.isCode2 = false;
+                    clearInterval(this.timer2);
+                    this.timer2 = null;
+                  }
+                }, 1000);
+              }
+              this.$message({
+                message: '验证码已发送',
+                type: 'success'
+              });
+            } else {
+              this.$message.error(res.errMsg);
             }
-            this.$message({
-              message: '验证码已发送',
-              type: 'success'
-            });
-          } else {
-            this.$message.error(res.errMsg);
-          }
-        }).catch(err => {
-          return err;
-        });
+          })
+          .catch((err) => {
+            return err;
+          });
       }
     },
     login() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          loginUser(this.ruleForm).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                message: '登录成功，正在跳转...',
-                type: 'success'
-              });
-              setTimeout(() => {
-                this.$router.push('/home');
-              }, 1500);
-            } else {
-              this.$message.error(res.errMsg);
-            }
-          }).catch(err => {
-            return err;
-          });
+          loginUser(this.ruleForm)
+            .then((res) => {
+              if (res.code === '0') {
+                this.$message({
+                  message: '登录成功，正在跳转...',
+                  type: 'success'
+                });
+                setTimeout(() => {
+                  this.$router.push('/home');
+                }, 1500);
+              } else {
+                this.$message.error(res.errMsg);
+              }
+            })
+            .catch((err) => {
+              return err;
+            });
         } else {
           return false;
         }
@@ -257,21 +254,23 @@ export default {
     register() {
       this.$refs.ruleForm1.validate((valid) => {
         if (valid) {
-          registerUser(this.ruleForm1).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                message: '注册成功，正在跳转...',
-                type: 'success'
-              });
-              setTimeout(() => {
-                this.$router.push('/personalCenter');
-              }, 1500);
-            } else {
-              this.$message.error(res.errMsg);
-            }
-          }).catch(err => {
-            return err;
-          });
+          registerUser(this.ruleForm1)
+            .then((res) => {
+              if (res.code === '0') {
+                this.$message({
+                  message: '注册成功，正在跳转...',
+                  type: 'success'
+                });
+                setTimeout(() => {
+                  this.$router.push('/personalCenter');
+                }, 1500);
+              } else {
+                this.$message.error(res.errMsg);
+              }
+            })
+            .catch((err) => {
+              return err;
+            });
         } else {
           return false;
         }
@@ -288,9 +287,17 @@ export default {
       }
     },
     wxLogin() {
-      wxLogin().then(res => {
-        console.log(res);
-      });
+      wxLogin()
+        .then((res) => {
+          if (res.code === '0') {
+            window.location.href = res.data;
+          } else {
+            this.$message.error(res.errMsg);
+          }
+        })
+        .catch((err) => {
+          return err;
+        });
     }
   }
 };
