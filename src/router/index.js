@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Test from '../views/Test.vue';
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import Company from '../views/Company.vue';
@@ -14,19 +13,12 @@ import CorporateCenter from '../views/CorporateCenter.vue';
 import companyDetail from '../components/company/companyDetail/companyDetail.vue';
 import jobDetail from '../components/job/jobDetail.vue';
 import talentDetail from '../components/talent/talentDetail.vue';
-
 Vue.use(VueRouter);
 
 const routes = [{
     path: '/',
-    name: 'Test',
-    redirect: '/home',
-    component: Test,
-    meta: {
-      title: '测试'
-    }
-  },
-  {
+    redirect: '/home'
+  }, {
     path: '/home',
     name: 'Home',
     component: Home,
@@ -127,14 +119,6 @@ const routes = [{
       title: '人才详情'
     }
   }
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import( /* webpackChunkName: "about" */ '../views/About.vue')
-  // }
 ];
 
 const router = new VueRouter({

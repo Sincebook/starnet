@@ -1,7 +1,7 @@
 import axios from 'axios';
-import qs from 'qs';
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-axios.defaults.transformRequest = data => qs.stringify(data);
+// import qs from 'qs';
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// axios.defaults.transformRequest = data => qs.stringify(data);
 /**
  *
  * @param {'get' | 'post'} method
@@ -20,14 +20,14 @@ function ajax(method, url, params) {
         params
       };
     } else if (method === 'post') {
-      // let formData = new FormData();
-      // for (let key in params) {
-      //   formData.append(key, params[key]);
-      // }
+      let formData = new FormData();
+      for (let key in params) {
+        formData.append(key, params[key]);
+      }
       // console.log(params);
       // params = qs.stringify(params);
       ajaxMethod = axios[method];
-      ajaxParams = params;
+      ajaxParams = formData;
     } else {
       // 不支持的请求
       // get和post之外的请求

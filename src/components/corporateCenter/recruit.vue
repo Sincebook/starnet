@@ -3,40 +3,26 @@
     <div class="title">
       <div class="name">在招职位</div>
     </div>
-    <div class="info">
+    <div class="info notAllow" v-if="info.status === 1">
+      <el-alert
+        title="您还没有进行企业认证"
+        type="warning"
+        :closable="false"
+        center
+        description="请前往企业认证页面进行认证或点击下方按钮进行跳转"
+        show-icon
+      >
+      </el-alert>
+      <div class="btn">
+        <el-button type="primary" @click="goCelebrity">前往认证</el-button>
+      </div>
+    </div>
+    <div class="info" v-else>
       <div class="tabber">
         <div :class="{ active: active == 0 }" @click="active = 0">发布职位</div>
         <div :class="{ active: active == 1 }" @click="active = 1">已发布</div>
       </div>
       <div class="content" v-if="active == 0">
-        <div class="head">
-          <el-select v-if="!isNew" v-model="proId" placeholder="请选择项目">
-            <el-option
-              v-for="item in projectList"
-              :key="item.value"
-              :value="item.id"
-              :label="item.value"
-            >
-            </el-option>
-          </el-select>
-          <el-input
-            v-else
-            v-model="projectItem.name"
-            placeholder="请输入项目名称"
-          ></el-input>
-          <el-button
-            @click="addNewProject"
-            class="add-project-btn"
-            type="primary"
-            >{{ !isNew ? "新建项目" : "取消新建" }}</el-button
-          >
-          <el-button
-            @click="deleteProject"
-            class="add-project-btn"
-            type="primary"
-            >删除项目</el-button
-          >
-        </div>
         <el-divider></el-divider>
         <div class="recommend">
           <h4>项目介绍：</h4>
@@ -177,25 +163,16 @@
         </el-dialog>
       </div>
     </div>
-    <!-- <div class="footer-page">
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage1"
-        :page-size="7"
-        layout="total, prev, pager, next"
-        :total="123"
-      >
-      </el-pagination>
-    </div> -->
   </div>
 </template>
 
 <script>
+import { companyJob } from '../../ajax/index';
 export default {
+  props: ['info'],
   data() {
     return {
       active: 0, // 0 发布职位  1 已发布
-      isNew: false, // 是否选择新建项目
       bgImg: '//ftp.qnets.cn/img/bg3.jpg',
       replay: '',
       replayTitle: '',
@@ -243,6 +220,9 @@ export default {
     };
   },
   methods: {
+    goCelebrity() {
+      this.$emit('goCelebrity');
+    },
     addHonor() {
       console.log('add');
     },
@@ -254,7 +234,7 @@ export default {
     },
     // 新建项目
     addNewProject() {
-      this.isNew = !this.isNew;
+      console.log('新建项目');
     },
     // 删除项目
     deleteProject() {
@@ -291,6 +271,13 @@ export default {
       this.replayTitle = item;
       this.replay = '';
     }
+  },
+  created() {
+    companyJob().then(res => {
+      console.log(res);
+    }).catch(err => {
+      return err;
+    });
   }
 };
 </script>
@@ -299,6 +286,14 @@ export default {
 .info-box {
   position: relative;
   height: 100%;
+  .notAllow {
+    .btn {
+      margin-top: 25px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+  }
   .info {
     padding: 25px 50px;
     .flex-warp {
@@ -317,12 +312,12 @@ export default {
         margin: 0 5px;
       }
       .active {
-        color: #759cb6;
+        color: #409eff;
         &::after {
           content: "";
           display: block;
           height: 2px;
-          background: #759cb6;
+          background: #409eff;
         }
       }
     }

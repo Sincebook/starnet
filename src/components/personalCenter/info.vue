@@ -58,7 +58,7 @@ export default {
     return {
       imageUrl: '',
       ruleForm: {
-        avatarImg: '',
+        avatarImg: {},
         nick: ''
       },
       phone: '',
@@ -122,8 +122,8 @@ export default {
         return callback(new Error('昵称不能为空'));
       } else if (!reg.test(value)) {
         return callback(new Error('只允许设置中文、英文、数字、下划线'));
-      } else if (value.length < 2 || value.length > 8) {
-        return callback(new Error('长度在 2 到 8 个字符'));
+      } else if (value.length < 2 || value.length > 6) {
+        return callback(new Error('长度在 2 到 6 个字符'));
       } else {
         callback();
       }

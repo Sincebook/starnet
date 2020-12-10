@@ -229,7 +229,7 @@ export default {
       this.getOpus(val);
     },
     getOpus(page) {
-      mineOpus({ type: this.activeName, page: page }).then(res => {
+      mineOpus({ num: this.nums, type: this.activeName, page: page }).then(res => {
         if (res.code === '0') {
           this.isHave = true;
           if (this.activeName === '2') {

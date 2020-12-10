@@ -92,3 +92,12 @@ export {
   noStarJob
 }
 from './jobDetail';
+export {
+  companyInfo,
+  addGrade,
+  getGrade,
+  deleteGrade,
+  celebrityCompany,
+  companyJob
+}
+from './corporateCenter.js';

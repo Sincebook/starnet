@@ -54,12 +54,14 @@
       </div>
     </div>
     <div class="content">
-      <components
-        :info="userInfo.user"
-        @change="changeInfo"
-        @goCelebrity="goCelebrity"
-        :is="child"
-      ></components>
+      <keep-alive>
+        <components
+          :info="userInfo.user"
+          @change="changeInfo"
+          @goCelebrity="goCelebrity"
+          :is="child"
+        ></components>
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -238,5 +240,8 @@ export default {
 .active {
   background: #409eff;
   color: #fff;
+}
+/deep/.el-link--success {
+  color: #97dc73 !important;
 }
 </style>

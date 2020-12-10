@@ -124,6 +124,7 @@ export default {
                 type: 'success'
               });
               this.$refs.ruleForm.resetFields();
+              this.imageUrl = '';
             } else {
               this.$message.error(res.errMsg);
             }

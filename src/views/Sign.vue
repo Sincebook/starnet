@@ -17,7 +17,11 @@
                 placeholder="请输入手机号"
               >
                 <template slot="suffix">
-                  <div class="send-btn" @click="getCodes('2')">
+                  <div
+                    class="send-btn"
+                    :style="isCode2 ? 'pointer-events:none' : ''"
+                    @click="getCodes('2')"
+                  >
                     {{ isCode2 ? count2 : "获取验证码" }}
                   </div></template
                 ></el-input
@@ -45,9 +49,9 @@
             </div>
             <div class="others-btn">
               <div class="btn">
-                <svg class="icon icon-qq" aria-hidden="true">
-                  <use xlink:href="#icon-qq2"></use></svg
-                >QQ登录
+                <svg class="icon icon-weibo" aria-hidden="true">
+                  <use xlink:href="#icon-weibo"></use></svg
+                >微博登录
               </div>
               <div class="btn" @click="wxLogin()">
                 <svg class="icon icon-weixin" aria-hidden="true">
@@ -84,7 +88,11 @@
                 placeholder="请输入手机号"
               >
                 <template slot="suffix">
-                  <div class="send-btn" @click="getCodes('1')">
+                  <div
+                    class="send-btn"
+                    :style="isCode1 ? 'pointer-events:none' : ''"
+                    @click="getCodes('1')"
+                  >
                     {{ isCode1 ? count1 : "获取验证码" }}
                   </div></template
                 ></el-input
@@ -196,7 +204,7 @@ export default {
       } else if (id === '2' && reg.test(this.ruleForm.phone)) {
         getCode({
           type: id,
-          phone: this.ruleForm.phon
+          phone: this.ruleForm.phone
         })
           .then((res) => {
             if (res.code === '0') {
@@ -365,9 +373,9 @@ export default {
         &:hover {
           color: #409eff;
         }
-        .icon-qq {
+        .icon-weibo {
           font-size: 30px;
-          color: #66bde7;
+          color: #eb241b;
           margin-right: 5px;
         }
         .icon-weixin {
