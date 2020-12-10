@@ -46,8 +46,8 @@ export default {
   props: ['userid', 'item'],
   data() {
     return {
-      bgImg: require('@/assets/images/dswcb1.jpeg'),
-      bgImg1: require('@/assets/images/dswcb2.png'),
+      bgImg: '//ftp.qnets.cn/since/dswcb1.jpeg',
+      bgImg1: '//ftp.qnets.cn/since/dswcb2.png',
       showmode: false,
       fansNums: '',
       deal: '',
