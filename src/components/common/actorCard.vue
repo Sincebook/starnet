@@ -45,12 +45,6 @@ export default {
     this.getInfo();
   },
   methods: {
-    email() {
-      this.$emit('email');
-    },
-    follow() {
-      this.$emit('follow');
-    },
     msgIt() {
       if (this.$refs.msg.style.display === 'block') {
         this.$refs.msg.style.display = 'none';

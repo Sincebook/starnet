@@ -44,9 +44,9 @@ export default {
     },
     getData() {
       getUserWork({ userid: this.userid }).then(res => {
-        console.log(res);
+        // console.log(res);
         let obj = {};
-        if (res.data) {
+        if (res.code === '0') {
           res.data.forEach(item => {
             if (obj[item.title]) {
               obj[item.title].push(item);

@@ -39,8 +39,11 @@
         "
         v-if="critism.length"
       >
-        <span style="cursor: pointer" @click="showMoreCritism"
-         >查看更多...</span
+        <span
+          style="cursor: pointer"
+          @click="showMoreCritism"
+          v-if="!isClickMore"
+          >查看更多...</span
         >
       </div>
       <criticism-input
@@ -68,7 +71,8 @@ export default {
       userid: '',
       resume: '',
       critism: '',
-      critismFive: ''
+      critismFive: '',
+      isClickMore: false
     };
   },
   components: {
@@ -87,10 +91,14 @@ export default {
   methods: {
     // 锚点
     changeHash(id) {
-      document.querySelector('#' + id).scrollIntoView(true);
+      // console.log(id);
+      if (document.querySelector('#' + id)) {
+        document.querySelector('#' + id).scrollIntoView(true);
+      }
     },
     // 简介
     userinfo() {
+      // console.log(this.$route.params);
       userinfoById({ id: this.$route.params.id }).then(res => {
         this.userid = res.data.userid;
         this.resume = res.data;
@@ -101,7 +109,11 @@ export default {
     getMomes() {
       getAllMomes({ toid: this.userid }).then(res => {
         this.critism = res.data;
-        this.critismFive = this.critism.slice(0, 5);
+        if (!this.isClickMore) {
+          this.critismFive = this.critism.slice(0, 5);
+        } else {
+          this.critismFive = this.critism;
+        }
       });
     },
     // 刷新留言列表
@@ -109,7 +121,9 @@ export default {
       this.getMomes();
     },
     showMoreCritism() {
+      if (this.critismFive.length === this.critism.length) return;
       this.critismFive = this.critism;
+      this.isClickMore = true;
     }
   }
 };

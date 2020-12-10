@@ -162,9 +162,7 @@ export default {
     /deep/ .company-card {
       width: 240px;
       height: 330px;
-      margin: 10px;
-      .company-head {
-      }
+      margin: 20px 10px;
     }
   }
 }

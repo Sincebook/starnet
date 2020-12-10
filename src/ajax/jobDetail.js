@@ -23,3 +23,15 @@ export function applyJob(params) {
 export function isApply(params) {
   return http.post('/api/information/isApply', params);
 }
+// 收藏一个工作
+export function starJob(params) {
+  return http.post('/api/collect/add', params);
+}
+// 取消收藏一个工作
+export function noStarJob(params) {
+  return http.post('/api/collect/delete', params);
+}
+// 判断是否收藏了该工作
+export function isStar(params) {
+  return http.get('/api/collect/judge', params);
+}

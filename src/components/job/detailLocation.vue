@@ -1,6 +1,8 @@
 <template>
   <div class="w_location">
-    <p style="font-size:24px;font-weight:600;margin-bottom:10px;">工作详情</p>
+    <p style="font-size: 24px; font-weight: 600; margin-bottom: 10px">
+      工作详情
+    </p>
     <!-- 内容部分 -->
     <div class="content">
       <p>面试地点：{{ info.place }}</p>
@@ -31,6 +33,10 @@ export default {
 
     };
   },
+  created() {
+    this.info.begintime = this.$formatDate(this.info.begintime);
+    this.info.endtime = this.$formatDate(this.info.endtime);
+  },
   components: {
 
   }
@@ -52,7 +58,7 @@ export default {
     .blue_color {
       font-size: 15px;
       font-weight: 700;
-      color:#333;
+      color: #333;
     }
   }
 }

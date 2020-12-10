@@ -25,10 +25,20 @@ export default {
       if (!word) {
         return;
       }
-      console.log(word);
-      console.log(this.userid);
+      // console.log(word);
+      // console.log(this.userid);
       addMemos({ toid: parseInt(this.userid), word: word }).then(res => {
         console.log(res);
+        if (res.code === '0') {
+          this.$message({
+            message: '已评论',
+            type: 'success'
+          });
+        } else {
+          this.$message.error(
+            res.errMsg
+          );
+        }
       });
       this.$refs.input.value = '';
       this.$emit('resetCritism');

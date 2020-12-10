@@ -31,7 +31,7 @@ export default {
       srcs: [],
       lastTarget: null,
       allpages: 1,
-      obj: { type: 2 }
+      obj: { type: 2, num: 4 }
     };
   },
   created() {
@@ -39,6 +39,8 @@ export default {
   },
   methods: {
     changePlayer(e) {
+      console.log(this.lastTarget);
+      if (e.target.localName !== 'video') return;
       if (!this.lastTarget) {
         this.lastTarget = e.target;
       } else {
@@ -54,7 +56,7 @@ export default {
       this.obj.userid = this.userid;
       getUserImg(this.obj).then(res => {
         // console.log(res);
-        if (res.data) {
+        if (res.code === '0') {
           this.srcs = res.data.datas;
           this.allpages = res.data.allpage;
         }

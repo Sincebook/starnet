@@ -107,7 +107,7 @@ export default {
       });
     },
     nameSearch(name) {
-      console.log(name);
+      // console.log(name);
       if (!name) { // 输入名字为空时，搜索最新的人才
         this.select = 'uptime';
         this.changePage(1);

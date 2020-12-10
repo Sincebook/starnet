@@ -1,30 +1,47 @@
 <template>
-  <div class="company-image">
+  <div class="company-image" v-if="images">
     <p class="photo">图&nbsp;片</p>
     <div class="imgList">
-      <img v-for="src in imgs" :key="src.id" :src="src" />
+      <viewer :images="images">
+        <img v-for="src in images" :key="src.id" :src="src.path" />
+      </viewer>
     </div>
-    <pagination allPages="20"></pagination>
+    <pagination
+      class="imspagination"
+      :allPages="allpages"
+      @getProjects="changePage"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import Pagination from '../../common/pagination.vue';
-
+import { getComPhotosByUserId } from '@/ajax';
 export default {
+  props: ['userid'],
   data() {
     return {
-      imgs: [
-        '//ftp.qnets.cn/since/dswcb3.jpg',
-        '//ftp.qnets.cn/since/dswcb3.jpg',
-        '//ftp.qnets.cn/since/dswcb3.jpg',
-        '//ftp.qnets.cn/since/dswcb3.jpg',
-        '//ftp.qnets.cn/since/dswcb3.jpg',
-        '//ftp.qnets.cn/since/dswcb3.jpg',
-        '//ftp.qnets.cn/since/dswcb3.jpg',
-        '//ftp.qnets.cn/since/dswcb3.jpg',
-        '//ftp.qnets.cn/since/dswcb3.jpg']
+      images: '',
+      allpages: 1
     };
+  },
+  created() {
+    this.getComPhotos(1);
+    // console.log(this.userid);
+  },
+  methods: {
+    changePage(page) {
+      this.getComPhotos(page);
+    },
+    getComPhotos(page) {
+      getComPhotosByUserId({ type: 1, userid: this.userid, page: page }).then(res => {
+        if (res.code === '0') {
+        //   console.log(res);
+          this.images = res.data.datas;
+          this.allpages = res.data.allpage;
+        }
+      });
+    }
   },
   components: {
     Pagination
@@ -35,8 +52,8 @@ export default {
 <style lang="less" scoped>
 .company-image {
   padding-top: 15px;
+  // padding-bottom: 5px;
   width: 960px;
-  height: 890px;
   margin: 0 auto;
   text-align: center;
   background-color: white;
@@ -47,12 +64,12 @@ export default {
   font-size: 18px;
   margin-top: 10px;
 }
-.imgList {
-  margin-bottom: 20px;
-}
 .imgList img {
   width: 280px;
   height: 210px;
-  margin: 20px 10px;
+  margin: 5px 10px;
+}
+.imspagination {
+  height: 100px;
 }
 </style>
