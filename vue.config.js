@@ -27,6 +27,13 @@ module.exports = {
     }
   },
   configureWebpack: {
-    externals: 'hls.js'
+    externals: {
+      'hls.js': 'hls.js',
+      vue: 'Vue',
+      axios: 'axios',
+      vuex: 'Vuex',
+      swiper: 'Swiper',
+      "element-ui": "ELEMENT"
+    }
   }
 };

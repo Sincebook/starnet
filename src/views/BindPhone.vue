@@ -31,7 +31,11 @@
                 placeholder="请输入手机号"
               >
                 <template slot="suffix">
-                  <div class="send-btn" @click="getCodes()">
+                  <div
+                    class="send-btn"
+                    :style="isCode ? 'pointer-events:none' : ''"
+                    @click="getCodes()"
+                  >
                     {{ isCode ? count : "获取验证码" }}
                   </div></template
                 ></el-input

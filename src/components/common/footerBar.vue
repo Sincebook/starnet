@@ -14,7 +14,7 @@
         <p style="margin: 10px 0">扫一扫，关注我们</p>
         <p>
           <img
-            src="../../assets/images/since.jpg"
+            src="//ftp.qnets.cn/since/since.jpg"
             alt=""
             width="100px"
             height="100px"

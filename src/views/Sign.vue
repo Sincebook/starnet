@@ -17,7 +17,11 @@
                 placeholder="请输入手机号"
               >
                 <template slot="suffix">
-                  <div class="send-btn" @click="getCodes('2')">
+                  <div
+                    class="send-btn"
+                    :style="isCode2 ? 'pointer-events:none' : ''"
+                    @click="getCodes('2')"
+                  >
                     {{ isCode2 ? count2 : "获取验证码" }}
                   </div></template
                 ></el-input
@@ -45,9 +49,9 @@
             </div>
             <div class="others-btn">
               <div class="btn">
-                <svg class="icon icon-qq" aria-hidden="true">
-                  <use xlink:href="#icon-qq2"></use></svg
-                >QQ登录
+                <svg class="icon icon-weibo" aria-hidden="true">
+                  <use xlink:href="#icon-weibo"></use></svg
+                >微博登录
               </div>
               <div class="btn" @click="wxLogin()">
                 <svg class="icon icon-weixin" aria-hidden="true">
@@ -84,7 +88,11 @@
                 placeholder="请输入手机号"
               >
                 <template slot="suffix">
-                  <div class="send-btn" @click="getCodes('1')">
+                  <div
+                    class="send-btn"
+                    :style="isCode1 ? 'pointer-events:none' : ''"
+                    @click="getCodes('1')"
+                  >
                     {{ isCode1 ? count1 : "获取验证码" }}
                   </div></template
                 ></el-input
@@ -118,60 +126,60 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { getCode, registerUser, loginUser, wxLogin } from "../ajax/index";
+import { mapState } from 'vuex';
+import { getCode, registerUser, loginUser, wxLogin } from '../ajax/index';
 export default {
   data() {
     return {
       rememberPwd: false,
       typeList: [
-        { id: 1, value: "个人用户" },
-        { id: 4, value: "企业用户" },
+        { id: 1, value: '个人用户' },
+        { id: 4, value: '企业用户' }
       ],
       ruleForm: {
-        phone: "",
-        code: "",
+        phone: '',
+        code: ''
       },
       ruleForm1: {
-        phone: "",
-        code: "",
-        type: "",
+        phone: '',
+        code: '',
+        type: ''
       },
       rules: {
         phone: [
-          { required: true, validator: this.checkPhone, trigger: "blur" },
+          { required: true, validator: this.checkPhone, trigger: 'blur' }
         ],
         type: [
-          { required: true, message: "注册类型不能为空", trigger: "change" },
+          { required: true, message: '注册类型不能为空', trigger: 'change' }
         ],
-        code: [{ required: true, message: "验证码不能为空", trigger: "blur" }],
+        code: [{ required: true, message: '验证码不能为空', trigger: 'blur' }]
       },
-      activeName: "first",
+      activeName: 'first',
       isCode1: false,
-      count1: "",
+      count1: '',
       timer1: null,
       isCode2: false,
-      count2: "",
-      timer2: null,
+      count2: '',
+      timer2: null
     };
   },
   mounted() {
-    this.$store.dispatch("getSignBg");
+    this.$store.dispatch('getSignBg');
   },
   computed: {
     ...mapState({
-      signBg: (state) => state.signBg,
-    }),
+      signBg: (state) => state.signBg
+    })
   },
   methods: {
     getCodes(id) {
       const reg = /^1[3|4|5|6|7|8|9]\d{9}$/;
-      if (id === "1" && reg.test(this.ruleForm1.phone)) {
+      if (id === '1' && reg.test(this.ruleForm1.phone)) {
         getCode({
           type: id,
-          phone: this.ruleForm1.phone,
+          phone: this.ruleForm1.phone
         }).then((res) => {
-          if (res.code === "0") {
+          if (res.code === '0') {
             if (!this.timer1) {
               this.count1 = 60;
               this.isCode1 = true;
@@ -186,20 +194,20 @@ export default {
               }, 1000);
             }
             this.$message({
-              message: "验证码已发送",
-              type: "success",
+              message: '验证码已发送',
+              type: 'success'
             });
           } else {
             this.$message.error(res.errMsg);
           }
         });
-      } else if (id === "2" && reg.test(this.ruleForm.phone)) {
+      } else if (id === '2' && reg.test(this.ruleForm.phone)) {
         getCode({
           type: id,
-          phone: this.ruleForm.phone,
+          phone: this.ruleForm.phone
         })
           .then((res) => {
-            if (res.code === "0") {
+            if (res.code === '0') {
               if (!this.timer2) {
                 this.count2 = 60;
                 this.isCode2 = true;
@@ -214,8 +222,8 @@ export default {
                 }, 1000);
               }
               this.$message({
-                message: "验证码已发送",
-                type: "success",
+                message: '验证码已发送',
+                type: 'success'
               });
             } else {
               this.$message.error(res.errMsg);
@@ -231,13 +239,13 @@ export default {
         if (valid) {
           loginUser(this.ruleForm)
             .then((res) => {
-              if (res.code === "0") {
+              if (res.code === '0') {
                 this.$message({
-                  message: "登录成功，正在跳转...",
-                  type: "success",
+                  message: '登录成功，正在跳转...',
+                  type: 'success'
                 });
                 setTimeout(() => {
-                  this.$router.push("/home");
+                  this.$router.push('/home');
                 }, 1500);
               } else {
                 this.$message.error(res.errMsg);
@@ -256,13 +264,13 @@ export default {
         if (valid) {
           registerUser(this.ruleForm1)
             .then((res) => {
-              if (res.code === "0") {
+              if (res.code === '0') {
                 this.$message({
-                  message: "注册成功，正在跳转...",
-                  type: "success",
+                  message: '注册成功，正在跳转...',
+                  type: 'success'
                 });
                 setTimeout(() => {
-                  this.$router.push("/personalCenter");
+                  this.$router.push('/personalCenter');
                 }, 1500);
               } else {
                 this.$message.error(res.errMsg);
@@ -279,9 +287,9 @@ export default {
     checkPhone(rule, value, callback) {
       const reg = /^1[3|4|5|6|7|8|9]\d{9}$/;
       if (!value) {
-        return callback(new Error("手机号不能为空"));
+        return callback(new Error('手机号不能为空'));
       } else if (!reg.test(value)) {
-        return callback(new Error("手机号格式不正确"));
+        return callback(new Error('手机号格式不正确'));
       } else {
         callback();
       }
@@ -289,7 +297,7 @@ export default {
     wxLogin() {
       wxLogin()
         .then((res) => {
-          if (res.code === "0") {
+          if (res.code === '0') {
             window.location.href = res.data;
           } else {
             this.$message.error(res.errMsg);
@@ -298,8 +306,8 @@ export default {
         .catch((err) => {
           return err;
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -365,9 +373,9 @@ export default {
         &:hover {
           color: #409eff;
         }
-        .icon-qq {
+        .icon-weibo {
           font-size: 30px;
-          color: #66bde7;
+          color: #eb241b;
           margin-right: 5px;
         }
         .icon-weixin {

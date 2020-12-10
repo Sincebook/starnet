@@ -3,82 +3,226 @@
     <div class="title">
       <div class="name">企业荣誉</div>
     </div>
-    <div class="info notAllow">
-      <el-input
-        resize="none"
-        type="textarea"
-        :autosize="{ minRows: 6, maxRows: 6 }"
-        v-model="desc"
-        placeholder="请输入需要添加的公司荣誉"
-      ></el-input>
+    <div class="info notAllow" v-if="info.status === 1">
+      <el-alert
+        title="您还没有进行企业认证"
+        type="warning"
+        :closable="false"
+        center
+        description="请前往企业认证页面进行认证或点击下方按钮进行跳转"
+        show-icon
+      >
+      </el-alert>
       <div class="btn">
-        <el-date-picker
-          class="time-input"
-          v-model="time"
-          type="date"
-          placeholder="请选择时间"
-          format="yyyy 年 MM 月 dd 日"
-          value-format="timestamp"
-        >
-        </el-date-picker>
-        <el-button type="primary" @click="addHonor">添加</el-button>
+        <el-button type="primary" @click="goCelebrity">前往认证</el-button>
       </div>
     </div>
-    <div class="title">
-      <div class="name">已编辑公司荣誉</div>
-    </div>
-    <div class="info">
-      <div class="list">
-        <div class="item-box" v-for="item in 5" :key="item">
-          <div class="item">
-            <div class="user-info">
-              <div class="content twoLine">
-                现代都市女性的职场发展史，该角色设置将为魅力四射，自信的表演者，他们可以有才艺技能，适应能力强
-                男演员或女演员 具有有效期内护照，可以接受出国拍摄要求
-                勤奋的角色，健康的水平，有趣的精神和脚踏实地是必不可少的勤奋的角色，健康的水平，有趣的精神和脚踏实地是必不可少的勤奋的角色，健康的水平，有趣的精神和脚踏实地是必不可少的
+    <div v-else>
+      <div class="info notAllow">
+        <el-form
+          :model="ruleForm"
+          :rules="rules"
+          ref="ruleForm"
+          label-width="60px"
+          class="demo-ruleForm"
+          :disabled="flag"
+        >
+          <el-form-item label="标题" prop="title">
+            <el-input
+              maxlength="10"
+              v-model="ruleForm.title"
+              placeholder="请输入标题"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="时间" prop="time">
+            <el-date-picker
+              class="time-input"
+              v-model="ruleForm.time"
+              type="date"
+              placeholder="请选择时间"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
+            >
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="类型" prop="type">
+            <el-select v-model="ruleForm.type" placeholder="请选择类型">
+              <el-option
+                v-for="item in typeList"
+                :key="item.value"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm">添加</el-button>
+          </el-form-item>
+          <el-form-item label="详情" prop="description">
+            <el-input
+              maxlength="150"
+              :show-word-limit="true"
+              resize="none"
+              type="textarea"
+              :autosize="{ minRows: 6, maxRows: 6 }"
+              v-model="ruleForm.description"
+              placeholder="请输入需要添加的公司荣誉"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="title">
+        <div class="name">已编辑公司荣誉</div>
+      </div>
+      <div class="info">
+        <el-alert
+          v-if="!isHave"
+          title="暂无荣誉"
+          type="warning"
+          :closable="false"
+          show-icon
+        ></el-alert>
+        <div v-else class="list">
+          <div class="item-box" v-for="item in list" :key="item.id">
+            <div class="item">
+              <div class="user-info">
+                <div class="content flexwrap">
+                  {{ item.title }} <span>{{ item.type }}</span>
+                </div>
+                <div
+                  class="content"
+                  v-html="'详情：' + item.description.replace(/\n/g, '<br>')"
+                ></div>
+                <div class="content" style="text-align: right">
+                  {{ item.time }}
+                </div>
+              </div>
+              <div class="user-btn">
+                <el-button
+                  type="danger"
+                  size="mini"
+                  plain
+                  @click="deleteHonor(item.id)"
+                  >删除</el-button
+                >
               </div>
             </div>
-            <div class="user-btn">
-              <el-button type="danger" size="mini" plain @click="deleteHonor"
-                >删除</el-button
-              >
-            </div>
+            <el-divider></el-divider>
           </div>
-          <el-divider></el-divider>
         </div>
       </div>
-    </div>
-    <div class="footer-page">
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage1"
-        :page-size="7"
-        layout="total, prev, pager, next"
-        :total="123"
-      >
-      </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  addGrade,
+  getGrade,
+  deleteGrade
+} from '../../ajax/index';
 export default {
+  props: ['info'],
   data() {
     return {
-      desc: '',
-      time: '',
-      currentPage1: 1
+      isHave: true,
+      ruleForm: {
+        title: '',
+        time: '',
+        type: '',
+        description: ''
+      },
+      rules: {
+        title: [
+          { required: true, message: '标题不能为空', trigger: 'blur' }
+        ],
+        time: [
+          { required: true, message: '时间不能为空', trigger: 'change' }
+        ],
+        type: [
+          { required: true, message: '类型不能为空', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '描述不能为空', trigger: 'blur' }
+        ]
+      },
+      typeList: [
+        {
+          value: '企业荣誉'
+        }, {
+          value: '战略合作'
+        }, {
+          value: '公司业绩'
+        }, {
+          value: '授权证书'
+        }, {
+          value: '品牌形象'
+        }
+      ],
+      flag: false,
+      list: []
     };
   },
   methods: {
-    addHonor() {
-      console.log('add');
+    goCelebrity() {
+      this.$emit('goCelebrity');
     },
-    deleteHonor() {
-      console.log('delete');
+    submitForm() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.flag = true;
+          addGrade(this.ruleForm).then(res => {
+            if (res.code === '0') {
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              });
+              this.$refs.ruleForm.resetFields();
+              this.getHonor();
+            } else {
+              this.$message.error(res.errMsg);
+            }
+            this.flag = false;
+          }).catch(err => {
+            return err;
+          });
+        }
+      });
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    getHonor() {
+      getGrade({ userid: this.info.id }).then(res => {
+        if (res.code === '0') {
+          this.isHave = true;
+          this.list = res.data;
+        } else {
+          this.isHave = false;
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
+    },
+    deleteHonor(id) {
+      deleteGrade({
+        id: id
+      }).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+          this.getHonor();
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
+    }
+  },
+  created() {
+    if (this.info.status !== 1) {
+      this.getHonor();
     }
   }
 };
@@ -93,14 +237,13 @@ export default {
       margin-top: 25px;
       width: 100%;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
     }
   }
   .info {
     padding: 25px 50px;
     .list {
       .item {
-        height: 43px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -109,6 +252,14 @@ export default {
           margin-right: 20px;
           .content {
             margin-top: 5px;
+            &:first-child {
+              margin-top: 0;
+            }
+          }
+          .flexwrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
           }
         }
       }
@@ -117,53 +268,23 @@ export default {
   .demo-ruleForm {
     display: flex;
     flex-wrap: wrap;
-    padding-top: 25px;
-    margin-bottom: 25px;
-    border: 1px dashed rgba(153, 153, 153, 0.5);
-    border-radius: 5px;
   }
-  .desc {
-    display: flex;
-    margin-bottom: 25px;
-    width: 100%;
-    .companyImg {
-      width: 135px;
-      height: 135px;
-      border-radius: 5px;
+  /deep/.el-form-item {
+    width: 30%;
+    margin-bottom: 20px;
+    .el-input {
+      width: 100%;
     }
-    .textarea {
-      flex: 1;
-      border: 1px dashed rgba(153, 153, 153, 0.5);
-      border-radius: 5px;
-      height: 135px;
-      text-overflow: -o-ellipsis-lastline;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 7;
-      line-clamp: 7;
-      -webkit-box-orient: vertical;
-      margin-left: 25px;
+    &:nth-last-child(2) {
+      width: 10%;
+      text-align: right;
     }
-  }
-  .el-form-item {
-    width: 50%;
-    margin-bottom: 10px;
-    &:first-child {
-      margin-bottom: 0;
+    &:nth-last-child(2) .el-form-item__content {
+      margin-left: 0 !important;
     }
     &:last-child {
-      margin-top: 10px;
-    }
-    .companyLogo {
-      height: 54px;
-      width: 54px;
-      border-radius: 5px;
-    }
-    .companyIdcard {
-      height: 108px;
-      width: 156px;
-      border-radius: 5px;
+      width: 100%;
+      margin: 0;
     }
   }
   .title {
@@ -174,12 +295,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 60px;
-  }
-  .footer-page {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 20px;
   }
 }
 </style>

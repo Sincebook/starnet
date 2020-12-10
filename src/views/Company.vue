@@ -34,7 +34,49 @@ export default {
   name: 'Company',
   data() {
     return {
-      cards: [{ id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }, { id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }, { id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }, { id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }, { id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }, { id: 1, image: '#', logo: require('@/assets/images/white.png'), name: '--/--', oknum: '--/--' }],
+      cards: [
+        {
+          id: 1,
+          image: '#',
+          logo: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          oknum: '--/--'
+        },
+        {
+          id: 2,
+          image: '#',
+          logo: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          oknum: '--/--'
+        },
+        {
+          id: 3,
+          image: '#',
+          logo: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          oknum: '--/--'
+        },
+        {
+          id: 4,
+          image: '#',
+          logo: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          oknum: '--/--'
+        },
+        {
+          id: 5,
+          image: '#',
+          logo: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          oknum: '--/--'
+        },
+        {
+          id: 6,
+          image: '#',
+          logo: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          oknum: '--/--'
+        }],
       allpages: null,
       select: 'uptime',
       typeObj: null
@@ -56,7 +98,7 @@ export default {
     changePage(page) {
       if (this.select === 'uptime') {
         findByUptime({ page }).then(res => {
-          console.log(res);
+          // console.log(res);
           this.cards = res.data.companyInfoVOs;
           this.allpages = res.data.allpage;
           // console.log(this.cards);
@@ -69,41 +111,41 @@ export default {
     },
     // 根据名字搜索
     nameSearch(name) {
-      console.log(name);
+      // console.log(name);
       if (!name) { this.changePage(1); return; }
       findComByName({ name }).then(res => {
-        console.log(res);
+        // console.log(res);
         this.cards = res.data;
         this.allpages = 1;// 只返回一页
       });
     },
     // 根据类型搜索
     typeToPage(obj) {
-      console.log(obj);
+      // console.log(obj);
       // { area: obj.area, category: obj.category + '公司', page: 1 }
       this.typeObj = obj;
       findByTwo(obj).then(res => {
-        console.log(res);
+        // console.log(res);
         this.cards = res.data.companyInfoVOs;
         this.allpages = res.data.allpage;
       });
     },
     lasted() {
-      console.log('最新');
+      // console.log('最新');
       this.changePage(1);
     },
     hot() {
-      console.log('最热');
+      // console.log('最热');
       findHotCompany().then(res => {
-        console.log(res);
+        // console.log(res);
         this.cards = res.data;
         this.allpages = 1;// 最热只有一页
       });
     },
     typeToName(name) {
-      console.log(name);
+      // console.log(name);
       findComByName({ name }).then(res => {
-        console.log(res);
+        // console.log(res);
       });
     }
   }
@@ -121,7 +163,7 @@ export default {
       width: 240px;
       height: 330px;
       margin: 10px;
-      .company-head{
+      .company-head {
       }
     }
   }

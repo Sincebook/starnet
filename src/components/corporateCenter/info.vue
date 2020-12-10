@@ -3,7 +3,7 @@
     <div class="title">
       <div class="name">企业信息</div>
     </div>
-    <div class="info notAllow" v-if="!isAllow">
+    <div class="info notAllow" v-if="info.status === 1">
       <el-alert
         title="您还没有进行企业认证"
         type="warning"
@@ -17,42 +17,44 @@
         <el-button type="primary" @click="goCelebrity">前往认证</el-button>
       </div>
     </div>
-    <div class="info" v-else>
+    <div class="info" v-if="companyInfo.status === 2">
       <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="公司Logo：" class="logo">
-          <el-image class="companyLogo" fit="cover" :src="ruleForm.companyLogo">
+          <el-image class="companyLogo" fit="cover" :src="companyInfo.logo">
           </el-image
         ></el-form-item>
         <el-form-item label="组织机构码：">
-          <span>{{ ruleForm.id }}</span>
+          <span>{{ companyInfo.organizationCode }}</span>
         </el-form-item>
         <el-form-item label="公司名称：">
-          <span>{{ ruleForm.name }}</span>
+          <span>{{ companyInfo.name }}</span>
         </el-form-item>
         <el-form-item label="成立时间：">
-          <span>{{ ruleForm.birthday }}</span>
+          <span>{{ companyInfo.createTime }}</span>
         </el-form-item>
-        <el-form-item label="公司类别：">
-          <span>{{ ruleForm.kind }}</span>
+        <el-form-item label="企业性质：">
+          <span>{{ companyInfo.type }}</span>
+        </el-form-item>
+        <el-form-item label="公司类型：">
+          <span>{{ companyInfo.category }}</span>
         </el-form-item>
         <el-form-item label="法人代表：">
-          <span>{{ ruleForm.representative }}</span>
+          <span>{{ companyInfo.legalPerson }}</span>
         </el-form-item>
         <el-form-item label="企业地点：">
-          <span>{{ ruleForm.home }}</span>
+          <span>{{ companyInfo.area }}</span>
         </el-form-item>
         <el-form-item label="经营范围：">
-          <span>{{ ruleForm.range }}</span>
+          <span>{{ companyInfo.managementRange }}</span>
         </el-form-item>
-        <el-form-item label="经营范围：">
-          <div class="textarea">{{ ruleForm.desc }}</div>
+        <el-form-item label="代表作：">
+          <span>{{ companyInfo.opus }}</span>
         </el-form-item>
-        <el-form-item label="营业执照：">
-          <el-image
-            class="companyIdcard"
-            fit="cover"
-            :src="ruleForm.companyIdcard"
-          >
+        <el-form-item label="公司简介：">
+          <div class="textarea">{{ companyInfo.description }}</div>
+        </el-form-item>
+        <el-form-item label="公司照片：">
+          <el-image class="companyIdcard" fit="cover" :src="companyInfo.image">
           </el-image
         ></el-form-item>
       </el-form>
@@ -62,24 +64,7 @@
 
 <script>
 export default {
-  data() {
-    return {
-      isAllow: true,
-      ruleForm: {
-        companyLogo: '//ftp.qnets.cn/img/bg3.jpg',
-        companyImg: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        companyIdcard: '//ftp.qnets.cn/img/bg1.jpg',
-        id: '123123124',
-        name: '森思',
-        birthday: '2019年1月2日',
-        kind: '互联网',
-        representative: '邓奎',
-        home: [],
-        range: '无',
-        desc: '案件卡刷公交卡上课'
-      }
-    };
-  },
+  props: ['info', 'companyInfo'],
   methods: {
     goCelebrity() {
       this.$emit('goCelebrity');
@@ -154,6 +139,9 @@ export default {
       height: 108px;
       width: 156px;
       border-radius: 5px;
+    }
+    span {
+      word-wrap: break-word;
     }
   }
   .title {

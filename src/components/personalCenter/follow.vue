@@ -25,7 +25,7 @@
                   type="primary"
                   size="mini"
                   plain
-                  @click="watchDetail(item.id)"
+                  @click="watchDetail(item.id, item.type)"
                   >个人主页</el-button
                 >
               </div>
@@ -93,15 +93,15 @@ export default {
     cancel(id) {
       cancelFollow({ starid: id }).then(res => {
         if (res.code === '0') {
-          this.$message({
-            message: '取消成功',
-            type: 'success'
-          });
-          if (this.list.datas.length === 1 && this.currentPage !== 1) {
+          if (this.list.stars.length === 1 && this.currentPage !== 1) {
             this.handleCurrentChange(this.currentPage - 1);
           } else {
             this.handleCurrentChange(this.currentPage);
           }
+          this.$message({
+            message: '取消成功',
+            type: 'success'
+          });
         } else {
           this.$message.error(res.errMsg);
         }
@@ -110,8 +110,13 @@ export default {
       });
     },
     // 查看个人主页
-    watchDetail(id) {
-      this.$router.push({ name: 'talentDetail', params: { id: id } });
+    watchDetail(id, type) {
+      // 0用户 1公司
+      if (type === 0) {
+        this.$router.push({ name: 'talentDetail', params: { id: id } });
+      } else {
+        this.$router.push({ name: 'companyDetail', params: { id: id } });
+      }
     }
   },
   created() {

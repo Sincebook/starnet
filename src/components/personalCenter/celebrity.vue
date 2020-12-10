@@ -3,7 +3,11 @@
     <div class="title">
       <div class="name">实名认证</div>
     </div>
-    <div class="info">
+    <div class="info" v-if="info.status === 2">
+      <el-alert :closable="false" title="您已认证成功" type="success" show-icon>
+      </el-alert>
+    </div>
+    <div class="info" v-else>
       <el-alert
         :closable="false"
         title="一个账号只可以和一个实名信息绑定，无法解绑或更换"
@@ -47,6 +51,7 @@ import {
   celebrity
 } from '../../ajax/index';
 export default {
+  props: ['info'],
   data() {
     return {
       flag: false,
@@ -71,19 +76,16 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.flag = true;
-          celebrity(this.ruleForm).then(item => {
-            if (item.code === '0') {
+          celebrity(this.ruleForm).then(res => {
+            if (res.code === '0') {
               this.flag = false;
-              return true;
             } else {
-              this.$message.error(item.errMsg);
+              this.$message.error(res.errMsg);
               this.flag = false;
             }
           }).catch(err => {
             return err;
           });
-        } else {
-          return false;
         }
       });
     },

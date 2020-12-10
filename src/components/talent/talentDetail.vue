@@ -55,7 +55,6 @@
 import Criticism from '../common/criticism.vue';
 import CriticismInput from '../common/criticismInput.vue';
 import TalentAudio from './talentAudio.vue';
-// @ is an alias to /src
 import TalentHeader from './talentHeader.vue';
 import TalentImg from './talentImg.vue';
 import TalentResume from './talentResume.vue';
@@ -88,14 +87,11 @@ export default {
   methods: {
     // 锚点
     changeHash(id) {
-      // console.log(id);
       document.querySelector('#' + id).scrollIntoView(true);
     },
     // 简介
     userinfo() {
-      console.log(this.$route.params);
       userinfoById({ id: this.$route.params.id }).then(res => {
-        // console.log(res);
         this.userid = res.data.userid;
         this.resume = res.data;
         this.getMomes();
@@ -104,7 +100,6 @@ export default {
     // 获取留言
     getMomes() {
       getAllMomes({ toid: this.userid }).then(res => {
-        // console.log(res);
         this.critism = res.data;
         this.critismFive = this.critism.slice(0, 5);
       });

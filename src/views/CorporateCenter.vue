@@ -2,35 +2,39 @@
   <div class="center">
     <div class="left">
       <div class="info">
-        <div
-          class="user-img"
-          :style="{ backgroundImage: 'url(' + bgImg + ')' }"
-        ></div>
+        <el-avatar class="user-img" :src="userInfo.user.head" fit="cover"
+          ><img
+            src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+        /></el-avatar>
         <div class="user-info">
           <div class="nick">
-            <div class="name">空帆船</div>
+            <div class="name">
+              {{
+                userInfo.user.name == null ? "未设置昵称" : userInfo.user.name
+              }}
+            </div>
             <div class="vip">
               <el-link
                 icon="el-icon-edit"
                 @click="goCelebrity()"
-                :disabled="isCelebrity ? true : false"
+                :disabled="userInfo.user.status !== 1 ? true : false"
                 :underline="false"
-                :type="isCelebrity ? 'success' : 'info'"
-                >{{ isCelebrity ? "已认证" : "未认证" }}</el-link
+                :type="userInfo.user.status !== 1 ? 'success' : 'info'"
+                >{{ userInfo.user.status !== 1 ? "已认证" : "未认证" }}</el-link
               >
             </div>
           </div>
           <div class="counts">
             <div>
-              粉丝<span>{{ 23827 | setNum }}</span>
+              粉丝<span>{{ userInfo.user.funs | setNum }}</span>
             </div>
             <el-divider direction="vertical"></el-divider>
             <div>
-              关注<span>{{ 1210 | setNum }}</span>
+              关注<span>{{ userInfo.collectNum | setNum }}</span>
             </div>
             <el-divider direction="vertical"></el-divider>
             <div>
-              收藏<span>{{ 21000 | setNum }}</span>
+              收藏<span>{{ userInfo.likeNum | setNum }}</span>
             </div>
           </div>
         </div>
@@ -51,13 +55,24 @@
     </div>
     <div class="content">
       <keep-alive>
-        <components @goCelebrity="goCelebrity" :is="child"></components
+        <components
+          :info="userInfo.user"
+          :companyInfo="companyInfo"
+          @change="changeInfo"
+          @goCelebrity="goCelebrity"
+          :is="child"
+        ></components
       ></keep-alive>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  mineInfo,
+  companyInfo
+} from '../ajax/index';
+import userinfo from '../components/personalCenter/info';
 import info from '../components/corporateCenter/info';
 import celebrity from '../components/corporateCenter/celebrity';
 import honor from '../components/corporateCenter/honor';
@@ -70,17 +85,43 @@ export default {
     return {
       isCelebrity: false,
       menu: [
-        { id: 1, title: '企业信息', child: 'info' },
-        { id: 2, title: '企业认证', child: 'celebrity' },
-        { id: 3, title: '企业荣誉', child: 'honor' },
-        { id: 4, title: '在招职位', child: 'recruit' },
-        { id: 5, title: '我的私信', child: 'message' },
-        { id: 6, title: '我的关注', child: 'follow' },
-        { id: 7, title: '举报中心', child: 'report' }
+        { id: 1, title: '个人资料', child: 'userinfo' },
+        { id: 2, title: '企业信息', child: 'info' },
+        { id: 3, title: '企业认证', child: 'celebrity' },
+        { id: 4, title: '企业荣誉', child: 'honor' },
+        { id: 5, title: '在招职位', child: 'recruit' },
+        { id: 6, title: '我的私信', child: 'message' },
+        { id: 7, title: '我的关注', child: 'follow' },
+        { id: 8, title: '举报中心', child: 'report' }
       ],
       activeIndex: 1,
-      child: 'info',
-      bgImg: '//ftp.qnets.cn/img/bg3.jpg'
+      child: 'userinfo',
+      userInfo: {
+        user: {
+          head: null,
+          name: null,
+          status: 1,
+          phone: '',
+          funs: 0
+        },
+        collectNum: 0,
+        likeNum: 0
+      },
+      companyInfo: {
+        status: '',
+        logo: '',
+        name: '',
+        image: '',
+        organizationCode: '',
+        legalPerson: '',
+        createTime: '',
+        type: '',
+        category: '',
+        opus: '',
+        area: '',
+        managementRange: '',
+        description: ''
+      }
     };
   },
   methods: {
@@ -89,10 +130,40 @@ export default {
       this.activeIndex = id;
     },
     goCelebrity() {
-      this.tabChange(2, 'celebrity');
+      this.tabChange(3, 'celebrity');
+    },
+    changeInfo() {
+      mineInfo().then(res => {
+        if (res.code === '0') {
+          this.userInfo = res.data;
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
     }
   },
+  created() {
+    mineInfo().then(res => {
+      if (res.code === '0') {
+        this.userInfo = res.data;
+      } else {
+        this.$message.error(res.errMsg);
+      }
+    }).catch(err => {
+      return err;
+    });
+    companyInfo().then(res => {
+      if (res.code === '0') {
+        this.companyInfo = res.data;
+      }
+    }).catch(err => {
+      return err;
+    });
+  },
   components: {
+    userinfo,
     info,
     celebrity,
     honor,
@@ -157,7 +228,7 @@ export default {
             }
           }
           span {
-            color: #409EFF;
+            color: #409eff;
             font-weight: 600;
           }
         }
@@ -188,7 +259,7 @@ export default {
   }
 }
 .active {
-  background: #409EFF;
+  background: #409eff;
   color: #fff;
 }
 </style>

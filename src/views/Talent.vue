@@ -29,7 +29,49 @@ import { findByTalentNew, findByName, findHotTalent, findByThree } from '@/ajax'
 export default {
   data() {
     return {
-      cards: [{ id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }, { id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }, { id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }, { id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }, { id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }, { id: 1, image: require('@/assets/images/white.png'), name: '--/--', vocation: '--/--', workArea: '--/--' }],
+      cards: [
+        {
+          id: 1,
+          image: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          vocation: '--/--',
+          workArea: '--/--'
+        },
+        {
+          id: 2,
+          image: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          vocation: '--/--',
+          workArea: '--/--'
+        },
+        {
+          id: 3,
+          image: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          vocation: '--/--',
+          workArea: '--/--'
+        },
+        {
+          id: 4,
+          image: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          vocation: '--/--',
+          workArea: '--/--'
+        },
+        {
+          id: 5,
+          image: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          vocation: '--/--',
+          workArea: '--/--'
+        },
+        {
+          id: 6,
+          image: '//ftp.qnets.cn/since/white.png',
+          name: '--/--',
+          vocation: '--/--',
+          workArea: '--/--'
+        }],
       allpages: 1,
       select: 'uptime',
       params: ''
@@ -42,7 +84,7 @@ export default {
     changePage(page) {
       if (this.select === 'uptime') {
         findByTalentNew({ page }).then(res => {
-          console.log(res);
+          // console.log(res);
           this.cards = res.data.datas;
           this.allpages = res.data.allpage;
         });
@@ -72,7 +114,7 @@ export default {
         return;
       }
       findByName({ name }).then(res => {
-        console.log(res);
+        // console.log(res);
         this.cards = res.data.datas;
         this.allpages = res.data.allpage;
       });
@@ -83,7 +125,7 @@ export default {
     },
     hot() {
       findHotTalent().then(res => {
-        console.log(res);
+        // console.log(res);
         this.cards = res.data;
         // this.allpages = res.data.allpage;
       });
@@ -109,17 +151,17 @@ export default {
     width: 240px;
     height: 360px;
     margin: 20px 10px;
-    .actor-head{
+    .actor-head {
       height: 230px;
     }
-    .info{
-      padding-top:230px;
+    .info {
+      padding-top: 230px;
     }
-    .desc{
+    .desc {
       margin: 10px 0 10px 0;
     }
-    .btn-box{
-      .btn{
+    .btn-box {
+      .btn {
         height: 33px;
       }
     }
