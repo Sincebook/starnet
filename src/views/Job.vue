@@ -71,15 +71,19 @@ export default {
       this.params = obj;
       console.log(this.params);
       findJobByThree(this.params).then(res => {
-        this.cards = res.data.jobs;
-        this.allpages = res.data.allpage;
+        if (res.code === '0') {
+          this.cards = res.data.jobs;
+          this.allpages = res.data.allpage;
+        }
       });
     },
     // 根据名字搜索项目
     nameSearch(name) {
       findJobByName({ title: name, page: 1 }).then(res => {
-        this.cards = res.data.jobs;
-        this.allpages = res.data.allpage;
+        if (res.code === '0') {
+          this.cards = res.data.jobs;
+          this.allpages = res.data.allpage;
+        }
       });
     },
     lasted() {
@@ -88,9 +92,11 @@ export default {
     hot(page) {
       if (!page) { page = 1; }
       findHotJob({ page: page }).then(res => {
-        console.log(res);
-        this.cards = res.data.jobs;
-        this.allpages = res.data.allpages;// 最热只有一页
+        if (res.code === '0') {
+          console.log(res);
+          this.cards = res.data.jobs;
+          this.allpages = res.data.allpages;// 最热只有一页
+        }
       });
     }
   },
