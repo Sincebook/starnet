@@ -76,8 +76,18 @@ export default {
       // }
       this.msgIt();
       addMsg({ toid: this.userid, word: this.input2 }).then(res => {
-        console.log(res);
-        this.input2 = '';
+        if (res.code === '0') {
+          this.$message({
+            message: '私信成功',
+            type: 'success'
+          });
+          this.input2 = '';
+        } else {
+          this.$message({
+            message: res.errMsg,
+            type: 'error'
+          });
+        }
       });
     },
     async watchIt() {
@@ -87,14 +97,33 @@ export default {
       if (this.two === '已关注') {
         this.two = '关  注';
         noWatch({ starid: this.userid }).then(res => {
-          console.log(res);
+          if (res.code === '0') {
+            this.$message({
+              message: '已取消关注',
+              type: 'success'
+            });
+          }
         }, reason => {
-          console.log(reason);
+          this.$message({
+            message: reason,
+            type: 'error'
+          });
+          // console.log(reason);
         });
       } else {
         this.two = '已关注';
         watchIt({ starid: this.userid, name: this.name, image: this.image }).then(res => {
-          console.log(res);
+          if (res.code === '0') {
+            this.$message({
+              message: '关注成功',
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              message: '取消失败',
+              type: 'error'
+            });
+          }
         });
       }
     },
