@@ -33,7 +33,7 @@ module.exports = {
       axios: 'axios',
       vuex: 'Vuex',
       swiper: 'Swiper',
-      "element-ui": "ELEMENT"
+      'element-ui': 'ELEMENT'
     }
   }
 };
