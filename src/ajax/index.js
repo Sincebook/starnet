@@ -3,7 +3,8 @@ export {
   getCode,
   registerUser,
   loginUser,
-  wxLogin
+  wxLogin,
+  getMyinfo
 }
 from './sign.js';
 export {
