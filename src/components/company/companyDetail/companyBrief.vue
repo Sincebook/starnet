@@ -5,7 +5,7 @@
       <img :src="bgImg1" class="comimg2" />
     </div>
     <div class="cbMiddle">
-      <span class="comname">{{ 'item.name' }}</span>
+      <span class="comname">{{ "item.name" }}</span>
       <div class="iconSum">
         <span class="share">分 享</span>
         <svg class="icon icon-weixin1" aria-hidden="true">
@@ -46,8 +46,8 @@ export default {
   props: ['userid', 'item'],
   data() {
     return {
-      bgImg: require('@/assets/images/dswcb1.jpeg'),
-      bgImg1: require('@/assets/images/dswcb2.png'),
+      bgImg: '//ftp.qnets.cn/since/dswcb1.jpeg',
+      bgImg1: '//ftp.qnets.cn/since/dswcb2.png',
       showmode: false,
       fansNums: '',
       deal: '',

@@ -35,7 +35,7 @@
 
 <style lang="less" scoped>
 .join-us {
-  background-color: #fff;
+  background-color: #f5f5f5;
   width: 100%;
   padding-top: 50px;
   h1 {

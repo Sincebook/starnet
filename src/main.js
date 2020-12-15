@@ -4,7 +4,9 @@ import router from './router';
 import store from './store';
 import AOS from 'aos'; // aos动画库
 import Viewer from 'v-viewer'; // 点击放大图片
-import { formatDate } from '@/utils/util.js';
+import {
+  formatDate
+} from '@/utils/util.js';
 import 'viewerjs/dist/viewer.css';
 import './assets/iconfont/iconfont.js'; // icon图标
 import './assets/css/variable.less'; // 全局css变量
