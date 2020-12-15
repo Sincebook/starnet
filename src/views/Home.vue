@@ -4,17 +4,18 @@
       <swiper-slide v-for="item in banners" :key="item.id">
         <div
           class="bgImg"
-          :style="{ backgroundImage: 'url(' + item.pic + ')' }"
+          :style="{ backgroundImage: 'url(' + item.image + ')' }"
         ></div>
         <div
           class="bgImg-cover"
-          :style="{ backgroundImage: 'url(' + item.pic + ')' }"
+          :style="{ backgroundImage: 'url(' + item.image + ')' }"
         ></div>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
     <hot-actor></hot-actor>
     <hot-job></hot-job>
+    <hot-company></hot-company>
     <create-cv></create-cv>
     <safe-card></safe-card>
     <join-us></join-us>
@@ -25,10 +26,12 @@
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 import hotActor from '../components/home/hotActor';
+import hotCompany from '../components/home/hotCompany';
 import hotJob from '../components/home/hotJob';
 import createCv from '../components/home/createCv';
 import safeCard from '../components/home/safe';
 import joinUs from '../components/home/joinUs';
+import { getbanner } from '../ajax/index';
 export default {
   data() {
     return {
@@ -59,10 +62,21 @@ export default {
     hotJob,
     createCv,
     safeCard,
-    joinUs
+    joinUs,
+    hotCompany
   },
   directives: {
     swiper: directive
+  },
+  created() {
+    getbanner({
+      type: '1'
+    }).then(res => {
+      if (res.code === '0') {
+        this.banners = res.data;
+      }
+      console.log(res);
+    });
   }
 };
 </script>

@@ -26,7 +26,7 @@ export default {
 
 <style lang="less" scoped>
 .create-cv {
-  background-color: #ffffff;
+  background-color: #f5f5f5;
   width: 100%;
   padding: 75px 0;
   h1 {

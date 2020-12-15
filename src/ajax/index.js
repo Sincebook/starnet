@@ -78,7 +78,9 @@ export {
 from './personalCenter';
 export {
   findHotJobs,
-  findHotTalents
+  findHotTalents,
+  findHotCompanys,
+  getbanner
 }
 from './home';
 export {

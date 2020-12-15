@@ -5,7 +5,7 @@
       <img :src="bgImg1" class="comimg2" />
     </div>
     <div class="cbMiddle">
-      <span class="comname">{{ 'item.name' }}</span>
+      <span class="comname">{{ "item.name" }}</span>
       <div class="iconSum">
         <span class="share">分 享</span>
         <svg class="icon icon-weixin1" aria-hidden="true">
