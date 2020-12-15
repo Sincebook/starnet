@@ -23,9 +23,14 @@
     <div class="right">
       <div class="search bar1">
         <form>
-          <input type="text" autocomplete="off" name="search" />
+          <input
+            type="text"
+            autocomplete="off"
+            name="search"
+            @keydown.prevent.enter="enterSearch"
+          />
         </form>
-        <svg class="icon" aria-hidden="true">
+        <svg class="icon" aria-hidden="true" @click="search">
           <use xlink:href="#icon-search"></use>
         </svg>
       </div>
@@ -85,6 +90,21 @@ export default {
         }
         // console.log(res);
       });
+    },
+    search(e) {
+      let target = e.target;
+      // console.log(target.parentNode);
+      let value = target.parentNode.firstChild.firstChild.value;
+      if (value !== '') {
+        // console.log(value === '');
+        this.$router.replace({ name: 'search', query: { value: value } });
+        target.parentNode.firstChild.firstChild.value = '';
+      }
+    },
+    enterSearch(e) {
+      // console.log(e.target.value);
+      this.$router.push({ name: 'search', query: { value: e.target.value } });
+      e.target.value = '';
     }
   }
 };
