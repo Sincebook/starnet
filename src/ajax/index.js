@@ -3,7 +3,8 @@ export {
   getCode,
   registerUser,
   loginUser,
-  wxLogin
+  wxLogin,
+  getMyinfo
 }
 from './sign.js';
 export {
@@ -77,7 +78,9 @@ export {
 from './personalCenter';
 export {
   findHotJobs,
-  findHotTalents
+  findHotTalents,
+  findHotCompanys,
+  getbanner
 }
 from './home';
 export {

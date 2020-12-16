@@ -20,7 +20,7 @@ export default {
 
 <style lang="less" scoped>
 .safe {
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   width: 100%;
   padding: 75px 0;
   h1 {

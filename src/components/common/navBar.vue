@@ -30,26 +30,77 @@
         </svg>
       </div>
       <router-link to="/vip"><span class="vip">VIP会员</span></router-link>
-      <router-link to="/sign"><span class="login">登录</span></router-link>
-      <router-link to="/sign"><span class="register">注册</span></router-link>
+      <router-link to="/sign" v-if="!userHeader"
+        ><span class="login">登录</span></router-link
+      >
+      <span class="header_part">
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            <router-link to="/personalcenter">
+              <img
+                class="login_header"
+                :src="userHeader"
+                v-if="userHeader"
+                alt=""
+              />
+            </router-link>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <router-link to="/personalcenter">
+              <el-dropdown-item>个人/企业中心</el-dropdown-item>
+            </router-link>
+            <el-dropdown-item>帮助</el-dropdown-item>
+            <el-dropdown-item>退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </span>
+      <!-- <span v-if="userHeader">{{userName}}</span> -->
+      <router-link to="/sign" v-if="!userHeader"
+        ><span class="register">注册</span></router-link
+      >
     </div>
   </div>
 </template>
 <script>
 // @ is an alias to /src
+import { getMyinfo } from '@/ajax';
 export default {
   name: 'NavBar',
   data() {
     return {
-      logoImg: '//ftp.qnets.cn/since/logo.png'
+      logoImg: '//ftp.qnets.cn/since/logo.png',
+      userHeader: '',
+      userName: ''
     };
+  },
+  created() {
+    this.getMyLoginInfo();
+  },
+  methods: {
+    getMyLoginInfo() {
+      getMyinfo().then(res => {
+        if (res.code === '0') {
+          this.userHeader = res.data.user.head;
+          this.userName = res.data.user.name;
+        }
+        // console.log(res);
+      });
+    }
   }
 };
 </script>
-<style lang='less'>
+<style lang='less' scoped>
 a {
   color: #fff;
 }
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+
 .newNav {
   position: absolute;
   z-index: 999;
@@ -57,6 +108,16 @@ a {
   left: 0;
   right: 0;
   background-color: transparent !important;
+}
+.header_part {
+  position: relative;
+  right: -20px;
+}
+.login_header {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  cursor: pointer;
 }
 .nav {
   min-width: 1280px;
