@@ -61,7 +61,7 @@
             <router-link to="/protocol/useIt">
               <el-dropdown-item>帮助</el-dropdown-item>
             </router-link>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item @click.native="getOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </span>
@@ -74,7 +74,7 @@
 </template>
 <script>
 // @ is an alias to /src
-import { getMyinfo } from '@/ajax';
+import { getMyinfo, getOutLogin } from '@/ajax';
 export default {
   name: 'NavBar',
   data() {
@@ -88,9 +88,14 @@ export default {
   created() {
     this.getMyLoginInfo();
   },
+  mounted() {
+    if (!this.userHeader) {
+      this.getMyLoginInfo();
+    }
+  },
   methods: {
     getMyLoginInfo() {
-      console.log('hhhh');
+      // console.log('hhhh');
       getMyinfo().then(res => {
         if (res.code === '0') {
           this.userHeader = res.data.user.head;
@@ -114,6 +119,19 @@ export default {
       // console.log(e.target.value);
       this.$router.push({ name: 'search', query: { value: e.target.value } });
       e.target.value = '';
+    },
+    getOut() {
+      console.log('getout');
+      getOutLogin().then(res => {
+        console.log(res);
+        if (res.code === '0') {
+          this.$message({
+            message: '已退出登录',
+            type: 'success'
+          });
+          this.userHeader = '';
+        }
+      });
     }
   }
 };

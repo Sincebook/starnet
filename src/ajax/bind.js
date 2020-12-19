@@ -7,3 +7,7 @@ export function bindPhone(obj) {
 export function getBindCode(obj) {
   return http.get('/api/wechat/getPhoneCode', obj);
 };
+// 退出登录
+export function getOutLogin() {
+  return http.post('/api/user/logout');
+}

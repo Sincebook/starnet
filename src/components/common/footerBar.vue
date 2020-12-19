@@ -104,6 +104,9 @@ export default {
 {
   color:#fff;
 }
+.nav-icon{
+  height: 25px;
+}
 .newFoot {
   display: none;
   // position: absolute;
