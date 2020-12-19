@@ -20,10 +20,98 @@
     <div class="info" v-else>
       <div class="tabber">
         <div :class="{ active: active == 0 }" @click="active = 0">发布职位</div>
-        <div :class="{ active: active == 1 }" @click="active = 1">已发布</div>
+        <div
+          :class="{ active: active == 1 }"
+          @click="changePage(1), (active = 1)"
+        >
+          已发布
+        </div>
       </div>
       <div class="content" v-if="active == 0">
-        <el-divider></el-divider>
+        <el-form
+          :model="ruleForm"
+          :rules="rules"
+          ref="ruleForm"
+          label-width="100px"
+          class="demo-ruleForm"
+          :disabled="flag"
+        >
+          <el-form-item label="项目标题" prop="title">
+            <el-input
+              maxlength="10"
+              v-model="ruleForm.title"
+              placeholder="请输入项目标题"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="职位类型" prop="job">
+            <el-input
+              v-model="ruleForm.job"
+              placeholder="请输入职位类型"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="时间" prop="time">
+            <el-date-picker
+              v-model="ruleForm.time"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              value-format="yyyy-MM-dd"
+            >
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="年龄要求" prop="age">
+            <el-input
+              v-model="ruleForm.age"
+              placeholder="请输入年龄要求"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="性别要求" prop="sex">
+            <el-input
+              v-model="ruleForm.sex"
+              placeholder="请输入性别要求"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="面试地点" prop="place">
+            <el-input
+              v-model="ruleForm.place"
+              placeholder="请输入面试地点"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="职位要求" prop="jobneed">
+            <el-input
+              v-model="ruleForm.jobneed"
+              placeholder="请输入职位要求"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="工作周期" prop="worktime">
+            <el-input
+              v-model="ruleForm.worktime"
+              placeholder="请输入工作周期"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="薪酬" prop="money">
+            <el-input
+              v-model="ruleForm.money"
+              placeholder="请输入薪酬"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="详情" prop="description">
+            <el-input
+              maxlength="150"
+              :show-word-limit="true"
+              resize="none"
+              type="textarea"
+              :autosize="{ minRows: 6, maxRows: 6 }"
+              v-model="ruleForm.description"
+              placeholder="请输入需要添加的公司荣誉"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm">添加</el-button>
+          </el-form-item>
+        </el-form>
+        <!-- <el-divider></el-divider>
         <div class="recommend">
           <h4>项目介绍：</h4>
           <div class="flex-warp">
@@ -114,7 +202,7 @@
             </div>
           </div>
         </div>
-        <el-divider></el-divider>
+        <el-divider></el-divider> -->
         <div class="submit-box">
           <el-button type="primary" @click="submit">发布项目</el-button>
         </div>
@@ -172,6 +260,20 @@ export default {
   props: ['info'],
   data() {
     return {
+      ruleForm: {
+        title: '',
+        image: '',
+        job: '',
+        age: '',
+        sex: '',
+        jobneed: '',
+        place: '',
+        money: '',
+        worktime: '',
+        begintime: '',
+        endtime: ''
+      },
+      rules: {},
       active: 0, // 0 发布职位  1 已发布
       bgImg: '//ftp.qnets.cn/img/bg3.jpg',
       replay: '',
@@ -220,6 +322,8 @@ export default {
     };
   },
   methods: {
+    changePage() {
+    },
     goCelebrity() {
       this.$emit('goCelebrity');
     },
@@ -321,55 +425,6 @@ export default {
         }
       }
     }
-    .head {
-      display: flex;
-      justify-content: center;
-      margin-top: 25px;
-      .el-input {
-        width: 222px;
-      }
-      .add-project-btn {
-        margin-left: 20px;
-      }
-    }
-    .recommend {
-      h4,
-      .el-input,
-      .el-select {
-        width: 60%;
-        margin-bottom: 10px;
-        display: block;
-      }
-      .el-textarea {
-        width: 100%;
-      }
-      /deep/ .avatar-uploader {
-        height: 110px;
-      }
-      .avatar-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 167px;
-        height: 167px;
-        line-height: 167px;
-        text-align: center;
-      }
-      .avatar {
-        width: 167px;
-        height: 167px;
-        display: block;
-        cursor: pointer;
-      }
-      .add-job-btn {
-        display: flex;
-        align-items: flex-end;
-      }
-    }
-    .submit-box {
-      display: flex;
-      justify-content: center;
-      margin-top: 35px;
-    }
     .list {
       margin-top: 20px;
       .item {
@@ -405,6 +460,27 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       bottom: 20px;
+    }
+  }
+  .demo-ruleForm {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+  }
+  .el-form-item {
+    width: 50%;
+    .el-input,
+    .el-select,
+    .el-cascader,
+    .el-date-editor,
+    .el-textarea {
+      width: 100%;
+    }
+    /deep/.el-date-editor {
+      justify-content: space-between;
+      .el-range-separator {
+        width: 8% !important;
+      }
     }
   }
   .title {

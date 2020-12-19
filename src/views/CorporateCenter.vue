@@ -80,6 +80,7 @@ import recruit from '../components/corporateCenter/recruit';
 import message from '../components/personalCenter/message';
 import follow from '../components/personalCenter/follow';
 import report from '../components/personalCenter/report';
+import collect from '../components/personalCenter/collect';
 export default {
   data() {
     return {
@@ -92,7 +93,8 @@ export default {
         { id: 5, title: '在招职位', child: 'recruit' },
         { id: 6, title: '我的私信', child: 'message' },
         { id: 7, title: '我的关注', child: 'follow' },
-        { id: 8, title: '举报中心', child: 'report' }
+        { id: 8, title: '我的收藏', child: 'collect' },
+        { id: 9, title: '举报中心', child: 'report' }
       ],
       activeIndex: 1,
       child: 'userinfo',
@@ -170,7 +172,8 @@ export default {
     recruit,
     message,
     follow,
-    report
+    report,
+    collect
   }
 };
 </script>

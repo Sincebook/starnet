@@ -145,10 +145,12 @@ export default {
   text-align: center;
   user-select: none;
   position: relative;
-  width: 330px;
+  width: 280px;
   background-color: var(--cardBgColor);
-  height: 400px;
+  height: 360px;
   transition: all 0.25s;
+  box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
+    4px 4px 8px -5px rgba(0, 0, 0, 0.1);
   &:hover {
     .company-head .bgImg {
       transform: scale(1.1);
@@ -180,7 +182,7 @@ export default {
       align-items: center;
       .aimg {
         position: absolute;
-        top: 85px;
+        top: 75px;
         background-color: #fff;
         width: 90px;
         height: 90px;

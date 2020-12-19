@@ -135,11 +135,11 @@ export default {
   }
 }
 .footer-fixed {
-  padding:10px 360px;
+  padding: 10px 240px;
   background-color: rgb(34, 33, 33);
   color: #eee;
   display: flex;
-  // justify-content: center;
+  justify-content: center;
   p {
     margin: 10px 0;
   }
