@@ -9,7 +9,8 @@ export {
 from './sign.js';
 export {
   bindPhone,
-  getBindCode
+  getBindCode,
+  getOutLogin
 }
 from './bind.js';
 export {
