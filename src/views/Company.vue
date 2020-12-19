@@ -115,8 +115,15 @@ export default {
       if (!name) { this.changePage(1); return; }
       findComByName({ name }).then(res => {
         // console.log(res);
-        this.cards = res.data;
-        this.allpages = 1;// 只返回一页
+        if (res.code === '0') {
+          this.cards = res.data;
+          this.allpages = 1;// 只返回一页
+        } else {
+          this.$message({
+            message: res.errMsg,
+            type: 'error'
+          });
+        }
       });
     },
     // 根据类型搜索
@@ -126,8 +133,15 @@ export default {
       this.typeObj = obj;
       findByTwo(obj).then(res => {
         // console.log(res);
-        this.cards = res.data.companyInfoVOs;
-        this.allpages = res.data.allpage;
+        if (res.code === '0') {
+          this.cards = res.data.companyInfoVOs;
+          this.allpages = res.data.allpage;
+        } else {
+          this.$message({
+            message: res.errMsg,
+            type: 'error'
+          });
+        }
       });
     },
     lasted() {

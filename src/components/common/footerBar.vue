@@ -23,17 +23,18 @@
       </div>
       <div class="left">
         <p class="title">关于</p>
-        <p>关于我们</p>
-        <p>成功故事</p>
-        <p>加入我们</p>
-        <p>用户协议</p>
+        <router-link to="/protocol/about">
+        <p style="color:#fff;">关于我们</p></router-link>
+        <router-link to="/protocol/useIt"><p style="color:#fff;">用法指南</p></router-link>
+        <router-link to="/protocol/joinUs"> <p style="color:#fff;">加入我们</p></router-link>
+        <router-link to="/protocol/userProtocol"><p style="color:#fff;">用户协议</p></router-link>
       </div>
       <div class="center">
         <p class="title">使用帮助</p>
-        <p>隐私条款</p>
-        <p>信任与安全</p>
-        <p>社区</p>
-        <p>更多</p>
+        <router-link to="/protocol/privacy"><p style="color:#fff;">隐私条款</p></router-link>
+        <router-link to="/protocol/security"><p style="color:#fff;">信任与安全</p></router-link>
+        <p style="color:#fff;">社区</p>
+        <p style="color:#fff;">更多</p>
       </div>
       <div class="right">
         <p class="title">联系我们</p>
@@ -97,6 +98,12 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+.left,
+.center,
+.right
+{
+  color:#fff;
+}
 .newFoot {
   display: none;
   // position: absolute;

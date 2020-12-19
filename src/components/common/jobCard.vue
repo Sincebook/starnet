@@ -9,9 +9,9 @@
           <h2 class="title oneLine" :title="item.title">
             {{ item.title.slice(0, 9) }}
           </h2>
-          <svg @click.stop="share(1)" class="icon" aria-hidden="true">
+          <!-- <svg @click.stop="share(1)" class="icon" aria-hidden="true">
             <use xlink:href="#icon-weixin1"></use>
-          </svg>
+          </svg> -->
           <svg @click.stop="share(3)" class="icon" aria-hidden="true">
             <use xlink:href="#icon-weibo"></use>
           </svg>

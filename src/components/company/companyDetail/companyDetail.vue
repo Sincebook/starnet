@@ -4,6 +4,7 @@
       :userid="userid"
       v-if="userid"
       :item="company"
+      :id="this.$route.params.id"
     ></company-brief>
     <div class="companyNav">
       <div class="navcontent">

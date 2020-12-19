@@ -67,24 +67,6 @@
               </span>
             </div> -->
           </span>
-          <span style="color: rgb(150, 140, 140)" @click="share(1)">
-            <svg
-              class="icon icon-qq2"
-              aria-hidden="true"
-              style="font-size: 18px"
-            >
-              <use xlink:href="#icon-weixin1"></use>
-            </svg>
-          </span>
-          <span style="color: rgb(150, 140, 140)" @click="share(2)">
-            <svg
-              class="icon icon-qq2"
-              aria-hidden="true"
-              style="font-size: 18px"
-            >
-              <use xlink:href="#icon-qq2"></use>
-            </svg>
-          </span>
           <span style="color: rgb(150, 140, 140)" @click="share(3)">
             <svg
               class="icon icon-qq2"
@@ -177,8 +159,10 @@ export default {
     getUserInfo() {
       getUserNH({ id: this.id }).then(res => {
         // console.log(res);
-        this.user = res.data;
-        this.isFun();
+        if (res.code === '0') {
+          this.user = res.data;
+          this.isFun();
+        }
       });
     },
     // 私信
@@ -192,8 +176,10 @@ export default {
     sendMsg() {
       if (this.input2) {
         addMsg({ toid: this.user.id, word: this.input2 }).then(res => {
-          this.$refs.msg.style.display = 'none';
-          this.input2 = '';
+          if (res.code === '0') {
+            this.$refs.msg.style.display = 'none';
+            this.input2 = '';
+          }
           // console.log(res);
         });
       }
@@ -216,7 +202,7 @@ export default {
     // 判断该用户是否关注了该明星
     isFun() {
       isFun({ starid: this.user.id }).then(res => {
-        if (res.data) {
+        if (res.code === '0') {
           this.$refs.guanzhu.style.color = 'rgba(202, 49, 49, 0.732)';
           this.guan = '已关注';
         }
@@ -288,20 +274,6 @@ export default {
       var targetUrl = 'http://connect.qq.com/widget/shareqq/iframe_index.html?' + s.join('&');
       window.open(targetUrl, 'qq', 'height=520, width=720');
     }
-  },
-  mounted() {
-    // this.$nextTick(() => {
-    //   let that = this;
-    //   this.$refs.fenxiang.onmouseenter = function () {
-    //     that.$refs.fenxiangCard.style.display = 'block';
-    //   };
-    //   // this.$refs.info.onmousover = function () {
-    //   //   that.$refs.fenxiangCard.style.display = 'none';
-    //   // };
-    //   this.$refs.fenxiang.onmouseleave = function () {
-    //     that.$refs.fenxiangCard.style.display = 'none';
-    //   };
-    // });
   }
 };
 </script>

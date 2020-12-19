@@ -4,7 +4,7 @@
     <div class="details">
       <div class="right-box">
         <viewer>
-        <img :src="item.image" alt="" />
+          <img :src="item.image" alt="" />
         </viewer>
         <span>
           <h3>
@@ -37,7 +37,15 @@ export default {
         return;
       }
       applyJob({ jobid: this.item.jobid, roleid: this.item.id }).then(res => {
+        if (res.code === '905_500') {
+          this.$router.push({ name: 'PersonalCenter' });
+          return;
+        }
         if (!res.data) {
+          this.$message({
+              message: '已申请',
+              type: 'success'
+            });
           this.btn = '已申请';
         }
         // console.log(res);

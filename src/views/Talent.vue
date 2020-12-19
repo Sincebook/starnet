@@ -78,7 +78,7 @@ export default {
     };
   },
   created() {
-    this.changePage(1);
+      this.changePage(1);
   },
   methods: {
     changePage(page) {
@@ -113,6 +113,7 @@ export default {
         this.changePage(1);
         return;
       }
+      console.log(111);
       findByName({ name }).then(res => {
         // console.log(res);
         this.cards = res.data.datas;

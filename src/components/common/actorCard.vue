@@ -41,7 +41,18 @@ export default {
     };
   },
   created() {
-    // console.log(this.item.id);
+    // console.log(this.item.workArea);
+    if (this.item.workArea != null) {
+      let isArea = '';
+      this.item.workArea.split(',').forEach((item, index) => {
+        if (item.indexOf('市') !== -1) {
+          isArea = item;
+        }
+      });
+      if (isArea) {
+        this.item.workArea = isArea;
+      }
+    }
     this.getInfo();
   },
   methods: {
@@ -91,7 +102,7 @@ export default {
       if (this.two === '已关注') {
         this.two = '关  注';
         noWatch({ starid: this.userid }).then(res => {
-           if (res.code === '0') {
+          if (res.code === '0') {
             this.$message({
               message: '已取消关注',
               type: 'success'
