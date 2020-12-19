@@ -43,3 +43,7 @@ export function fingComInfo(params) {
 export function findComByName(params) {
   return http.get('/api/companyinfo/findByName', params);
 }
+// 得到公司，人才，工作三个页面的背景
+export function getBackGroundImgs() {
+  return http.get('/api/company/findMine');
+}

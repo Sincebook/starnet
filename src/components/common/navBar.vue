@@ -38,7 +38,7 @@
       <router-link to="/sign" v-if="!userHeader"
         ><span class="login">登录</span></router-link
       >
-      <span class="header_part">
+      <span class="header_part" v-if="userHeader">
         <el-dropdown>
           <span class="el-dropdown-link">
             <router-link to="/personalcenter">
@@ -51,10 +51,16 @@
             </router-link>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <router-link to="/personalcenter">
-              <el-dropdown-item>个人/企业中心</el-dropdown-item>
+            <router-link
+              :to="this.type > 3 ? '/personalcenter' : '/corporateCenter'"
+            >
+              <el-dropdown-item>{{
+                this.type > 3 ? "企业中心" : "个人中心"
+              }}</el-dropdown-item>
             </router-link>
-            <el-dropdown-item>帮助</el-dropdown-item>
+            <router-link to="/protocol/useIt">
+              <el-dropdown-item>帮助</el-dropdown-item>
+            </router-link>
             <el-dropdown-item>退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -75,7 +81,8 @@ export default {
     return {
       logoImg: '//ftp.qnets.cn/since/logo.png',
       userHeader: '',
-      userName: ''
+      userName: '',
+      type: ''
     };
   },
   created() {
@@ -83,10 +90,12 @@ export default {
   },
   methods: {
     getMyLoginInfo() {
+      console.log('hhhh');
       getMyinfo().then(res => {
         if (res.code === '0') {
           this.userHeader = res.data.user.head;
           this.userName = res.data.user.name;
+          this.type = res.data.user.type;
         }
         // console.log(res);
       });

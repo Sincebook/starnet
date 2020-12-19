@@ -127,6 +127,62 @@ const routes = [{
   meta: {
     title: '搜索结果'
   }
+},
+{
+  path: '/protocol',
+  name: 'protocol',
+  component: () => import(/* webpackChunkName: "about123" */ '../components/protocol/index.vue'),
+  meta: {
+    title: '关于'
+  },
+  redirect: '/protocol/about',
+  children: [
+    {
+      path: '/protocol/about',
+      name: 'protocolAbout',
+      component: () => import('../components/protocol/about.vue')
+    },
+    {
+      path: '/protocol/useIt',
+      name: 'protocolUseIt',
+      meta: {
+        title: '使用帮助'
+      },
+      component: () => import('../components/protocol/useIt.vue')
+    },
+    {
+      path: '/protocol/userProtocol',
+      name: 'userProtocol',
+      meta: {
+        title: '用户协议'
+      },
+      component: () => import('../components/protocol/userProtocol.vue')
+    },
+    {
+      path: '/protocol/security',
+      name: 'security',
+      meta: {
+        title: '信任与安全'
+      },
+      component: () => import('../components/protocol/security.vue')
+    },
+    {
+      path: '/protocol/privacy',
+      name: 'privacy',
+      meta: {
+        title: '隐私条款'
+      },
+      component: () => import('../components/protocol/privacy.vue')
+    },
+    {
+      path: '/protocol/joinUs',
+      name: 'joinUs',
+      meta: {
+        title: '加入我们'
+      },
+      component: () => import('../components/protocol/joinUs.vue')
+    }
+  ]
 }
 ];
 const originalPush = VueRouter.prototype.push;

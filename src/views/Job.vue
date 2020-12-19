@@ -50,6 +50,11 @@ export default {
           if (res.code === '0') {
             this.cards = res.data.jobs;
             this.allpages = res.data.allpage;
+          } else {
+            this.$message({
+              message: res.errMsg,
+              type: 'error'
+            });
           }
         });
         return;
@@ -69,11 +74,16 @@ export default {
       }
       obj.page = page;
       this.params = obj;
-      console.log(this.params);
+      // console.log(this.params);
       findJobByThree(this.params).then(res => {
         if (res.code === '0') {
           this.cards = res.data.jobs;
           this.allpages = res.data.allpage;
+        } else {
+          this.$message({
+            message: res.errMsg,
+            type: 'error'
+          });
         }
       });
     },
@@ -83,6 +93,11 @@ export default {
         if (res.code === '0') {
           this.cards = res.data.jobs;
           this.allpages = res.data.allpage;
+        } else {
+          this.$message({
+            message: res.errMsg,
+            type: 'error'
+          });
         }
       });
     },
@@ -93,9 +108,14 @@ export default {
       if (!page) { page = 1; }
       findHotJob({ page: page }).then(res => {
         if (res.code === '0') {
-          console.log(res);
+          // console.log(res);
           this.cards = res.data.jobs;
           this.allpages = res.data.allpages;// 最热只有一页
+        } else {
+          this.$message({
+            message: res.errMsg,
+            type: 'error'
+          });
         }
       });
     }

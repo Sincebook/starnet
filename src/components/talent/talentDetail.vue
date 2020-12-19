@@ -1,6 +1,6 @@
 <template>
   <div class="talent-detail">
-    <talent-header></talent-header>
+    <talent-header :userid='userid' v-if="userid"></talent-header>
     <div class="nav">
       <div class="container">
         <span @click="changeHash('resume')">个人简介</span>
@@ -100,6 +100,7 @@ export default {
     userinfo() {
       // console.log(this.$route.params);
       userinfoById({ id: this.$route.params.id }).then(res => {
+        console.log(res);
         this.userid = res.data.userid;
         this.resume = res.data;
         this.getMomes();
@@ -137,9 +138,11 @@ export default {
   height: 50px;
   background-color: rgb(200, 200, 200);
   .container {
+    width: 960px;
     margin: 0 auto;
     display: flex;
     justify-content: space-around;
+    line-height: 50px;
     color: #2d6496;
     span {
       margin: 0 30px;

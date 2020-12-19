@@ -24,7 +24,8 @@ export {
   showFunsNumsByUserId,
   sendMessageToId,
   fingComInfo,
-  findComByName
+  findComByName,
+  getBackGroundImgs
 }
 from './company.js';
 export {
@@ -38,7 +39,8 @@ export {
   findByTalentNew,
   findByThree,
   findByName,
-  findHotTalent
+  findHotTalent,
+  getUserBg
 }
 from './talent';
 export {

@@ -1,30 +1,26 @@
 <template>
   <div class="company-breif">
-    <div class="cbHeader">
+    <div class="cbHeader" v-if="bgImg">
       <img :src="bgImg" class="comimg1" />
       <img :src="bgImg1" class="comimg2" />
     </div>
     <div class="cbMiddle">
-      <span class="comname">{{ 'item.name' }}</span>
+      <span class="comname">{{ name }}</span>
       <div class="iconSum">
         <span class="share">分 享</span>
-        <svg class="icon icon-weixin1" aria-hidden="true">
-          <use xlink:href="#icon-weixin1"></use>
-        </svg>
-        <svg class="icon icon-weibo" aria-hidden="true">
+        <svg class="icon icon-weibo" aria-hidden="true" @click.stop="share(3)">
           <use xlink:href="#icon-weibo"></use>
-        </svg>
-        <svg class="icon icon-diqiu_jiantou_earth_arrow" aria-hidden="true">
-          <use xlink:href="#icon-diqiu_jiantou_earth_arrow"></use>
         </svg>
       </div>
     </div>
     <div class="cbFooter" ref="footer">
+      <div class="fans">
+        <span>粉丝：{{ fansNums }}</span>
+        <span>成交：{{ item.oknum }}</span>
+      </div>
       <div class="include">
         <div class="msg" @click="msgIt">私信</div>
         <div class="attention">关注</div>
-        <span class="fans">粉丝{{ fansNums }}</span>
-        <span class="deal">成交{{ item.oknum }}</span>
       </div>
     </div>
     <div class="msg1" ref="msg" style="display: none">
@@ -40,30 +36,37 @@
   </div>
 </template>
 <script>
-import { showFunsNumsByUserId, sendMessageToId } from '@/ajax';
+import { showFunsNumsByUserId, sendMessageToId, getComInfoById } from '@/ajax';
 
 export default {
-  props: ['userid', 'item'],
+  props: ['userid', 'item', 'id'],
   data() {
     return {
-      bgImg: '//ftp.qnets.cn/since/dswcb1.jpeg',
-      bgImg1: '//ftp.qnets.cn/since/dswcb2.png',
+      bgImg: '',
+      bgImg1: '',
       showmode: false,
       fansNums: '',
       deal: '',
-      input2: ''
-
+      input2: '',
+      shareInfo: '',
+      name: ''
     };
   },
   created() {
     this.funNums();
+    this.getComIngo();
   },
   methods: {
-    //   privateMessage(){ }
-    //   changeColor(e) {
-    //   console.log(1111);
-    //   console.log(this.$refs['change' + e][0]);
-    //   this.$refs['change' + e][0].style.border = 'blue 2px solid';
+    getComIngo() {
+      getComInfoById({ id: this.id }).then(res => {
+        if (res.code === '0') {
+          this.bgImg = res.data.image;
+          this.bgImg1 = res.data.logo;
+          this.shareInfo = res;
+          this.name = res.data.name;
+        }
+      });
+    },
     sendMsg() {
       this.msgIt();
       sendMessageToId({ toid: this.userid, word: this.input2 }).then(res => {
@@ -89,6 +92,15 @@ export default {
       sendMessageToId({ toid: this.userid }).then(res => {
         console.log(res);
       });
+    },
+    // 分享
+    share(index) {
+      let url = window.location.href + '#' + this.id;
+      console.log(url);
+      if (index === 3) {
+        window.open('http://v.t.sina.com.cn/share/share.php?title=' + this.shareInfo.name + '&url=' + url + '&content=utf-8&sourceUrl=' + this.shareInfo.slogan + '&pic=' + this.shareInfo.logo, 'newwindow', 'height:400,width:400,top:100,left:100'
+        );
+      }
     }
   }
 };
@@ -103,7 +115,7 @@ export default {
 .cbHeader {
   //   position: relative;
   width: 960px;
-  height: 370px;
+  height: 350px;
   margin: 0 auto;
   position: relative;
 }
@@ -137,6 +149,8 @@ export default {
   // position:absolute;
 }
 .comname {
+  position: relative;
+  left: -20px;
   color: #2d6496;
   font-size: 18px;
   // display: inline-block;
@@ -151,6 +165,7 @@ export default {
 }
 .icon {
   margin: 0 4px;
+  cursor: pointer;
 }
 .share {
   font-size: 12px;
@@ -159,10 +174,12 @@ export default {
 }
 .include {
   text-align: center;
-  padding-left: 20px;
+  padding-left: 45px;
   width: 500px;
   height: 50px;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
   div:hover {
     cursor: pointer;
     border: solid 2px lightblue;
@@ -190,24 +207,12 @@ export default {
   padding: 5px 0;
 }
 .fans {
-  cursor: not-allowed;
-  display: inline-block;
-  border: 1px solid grey;
-  border-radius: 5px;
-  color: grey;
-  // line-height: 30px;
-  padding: 5px 10px;
-}
-.deal {
-  cursor: not-allowed;
-  display: inline-block;
-  margin-top: 20px;
-  margin-left: 10px;
-  border: 1px solid grey;
-  border-radius: 5px;
-  color: grey;
-  // line-height: 30px;
-  padding: 5px 30px;
+  text-align: center;
+  span:last-child {
+    position: relative;
+    left: 40px;
+    margin-left: 20px;
+  }
 }
 .msg1 {
   width: 300px;
