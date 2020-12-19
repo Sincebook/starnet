@@ -93,15 +93,16 @@ export default {
     cancel(id) {
       cancelFollow({ starid: id }).then(res => {
         if (res.code === '0') {
+          this.$message({
+            message: '取消成功',
+            type: 'success'
+          });
           if (this.list.stars.length === 1 && this.currentPage !== 1) {
             this.handleCurrentChange(this.currentPage - 1);
           } else {
             this.handleCurrentChange(this.currentPage);
           }
-          this.$message({
-            message: '取消成功',
-            type: 'success'
-          });
+          this.$emit('cancel', 1);
         } else {
           this.$message.error(res.errMsg);
         }

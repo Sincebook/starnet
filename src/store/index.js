@@ -21,7 +21,7 @@ export default new Vuex.Store({
       commit
     }) {
       getSignBg().then(res => {
-        commit('signBg', '//cn.bing.com' + res.images[0].url);
+        commit('signBg', res.data.login);
       }).catch(err => {
         return err;
       });

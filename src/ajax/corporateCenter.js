@@ -23,3 +23,27 @@ export function celebrityCompany(obj) {
 export function companyJob(obj) {
   return http.get('/api/job/findMine', obj);
 };
+// 删除企业在招职位
+export function deleteJob(obj) {
+  return http.post('/api/job/deleteById', obj);
+};
+// 职位类型
+export function getJobType(obj) {
+  return http.get('/api/jobtype/findAll', obj);
+};
+// 发布职位
+export function addJob(obj) {
+  return http.post('/api/job/add', obj);
+};
+// 添加企业视频
+export function addCompanyVideo(obj) {
+  return http.post('/api/companyvideo/add', obj);
+};
+// 获取企业视频
+export function CompanyVideo(obj) {
+  return http.get('/api/companyvideo/findAllMyVideos', obj);
+};
+// 删除企业视频
+export function deleteCompanyVideo(obj) {
+  return http.post('/api/companyvideo/deleteMine', obj);
+};

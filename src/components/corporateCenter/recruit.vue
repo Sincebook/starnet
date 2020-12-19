@@ -19,23 +19,49 @@
     </div>
     <div class="info" v-else>
       <div class="tabber">
-        <div :class="{ active: active == 0 }" @click="active = 0">发布职位</div>
-        <div
-          :class="{ active: active == 1 }"
-          @click="changePage(1), (active = 1)"
-        >
+        <div :class="{ active: active == 0 }" @click="changePage(0)">
+          发布职位
+        </div>
+        <div :class="{ active: active == 1 }" @click="changePage(1)">
           已发布
         </div>
       </div>
       <div class="content" v-if="active == 0">
+        <el-divider></el-divider>
         <el-form
           :model="ruleForm"
           :rules="rules"
           ref="ruleForm"
-          label-width="100px"
+          label-width="90px"
           class="demo-ruleForm"
           :disabled="flag"
         >
+          <el-form-item label="项目照片" prop="image">
+            <el-upload
+              class="avatar-uploader"
+              :http-request="upload"
+              action=""
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <i
+                v-else
+                class="el-icon-plus avatar-uploader-icon"
+              ></i> </el-upload
+          ></el-form-item>
+          <el-form-item label="项目详情" prop="description">
+            <el-input
+              maxlength="150"
+              :show-word-limit="true"
+              resize="none"
+              type="textarea"
+              :autosize="{ minRows: 6, maxRows: 6 }"
+              v-model="ruleForm.description"
+              placeholder="请输入项目详情"
+            ></el-input>
+          </el-form-item>
           <el-form-item label="项目标题" prop="title">
             <el-input
               maxlength="10"
@@ -43,22 +69,30 @@
               placeholder="请输入项目标题"
             ></el-input>
           </el-form-item>
-          <el-form-item label="职位类型" prop="job">
-            <el-input
-              v-model="ruleForm.job"
-              placeholder="请输入职位类型"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="时间" prop="time">
+          <el-form-item label="截止日期" prop="endtime">
             <el-date-picker
-              v-model="ruleForm.time"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              value-format="yyyy-MM-dd"
+              v-model="ruleForm.endtime"
+              type="date"
+              value-format="timestamp"
+              placeholder="选择日期"
             >
             </el-date-picker>
+          </el-form-item>
+          <el-form-item label="职位类型" prop="job">
+            <el-select
+              collapse-tags
+              v-model="ruleForm.job"
+              multiple
+              placeholder="请选择职位类型"
+            >
+              <el-option
+                v-for="item in jobType"
+                :key="item.id"
+                :label="item.name"
+                :value="item.name"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="年龄要求" prop="age">
             <el-input
@@ -67,21 +101,19 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="性别要求" prop="sex">
-            <el-input
-              v-model="ruleForm.sex"
-              placeholder="请输入性别要求"
-            ></el-input>
+            <el-select v-model="ruleForm.sex" placeholder="请选择性别">
+              <el-option
+                v-for="item in sexList"
+                :key="item.value"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="面试地点" prop="place">
             <el-input
               v-model="ruleForm.place"
               placeholder="请输入面试地点"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="职位要求" prop="jobneed">
-            <el-input
-              v-model="ruleForm.jobneed"
-              placeholder="请输入职位要求"
             ></el-input>
           </el-form-item>
           <el-form-item label="工作周期" prop="worktime">
@@ -96,138 +128,148 @@
               placeholder="请输入薪酬"
             ></el-input>
           </el-form-item>
-          <el-form-item label="详情" prop="description">
+          <el-form-item label="职位要求" prop="jobneed">
             <el-input
               maxlength="150"
               :show-word-limit="true"
               resize="none"
               type="textarea"
               :autosize="{ minRows: 6, maxRows: 6 }"
-              v-model="ruleForm.description"
-              placeholder="请输入需要添加的公司荣誉"
+              v-model="ruleForm.jobneed"
+              placeholder="请输入职位要求"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm">保存</el-button>
+          </el-form-item>
+        </el-form>
+        <el-divider></el-divider>
+        <el-form
+          :model="ruleForm1"
+          :rules="rules1"
+          ref="ruleForm1"
+          label-width="90px"
+          class="demo-ruleForm1"
+          :disabled="flag1"
+        >
+          <el-form-item label="角色名称" prop="rolename">
+            <el-input
+              maxlength="10"
+              v-model="ruleForm1.name"
+              placeholder="请输入角色名称"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="角色性别" prop="rolesex">
+            <el-select v-model="ruleForm1.sex" placeholder="请选择性别">
+              <el-option
+                v-for="item in sexList"
+                :key="item.value"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="角色年龄" prop="roleage">
+            <el-input
+              maxlength="10"
+              v-model="ruleForm1.age"
+              placeholder="请输入角色年龄"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="角色照片" prop="roleimg">
+            <el-upload
+              class="avatar-uploader1"
+              :http-request="upload"
+              action=""
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img v-if="roleimgUrl" :src="roleimgUrl" class="avatar" />
+              <i
+                v-else
+                class="el-icon-plus avatar-uploader-icon"
+              ></i> </el-upload
+          ></el-form-item>
+          <el-form-item label="角色详情" prop="roledesc">
+            <el-input
+              maxlength="150"
+              :show-word-limit="true"
+              resize="none"
+              type="textarea"
+              :autosize="{ minRows: 6, maxRows: 6 }"
+              v-model="ruleForm1.description"
+              placeholder="请输入项目详情"
             ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm">添加</el-button>
           </el-form-item>
         </el-form>
-        <!-- <el-divider></el-divider>
-        <div class="recommend">
-          <h4>项目介绍：</h4>
-          <div class="flex-warp">
-            <div style="width: 50%">
-              <el-input
-                v-model="projectItem.proTitle"
-                placeholder="请输入项目名称"
-              ></el-input>
-              <el-input
-                resize="none"
-                type="textarea"
-                :show-word-limit="true"
-                maxlength="500"
-                :autosize="{ minRows: 5, maxRows: 5 }"
-                v-model="projectItem.proDesc"
-                placeholder="请输入项目介绍"
-              ></el-input>
-            </div>
-            <el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img
-                v-if="projectItem.proImg"
-                :src="projectItem.proImg"
-                class="avatar"
-              />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-          </div>
-        </div>
-        <el-divider></el-divider>
-        <div class="recommend">
-          <h4>详情：</h4>
-          <div class="flex-warp">
-            <div style="width: 50%">
-              <el-input
-                resize="none"
-                type="textarea"
-                :show-word-limit="true"
-                maxlength="500"
-                :autosize="{ minRows: 5, maxRows: 5 }"
-                v-model="projectItem.detail"
-                placeholder="请输入详情介绍"
-              ></el-input>
-            </div>
-          </div>
-        </div>
-        <el-divider></el-divider>
-        <div class="recommend">
-          <h4>添加职位：</h4>
-          <div class="flex-warp">
-            <div style="width: 50%">
-              <el-select v-model="jobItem.id" placeholder="请选择职位">
-                <el-option
-                  v-for="item in jobList"
-                  :key="item.value"
-                  :value="item.id"
-                  :label="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-input
-                resize="none"
-                type="textarea"
-                :show-word-limit="true"
-                maxlength="300"
-                :autosize="{ minRows: 5, maxRows: 5 }"
-                v-model="jobItem.desc"
-                placeholder="请输入职位介绍"
-              ></el-input>
-            </div>
-            <el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess1"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img v-if="jobItem.img" :src="jobItem.img" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-            <div class="add-job-btn">
-              <el-button type="primary" @click="addJob">添加职位</el-button>
-            </div>
-          </div>
-        </div>
-        <el-divider></el-divider> -->
-        <div class="submit-box">
-          <el-button type="primary" @click="submit">发布项目</el-button>
-        </div>
       </div>
       <div class="content" v-else>
-        <div class="list">
-          <div class="item-box" v-for="item in 6" :key="item">
+        <el-alert
+          v-if="!isHave"
+          title="暂无发布"
+          type="warning"
+          :closable="false"
+          show-icon
+        ></el-alert>
+        <div v-else class="list">
+          <div class="item-box" v-for="item in list.jobs" :key="item.id">
             <div class="item">
-              <el-image class="user-img" :src="bgImg" fit="cover"></el-image>
+              <el-image
+                class="user-img"
+                :src="item.image"
+                fit="cover"
+              ></el-image>
               <div class="user-info">
-                <div class="user-name">玛丽</div>
-                <div class="content">女性，28到40岁</div>
-                <div class="content oneLine">
-                  雄心勃勃、有趣、活泼、有能力的女性，对生活充满热情。专注于事业，不寻求爱情，但命运在召唤
+                <div class="user-name">
+                  <span class="head">{{ item.title }}</span>
+                  <span>{{ item.launch }}</span>
                 </div>
+                <div class="content">
+                  <span>职位：{{ item.job }}</span>
+                  <span
+                    >时间：{{ Number(item.begintime) | formatDate }} -
+                    {{ Number(item.endtime) | formatDate }}</span
+                  >
+                </div>
+                <div class="content">
+                  <span>面试地点：{{ item.place }}</span>
+                  <span>年龄要求：{{ item.age }}岁</span>
+                  <span>薪资：{{ item.money }}</span>
+                </div>
+                <div class="content oneLine">要求：{{ item.jobneed }}</div>
               </div>
               <div class="user-btn">
-                <el-button
-                  type="primary"
-                  size="mini"
-                  plain
-                  @click="openDialog(item), (dialogVisible = true)"
-                  >查看详情</el-button
-                >
-                <el-button type="danger" size="mini" plain>删除</el-button>
+                <div>
+                  <el-button
+                    type="primary"
+                    size="mini"
+                    plain
+                    @click="watchDetail(item.id)"
+                    >查看详情</el-button
+                  >
+                </div>
+                <div>
+                  <el-button
+                    type="warning"
+                    size="mini"
+                    plain
+                    @click="editJob(item)"
+                    >修改职位</el-button
+                  >
+                </div>
+                <div>
+                  <el-button
+                    type="danger"
+                    size="mini"
+                    plain
+                    @click="cancel(item.id)"
+                    >删除职位</el-button
+                  >
+                </div>
               </div>
             </div>
             <el-divider></el-divider>
@@ -236,34 +278,34 @@
         <div class="footer-page">
           <el-pagination
             @current-change="handleCurrentChange"
-            :current-page.sync="currentPage1"
-            :page-size="7"
-            layout="total, prev, pager, next"
-            :total="123"
+            :current-page.sync="currentPage"
+            :page-size="6"
+            layout="prev, pager, next"
+            :page-count="list.allpage"
+            hide-on-single-page
           >
           </el-pagination>
         </div>
-        <el-dialog title="详情" :visible.sync="dialogVisible" width="600px">
-          <div>啊沙发沙发的空间看到</div>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">关闭</el-button>
-          </span>
-        </el-dialog>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { companyJob } from '../../ajax/index';
+import { companyJob, deleteJob, getJobType, addJob } from '../../ajax/index';
+import { formatDate } from '../../assets/js/date.js';
 export default {
-  props: ['info'],
+  props: ['info', 'companyInfo'],
   data() {
     return {
+      flag: false,
+      flag1: false,
+      imageUrl: '',
       ruleForm: {
         title: '',
         image: '',
-        job: '',
+        launch: '',
+        job: [],
         age: '',
         sex: '',
         jobneed: '',
@@ -271,92 +313,153 @@ export default {
         money: '',
         worktime: '',
         begintime: '',
-        endtime: ''
+        endtime: '',
+        description: '',
+        type: 1
       },
-      rules: {},
-      active: 0, // 0 发布职位  1 已发布
-      bgImg: '//ftp.qnets.cn/img/bg3.jpg',
-      replay: '',
-      replayTitle: '',
-      dialogVisible: false,
-      projectItem: {
+      rules: {
+        image: [
+          { required: true, message: '项目照片不能为空', trigger: 'change' }
+        ],
+        title: [
+          { required: true, message: '项目标题不能为空', trigger: 'blur' }
+        ],
+        endtime: [
+          { required: true, message: '截至日期不能为空', trigger: 'change' }
+        ],
+        job: [
+          { required: true, validator: this.checkJobType }
+        ],
+        sex: [
+          { required: true, message: '性别不能为空', trigger: 'change' }
+        ],
+        age: [
+          { required: true, message: '年龄要求不能为空', trigger: 'blur' }
+        ],
+        place: [
+          { required: true, message: '面试地点不能为空', trigger: 'blur' }
+        ],
+        worktime: [
+          { required: true, message: '工作周期不能为空', trigger: 'blur' }
+        ],
+        money: [
+          { required: true, message: '薪酬不能为空', trigger: 'blur' }
+        ],
+        jobneed: [
+          { required: true, message: '职位要求不能为空', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '项目详情不能为空', trigger: 'blur' }
+        ]
+      },
+      editItem: [], // 选中要修改的项目
+      roleimgUrl: '',
+      ruleForm1: {
+        jobid: '',
         name: '',
-        proTitle: '',
-        proImg: '',
-        proDesc: '',
-        detail: ''
+        sex: '',
+        age: '',
+        image: '',
+        description: ''
       },
-      proId: undefined, // 选择的 项目id
-      projectList: [{
-        id: 1,
-        value: '传媒'
-      }, {
-        id: 2,
-        value: '互联网'
-      }, {
-        id: 3,
-        value: '设计院'
-      }, {
-        id: 4,
-        value: '视野'
-      }],
-      jobItem: {
-        id: '',
-        img: '',
-        desc: ''
+      rules1: {
+        roleimg: [
+          { required: true, message: '角色照片不能为空', trigger: 'change' }
+        ],
+        rolename: [
+          { required: true, message: '角色名字不能为空', trigger: 'blur' }
+        ],
+        rolesex: [
+          { required: true, message: '角色性别不能为空', trigger: 'change' }
+        ],
+        roledesc: [
+          { required: true, message: '角色详情不能为空', trigger: 'blur' }
+        ],
+        roleage: [
+          { required: true, message: '角色年龄不能为空', trigger: 'blur' }
+        ]
       },
-      jobList: [{
-        id: 1,
-        value: '男一号'
+      active: 0, // 0 发布职位  1 已发布
+      isHave: true,
+      list: [],
+      currentPage: 1,
+      jobType: [],
+      sexList: [{
+        value: '男'
       }, {
-        id: 2,
-        value: '女二号'
+        value: '女'
       }, {
-        id: 3,
-        value: '妹'
-      }, {
-        id: 4,
-        value: '死人'
-      }],
-      currentPage1: 1
+        value: '不限'
+      }]
     };
   },
   methods: {
-    changePage() {
+    async upload(content) {
+      this.ruleForm.image = content.file;
     },
-    goCelebrity() {
-      this.$emit('goCelebrity');
+    // 切换 发布职位与已发布tabber
+    changePage(active) {
+      if (active === 1) {
+        this.active = 1;
+        this.getCompanyJobs(this.currentPage);
+      } else {
+        this.active = 0;
+      }
     },
-    addHonor() {
-      console.log('add');
+    // 表单检查工作类型
+    checkJobType(rule, value, callback) {
+      if (value.length === 0) {
+        callback(new Error('职位类型不能为空'));
+      } else {
+        callback();
+      }
     },
-    deleteHonor() {
-      console.log('delete');
+    // 获取公司所有已发布职位
+    getCompanyJobs(page) {
+      companyJob({
+        page: page
+      }).then(res => {
+        if (res.code === '0') {
+          this.isHave = true;
+          this.list = res.data;
+        } else {
+          this.isHave = false;
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      this.getCompanyJobs(val);
     },
-    // 新建项目
-    addNewProject() {
-      console.log('新建项目');
-    },
-    // 删除项目
-    deleteProject() {
-      console.log('删除项目');
-    },
-    // 发布项目
-    submit() {
-      console.log('发布项目');
-    },
-    // 添加职位
-    addJob() {
-      console.log('添加职位');
+    // 发布 项目/职位
+    submitForm() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.ruleForm.begintime = new Date().getTime();
+          this.ruleForm.launch = this.companyInfo.name;
+          this.flag = true;
+          addJob(this.ruleForm).then(res => {
+            if (res.code === '0') {
+              this.$message({
+                message: '发布成功',
+                type: 'success'
+              });
+              this.$refs.ruleForm.resetFields();
+              this.imageUrl = '';
+            } else {
+              this.$message.error(res.errMsg);
+            }
+            this.flag = false;
+          }).catch(err => {
+            return err;
+          });
+        }
+      });
     },
     handleAvatarSuccess(res, file) {
-      this.projectItem.proImg = URL.createObjectURL(file.raw);
-    },
-    handleAvatarSuccess1(res, file) {
-      this.jobItem.img = URL.createObjectURL(file.raw);
+      this.imageUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
@@ -371,17 +474,62 @@ export default {
       return isJPG && isLt2M;
     },
     // 查看详情
-    openDialog(item) {
-      this.replayTitle = item;
-      this.replay = '';
+    watchDetail(id) {
+      this.$router.push({ name: 'jobDetail', params: { id: id } });
+    },
+    // 修改项目
+    editJob(item) {
+      this.active = 0;
+      this.imageUrl = item.image;
+      this.ruleForm.job = item.job.split(',');
+      this.ruleForm.title = item.title;
+      this.ruleForm.image = '';
+      this.ruleForm.launch = item.launch;
+      this.ruleForm.age = item.age;
+      this.ruleForm.sex = item.sex;
+      this.ruleForm.jobneed = item.jobneed;
+      this.ruleForm.place = item.place;
+      this.ruleForm.money = item.money;
+      this.ruleForm.worktime = item.worktime;
+      this.ruleForm.begintime = item.begintime;
+      this.ruleForm.endtime = item.endtime;
+      this.ruleForm.description = item.description;
+    },
+    // 删除项目
+    cancel(id) {
+      deleteJob({ id: id }).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+          if (this.list.jobs.length === 1 && this.currentPage !== 1) {
+            this.handleCurrentChange(this.currentPage - 1);
+          } else {
+            this.handleCurrentChange(this.currentPage);
+          }
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
     }
   },
   created() {
-    companyJob().then(res => {
-      console.log(res);
+    getJobType().then(res => {
+      if (res.code === '0') {
+        this.jobType = res.data;
+      }
     }).catch(err => {
       return err;
     });
+  },
+  filters: {
+    formatDate(time) {
+      var date = new Date(time);
+      return formatDate(date, 'yyyy-MM-dd');
+    }
   }
 };
 </script>
@@ -405,6 +553,7 @@ export default {
       justify-content: space-between;
     }
     .tabber {
+      margin-bottom: 20px;
       display: flex;
       justify-content: center;
       div {
@@ -431,27 +580,41 @@ export default {
         display: flex;
         align-items: center;
         .user-img {
-          width: 80px;
-          height: 80px;
+          width: 90px;
+          height: 90px;
           border-radius: 5px;
-          background-color: #ccc;
-          background-repeat: no-repeat;
-          background-position: center center;
-          background-size: cover;
         }
         .user-info {
           flex: 1;
+          height: 90px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
           margin: 0 20px;
           overflow: hidden;
           word-wrap: break-word;
           .content {
-            margin-top: 5px;
+            span {
+              margin-right: 15px;
+            }
           }
         }
         .user-name {
-          font-size: 15px;
-          font-weight: 600;
-          margin-right: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .head {
+            font-size: 15px;
+            font-weight: 600;
+            margin-right: 10px;
+          }
+        }
+        .user-btn {
+          height: 90px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
         }
       }
     }
@@ -465,21 +628,36 @@ export default {
   .demo-ruleForm {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 25px;
-  }
-  .el-form-item {
-    width: 50%;
-    .el-input,
-    .el-select,
-    .el-cascader,
-    .el-date-editor,
-    .el-textarea {
-      width: 100%;
+    .el-form-item {
+      width: 50%;
+      .el-input,
+      .el-select,
+      .el-cascader,
+      .el-date-editor,
+      .el-textarea {
+        width: 100%;
+      }
+      &:nth-last-child(2) {
+        width: 100%;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
-    /deep/.el-date-editor {
-      justify-content: space-between;
-      .el-range-separator {
-        width: 8% !important;
+  }
+  .demo-ruleForm1 {
+    display: flex;
+    flex-wrap: wrap;
+    .el-form-item {
+      width: 33.333%;
+      &:nth-last-child(3) {
+        width: 33.333%;
+      }
+      &:nth-last-child(2) {
+        width: 66.667%;
+      }
+      &:last-child {
+        margin-bottom: 0;
       }
     }
   }
@@ -500,6 +678,45 @@ export default {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 342px;
+    height: 138px;
+    line-height: 138px;
+    text-align: center;
+  }
+  .avatar {
+    width: 342px;
+    height: 138px;
+    display: block;
+    cursor: pointer;
+  }
+}
+/deep/ .avatar-uploader,
+.avatar-uploader1 {
+  height: 140px;
+}
+/deep/.avatar-uploader1 .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 196px;
+    height: 138px;
+    line-height: 138px;
+    text-align: center;
+  }
+  .avatar {
+    width: 196px;
+    height: 138px;
+    display: block;
+    cursor: pointer;
+  }
 }
 .el-divider {
   margin: 15px 0;
