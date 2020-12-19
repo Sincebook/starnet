@@ -6,7 +6,8 @@ import {
 Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
-    signBg: '' // 登录注册页面背景图
+    signBg: '', // 登录注册页面背景图
+    isLogin: false // 是否登录的标识
   },
   mutations: {
     test(state, test) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     signBg(state, signBg) {
       state.signBg = signBg;
+    },
+    isLogin(state, flag) {
+      state.isLogin = flag;
     }
   },
   actions: {

@@ -57,6 +57,13 @@ export default {
   },
   methods: {
     msgIt() {
+      if (!this.$store.state.isLogin) {
+        this.$message({
+          message: '请先登录',
+          type: 'error'
+        });
+        return;
+      }
       if (this.$refs.msg.style.display === 'block') {
         this.$refs.msg.style.display = 'none';
       } else {
@@ -71,11 +78,20 @@ export default {
           this.userid = res.data.userid;
           this.name = res.data.name;
           this.image = res.data.image;
-          this.isFun();
+          if (this.$store.state.isLogin) {
+            this.isFun();
+          }
         }
       });
     },
-    async sendMsg() {
+    sendMsg() {
+      if (!this.$store.state.isLogin) {
+        this.$message({
+          message: '请先登录',
+          type: 'error'
+        });
+        return;
+      }
       // if (!this.userid) {
       //   await this.getInfo();
       // }
@@ -95,7 +111,14 @@ export default {
         }
       });
     },
-    async watchIt() {
+    watchIt() {
+      if (!this.$store.state.isLogin) {
+        this.$message({
+          message: '请先登录',
+          type: 'error'
+        });
+        return;
+      }
       // if (!this.userid) {
       //   await this.getInfo();
       // }
