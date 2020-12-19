@@ -30,11 +30,11 @@
             </div>
             <el-divider direction="vertical"></el-divider>
             <div>
-              关注<span>{{ userInfo.collectNum | setNum }}</span>
+              关注<span>{{ userInfo.likeNum | setNum }}</span>
             </div>
             <el-divider direction="vertical"></el-divider>
             <div>
-              收藏<span>{{ userInfo.likeNum | setNum }}</span>
+              收藏<span>{{ userInfo.collectNum | setNum }}</span>
             </div>
           </div>
         </div>
@@ -56,6 +56,7 @@
     <div class="content">
       <keep-alive>
         <components
+          @cancel="cancel"
           :info="userInfo.user"
           :companyInfo="companyInfo"
           @change="changeInfo"
@@ -81,6 +82,7 @@ import message from '../components/personalCenter/message';
 import follow from '../components/personalCenter/follow';
 import report from '../components/personalCenter/report';
 import collect from '../components/personalCenter/collect';
+import works from '../components/corporateCenter/works';
 export default {
   data() {
     return {
@@ -92,9 +94,10 @@ export default {
         { id: 4, title: '企业荣誉', child: 'honor' },
         { id: 5, title: '在招职位', child: 'recruit' },
         { id: 6, title: '我的私信', child: 'message' },
-        { id: 7, title: '我的关注', child: 'follow' },
-        { id: 8, title: '我的收藏', child: 'collect' },
-        { id: 9, title: '举报中心', child: 'report' }
+        { id: 7, title: '我的作品', child: 'works' },
+        { id: 8, title: '我的关注', child: 'follow' },
+        { id: 9, title: '我的收藏', child: 'collect' },
+        { id: 10, title: '举报中心', child: 'report' }
       ],
       activeIndex: 1,
       child: 'userinfo',
@@ -144,6 +147,13 @@ export default {
       }).catch(err => {
         return err;
       });
+    },
+    cancel(id) {
+      if (id === 1) {
+        this.userInfo.likeNum--;
+      } else {
+        this.userInfo.collectNum--;
+      }
     }
   },
   created() {
@@ -173,7 +183,8 @@ export default {
     message,
     follow,
     report,
-    collect
+    collect,
+    works
   }
 };
 </script>

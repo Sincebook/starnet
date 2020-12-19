@@ -1,7 +1,7 @@
 import http from '@/utils/http';
-// 必应每日壁纸
+// 壁纸
 export function getSignBg(options) {
-  return http.get('/bingpic/bing?format=js&idx=0&n=1', options);
+  return http.get('/api/company/findMine', options);
 };
 // 获取验证码
 export function getCode(options) {
