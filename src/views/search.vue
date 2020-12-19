@@ -1,5 +1,6 @@
 <template>
   <div class="talent-list">
+    <p v-show="false">{{ value }}</p>
     <actor-card
       data-aos="fade-up"
       v-for="(item, index) in cards"
@@ -17,22 +18,38 @@ export default {
   data() {
     return {
       cards: '',
-      allpages: 1
+      allpages: 1,
+      preValue: ''
     };
   },
   created() {
-    this.nameSearch(this.$route.query.value);
+    this.nameSearch(this.value);
   },
   beforeUpdate() {
-    this.nameSearch(this.$route.query.value);
+    if (this.preValue !== this.value) {
+      this.nameSearch(this.value);
+      this.preValue = this.value;
+    }
   },
   methods: {
     nameSearch(name) {
-    //   console.log(111);
+      //   console.log(111);
       findByName({ name }).then(res => {
         // console.log(res);
-        this.cards = res.data.datas;
+        if (res.code === '0') {
+          this.cards = res.data.datas;
+        } else {
+          this.$message({
+            message: res.errMsg,
+            type: 'error'
+          });
+        }
       });
+    }
+  },
+  computed: {
+    value() {
+      return this.$route.query.value;
     }
   },
   components: {

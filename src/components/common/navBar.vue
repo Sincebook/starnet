@@ -52,7 +52,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <router-link
-              :to="this.type > 3 ? '/personalcenter' : '/corporateCenter'"
+              :to="this.type > 3 ? '/corporateCenter' : '/personalcenter'"
             >
               <el-dropdown-item>{{
                 this.type > 3 ? "企业中心" : "个人中心"
@@ -82,7 +82,8 @@ export default {
       logoImg: '//ftp.qnets.cn/since/logo.png',
       userHeader: '',
       userName: '',
-      type: ''
+      type: '',
+      isSearch: false
     };
   },
   created() {
@@ -98,6 +99,7 @@ export default {
       // console.log('hhhh');
       getMyinfo().then(res => {
         if (res.code === '0') {
+          this.$store.commit('isLogin', true);
           this.userHeader = res.data.user.head;
           this.userName = res.data.user.name;
           this.type = res.data.user.type;
@@ -111,13 +113,16 @@ export default {
       let value = target.parentNode.firstChild.firstChild.value;
       if (value !== '') {
         // console.log(value === '');
-        this.$router.replace({ name: 'search', query: { value: value } });
+        this.isSearch = true;
+        this.$router.replace({ name: 'search', query: { value: value } }, onComplete => { },
+          onAbort => { });
         target.parentNode.firstChild.firstChild.value = '';
       }
     },
     enterSearch(e) {
       // console.log(e.target.value);
-      this.$router.push({ name: 'search', query: { value: e.target.value } });
+      this.$router.replace({ name: 'search', query: { value: e.target.value } }, onComplete => { },
+        onAbort => { });
       e.target.value = '';
     },
     getOut() {
@@ -125,6 +130,7 @@ export default {
       getOutLogin().then(res => {
         console.log(res);
         if (res.code === '0') {
+          this.$store.commit('isLogin', false);
           this.$message({
             message: '已退出登录',
             type: 'success'

@@ -59,7 +59,9 @@ export default {
     // console.log(this.item.id);
     this.item.begintime = this.$formatDate(this.item.begintime);
     this.item.endtime = this.$formatDate(this.item.endtime);
-    this.isStar();
+    if (this.$store.state.isLogin) {
+      this.isStar();
+    }
   },
   methods: {
     // 分享
@@ -83,6 +85,13 @@ export default {
     },
     // 收藏
     collect() {
+      if (!this.$store.state.isLogin) {
+        this.$message({
+          message: '请先登录',
+          type: 'error'
+        });
+        return;
+      }
       // this.$emit('collect');
       if (this.shoucang === '已收藏') {
         noStarJob({ jobid: this.item.id }).then(res => {
