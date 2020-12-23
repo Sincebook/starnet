@@ -245,7 +245,7 @@ export default {
                   type: 'success'
                 });
                 setTimeout(() => {
-                  this.$router.go('/home');
+                  this.$router.push('/home');
                 }, 1500);
               } else {
                 this.$message.error(res.errMsg);
@@ -270,7 +270,7 @@ export default {
                   type: 'success'
                 });
                 setTimeout(() => {
-                  this.$router.go('/home');
+                  this.$router.push('/home');
                 }, 1500);
               } else {
                 this.$message.error(res.errMsg);

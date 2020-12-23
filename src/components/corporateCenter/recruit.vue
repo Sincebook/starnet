@@ -2,6 +2,35 @@
   <div class="info-box">
     <div class="title">
       <div class="name">在招职位</div>
+      <el-form
+        v-if="isEdit"
+        :model="ruleForm2"
+        :rules="rules2"
+        ref="ruleForm2"
+        class="demo-ruleForm2"
+        :disabled="isdeleteRole"
+      >
+        <el-form-item prop="id">
+          <el-select
+            v-model="ruleForm2.id"
+            placeholder="请选择要删除的角色"
+            clearable
+          >
+            <el-option
+              v-for="(res, index) in roleList"
+              :key="res.id"
+              :label="index + 1 + '. ' + res.name"
+              :value="res.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="danger" @click="submitForm2()" size="mini"
+            >删除</el-button
+          >
+        </el-form-item>
+      </el-form>
     </div>
     <div class="info notAllow" v-if="info.status === 1">
       <el-alert
@@ -26,7 +55,7 @@
           已发布
         </div>
       </div>
-      <div class="content" v-if="active == 0">
+      <div class="content" v-if="active === 0">
         <el-divider></el-divider>
         <el-form
           :model="ruleForm"
@@ -53,7 +82,7 @@
           ></el-form-item>
           <el-form-item label="项目详情" prop="description">
             <el-input
-              maxlength="150"
+              maxlength="300"
               :show-word-limit="true"
               resize="none"
               type="textarea"
@@ -143,69 +172,71 @@
             <el-button type="primary" @click="submitForm">保存</el-button>
           </el-form-item>
         </el-form>
-        <el-divider></el-divider>
-        <el-form
-          :model="ruleForm1"
-          :rules="rules1"
-          ref="ruleForm1"
-          label-width="90px"
-          class="demo-ruleForm1"
-          :disabled="flag1"
-        >
-          <el-form-item label="角色名称" prop="rolename">
-            <el-input
-              maxlength="10"
-              v-model="ruleForm1.name"
-              placeholder="请输入角色名称"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="角色性别" prop="rolesex">
-            <el-select v-model="ruleForm1.sex" placeholder="请选择性别">
-              <el-option
-                v-for="item in sexList"
-                :key="item.value"
-                :value="item.value"
+        <div v-if="isEdit">
+          <el-divider></el-divider>
+          <el-form
+            :model="ruleForm1"
+            :rules="rules1"
+            ref="ruleForm1"
+            label-width="90px"
+            class="demo-ruleForm1"
+            :disabled="flag1"
+          >
+            <el-form-item label="角色名称" prop="name">
+              <el-input
+                maxlength="10"
+                v-model="ruleForm1.name"
+                placeholder="请输入角色名称"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="角色性别" prop="sex">
+              <el-select v-model="ruleForm1.sex" placeholder="请选择性别">
+                <el-option
+                  v-for="item in sexList"
+                  :key="item.value"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="角色年龄" prop="age">
+              <el-input
+                maxlength="10"
+                v-model="ruleForm1.age"
+                placeholder="请输入角色年龄"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="角色照片" prop="image">
+              <el-upload
+                class="avatar-uploader1"
+                :http-request="upload1"
+                action=""
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess1"
+                :before-upload="beforeAvatarUpload"
               >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="角色年龄" prop="roleage">
-            <el-input
-              maxlength="10"
-              v-model="ruleForm1.age"
-              placeholder="请输入角色年龄"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="角色照片" prop="roleimg">
-            <el-upload
-              class="avatar-uploader1"
-              :http-request="upload"
-              action=""
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img v-if="roleimgUrl" :src="roleimgUrl" class="avatar" />
-              <i
-                v-else
-                class="el-icon-plus avatar-uploader-icon"
-              ></i> </el-upload
-          ></el-form-item>
-          <el-form-item label="角色详情" prop="roledesc">
-            <el-input
-              maxlength="150"
-              :show-word-limit="true"
-              resize="none"
-              type="textarea"
-              :autosize="{ minRows: 6, maxRows: 6 }"
-              v-model="ruleForm1.description"
-              placeholder="请输入项目详情"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm">添加</el-button>
-          </el-form-item>
-        </el-form>
+                <img v-if="roleimgUrl" :src="roleimgUrl" class="avatar" />
+                <i
+                  v-else
+                  class="el-icon-plus avatar-uploader-icon"
+                ></i> </el-upload
+            ></el-form-item>
+            <el-form-item label="角色详情" prop="description">
+              <el-input
+                maxlength="150"
+                :show-word-limit="true"
+                resize="none"
+                type="textarea"
+                :autosize="{ minRows: 6, maxRows: 6 }"
+                v-model="ruleForm1.description"
+                placeholder="请输入项目详情"
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm1">添加</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
       <div class="content" v-else>
         <el-alert
@@ -292,7 +323,7 @@
 </template>
 
 <script>
-import { companyJob, deleteJob, getJobType, addJob } from '../../ajax/index';
+import { companyJob, deleteJob, getJobType, addJob, editJob, getAllRole, addRole, deleteRole } from '../../ajax/index';
 import { formatDate } from '../../assets/js/date.js';
 export default {
   props: ['info', 'companyInfo'],
@@ -300,6 +331,7 @@ export default {
     return {
       flag: false,
       flag1: false,
+      isEdit: false,
       imageUrl: '',
       ruleForm: {
         title: '',
@@ -363,19 +395,19 @@ export default {
         description: ''
       },
       rules1: {
-        roleimg: [
+        image: [
           { required: true, message: '角色照片不能为空', trigger: 'change' }
         ],
-        rolename: [
+        name: [
           { required: true, message: '角色名字不能为空', trigger: 'blur' }
         ],
-        rolesex: [
+        sex: [
           { required: true, message: '角色性别不能为空', trigger: 'change' }
         ],
-        roledesc: [
+        description: [
           { required: true, message: '角色详情不能为空', trigger: 'blur' }
         ],
-        roleage: [
+        age: [
           { required: true, message: '角色年龄不能为空', trigger: 'blur' }
         ]
       },
@@ -390,17 +422,31 @@ export default {
         value: '女'
       }, {
         value: '不限'
-      }]
+      }],
+      isdeleteRole: false,
+      roleList: [],
+      ruleForm2: {
+        id: ''
+      },
+      rules2: {
+        id: [
+          { required: true, message: '请选择要删除的角色', trigger: 'change' }
+        ]
+      }
     };
   },
   methods: {
     async upload(content) {
       this.ruleForm.image = content.file;
     },
+    async upload1(content) {
+      this.ruleForm1.image = content.file;
+    },
     // 切换 发布职位与已发布tabber
     changePage(active) {
       if (active === 1) {
         this.active = 1;
+        this.clearJob();
         this.getCompanyJobs(this.currentPage);
       } else {
         this.active = 0;
@@ -427,6 +473,8 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
+        this.isHave = false;
+        this.$message.error(err);
         return err;
       });
     },
@@ -437,22 +485,92 @@ export default {
     submitForm() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          this.ruleForm.begintime = new Date().getTime();
           this.ruleForm.launch = this.companyInfo.name;
           this.flag = true;
-          addJob(this.ruleForm).then(res => {
+          if (this.isEdit) {
+            editJob(Object.assign({ id: this.ruleForm1.jobid }, this.ruleForm)).then(res => {
+              if (res.code === '0') {
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                });
+              } else {
+                this.$message.error(res.errMsg);
+              }
+              this.flag = false;
+            }).catch(err => {
+              this.flag = false;
+              this.$message.error(err);
+              return err;
+            });
+          } else {
+            this.ruleForm.begintime = new Date().getTime();
+            addJob(this.ruleForm).then(res => {
+              if (res.code === '0') {
+                this.$message({
+                  message: '发布成功',
+                  type: 'success'
+                });
+                this.$refs.ruleForm.resetFields();
+                this.imageUrl = '';
+              } else {
+                this.$message.error(res.errMsg);
+              }
+              this.flag = false;
+            }).catch(err => {
+              this.flag = false;
+              this.$message.error(err);
+              return err;
+            });
+          }
+        }
+      });
+    },
+    // 发布 角色
+    submitForm1() {
+      this.$refs.ruleForm1.validate((valid) => {
+        if (valid) {
+          this.flag1 = true;
+          addRole(this.ruleForm1).then(res => {
             if (res.code === '0') {
               this.$message({
                 message: '发布成功',
                 type: 'success'
               });
-              this.$refs.ruleForm.resetFields();
-              this.imageUrl = '';
+              this.getRole(this.ruleForm1.jobid);
+              this.$refs.ruleForm1.resetFields();
+              this.roleimgUrl = '';
             } else {
               this.$message.error(res.errMsg);
             }
-            this.flag = false;
+            this.flag1 = false;
           }).catch(err => {
+            this.flag1 = false;
+            this.$message.error(err);
+            return err;
+          });
+        }
+      });
+    },
+    // 删除 角色
+    submitForm2() {
+      this.$refs.ruleForm2.validate((valid) => {
+        if (valid) {
+          this.flag2 = true;
+          deleteRole(this.ruleForm2).then(res => {
+            if (res.code === '0') {
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              });
+              this.getRole(this.ruleForm1.jobid);
+            } else {
+              this.$message.error(res.errMsg);
+            }
+            this.flag2 = false;
+          }).catch(err => {
+            this.flag2 = false;
+            this.$message.error(err);
             return err;
           });
         }
@@ -460,6 +578,9 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    handleAvatarSuccess1(res, file) {
+      this.roleimgUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
@@ -477,13 +598,27 @@ export default {
     watchDetail(id) {
       this.$router.push({ name: 'jobDetail', params: { id: id } });
     },
+    // 获取所有角色
+    getRole(id) {
+      getAllRole({ jobid: id }).then(res => {
+        if (res.code === '0') {
+          this.roleList = res.data;
+        }
+      }).catch(err => {
+        this.$message.error(err);
+        return err;
+      });
+    },
     // 修改项目
     editJob(item) {
+      this.getRole(item.id);
       this.active = 0;
+      this.isEdit = true;
+      this.ruleForm1.jobid = item.id;
       this.imageUrl = item.image;
       this.ruleForm.job = item.job.split(',');
       this.ruleForm.title = item.title;
-      this.ruleForm.image = '';
+      this.ruleForm.image = item.image;
       this.ruleForm.launch = item.launch;
       this.ruleForm.age = item.age;
       this.ruleForm.sex = item.sex;
@@ -512,8 +647,19 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
+        this.$message.error(err);
         return err;
       });
+    },
+    clearJob() {
+      this.isEdit = false;
+      this.imageUrl = '';
+      for (const key in this.ruleForm) {
+        this.ruleForm[key] = '';
+      }
+      this.ruleForm.job = [];
+      this.ruleForm2.id = '';
+      this.roleList = [];
     }
   },
   created() {
@@ -522,6 +668,7 @@ export default {
         this.jobType = res.data;
       }
     }).catch(err => {
+      this.$message.error(err);
       return err;
     });
   },
@@ -658,6 +805,18 @@ export default {
       }
       &:last-child {
         margin-bottom: 0;
+      }
+    }
+  }
+  .demo-ruleForm2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    .el-form-item {
+      margin: 0;
+      &:first-child {
+        margin-right: 10px;
       }
     }
   }

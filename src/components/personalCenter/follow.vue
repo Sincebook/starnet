@@ -86,6 +86,8 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
+        this.isHave = false;
+        this.$message.error(err);
         return err;
       });
     },
@@ -107,6 +109,7 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
+        this.$message.error(err);
         return err;
       });
     },
@@ -133,6 +136,8 @@ export default {
         this.$message.error(res.errMsg);
       }
     }).catch(err => {
+      this.isHave = false;
+      this.$message.error(err);
       return err;
     });
   }

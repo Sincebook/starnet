@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar></nav-bar>
+    <nav-bar :key="$route.path"></nav-bar>
     <router-view class="body"></router-view>
     <footer-bar></footer-bar>
   </div>

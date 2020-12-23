@@ -57,8 +57,7 @@ export default {
       flag: false,
       ruleForm: {
         name: '',
-        idcard: '',
-        imageFile: 's'
+        idcard: ''
       },
       rules: {
         name: [
@@ -79,11 +78,18 @@ export default {
           celebrity(this.ruleForm).then(res => {
             if (res.code === '0') {
               this.flag = false;
+              this.$message({
+                message: '认证成功',
+                type: 'success'
+              });
+              this.info.status = 2;
             } else {
               this.$message.error(res.errMsg);
               this.flag = false;
             }
           }).catch(err => {
+            this.flag = false;
+            this.$message.error(err);
             return err;
           });
         }

@@ -112,6 +112,8 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
+        this.isHave = false;
+        this.$message.error(err);
         return err;
       });
     },
@@ -137,8 +139,8 @@ export default {
         } else {
           this.$message.error(res.errMsg);
         }
-        console.log(res);
       }).catch(err => {
+        this.$message.error(err);
         return err;
       });
     },
@@ -161,6 +163,7 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
+        this.$message.error(err);
         return err;
       });
     }
@@ -175,6 +178,8 @@ export default {
         this.$message.error(res.errMsg);
       }
     }).catch(err => {
+      this.isHave = false;
+      this.$message.error(err);
       return err;
     });
   },
