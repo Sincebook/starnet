@@ -242,6 +242,8 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
+        this.isHave = false;
+        this.$message.error(err);
         return err;
       });
     },
@@ -255,6 +257,8 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
+        this.isHave = false;
+        this.$message.error(err);
         return err;
       });
     },
@@ -296,6 +300,7 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
+        this.$message.error(err);
         return err;
       });
     },
@@ -318,6 +323,7 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
+        this.$message.error(err);
         return err;
       });
     },
@@ -344,6 +350,8 @@ export default {
               }
               this.formFlag = false;
             }).catch(err => {
+              this.formFlag = false;
+              this.$message.error(err);
               return err;
             });
           } else {
@@ -358,7 +366,6 @@ export default {
                   message: '上传成功',
                   type: 'success'
                 });
-                console.log(res);
                 this.handleCurrentChange(1);
                 this.$refs.ruleForm.resetFields();
                 this.dialogVisible1 = false;
@@ -367,6 +374,8 @@ export default {
               }
               this.formFlag = false;
             }).catch(err => {
+              this.formFlag = false;
+              this.$message.error(err);
               return err;
             });
           }

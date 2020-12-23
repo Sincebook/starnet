@@ -19,7 +19,6 @@
       <el-form-item>
         <el-button
           type="danger"
-          :disabled="dis"
           @click="submitForm()"
           size="mini"
           >删除</el-button

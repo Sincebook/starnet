@@ -93,6 +93,8 @@ export default {
             }
             this.flag = false;
           }).catch(err => {
+            this.flag = false;
+            this.$message.error(err);
             return err;
           });
         }

@@ -110,6 +110,10 @@ export {
   addJob,
   addCompanyVideo,
   CompanyVideo,
-  deleteCompanyVideo
+  deleteCompanyVideo,
+  editJob,
+  getAllRole,
+  addRole,
+  deleteRole
 }
 from './corporateCenter.js';

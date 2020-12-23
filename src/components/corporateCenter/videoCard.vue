@@ -54,6 +54,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
   }
   &:nth-child(2n + 1) {
     margin-left: 0;

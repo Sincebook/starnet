@@ -35,6 +35,22 @@ export function getJobType(obj) {
 export function addJob(obj) {
   return http.post('/api/job/add', obj);
 };
+// 修改职位
+export function editJob(obj) {
+  return http.post('/api/job/modifyById', obj);
+};
+// 查找职位下的所有角色
+export function getAllRole(obj) {
+  return http.get('/api/role/findByJobid', obj);
+};
+// 添加角色
+export function addRole(obj) {
+  return http.post('/api/role/add', obj);
+};
+// 删除角色
+export function deleteRole(obj) {
+  return http.post('/api/role/deleteById', obj);
+};
 // 添加企业视频
 export function addCompanyVideo(obj) {
   return http.post('/api/companyvideo/add', obj);
