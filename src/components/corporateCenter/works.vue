@@ -46,28 +46,12 @@
           <div v-else class="list">
             <video-card
               @play="playVideo(item)"
-              v-for="item in list.datas"
+              v-for="item in list.companyVideos"
               :key="item.id"
               :item="item"
-              @deleteWorks="deleteWorks(item.id)"
+              @deleteWorks="deleteVideo(item.id)"
             ></video-card>
           </div>
-        </el-tab-pane>
-        <el-tab-pane label="我的音频" name="3">
-          <el-alert
-            v-if="!isHave"
-            title="暂无音频"
-            type="warning"
-            :closable="false"
-            show-icon
-          >
-          </el-alert>
-          <audio-card
-            v-else
-            @deleteWorks="deleteWorks"
-            :flag="flag"
-            :item="audioList"
-          ></audio-card>
         </el-tab-pane>
       </el-tabs>
       <el-button
@@ -78,7 +62,7 @@
         >上传作品</el-button
       >
     </div>
-    <div v-if="activeName !== '3'" class="footer-page">
+    <div class="footer-page">
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
@@ -96,7 +80,7 @@
       :visible.sync="dialogVisible"
       width="800px"
     >
-      <video ref="video" controls :src="selectVideo.path"></video>
+      <video ref="video" controls :src="selectVideo.video"></video>
     </el-dialog>
     <el-dialog
       :destroy-on-close="true"
@@ -128,6 +112,16 @@
             placeholder="请输入标题"
           ></el-input>
         </el-form-item>
+        <el-form-item
+          v-if="ruleForm.type === 2"
+          label="详情"
+          prop="description"
+        >
+          <el-input
+            v-model="ruleForm.description"
+            placeholder="请输入详情"
+          ></el-input>
+        </el-form-item>
         <el-form-item label="文件" prop="file">
           <el-upload
             class="upload-demo"
@@ -147,8 +141,6 @@
                   ? "只能上传jpg/png文件，且不超过500kb"
                   : ruleForm.type === 2
                   ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过100m"
-                  : ruleForm.type === 3
-                  ? "只能上传mp3文件，且不超过20m"
                   : ""
               }}
             </div>
@@ -169,13 +161,14 @@
 </template>
 
 <script>
-import videoCard from './videoCard';
-import audioCard from './audioCard';
-import { formatDate } from '../../assets/js/date.js';
+import videoCard from '../corporateCenter/videoCard.vue';
 import {
   mineOpus,
+  CompanyVideo,
   addOpus,
-  deleteOpus
+  addCompanyVideo,
+  deleteOpus,
+  deleteCompanyVideo
 } from '../../ajax/index';
 export default {
   data() {
@@ -185,7 +178,6 @@ export default {
       currentPage: 1,
       nums: 8,
       allpage: 1,
-      audioList: [], // 音频存放
       list: [], // 视频 照片存放
       imgList: [], // 照片放大
       dialogVisible: false,
@@ -196,11 +188,15 @@ export default {
       ruleForm: {
         title: '',
         type: '',
+        description: '',
         file: ''
       },
       rules: {
         title: [
           { required: true, message: '标题不能为空', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '详情不能为空', trigger: 'blur' }
         ],
         type: [
           { required: true, message: '类型不能为空', trigger: 'change' }
@@ -215,9 +211,6 @@ export default {
       }, {
         id: 2,
         value: '视频'
-      }, {
-        id: 3,
-        value: '音频'
       }]
     };
   },
@@ -226,7 +219,11 @@ export default {
   },
   methods: {
     handleCurrentChange(val) {
-      this.getOpus(val);
+      if (this.activeName === '1') {
+        this.getOpus(val);
+      } else {
+        this.getVideo(val);
+      }
     },
     getOpus(page) {
       mineOpus({ num: this.nums, type: this.activeName, page: page }).then(res => {
@@ -234,18 +231,6 @@ export default {
           this.isHave = true;
           if (this.activeName === '2') {
             this.list = res.data;
-          } else if (this.activeName === '3') {
-            let time;
-            this.audioList = res.data.map(item => {
-              time = formatDate(new Date(Number(item.uptime)), 'yyyy-MM-dd');
-              return {
-                id: item.id,
-                title: item.description,
-                artist: time,
-                src: item.path
-              };
-            });
-            this.flag = true;
           } else {
             this.list = res.data;
             this.imgList = res.data.datas.map(item => {
@@ -262,13 +247,31 @@ export default {
         return err;
       });
     },
+    getVideo(page) {
+      CompanyVideo({ num: this.nums, page: page }).then(res => {
+        if (res.code === '0') {
+          this.isHave = true;
+          this.list = res.data;
+        } else {
+          this.isHave = false;
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        this.isHave = false;
+        this.$message.error(err);
+        return err;
+      });
+    },
     handleClick(value) {
+      this.list = [];
       this.isHave = true;
-      if (value.paneName !== '3') {
-        this.flag = false;
-      }
+      this.flag = false;
       this.currentPage = 1;
-      this.getOpus(this.currentPage);
+      if (value.paneName === '1') {
+        this.getOpus(this.currentPage);
+      } else {
+        this.getVideo(this.currentPage);
+      }
     },
     handleClose(done) {
       this.$refs.video.pause();
@@ -301,32 +304,81 @@ export default {
         return err;
       });
     },
+    // 删除公司视频
+    deleteVideo(id) {
+      deleteCompanyVideo({
+        id: id
+      }).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+          if (this.list.companyVideos.length === 1 && this.currentPage !== 1) {
+            this.handleCurrentChange(this.currentPage - 1);
+          } else {
+            this.handleCurrentChange(this.currentPage);
+          }
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        this.$message.error(err);
+        return err;
+      });
+    },
     submitUpload() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.formFlag = true;
-          addOpus({
-            type: this.ruleForm.type,
-            description: this.ruleForm.title,
-            file: this.ruleForm.file
-          }).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                message: '上传成功',
-                type: 'success'
-              });
-              this.handleCurrentChange(1);
-              this.$refs.ruleForm.resetFields();
-              this.dialogVisible1 = false;
-            } else {
-              this.$message.error(res.errMsg);
-            }
-            this.formFlag = false;
-          }).catch(err => {
-            this.formFlag = false;
-            this.$message.error(err);
-            return err;
-          });
+          if (this.ruleForm.type === 1) {
+            addOpus({
+              type: this.ruleForm.type,
+              description: this.ruleForm.title,
+              file: this.ruleForm.file
+            }).then(res => {
+              if (res.code === '0') {
+                this.$message({
+                  message: '上传成功',
+                  type: 'success'
+                });
+                this.handleCurrentChange(1);
+                this.$refs.ruleForm.resetFields();
+                this.dialogVisible1 = false;
+              } else {
+                this.$message.error(res.errMsg);
+              }
+              this.formFlag = false;
+            }).catch(err => {
+              this.formFlag = false;
+              this.$message.error(err);
+              return err;
+            });
+          } else {
+            addCompanyVideo({
+              time: new Date().getTime(),
+              title: this.ruleForm.title,
+              description: this.ruleForm.description,
+              video: this.ruleForm.file
+            }).then(res => {
+              if (res.code === '0') {
+                this.$message({
+                  message: '上传成功',
+                  type: 'success'
+                });
+                this.handleCurrentChange(1);
+                this.$refs.ruleForm.resetFields();
+                this.dialogVisible1 = false;
+              } else {
+                this.$message.error(res.errMsg);
+              }
+              this.formFlag = false;
+            }).catch(err => {
+              this.formFlag = false;
+              this.$message.error(err);
+              return err;
+            });
+          }
         }
       });
     },
@@ -338,8 +390,6 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2;
       const isVIDEO = file.type === 'video/mp4' || file.type === 'video/ogg' || file.type === 'video/avi' || file.type === 'video/wmv' || file.type === 'video/rmvb';
       const isLt100M = file.size / 1024 / 1024 < 100;
-      const isAUDIO = file.type === 'audio/mp3' || file.type === 'audio/mpeg';
-      const isLt20M = file.size / 1024 / 1024 < 20;
       if (this.ruleForm.type === '') {
         this.$message.error('请选择上传类型');
         return false;
@@ -359,14 +409,6 @@ export default {
           this.$message.error('上传视频大小不能超过 50MB!');
         }
         return isVIDEO && isLt100M;
-      } else if (this.ruleForm.type === 3) {
-        if (!isAUDIO) {
-          this.$message.error('上传音频只能是 MP3 格式!');
-        }
-        if (!isLt20M) {
-          this.$message.error('上传音频大小不能超过 20MB!');
-        }
-        return isAUDIO && isLt20M;
       }
     },
     handleRemove() {
@@ -374,8 +416,7 @@ export default {
     }
   },
   components: {
-    videoCard,
-    audioCard
+    videoCard
   }
 };
 </script>

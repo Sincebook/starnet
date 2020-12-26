@@ -104,6 +104,16 @@ export {
   getGrade,
   deleteGrade,
   celebrityCompany,
-  companyJob
+  companyJob,
+  deleteJob,
+  getJobType,
+  addJob,
+  addCompanyVideo,
+  CompanyVideo,
+  deleteCompanyVideo,
+  editJob,
+  getAllRole,
+  addRole,
+  deleteRole
 }
 from './corporateCenter.js';

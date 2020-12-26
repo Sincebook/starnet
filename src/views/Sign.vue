@@ -270,7 +270,7 @@ export default {
                   type: 'success'
                 });
                 setTimeout(() => {
-                  this.$router.push('/personalCenter');
+                  this.$router.push('/home');
                 }, 1500);
               } else {
                 this.$message.error(res.errMsg);
