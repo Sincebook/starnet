@@ -52,9 +52,13 @@ export default {
 
 <style lang="less" scoped>
 .com-perform {
+  overflow: auto;
+  // display: inline-block;
   width: 960px;
+  height: 300px;
   margin: 60px auto;
   background-color: white;
+  padding-bottom: 20px;
 }
 .achieve {
   font-weight: bold;

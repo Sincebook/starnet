@@ -100,7 +100,7 @@ export default {
     userinfo() {
       // console.log(this.$route.params);
       userinfoById({ id: this.$route.params.id }).then(res => {
-        console.log(res);
+        // console.log(res);
         this.userid = res.data.userid;
         this.resume = res.data;
         this.getMomes();
