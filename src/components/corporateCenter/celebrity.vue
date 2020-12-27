@@ -11,7 +11,7 @@
       <el-alert :closable="false" title="正在审核中" type="warning" show-icon>
       </el-alert>
     </div>
-    <div class="info" v-if="info.status === 1 && companyInfo.status === ''">
+    <div class="info" v-if="info.status === 1 && companyInfo.status === 0">
       <el-alert
         :closable="false"
         title="一个账号只可以和一个企业信息绑定，无法解绑或更换"

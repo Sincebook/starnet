@@ -83,6 +83,7 @@ export default {
                 type: 'success'
               });
               this.info.status = 2;
+              this.$emit('change');
             } else {
               this.$message.error(res.errMsg);
               this.flag = false;

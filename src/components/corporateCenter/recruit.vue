@@ -31,6 +31,19 @@
           >
         </el-form-item>
       </el-form>
+      <el-dropdown v-if="active === 2" style="cursor: pointer">
+        <span class="el-dropdown-link">
+          条件筛选({{ tj }})<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item
+            @click.native="clickItem(item)"
+            v-for="item in tiaojian"
+            :key="item.id"
+            >{{ item.value }}</el-dropdown-item
+          >
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <div class="info notAllow" v-if="info.status === 1">
       <el-alert
@@ -238,7 +251,7 @@
           </el-form>
         </div>
       </div>
-      <div class="content" v-else>
+      <div class="content" v-else-if="active === 1">
         <el-alert
           v-if="!isHave"
           title="暂无发布"
@@ -256,7 +269,9 @@
               ></el-image>
               <div class="user-info">
                 <div class="user-name">
-                  <span class="head">{{ item.title }}</span>
+                  <span class="head" @click="watchDetail(item.id)">{{
+                    item.title
+                  }}</span>
                   <span>{{ item.launch }}</span>
                 </div>
                 <div class="content">
@@ -279,8 +294,8 @@
                     type="primary"
                     size="mini"
                     plain
-                    @click="watchDetail(item.id)"
-                    >查看详情</el-button
+                    @click="watchDeliver(item.id)"
+                    >查看投递</el-button
                   >
                 </div>
                 <div>
@@ -318,12 +333,106 @@
           </el-pagination>
         </div>
       </div>
+      <div class="content" v-else>
+        <div class="info1">
+          <el-alert
+            v-if="!isHave"
+            title="暂无投递"
+            type="warning"
+            :closable="false"
+            show-icon
+          ></el-alert>
+          <div v-else class="list">
+            <div class="item-box" v-for="item in list.applys" :key="item.id">
+              <div class="item">
+                <el-image
+                  class="user-img"
+                  :src="item.roleimage"
+                  fit="cover"
+                ></el-image>
+                <div class="user-info">
+                  <div class="head">
+                    <span class="user-name"
+                      >角色：<span @click="watchDetail(item.jobid)">{{
+                        item.rolename
+                      }}</span></span
+                    >
+                    <span class="user-vip">{{ item.status }}</span>
+                  </div>
+                  <div class="head1">
+                    申请人：
+                    <div @click="watchDetail1(item.userid)">
+                      <el-image
+                        class="user-img"
+                        :src="item.roleimage"
+                        fit="cover"
+                      ></el-image
+                      >{{ item.username }}
+                    </div>
+                  </div>
+                </div>
+                <div class="user-btn">
+                  <div>
+                    <el-button
+                      type="primary"
+                      size="mini"
+                      plain
+                      @click="view(item.infoid, item.userid)"
+                      >查看简历</el-button
+                    >
+                  </div>
+                  <div
+                    v-if="
+                      item.status !== '已被拒绝' && item.status !== '已被录用'
+                    "
+                  >
+                    <el-button
+                      type="warning"
+                      size="mini"
+                      plain
+                      @click="intention(item.infoid, item.status)"
+                      >{{
+                        item.status === "有意向" ? "确认录用" : "意向面试"
+                      }}</el-button
+                    >
+                  </div>
+                  <div
+                    v-if="
+                      item.status !== '已被拒绝' && item.status !== '已被录用'
+                    "
+                  >
+                    <el-button
+                      type="danger"
+                      size="mini"
+                      plain
+                      @click="refuse(item.infoid)"
+                      >拒绝录用</el-button
+                    >
+                  </div>
+                </div>
+              </div>
+              <el-divider></el-divider>
+            </div>
+            <div class="footer-page">
+              <el-pagination
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage"
+                :page-size="6"
+                layout="prev, pager, next"
+                :page-count="list.allpage"
+                hide-on-single-page
+              >
+              </el-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { companyJob, deleteJob, getJobType, addJob, editJob, getAllRole, addRole, deleteRole } from '../../ajax/index';
+import { companyJob, deleteJob, getJobType, addJob, editJob, getAllRole, addRole, deleteRole, findAllDeliver, viewCv, refuseUser, intentionUser, offerUser } from '../../ajax/index';
 import { formatDate } from '../../assets/js/date.js';
 export default {
   props: ['info', 'companyInfo'],
@@ -411,7 +520,7 @@ export default {
           { required: true, message: '角色年龄不能为空', trigger: 'blur' }
         ]
       },
-      active: 0, // 0 发布职位  1 已发布
+      active: 0, // 0 发布职位  1 已发布 2 查看投递记录
       isHave: true,
       list: [],
       currentPage: 1,
@@ -432,7 +541,17 @@ export default {
         id: [
           { required: true, message: '请选择要删除的角色', trigger: 'change' }
         ]
-      }
+      },
+      jobid: '', // 选中的职位id
+      tiaojian: [
+        { id: 0, value: '全部', code: 'a' },
+        { id: 1, value: '待查看', code: 'w' },
+        { id: 2, value: '已查看', code: 'h' },
+        { id: 3, value: '有意向', code: 'c' },
+        { id: 4, value: '已拒绝', code: 'r' },
+        { id: 5, value: '已录用', code: 's' }
+      ],
+      filter: 'a' // 投递记录筛选 小写字母 a代表所有  w代表待查看  h代表已查看 r代表拒绝 s代表已录用 c代表有意向根据此条件筛选信息
     };
   },
   methods: {
@@ -479,7 +598,28 @@ export default {
       });
     },
     handleCurrentChange(val) {
-      this.getCompanyJobs(val);
+      if (this.active === 1) {
+        this.getCompanyJobs(val);
+      } else {
+        findAllDeliver({
+          jobid: this.jobid,
+          filter: this.filter,
+          num: '6',
+          page: val
+        }).then(res => {
+          if (res.code === '0') {
+            this.isHave = true;
+            this.list = res.data;
+          } else {
+            this.isHave = false;
+            this.$message.error(res.errMsg);
+          }
+        }).catch(err => {
+          this.isHave = false;
+          this.$message.error(err);
+          return err;
+        });
+      }
     },
     // 发布 项目/职位
     submitForm() {
@@ -494,6 +634,7 @@ export default {
                   message: '修改成功',
                   type: 'success'
                 });
+                this.clearJob();
               } else {
                 this.$message.error(res.errMsg);
               }
@@ -564,6 +705,7 @@ export default {
                 type: 'success'
               });
               this.getRole(this.ruleForm1.jobid);
+              this.$refs.ruleForm2.resetFields();
             } else {
               this.$message.error(res.errMsg);
             }
@@ -594,9 +736,36 @@ export default {
       }
       return isJPG && isLt2M;
     },
-    // 查看详情
+    // 查看职位详情
     watchDetail(id) {
       this.$router.push({ name: 'jobDetail', params: { id: id } });
+    },
+    // 查看个人主页详情
+    watchDetail1(id) {
+      this.$router.push({ name: 'talentDetail', params: { id: id } });
+    },
+    // 查看投递
+    watchDeliver(id) {
+      this.active = 2;
+      this.jobid = id;
+      findAllDeliver({
+        jobid: id,
+        filter: this.filter,
+        num: '6',
+        page: this.currentPage
+      }).then(res => {
+        if (res.code === '0') {
+          this.isHave = true;
+          this.list = res.data;
+        } else {
+          this.isHave = false;
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        this.isHave = false;
+        this.$message.error(err);
+        return err;
+      });
     },
     // 获取所有角色
     getRole(id) {
@@ -660,6 +829,72 @@ export default {
       this.ruleForm.job = [];
       this.ruleForm2.id = '';
       this.roleList = [];
+    },
+    // 查看简历
+    view(infoid, userid) {
+      viewCv({ id: infoid }).then(res => {
+        this.watchDetail1(userid);
+      }).catch(err => {
+        return err;
+      });
+    },
+    // 拒绝录用
+    refuse(id) {
+      refuseUser({ id: id }).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            message: '拒绝成功',
+            type: 'success'
+          });
+          this.watchDeliver(this.jobid);
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
+    },
+    // 意向面试
+    intention(infoid, status) {
+      if (status === '有意向') {
+        offerUser({
+          id: infoid
+        }).then(res => {
+          if (res.code === '0') {
+            this.$message({
+              message: '录用成功',
+              type: 'success'
+            });
+            this.watchDeliver(this.jobid);
+          } else {
+            this.$message.error(res.errMsg);
+          }
+        }).catch(err => {
+          return err;
+        });
+      } else {
+        intentionUser({
+          id: infoid
+        }).then(res => {
+          if (res.code === '0') {
+            this.$message({
+              message: '意向成功',
+              type: 'success'
+            });
+            this.watchDeliver(this.jobid);
+          } else {
+            this.$message.error(res.errMsg);
+          }
+        }).catch(err => {
+          return err;
+        });
+      }
+    },
+    // 条件筛选
+    clickItem(item) {
+      this.filter = item.code;
+      this.currentPage = 1;
+      this.watchDeliver(this.jobid);
     }
   },
   created() {
@@ -676,6 +911,17 @@ export default {
     formatDate(time) {
       var date = new Date(time);
       return formatDate(date, 'yyyy-MM-dd');
+    }
+  },
+  computed: {
+    tj() {
+      let res = '';
+      this.tiaojian.forEach(item => {
+        if (item.code === this.filter) {
+          res = item.value;
+        }
+      });
+      return res;
     }
   }
 };
@@ -750,10 +996,22 @@ export default {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          span {
+            transition: color 0.25s;
+            cursor: pointer;
+            &:hover {
+              color: #409eff;
+            }
+          }
           .head {
             font-size: 15px;
             font-weight: 600;
             margin-right: 10px;
+            cursor: pointer;
+            transition: color 0.25s;
+            &:hover {
+              color: #409eff;
+            }
           }
         }
         .user-btn {
@@ -770,6 +1028,61 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       bottom: 20px;
+    }
+  }
+  .info1 {
+    .list {
+      .item {
+        display: flex;
+        align-items: center;
+        .user-img {
+          width: 80px;
+          height: 80px;
+          border-radius: 5px;
+        }
+        .user-info {
+          flex: 1;
+          height: 80px;
+          margin: 0 20px;
+          overflow: hidden;
+          word-wrap: break-word;
+          .head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+          .head1 {
+            display: flex;
+            align-items: center;
+            .user-img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              margin-right: 10px;
+            }
+            div {
+              display: flex;
+              align-items: center;
+              transition: color 0.25s;
+              cursor: pointer;
+              &:hover {
+                color: #409eff;
+              }
+            }
+          }
+        }
+        .user-name {
+          height: 20px;
+          margin-right: 10px;
+        }
+        .user-btn {
+          height: 90px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
     }
   }
   .demo-ruleForm {

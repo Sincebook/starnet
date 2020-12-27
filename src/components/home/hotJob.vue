@@ -29,7 +29,7 @@ export default {
     getHotJobs() {
       findHotJobs(this.obj).then(res => {
         if (res.code === '0') {
-          this.list = res.data.jobs.slice(0, 6);
+          this.list = res.data.jobs.slice(0, 8);
         }
         console.log(res);
       });
@@ -59,7 +59,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    height: 920px;
+    height: 880px;
     width: 1280px;
     margin: 0 auto;
     overflow: hidden;
