@@ -41,7 +41,7 @@
       <span class="header_part" v-if="userHeader">
         <el-dropdown>
           <span class="el-dropdown-link">
-            <router-link to="/personalcenter">
+            <router-link to="this.type > 3 ? '/corporateCenter' : '/personalcenter'">
               <img
                 class="login_header"
                 :src="userHeader"
