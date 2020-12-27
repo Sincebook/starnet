@@ -63,3 +63,23 @@ export function CompanyVideo(obj) {
 export function deleteCompanyVideo(obj) {
   return http.post('/api/companyvideo/deleteMine', obj);
 };
+// 获取所有投递记录
+export function findAllDeliver(obj) {
+  return http.get('/api/information/findAllApplysByJobid', obj);
+};
+// 查看简历
+export function viewCv(obj) {
+  return http.post('/api/information/browse', obj);
+};
+// 拒绝录用
+export function refuseUser(obj) {
+  return http.post('/api/information/refuse', obj);
+};
+// 意向面试
+export function intentionUser(obj) {
+  return http.post('/api/information/consider', obj);
+};
+// 确认录用
+export function offerUser(obj) {
+  return http.post('/api/information/offer', obj);
+};

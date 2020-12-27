@@ -1,5 +1,5 @@
 <template>
-  <div class="company-card">
+  <div class="company-card" @click="goPush(item.id)">
     <div class="company-head">
       <el-image class="bgImg" :src="item.image" fit="cover"></el-image>
     </div>
@@ -7,13 +7,11 @@
       <div class="img">
         <el-image class="aimg" :src="item.logo" fit="cover"></el-image>
       </div>
-      <router-link :to="{ name: 'companyDetail', params: { id: item.id } }">
-        <h2 class="name" @click="detail">{{ item.name }}</h2></router-link
-      >
+      <h2 class="name" @click="detail">{{ item.name }}</h2>
       <div class="desc">累计达成合作{{ item.oknum }}单</div>
       <div class="btn-box">
-        <div class="btn" @click="msgIt">私信</div>
-        <div class="btn" @click="watchIt">{{ two }}</div>
+        <div class="btn" @click.stop="msgIt">私信</div>
+        <div class="btn" @click.stop="watchIt">{{ two }}</div>
       </div>
     </div>
     <!-- 私信对接弹窗 -->
@@ -135,6 +133,9 @@ export default {
         }
         // console.log(res);
       });
+    },
+    goPush(id) {
+      this.$router.push('/companyDetail/' + id);
     }
   }
 };
@@ -142,6 +143,7 @@ export default {
 
 <style lang="less" scoped>
 .company-card {
+  cursor: pointer;
   text-align: center;
   user-select: none;
   position: relative;

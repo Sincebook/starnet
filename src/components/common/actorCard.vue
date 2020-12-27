@@ -1,16 +1,14 @@
 <template>
-  <div class="actor-card">
+  <div class="actor-card" @click="goPush(item.id)">
     <div class="actor-head">
       <el-image class="bgImg" :src="item.image" fit="cover"></el-image>
     </div>
     <div class="info">
-      <router-link :to="{ name: 'talentDetail', params: { id: item.id } }">
-        <h2 class="name">{{ item.name }}/{{ item.workArea }}</h2></router-link
-      >
+      <h2 class="name">{{ item.name }}/{{ item.workArea }}</h2>
       <p class="desc">{{ item.vocation }}</p>
       <div class="btn-box">
-        <div class="btn" @click="msgIt">私信</div>
-        <div class="btn" @click="watchIt">{{ two }}</div>
+        <div class="btn" @click.stop="msgIt">私信</div>
+        <div class="btn" @click.stop="watchIt">{{ two }}</div>
       </div>
     </div>
     <!-- 私信对接弹窗 -->
@@ -139,6 +137,9 @@ export default {
         }
         // console.log(res);
       });
+    },
+    goPush(id) {
+      this.$router.push('/talentDetail/' + id);
     }
   }
 };
@@ -146,6 +147,7 @@ export default {
 
 <style lang="less" scoped>
 .actor-card {
+  cursor: pointer;
   text-align: center;
   user-select: none;
   position: relative;
@@ -181,7 +183,6 @@ export default {
     white-space: nowrap;
     display: inline-block;
     width: 230px;
-    cursor: pointer;
     color: #759cb6;
     font-weight: 600;
     margin: 10px 0 0 0;

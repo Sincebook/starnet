@@ -128,7 +128,7 @@ export default {
   cursor: pointer;
   user-select: none;
   position: relative;
-  width: 330px;
+  width: 280px;
   background-color: var(--cardBgColor);
   height: 390px;
   transition: all 0.25s;

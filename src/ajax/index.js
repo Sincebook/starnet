@@ -114,6 +114,11 @@ export {
   editJob,
   getAllRole,
   addRole,
-  deleteRole
+  deleteRole,
+  findAllDeliver,
+  viewCv,
+  refuseUser,
+  intentionUser,
+  offerUser
 }
 from './corporateCenter.js';
