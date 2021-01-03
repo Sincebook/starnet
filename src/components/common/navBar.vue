@@ -8,7 +8,7 @@
         ? 'newNav'
         : ''
     "
-    v-if="$route.path !== '/bindPhone'"
+    v-if="$route.path !== '/bindPhone' && $route.path !== '/bindWbPhone'"
   >
     <div class="left">
       <span><img :src="logoImg" alt="绘星" class="nav-icon" /></span>
@@ -41,7 +41,9 @@
       <span class="header_part" v-if="userHeader">
         <el-dropdown>
           <span class="el-dropdown-link">
-            <router-link to="/personalcenter">
+            <router-link
+              :to="this.type > 3 ? '/corporateCenter' : '/personalcenter'"
+            >
               <img
                 class="login_header"
                 :src="userHeader"

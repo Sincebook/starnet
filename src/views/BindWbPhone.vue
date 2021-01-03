@@ -146,7 +146,6 @@ export default {
       }
     },
     bind() {
-      console.log(123);
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           bindPhone(this.ruleForm).then(res => {
