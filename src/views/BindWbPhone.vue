@@ -71,8 +71,8 @@
 <script>
 import { mapState } from 'vuex';
 import {
-  getBindCode,
-  bindPhone
+  getBindWbCode,
+  bindWbPhone
 } from '../ajax/index';
 export default {
   data() {
@@ -116,7 +116,7 @@ export default {
     getCodes() {
       const reg = /^1[3|4|5|6|7|8|9]\d{9}$/;
       if (reg.test(this.ruleForm.phoneNum)) {
-        getBindCode({
+        getBindWbCode({
           phoneNum: this.ruleForm.phoneNum
         }).then(res => {
           if (res.code === '0') {
@@ -148,7 +148,7 @@ export default {
     bind() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          bindPhone(this.ruleForm).then(res => {
+          bindWbPhone(this.ruleForm).then(res => {
             if (res.code === '0') {
               this.$message({
                 message: '绑定成功，正在跳转...',
