@@ -8,7 +8,7 @@
         ? 'newNav'
         : ''
     "
-    v-if="$route.path !== '/bindPhone'"
+    v-if="$route.path !== '/bindPhone' && $route.path !== '/bindWbPhone'"
   >
     <div class="left">
       <span><img :src="logoImg" alt="绘星" class="nav-icon" /></span>

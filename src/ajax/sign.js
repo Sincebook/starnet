@@ -19,6 +19,10 @@ export function loginUser(options) {
 export function wxLogin(obj) {
   return http.get('/api/wechat/login', obj);
 };
+// 微博登录
+export function wbLogin(obj) {
+  return http.get('/api/weibo/login', obj);
+};
 // 获取登录后的个人信息
 export function getMyinfo(params) {
   return http.get('/api/user/findMine', params);

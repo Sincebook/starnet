@@ -48,7 +48,7 @@
               >
             </div>
             <div class="others-btn">
-              <div class="btn">
+              <div class="btn" @click="wbLogin()">
                 <svg class="icon icon-weibo" aria-hidden="true">
                   <use xlink:href="#icon-weibo"></use></svg
                 >微博登录
@@ -127,7 +127,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getCode, registerUser, loginUser, wxLogin } from '../ajax/index';
+import { getCode, registerUser, loginUser, wxLogin, wbLogin } from '../ajax/index';
 export default {
   data() {
     return {
@@ -296,6 +296,19 @@ export default {
     },
     wxLogin() {
       wxLogin()
+        .then((res) => {
+          if (res.code === '0') {
+            window.location.href = res.data;
+          } else {
+            this.$message.error(res.errMsg);
+          }
+        })
+        .catch((err) => {
+          return err;
+        });
+    },
+    wbLogin() {
+      wbLogin()
         .then((res) => {
           if (res.code === '0') {
             window.location.href = res.data;

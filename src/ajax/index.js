@@ -4,6 +4,7 @@ export {
   registerUser,
   loginUser,
   wxLogin,
+  wbLogin,
   getMyinfo
 }
 from './sign.js';
