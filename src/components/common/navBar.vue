@@ -1,6 +1,6 @@
 <template>
   <div
-    class="nav"
+    id="nav"
     :class="
       $route.path === '/home' ||
       $route.path === '/vip' ||
@@ -8,17 +8,21 @@
         ? 'newNav'
         : ''
     "
+    class="normalNav nav"
     v-if="$route.path !== '/bindPhone' && $route.path !== '/bindWbPhone'"
   >
     <div class="left">
-      <span><img :src="logoImg" alt="绘星" class="nav-icon" /></span>
-      <router-link to="/home"><span>首页</span></router-link>
-      <router-link to="/talent"><span>人才目录</span></router-link>
-      <router-link to="/company"><span>公司目录</span></router-link>
-      <router-link to="/job"><span>工作职位</span></router-link>
-      <router-link to="/"><span>学院</span></router-link>
-      <router-link to="/"><span>活动</span></router-link>
-      <router-link to="/"><span>更多</span></router-link>
+      <span
+        ><router-link to="/home"
+          ><img :src="logoImg" alt="绘星" class="nav-icon" /></router-link
+      ></span>
+      <span><router-link to="/home">首页</router-link></span>
+      <span><router-link to="/talent">人才目录</router-link></span>
+      <span><router-link to="/company">公司目录</router-link></span>
+      <span><router-link to="/job">工作职位</router-link></span>
+      <span><router-link to="/">学院</router-link></span>
+      <span><router-link to="/">活动</router-link></span>
+      <span><router-link to="/">更多</router-link></span>
     </div>
     <div class="right">
       <div class="search bar1">
@@ -41,7 +45,9 @@
       <span class="header_part" v-if="userHeader">
         <el-dropdown>
           <span class="el-dropdown-link">
-            <router-link :to="this.type > 3 ? '/corporateCenter' : '/personalcenter'">
+            <router-link
+              :to="this.type > 3 ? '/corporateCenter' : '/personalcenter'"
+            >
               <img
                 class="login_header"
                 :src="userHeader"
@@ -83,7 +89,8 @@ export default {
       userHeader: '',
       userName: '',
       type: '',
-      isSearch: false
+      isSearch: false,
+      i: 0
     };
   },
   created() {
@@ -93,6 +100,7 @@ export default {
     if (!this.userHeader) {
       this.getMyLoginInfo();
     }
+    window.addEventListener('scroll', this.handleScorll, true);
   },
   methods: {
     getMyLoginInfo() {
@@ -138,13 +146,42 @@ export default {
           this.userHeader = '';
         }
       });
+    },
+    // 滚动事件
+    handleScorll() {
+      // 页面滚动距顶部距离
+      let ele = document.getElementById('nav');
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      let scroll = scrollTop - this.i;
+      this.i = scrollTop;
+      if (scrollTop > 300) {
+        if (scroll < 0) {
+          ele.classList.remove('normalNav', 'downNav', 'newNav');
+          ele.classList.add('upNav', 'transtion');
+        } else {
+          ele.classList.remove('normalNav', 'upNav', 'newNav');
+          ele.classList.add('downNav');
+        }
+      } else {
+        ele.classList.remove('upNav', 'downNav', 'transtion');
+        if (this.$route.path === '/home' || this.$route.path === '/vip' || this.$route.path === '/sign') {
+          ele.classList.add('newNav');
+        } else {
+          ele.classList.add('normalNav');
+        }
+      }
     }
   }
 };
 </script>
 <style lang='less' scoped>
 a {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.75);
+  transition: color 0.25s;
+  &:hover {
+    color: #fff;
+  }
 }
 .el-dropdown-link {
   cursor: pointer;
@@ -153,14 +190,15 @@ a {
 .el-icon-arrow-down {
   font-size: 12px;
 }
-
-.newNav {
-  position: absolute;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: transparent !important;
+.upNav {
+  transform: translateY(0px);
+}
+.downNav {
+  transform: translateY(-64px);
+}
+.transtion {
+  transition: transform 0.3s cubic-bezier(0.35, 0, 0.25, 1),
+    -webkit-transform 0.3s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .header_part {
   position: relative;
@@ -173,12 +211,16 @@ a {
   cursor: pointer;
 }
 .nav {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
   min-width: 1280px;
-  display: flex;
   height: 64px;
   font-size: 16px;
   background-color: rgb(51, 51, 51);
-  color: #fff;
+  display: flex;
   align-items: center;
   justify-content: space-between;
   .left {
@@ -187,7 +229,7 @@ a {
     display: flex;
     align-items: center;
     span {
-      padding: 0 25px;
+      margin: 0 25px;
     }
   }
   .right {
@@ -230,6 +272,15 @@ a {
       color: goldenrod;
     }
   }
+}
+.normalNav {
+  position: relative;
+  top: 0;
+}
+.newNav {
+  position: absolute;
+  top: 0;
+  background: rgba(0, 0, 0, 0);
 }
 .nav-icon {
   height: 25px;

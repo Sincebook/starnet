@@ -28,11 +28,11 @@
           <p>截止日期：{{ item.endtime }}</p>
         </div>
         <div class="foot">
-          <div class="left" @click.stop="recommend">
+          <div v-if="item.type !== 1" class="left" @click.stop="recommend">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-tuijian"></use>
             </svg>
-            {{ item.type === 1 ? "正常" : "编辑推荐" }}
+            编辑推荐
           </div>
           <div class="right" @click.stop="collect">
             <svg class="icon" aria-hidden="true" ref="star">
@@ -137,9 +137,9 @@ export default {
   cursor: pointer;
   user-select: none;
   position: relative;
-  width: 280px;
+  width: 270px;
   background-color: var(--cardBgColor);
-  height: 390px;
+  height: 420px;
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
@@ -154,7 +154,7 @@ export default {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 100px;
+    height: 120px;
     overflow: hidden;
     .img {
       width: 100%;
@@ -165,7 +165,7 @@ export default {
   .job-content {
     text-align: left;
     width: 100%;
-    padding: 105px 20px 0px 20px;
+    padding: 130px 15px 0px 15px;
     height: 100%;
     position: relative;
     .job-require {
@@ -179,7 +179,7 @@ export default {
     align-items: center;
     margin-bottom: 10px;
     .title {
-      color: #759cb6;
+      color: #333;
       font-size: 18px;
       flex: 1;
     }
@@ -203,7 +203,7 @@ export default {
     }
   }
   .foot {
-    color: var(--fontColor);
+    color: #333;
     position: relative;
     .left,
     .right {

@@ -13,7 +13,9 @@
 <script>
 export default {
   methods: {
-    tips() { }
+    tips() {
+      this.$router.push('/protocol/security');
+    }
   }
 };
 </script>

@@ -10,7 +10,7 @@ export {
 from './sign.js';
 export {
   bindPhone,
-  getBindCode, 
+  getBindCode,
   bindWbPhone,
   getBindWbCode,
   getOutLogin
