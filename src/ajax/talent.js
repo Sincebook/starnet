@@ -19,3 +19,7 @@ export function findHotTalent(params) {
 export function getUserBg(params) {
   return http.get('/api/banner/findByUserId', params);
 }
+// 根据职业搜索人才
+export function findByVocation(params) {
+  return http.get('/api/userinfo/findByVocation', params);
+}

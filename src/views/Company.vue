@@ -1,6 +1,10 @@
 <template>
   <div class="company">
-    <sub-bar></sub-bar>
+    <sub-bar
+      :companyType="companyType"
+      :nameArr="nameArr"
+      @typeSearch="searchType"
+    ></sub-bar>
     <select-type
       :type="'company'"
       @newType="typeToPage"
@@ -29,7 +33,7 @@ import SubBar from '../components/common/subBar.vue';
 import SelectType from '../components/common/selectType.vue';
 import CompanyCard from '../components/common/companyCard.vue';
 import pagination from '../components/common/pagination';
-import { findByUptime, findByTwo, findComByName, findHotCompany } from '@/ajax/index.js';
+import { findByUptime, findByTwo, findComByName, findHotCompany, findByOneType } from '@/ajax/index.js';
 export default {
   name: 'Company',
   data() {
@@ -79,7 +83,11 @@ export default {
         }],
       allpages: null,
       select: 'uptime',
-      typeObj: null
+      name: '', // 为单类型选择后存储的类型名
+      typeObj: null,
+      companyType: ['影视公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '经纪公司', '模特公司', '租赁公司', '这是多余'],
+      nameArr: ['公司分类', 'Company', 'classification']
+
     };
   },
   created() {
@@ -108,6 +116,27 @@ export default {
         this.typeObj[page] = page;
         this.typeToPage(this.typeObj);
       }
+      // 分页为单个类型选择
+      if (this.select === 'searchType') {
+        this.searchType(this.name, page);
+      }
+    },
+    // 根据单个类别搜索项目
+    searchType(name) {
+      findByOneType({ category: name, page: 1 }).then(res => {
+        console.log(res);
+        if (res.code === '0') {
+          this.name = name;
+          this.select = 'searchType';
+          this.cards = res.data.companyInfoVOs;
+          this.allpages = res.data.allpage;
+        } else {
+          this.$message({
+            message: res.errMsg,
+            type: 'error'
+          });
+        }
+      });
     },
     // 根据名字搜索
     nameSearch(name) {

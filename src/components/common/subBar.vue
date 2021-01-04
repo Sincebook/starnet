@@ -1,8 +1,20 @@
 <template>
-  <div class="subBar" ref="bg"></div>
+  <div class="subBar">
+    <div class="title" v-if="nameArr.length">
+      <span>{{ nameArr[0] }}</span>
+      <span>{{ nameArr[1] }}</span>
+      <span>{{ nameArr[2] }}</span>
+    </div>
+    <div class="type" ref="btns">
+      <div v-for="(item, index) in btns" :key="item + index" @click="search(item)">
+        {{ item }}
+      </div>
+    </div>
+    <div class="more" @click="btnMore" ref="tag" style="display:none">{{ tag }}</div>
+  </div>
 </template>
 <script>
-import { getBackGroundImgs } from '@/ajax';
+// @ is an alias to /src
 export default {
   props: ['companyType', 'nameArr'],
   name: 'subBar',
@@ -11,93 +23,56 @@ export default {
       btns: [],
       moreBtns: [],
       flag: true,
-      tag: '更多...',
-      bgImgs: []
+      tag: '更多...'
     };
   },
-  created() {
-    this.getImgs();
+  mounted() {
+    this.btnsMake();
+    // console.log(this.nameArr);
   },
-  // mounted() {
-  //   if (this.$route.fullPath.includes('job')) {
-  //     this.$refs.bg.className += ' bgjob';
-  //   }
-  //   if (this.$route.fullPath.includes('company')) {
-  //     this.$refs.bg.className += ' bgcompany';
-  //   }
-  //   if (this.$route.fullPath.includes('talent')) {
-  //     this.$refs.bg.className += ' bgtelent';
-  //   }
-  //   if (this.bgImgs.length) {
-  //     if (this.$route.fullPath.includes('job')) {
-  //       this.$refs.bg.className += ' bgjob';
-  //       this.$refs.bg.style.backgroundImage = 'url(' + this.bgImgs[0] + ')';
-  //     }
-  //     if (this.$route.fullPath.includes('company')) {
-  //       this.$refs.bg.className += ' bgcompany';
-  //       this.$refs.bg.style.backgroundImage = 'url(' + this.bgImgs[1] + ')';
-  //     }
-  //     if (this.$route.fullPath.includes('talent')) {
-  //       this.$refs.bg.className += ' bgtelent';
-  //       this.$refs.bg.style.backgroundImage = 'url(' + this.bgImgs[2] + ')';
-  //     }
-  //   }
-  // },
+  components: {
+
+  },
   methods: {
-    getImgs() {
-      getBackGroundImgs().then(res => {
-        if (res.code === '0') {
-          this.bgImgs = [res.data.job, res.data.company, res.data.talent];
-          this.$nextTick(() => {
-            if (this.$route.fullPath.includes('job')) {
-              this.$refs.bg.className += ' bgjob';
-              this.$refs.bg.style.backgroundImage = 'url(' + this.bgImgs[0] + ')';
-            }
-            if (this.$route.fullPath.includes('company')) {
-              this.$refs.bg.className += ' bgcompany';
-              this.$refs.bg.style.backgroundImage = 'url(' + this.bgImgs[1] + ')';
-            }
-            if (this.$route.fullPath.includes('talent')) {
-              this.$refs.bg.className += ' bgtelent';
-              this.$refs.bg.style.backgroundImage = 'url(' + this.bgImgs[2] + ')';
-            }
-          });
+    btnsMake() {
+      // 根据传回来的分类的多少来显示按钮
+      if (this.companyType.length <= 4) {
+        let str = '';
+        for (let i = 0; i < this.companyType.length; i++) {
+          str += '150px ';
+          this.$refs.btns.style.gridTemplateColumns = str;
         }
-      });
+      }
+      this.btns = this.companyType;
+      if (this.companyType.length > 10) {
+        this.$refs.tag.style.display = 'block';
+        this.btns = this.companyType.slice(0, 10);
+        this.moreBtns = this.companyType.slice(10);
+      }
+    },
+    btnMore() {
+      if (this.flag) {
+        this.btns = this.btns.concat(this.moreBtns);
+        this.tag = '收起';
+        this.flag = false;
+      } else {
+        this.btns = this.btns.slice(0, 10);
+        this.tag = '更多...';
+        this.flag = true;
+      }
+    },
+    search(name) {
+      this.$emit('typeSearch', name);
+      // console.log(name);
     }
+  },
+  watch: {
   }
 };
 </script>
 <style lang='less' scoped>
-.bgjob {
-  // background-image: url(https://ftp.qnets.cn/since/job.jpg);
-  background-size: auto 400px;
-  background-repeat: no-repeat;
-  color: #fff;
-  .more {
-    color: #fff;
-  }
-}
-.bgtelent {
-  // background-image: url(https://ftp.qnets.cn/since/telent.jpg);
-  background-size: 100%;
-  background-size: auto 400px;
-  color: #fff;
-  .more {
-    color: #fff;
-  }
-}
-.bgcompany {
-  // background-image: url(https://ftp.qnets.cn/since/company1.jpg);
-  background-size: 100%;
-  background-size: auto 400px;
-  color: #fff;
-  .more {
-    color: #fff;
-  }
-}
 .subBar {
-  height: 300px;
+  margin: 0 0 10px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,15 +84,18 @@ export default {
     }
   }
   .type {
+    margin-right: 35px;
     display: grid;
+    // justify-content: space-around;
+    // flex-wrap: wrap;
     grid-template-columns: 150px 150px 150px 150px 150px;
-    grid-column-gap: 20px;
+    grid-column-gap: 40px;
     div {
       margin: 20px;
       text-align: center;
       padding: 10px 15px;
       border: 2px solid rgb(25, 130, 200);
-      width: 130px;
+      width: 150px;
       border-radius: 15px;
       transition: background-color 0.25s;
       cursor: pointer;
@@ -131,7 +109,10 @@ export default {
     justify-self: flex-end;
     align-self: flex-end;
     cursor: pointer;
-    margin-right: 23%;
+    margin-right: 20%;
+  }
+  &:hover {
+    color: rgb(30, 55, 71);
   }
 }
 </style>

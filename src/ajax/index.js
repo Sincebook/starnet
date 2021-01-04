@@ -29,14 +29,16 @@ export {
   sendMessageToId,
   fingComInfo,
   findComByName,
-  getBackGroundImgs
+  getBackGroundImgs,
+  findByOneType
 }
 from './company.js';
 export {
   findHotJob,
   findJobByName,
   findJobUptime,
-  findJobByThree
+  findJobByThree,
+  findJobByType
 }
 from './job';
 export {
@@ -44,7 +46,8 @@ export {
   findByThree,
   findByName,
   findHotTalent,
-  getUserBg
+  getUserBg,
+  findByVocation
 }
 from './talent';
 export {

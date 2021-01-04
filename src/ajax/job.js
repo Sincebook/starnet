@@ -16,3 +16,7 @@ export function findJobUptime(params) {
 export function findJobByThree(params) {
   return http.get('/api/job/findByThree', params);
 }
+// 根据类别搜索项目
+export function findJobByType(params) {
+  return http.get('/api/job/findByJob', params);
+}
