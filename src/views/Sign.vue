@@ -1,5 +1,15 @@
 <template>
   <div class="sign-box" :style="{ backgroundImage: 'url(' + signBg + ')' }">
+    <div class="logo">
+      <img
+        @click="$router.push('/home')"
+        :src="logoImg"
+        alt="绘星"
+        class="nav-icon"
+      />
+      <h1 class="desc">绘星让演艺梦想扬帆起航</h1>
+    </div>
+
     <div class="sign">
       <el-tabs v-model="activeName">
         <el-tab-pane label="登录" name="first">
@@ -41,9 +51,15 @@
               >
             </el-form-item>
             <div class="tips">
-              登录即同意<el-link :underline="false" type="primary"
+              登录即同意<el-link
+                href="#/protocol/userProtocol"
+                :underline="false"
+                type="primary"
                 >《绘星使用协议》</el-link
-              >&<el-link :underline="false" type="primary"
+              >&<el-link
+                href="#/protocol/privacy"
+                :underline="false"
+                type="primary"
                 >《隐私协议》</el-link
               >
             </div>
@@ -112,9 +128,15 @@
               >
             </el-form-item>
             <div class="tips">
-              注册即同意<el-link :underline="false" type="primary"
+              注册即同意<el-link
+                href="#/protocol/userProtocol"
+                :underline="false"
+                type="primary"
                 >《绘星使用协议》</el-link
-              >&<el-link :underline="false" type="primary"
+              >&<el-link
+                href="#/protocol/privacy"
+                :underline="false"
+                type="primary"
                 >《隐私协议》</el-link
               >
             </div>
@@ -131,6 +153,7 @@ import { getCode, registerUser, loginUser, wxLogin, wbLogin } from '../ajax/inde
 export default {
   data() {
     return {
+      logoImg: '//ftp.qnets.cn/since/logo.png',
       rememberPwd: false,
       typeList: [
         { id: 1, value: '个人用户' },
@@ -325,6 +348,29 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 220px;
+  text-align: center;
+  .desc {
+    margin: 25px 0;
+    color: #fff;
+    letter-spacing: 20px;
+    text-indent: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    font-variant: small-caps;
+    text-shadow: 0 0 1px #0000003d;
+    font-weight: 300;
+  }
+  .nav-icon {
+    cursor: pointer;
+    height: 40px;
+  }
+}
 .sign-box {
   position: relative;
   overflow: hidden;
@@ -335,8 +381,9 @@ export default {
   background-size: cover;
   .sign {
     position: absolute;
-    width: 400px;
+    width: 360px;
     height: 370px;
+    border-radius: 4px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

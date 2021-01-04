@@ -4,8 +4,8 @@
       <el-image class="bgImg" :src="item.image" fit="cover"></el-image>
     </div>
     <div class="info">
-      <h2 class="name">{{ item.name }}/{{ item.workArea }}</h2>
-      <p class="desc">{{ item.vocation }}</p>
+      <h2 class="name">{{ item.name }}</h2>
+      <p class="desc">{{ item.vocation }}/{{ item.workArea }}</p>
       <div class="btn-box">
         <div class="btn" @click.stop="msgIt">私信</div>
         <div class="btn" @click.stop="watchIt">{{ two }}</div>
@@ -174,9 +174,9 @@ export default {
   text-align: center;
   user-select: none;
   position: relative;
-  width: 280px;
+  width: 270px;
   background-color: var(--cardBgColor);
-  height: 400px;
+  height: 314px;
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
@@ -189,7 +189,7 @@ export default {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 250px;
+    height: 162px;
     overflow: hidden;
     .bgImg {
       width: 100%;
@@ -198,26 +198,23 @@ export default {
     }
   }
   .info {
-    padding-top: 250px;
+    padding-top: 162px;
   }
   .name {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;
-    width: 230px;
-    color: #759cb6;
+    color: #333;
+    font-size: 18px;
     font-weight: 600;
-    margin: 10px 0 0 0;
-    transition: all 0.25s;
-    &:hover {
-      color: #0d7bc4;
-    }
+    margin: 15px 0 0 0;
+    transition: color 0.25s;
   }
   .desc {
     color: var(--fontColor);
-    margin: 15px 0 20px 0;
-    font-size: 16px;
+    margin: 11px 0 18px 0;
+    font-size: 13px;
   }
   .btn-box {
     width: 100%;
@@ -225,13 +222,13 @@ export default {
     align-items: center;
     justify-content: space-evenly;
     .btn {
-      width: 33%;
-      height: 40px;
+      width: 30%;
+      height: 38px;
       border-radius: 4px;
       font-size: 16px;
       transition: all 0.25s;
       cursor: pointer;
-      color: gray;
+      color: #333;
       display: flex;
       align-items: center;
       justify-content: center;

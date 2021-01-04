@@ -5,6 +5,7 @@
     </div>
     <div class="company-content">
       <div class="img">
+        <div class="outer"></div>
         <el-image class="aimg" :src="item.logo" fit="cover"></el-image>
       </div>
       <h2 class="name" @click="detail">{{ item.name }}</h2>
@@ -170,9 +171,9 @@ export default {
   text-align: center;
   user-select: none;
   position: relative;
-  width: 280px;
+  width: 270px;
   background-color: var(--cardBgColor);
-  height: 360px;
+  height: 310px;
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
@@ -195,16 +196,25 @@ export default {
   }
   .company-content {
     width: 100%;
-    padding: 100px 25px 20px 25px;
+    padding: 120px 0 20px 0;
     height: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
     .img {
-      height: 85px;
+      height: 60px;
+      background: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
+      .outer {
+        position: absolute;
+        top: 72px;
+        background-color: #fff;
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+      }
       .aimg {
         position: absolute;
         top: 75px;
@@ -218,19 +228,15 @@ export default {
       width: 180px;
       display: inline-block;
       cursor: pointer;
-      color: #759cb6;
+      color: #333;
       font-weight: 600;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       transition: all 0.25s;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      &:hover {
-        color: #0d7bc4;
-      }
     }
     .desc {
-      width: 100%;
       width: 100%;
       color: var(--fontColor);
       margin-bottom: 20px;
@@ -240,15 +246,15 @@ export default {
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-evenly;
       .btn {
-        width: 40%;
-        height: 30px;
+        width: 30%;
+        height: 38px;
         border-radius: 4px;
         font-size: 16px;
         transition: all 0.25s;
         cursor: pointer;
-        color: gray;
+        color: #333;
         display: flex;
         align-items: center;
         justify-content: center;

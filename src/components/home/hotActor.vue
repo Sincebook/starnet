@@ -1,6 +1,9 @@
 <template>
   <div class="hot-actor">
-    <h2>热点人才 Hot talents</h2>
+    <div class="title">
+      <span class="zh">热点人才</span>
+      <span class="en">Hot talents</span>
+    </div>
     <div class="list">
       <actor-card
         data-aos="fade-up"
@@ -47,19 +50,30 @@ export default {
 .hot-actor {
   background-color: #ffffff;
   width: 100%;
-  padding: 40px 0;
-  h2 {
-    margin-bottom: 20px;
+  padding: 30px 0;
+  .title {
+    margin-bottom: 10px;
+    .zh {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .en {
+      color: #333333;
+      font-size: 24px;
+      padding-left: 10px;
+      font-weight: 300;
+    }
   }
   .list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 1280px;
-    height: 880px;
+    width: 1160px;
+    height: 668px;
     margin: 0 auto;
     /deep/ .actor-card {
-      margin: 20px;
+      margin: 10px 10px;
     }
   }
   .more {

@@ -1,6 +1,9 @@
 <template>
   <div class="hot-job">
-    <h2>热点职位 Hot work</h2>
+    <div class="title">
+      <span class="zh">热点职位</span>
+      <span class="en">Hot work</span>
+    </div>
     <div class="list">
       <job-card
         data-aos="fade-up"
@@ -51,20 +54,31 @@ export default {
 .hot-job {
   background-color: #f5f5f5;
   width: 100%;
-  padding: 40px 0;
-  h2 {
-    margin-bottom: 20px;
+   padding: 30px 0;
+  .title {
+    margin-bottom: 10px;
+    .zh {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .en {
+      color: #333333;
+      font-size: 24px;
+      padding-left: 10px;
+      font-weight: 300;
+    }
   }
   .list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     height: 880px;
-    width: 1280px;
+    width: 1160px;
     margin: 0 auto;
     overflow: hidden;
     /deep/ .job-card {
-      margin: 20px;
+      margin: 10px;
     }
   }
   .more {

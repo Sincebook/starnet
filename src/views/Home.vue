@@ -106,7 +106,7 @@ export default {
     .bgImg {
       position: relative;
       z-index: 2;
-      width: 1240px;
+      width: 1140px;
       height: 396px;
       margin: 0 auto;
       transform: translateY(64px);
