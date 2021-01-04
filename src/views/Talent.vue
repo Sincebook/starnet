@@ -1,6 +1,6 @@
 <template>
   <div class="talent">
-    <sub-bar></sub-bar>
+    <sub-bar :nameArr="nameArr" :companyType="talentType" @typeSearch='searchType'></sub-bar>
     <select-type
       :type="'talent'"
       @nameSearch="nameSearch"
@@ -9,6 +9,7 @@
       @newType="newType"
     ></select-type>
     <div class="talent-list">
+      <div v-if="!cards.length" style="margin: 50px auto">暂无数据...</div>
       <actor-card
         data-aos="fade-up"
         v-for="(item, index) in cards"
@@ -25,7 +26,7 @@ import subBar from '../components/common/subBar';
 import SelectType from '../components/common/selectType';
 import actorCard from '../components/common/actorCard';
 import pagination from '../components/common/pagination';
-import { findByTalentNew, findByName, findHotTalent, findByThree } from '@/ajax';
+import { findByTalentNew, findByName, findHotTalent, findByThree, findByVocation } from '@/ajax';
 export default {
   data() {
     return {
@@ -74,11 +75,14 @@ export default {
         }],
       allpages: 1,
       select: 'uptime',
-      params: ''
+      params: '',
+      name: '', // 为单类型选择后存储的类型名
+      nameArr: ['人才分类', 'Talent', 'classification'],
+      talentType: ['演员', '主播', '模特', '童星', '曲艺', '舞蹈', '配音', '导演', '编剧', '剪辑师', '摄影师', '化妆师', '航拍师', '调色师', '合成师', '导演助理', '摄影助理', '摄影指导', '创意策划', '美术', '美术指导', '特效师', '分镜师', '制片助理', '录音师', '配乐师', '跟焦师', '2D动画师', '3D动画师', '服装', '道具', '替身', '造型师', '混音师', '武术指导', '其他']
     };
   },
   created() {
-      this.changePage(1);
+    this.changePage(1);
   },
   methods: {
     changePage(page) {
@@ -91,6 +95,10 @@ export default {
       }
       if (this.select === 'type') {
         this.newType(this.params, page);
+      }
+      // 分页为单个类型选择
+      if (this.select === 'searchType') {
+        this.searchType(this.name, page);
       }
     },
     newType(obj, page) {
@@ -106,6 +114,23 @@ export default {
         this.allpages = res.data.allpage;
       });
     },
+    // 根据单个类别搜索项目
+    searchType(name) {
+      findByVocation({ vocation: name, page: 1 }).then(res => {
+        // console.log(res);
+        if (res.code === '0') {
+          this.name = name;
+          this.select = 'searchType';
+          this.cards = res.data.datas;
+          this.allpages = res.data.allpage;
+        } else {
+          this.$message({
+            message: res.errMsg,
+            type: 'error'
+          });
+        }
+      });
+    },
     nameSearch(name) {
       // console.log(name);
       if (!name) { // 输入名字为空时，搜索最新的人才
@@ -113,9 +138,9 @@ export default {
         this.changePage(1);
         return;
       }
-      console.log(111);
+      // console.log(111);
       findByName({ name }).then(res => {
-        // console.log(res);
+        console.log(res);
         this.cards = res.data.datas;
         this.allpages = res.data.allpage;
       });

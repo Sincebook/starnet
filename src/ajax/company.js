@@ -47,3 +47,7 @@ export function findComByName(params) {
 export function getBackGroundImgs() {
   return http.get('/api/company/findMine');
 }
+// 根据单个公司类别搜索公司
+export function findByOneType(params) {
+  return http.get('/api/companyinfo/findByCategory', params);
+}
