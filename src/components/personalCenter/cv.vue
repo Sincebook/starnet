@@ -5,7 +5,7 @@
     </div>
     <div class="info">
       <el-alert
-        v-if="info.status === 1"
+        v-if="userinfo.user.status === 1"
         :closable="false"
         title="请前往实名认证，否则不能创建简历"
         type="warning"
@@ -168,6 +168,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import nation from './nation.json';
 import home from './home.json';
 import country from './country.json';
@@ -315,8 +316,8 @@ export default {
     }
   },
   created() {
-    this.status = this.info.status;
-    if (this.info.status !== 1) {
+    this.status = this.userinfo.user.status;
+    if (this.userinfo.user.status !== 1) {
       mineInfoDetail().then(res => {
         if (res.code === '0') {
           this.imageUrl = (res.data.image === null ? '' : res.data.image);
@@ -350,10 +351,15 @@ export default {
     this.countryList = country;
   },
   watch: {
-    info: function (newVal, oldVal) {
+    userinfo: function (newVal, oldVal) {
       this.status = newVal.status;
     },
     deep: true
+  },
+  computed: {
+    ...mapState({
+      userinfo: (state) => state.userinfo
+    })
   }
 };
 </script>

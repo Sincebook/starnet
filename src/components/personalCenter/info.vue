@@ -49,11 +49,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import {
   extraInfo
 } from '../../ajax/index';
 export default {
-  props: ['info'],
   data() {
     return {
       imageUrl: '',
@@ -69,6 +69,18 @@ export default {
       },
       flag: false
     };
+  },
+  computed: {
+    ...mapState({
+      userinfo: (state) => state.userinfo
+    })
+  },
+  watch: {
+    userinfo(newVal, oldVal) {
+      this.ruleForm.nick = newVal.user.name;
+      this.phone = newVal.user.phone;
+      this.imageUrl = newVal.user.head;
+    }
   },
   methods: {
     async upload(content) {
@@ -130,19 +142,6 @@ export default {
         callback();
       }
     }
-  },
-  watch: {
-    info: function (newVal, oldVal) {
-      this.ruleForm.nick = newVal.name;
-      this.phone = newVal.phone;
-      this.imageUrl = newVal.head;
-    },
-    deep: true
-  },
-  created() {
-    this.ruleForm.nick = this.info.name;
-    this.phone = this.info.phone;
-    this.imageUrl = this.info.head;
   }
 };
 </script>

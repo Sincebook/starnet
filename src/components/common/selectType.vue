@@ -96,7 +96,7 @@
       </div>
       <div v-if="type === 'job'" class="left">
         <div @click="jobLocation(), (isRoate1 = !isRoate1)">
-          <span ref="jobLocation" name='place'>地区</span>
+          <span ref="jobLocation" name="place">地区</span>
           <span>
             <svg
               class="icon"
@@ -122,7 +122,7 @@
           </ul>
         </div>
         <div @click="jobSex(), (isRoate2 = !isRoate2)">
-          <span ref="jobSex" name='sex'>性别</span>
+          <span ref="jobSex" name="sex">性别</span>
           <span>
             <svg
               class="icon"
@@ -147,7 +147,7 @@
           </ul>
         </div>
         <div @click="jobAge(), (isRoate3 = !isRoate3)">
-          <span ref="jobAge" name='age'>年龄</span>
+          <span ref="jobAge" name="age">年龄</span>
           <span>
             <svg
               class="icon"
@@ -459,12 +459,12 @@ export default {
   font-size: 14px;
   font-weight: 500;
   line-height: 50px;
-  width: 1010px;
+  width: 1160px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   div {
-    margin: 0 20px;
+    margin: 0 10px;
   }
   .left {
     margin-left: 0 !important;
@@ -538,7 +538,7 @@ export default {
   }
 }
 .select-bar {
-  background-color: rgb(223, 217, 217);
+  background-color: #c9cbca;
   height: 50px;
 }
 .rotate {

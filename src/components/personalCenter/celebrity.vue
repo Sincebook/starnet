@@ -3,7 +3,7 @@
     <div class="title">
       <div class="name">实名认证</div>
     </div>
-    <div class="info" v-if="info.status === 2">
+    <div class="info" v-if="userinfo.user.status === 2">
       <el-alert :closable="false" title="您已认证成功" type="success" show-icon>
       </el-alert>
     </div>
@@ -47,11 +47,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import {
   celebrity
 } from '../../ajax/index';
 export default {
-  props: ['info'],
   data() {
     return {
       flag: false,
@@ -82,7 +82,7 @@ export default {
                 message: '认证成功',
                 type: 'success'
               });
-              this.info.status = 2;
+              this.userinfo.user.status = 2;
               this.$emit('change');
             } else {
               this.$message.error(res.errMsg);
@@ -110,6 +110,11 @@ export default {
         callback();
       }
     }
+  },
+  computed: {
+    ...mapState({
+      userinfo: (state) => state.userinfo
+    })
   }
 };
 </script>

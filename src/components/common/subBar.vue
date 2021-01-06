@@ -1,86 +1,60 @@
 <template>
   <div class="subBar">
-    <div class="title" v-if="nameArr.length">
-      <span>{{ nameArr[0] }}</span>
-      <span>{{ nameArr[1] }}</span>
-      <span>{{ nameArr[2] }}</span>
+    <div class="title">
+      <span class="zh">{{ nameArr[0] }}</span>
+      <span class="en">{{ nameArr[1] + " " + nameArr[2] }}</span>
     </div>
-    <div class="type" ref="btns">
-      <div v-for="(item, index) in btns" :key="item + index" @click="search(item)">
-        {{ item }}
+    <div class="typeList" :style="openDesc ? 'height:' + height + 'px' : ''">
+      <div
+        @click="search(item)"
+        class="typeBox"
+        v-for="(item, index) in companyType"
+        :key="item + index"
+      >
+        <div class="typeItem">
+          {{ item }}
+        </div>
+      </div>
+      <div v-if="height > 120" class="more" @click="openDesc = !openDesc">
+        {{ !openDesc ? "展开更多" : "收起" }}
       </div>
     </div>
-    <div class="more" @click="btnMore" ref="tag" style="display:none">{{ tag }}</div>
   </div>
 </template>
 <script>
-// @ is an alias to /src
 export default {
   props: ['companyType', 'nameArr'],
   name: 'subBar',
   data() {
     return {
-      btns: [],
-      moreBtns: [],
-      flag: true,
-      tag: '更多...'
+      openDesc: false, // 默认不展开描述
+      height: Math.ceil(this.companyType.length / 8) * 60
     };
   },
-  mounted() {
-    this.btnsMake();
-    // console.log(this.nameArr);
-  },
-  components: {
-
-  },
   methods: {
-    btnsMake() {
-      // 根据传回来的分类的多少来显示按钮
-      if (this.companyType.length <= 4) {
-        let str = '';
-        for (let i = 0; i < this.companyType.length; i++) {
-          str += '150px ';
-          this.$refs.btns.style.gridTemplateColumns = str;
-        }
-      }
-      this.btns = this.companyType;
-      if (this.companyType.length > 10) {
-        this.$refs.tag.style.display = 'block';
-        this.btns = this.companyType.slice(0, 10);
-        this.moreBtns = this.companyType.slice(10);
-      }
-    },
-    btnMore() {
-      if (this.flag) {
-        this.btns = this.btns.concat(this.moreBtns);
-        this.tag = '收起';
-        this.flag = false;
-      } else {
-        this.btns = this.btns.slice(0, 10);
-        this.tag = '更多...';
-        this.flag = true;
-      }
-    },
     search(name) {
       this.$emit('typeSearch', name);
-      // console.log(name);
     }
-  },
-  watch: {
   }
 };
 </script>
 <style lang='less' scoped>
 .subBar {
-  margin: 0 0 10px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
+  text-align: center;
+  width: 1180px;
+  margin: 0 auto;
   .title {
-    margin: 40px;
-    font-size: 36px;
-    span {
-      margin-left: 10px;
+    margin: 20px 0 0 0;
+    font-size: 32px;
+    .zh {
+      font-weight: 600;
+      color: var(--fontColor);
+    }
+    .en {
+      color: rgba(51, 51, 51, 0.75);
+      padding-left: 20px;
+      font-weight: 400;
     }
   }
   .type {
@@ -106,13 +80,47 @@ export default {
     }
   }
   .more {
-    justify-self: flex-end;
-    align-self: flex-end;
+    position: absolute;
+    font-size: 14px;
     cursor: pointer;
-    margin-right: 20%;
+    bottom: 18px;
+    right: -75px;
+    color: #333;
   }
-  &:hover {
-    color: rgb(30, 55, 71);
+  .typeList {
+    transition: height 0.3s linear;
+    width: 1180px;
+    height: 120px;
+    overflow: hidden;
+    margin: 25px auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .typeBox {
+    width: 107.5px;
+    margin: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .typeItem {
+    width: 208px;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    border: 2px solid #c9cbca;
+    &:hover {
+      background: #909399;
+      color: #fff;
+      border-color: #909399;
+    }
   }
 }
 </style>

@@ -1,16 +1,15 @@
 <template>
   <div class="sign-box" :style="{ backgroundImage: 'url(' + signBg + ')' }">
-    <div class="logo">
-      <img
-        @click="$router.push('/home')"
-        :src="logoImg"
-        alt="绘星"
-        class="nav-icon"
-      />
-      <h1 class="desc">绘星让演艺梦想扬帆起航</h1>
-    </div>
-
     <div class="sign">
+      <div class="logo">
+        <img
+          @click="$router.push('/home')"
+          :src="logoImg"
+          alt="绘星"
+          class="nav-icon"
+        />
+        <h1 class="desc">让演艺梦想扬帆起航</h1>
+      </div>
       <el-tabs v-model="activeName">
         <el-tab-pane label="登录" name="first">
           <el-form
@@ -149,7 +148,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getCode, registerUser, loginUser, wxLogin, wbLogin } from '../ajax/index';
+import { getCode, registerUser, loginUser, wxLogin, wbLogin, getMyinfo } from '../ajax/index';
 export default {
   data() {
     return {
@@ -186,7 +185,7 @@ export default {
       timer2: null
     };
   },
-  mounted() {
+  created() {
     this.$store.dispatch('getSignBg');
   },
   computed: {
@@ -268,6 +267,7 @@ export default {
                   type: 'success'
                 });
                 setTimeout(() => {
+                  this.getUserinfo();
                   this.$router.push('/home');
                 }, 1500);
               } else {
@@ -293,6 +293,7 @@ export default {
                   type: 'success'
                 });
                 setTimeout(() => {
+                  this.getUserinfo();
                   this.$router.push('/home');
                 }, 1500);
               } else {
@@ -342,6 +343,14 @@ export default {
         .catch((err) => {
           return err;
         });
+    },
+    getUserinfo() {
+      getMyinfo().then(res => {
+        if (res.code === '0') {
+          this.$store.commit('isLogin', true);
+          this.$store.commit('userinfo', res.data);
+        }
+      });
     }
   }
 };
@@ -350,13 +359,13 @@ export default {
 <style lang="less" scoped>
 .logo {
   position: absolute;
-  top: 50%;
+  width: 100%;
+  top: -80px;
   left: 50%;
   transform: translate(-50%, -50%);
-  top: 220px;
   text-align: center;
   .desc {
-    margin: 25px 0;
+    margin: 10px 0;
     color: #fff;
     letter-spacing: 20px;
     text-indent: 20px;
@@ -368,7 +377,7 @@ export default {
   }
   .nav-icon {
     cursor: pointer;
-    height: 40px;
+    height: 80px;
   }
 }
 .sign-box {

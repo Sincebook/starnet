@@ -3,15 +3,15 @@
     <div class="title">
       <div class="name">企业认证</div>
     </div>
-    <div class="info" v-if="info.status === 2">
+    <div class="info" v-if="userinfo.user.status === 2">
       <el-alert :closable="false" title="您已认证成功" type="success" show-icon>
       </el-alert>
     </div>
-    <div class="info" v-if="info.status === 1 && companyInfo.status === 1">
+    <div class="info" v-if="userinfo.user.status === 1 && companyInfo.status === 1">
       <el-alert :closable="false" title="正在审核中" type="warning" show-icon>
       </el-alert>
     </div>
-    <div class="info" v-if="info.status === 1 && companyInfo.status === 0">
+    <div class="info" v-if="userinfo.user.status === 1 && companyInfo.status === 0">
       <el-alert
         :closable="false"
         title="一个账号只可以和一个企业信息绑定，无法解绑或更换"
@@ -162,12 +162,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import home from './home.json';
 import {
   celebrityCompany
 } from '../../ajax/index';
 export default {
-  props: ['info', 'companyInfo'],
+  props: ['companyInfo'],
   data() {
     return {
       logo: '',
@@ -322,6 +323,11 @@ export default {
   },
   mounted() {
     this.homeList = home;
+  },
+  computed: {
+    ...mapState({
+      userinfo: (state) => state.userinfo
+    })
   }
 };
 </script>

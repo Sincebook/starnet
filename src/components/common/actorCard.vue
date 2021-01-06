@@ -5,110 +5,69 @@
     </div>
     <div class="info">
       <h2 class="name">{{ item.name }}</h2>
-      <p class="desc">{{ item.vocation }}/{{ item.workArea }}</p>
+      <p class="desc">
+        {{ item.vocation }}/{{
+          item.workArea.split(",").length > 1
+            ? item.workArea.split(",")[1]
+            : item.workArea.split(",")[0]
+        }}
+      </p>
       <div class="btn-box">
-        <div class="btn" @click.stop="msgIt">私信</div>
-        <div class="btn" @click.stop="watchIt">{{ two }}</div>
+        <div class="btn msg" @click.stop="openDialog(item)">私信</div>
+        <div
+          class="btn"
+          :class="two === '关注' ? 'flw' : 'flw_s'"
+          @click.stop="watchIt"
+        >
+          {{ two }}
+        </div>
       </div>
     </div>
     <!-- 私信对接弹窗 -->
-    <div class="msg" ref="msg" style="display: none">
-      <el-input placeholder="请输入内容" v-model="input2">
-        <el-button
-          slot="append"
-          icon="el-icon-right"
-          @click="sendMsg"
-          style="color: #2d6496"
-        ></el-button>
+    <el-dialog
+      custom-class="dialog"
+      append-to-body
+      :before-close="handleClose"
+      :title="'私信@' + selectItem.name"
+      :visible.sync="dialogVisible"
+      width="600px"
+    >
+      <el-input
+        resize="none"
+        type="textarea"
+        :autosize="{ minRows: 5, maxRows: 5 }"
+        placeholder="请输入内容"
+        v-model="replayMsg"
+      >
       </el-input>
-    </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="replay(selectItem.userid)"
+          >确 定</el-button
+        >
+        <el-button @click="handleClose">取 消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { watchIt, noWatch, addMsg, userinfoById, isFun } from '@/ajax';
+import { watchIt, noWatch, addMsg, isFun } from '@/ajax';
 export default {
   props: ['item'],
   data() {
     return {
-      input2: '',
       two: '关注',
-      userid: '',
-      name: '',
-      image: ''
+      selectItem: {},
+      replayMsg: '',
+      dialogVisible: false
     };
   },
-  created() {
-    // console.log(this.item.workArea);
-    if (this.item.workArea != null) {
-      let isArea = '';
-      this.item.workArea.split(',').forEach((item, index) => {
-        if (item.indexOf('市') !== -1) {
-          isArea = item;
-        }
-      });
-      if (isArea) {
-        this.item.workArea = isArea;
-      }
+  mounted() {
+    if (this.$store.state.isLogin) {
+      this.isFun();
     }
-    this.getInfo();
   },
   methods: {
-    msgIt() {
-      if (!this.$store.state.isLogin) {
-        this.$message({
-          message: '请先登录',
-          type: 'error'
-        });
-        return;
-      }
-      if (this.$refs.msg.style.display === 'block') {
-        this.$refs.msg.style.display = 'none';
-      } else {
-        this.$refs.msg.style.display = 'block';
-      }
-    },
-    // 获取userid
-    getInfo() {
-      userinfoById({ id: this.item.id }).then(res => {
-        // console.log(res);
-        if (res.data) {
-          this.userid = res.data.userid;
-          this.name = res.data.name;
-          this.image = res.data.image;
-          if (this.$store.state.isLogin) {
-            this.isFun();
-          }
-        }
-      });
-    },
-    sendMsg() {
-      if (!this.$store.state.isLogin) {
-        this.$message({
-          message: '请先登录',
-          type: 'error'
-        });
-        return;
-      }
-      // if (!this.userid) {
-      //   await this.getInfo();
-      // }
-      this.msgIt();
-      addMsg({ toid: this.userid, word: this.input2 }).then(res => {
-        if (res.code === '0') {
-          this.$message({
-            message: '私信成功',
-            type: 'success'
-          });
-          this.input2 = '';
-        } else {
-          this.$message({
-            message: res.errMsg,
-            type: 'error'
-          });
-        }
-      });
-    },
     watchIt() {
       if (!this.$store.state.isLogin) {
         this.$message({
@@ -117,12 +76,9 @@ export default {
         });
         return;
       }
-      // if (!this.userid) {
-      //   await this.getInfo();
-      // }
       if (this.two === '已关注') {
-        this.two = '关  注';
-        noWatch({ starid: this.userid }).then(res => {
+        this.two = '关注';
+        noWatch({ starid: this.item.userid }).then(res => {
           if (res.code === '0') {
             this.$message({
               message: '已取消关注',
@@ -137,7 +93,7 @@ export default {
         });
       } else {
         this.two = '已关注';
-        watchIt({ starid: this.userid, name: this.name, image: this.image }).then(res => {
+        watchIt({ starid: this.item.userid, name: this.item.name, image: this.item.image }).then(res => {
           if (res.code === '0') {
             this.$message({
               message: '关注成功',
@@ -154,15 +110,45 @@ export default {
     },
     // 判断该用户是否关注了该明星
     isFun() {
-      isFun({ starid: this.userid }).then(res => {
+      isFun({ starid: this.item.userid }).then(res => {
         if (res.data) {
           this.two = '已关注';
         }
-        // console.log(res);
       });
     },
     goPush(id) {
       this.$router.push('/talentDetail/' + id);
+    },
+    openDialog(item) {
+      if (!this.$store.state.isLogin) {
+        this.$message({
+          message: '请先登录',
+          type: 'error'
+        });
+      } else {
+        this.selectItem = item;
+        this.dialogVisible = true;
+      }
+    },
+    handleClose() {
+      this.dialogVisible = false;
+      this.replayMsg = '';
+    },
+    // 发送消息
+    replay(id) {
+      addMsg({ toid: id, word: this.replayMsg }).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            message: '私信成功',
+            type: 'success'
+          });
+          this.handleClose();
+        } else {
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        return err;
+      });
     }
   }
 };
@@ -222,39 +208,55 @@ export default {
     align-items: center;
     justify-content: space-evenly;
     .btn {
-      width: 30%;
-      height: 38px;
+      width: 68px;
+      height: 34px;
       border-radius: 4px;
-      font-size: 16px;
+      font-size: 14px;
       transition: all 0.25s;
-      cursor: pointer;
-      color: #333;
       display: flex;
       align-items: center;
       justify-content: center;
-      &:first-child {
-        border: 2px solid #208b4e;
-        &:hover {
-          background-color: #208b4e;
-          color: #fff;
-        }
+    }
+    .msg {
+      color: #909399;
+      background: #f4f4f5;
+      border: 1px solid #d3d4d6;
+      &:hover {
+        background: #909399;
+        color: #fff;
+        border-color: #909399;
       }
-      &:last-child {
-        border: 2px solid #222;
-        &:hover {
-          background-color: #222;
-          color: #fff;
-        }
+    }
+    .flw {
+      color: #409eff;
+      background: #ecf5ff;
+      border: 1px solid #b3d8ff;
+      &:hover {
+        background: #409eff;
+        color: #fff;
+        border-color: #409eff;
+      }
+    }
+    .flw_s {
+      color: #67c23a;
+      background: #f0f9eb;
+      border: 1px solid #c2e7b0;
+      &:hover {
+        background: #67c23a;
+        color: #fff;
+        border-color: #67c23a;
       }
     }
   }
-  .msg {
-    border: 1px solid #208b4e;
-    border-radius: 5px;
-    width: 240px;
-    position: absolute;
-    right: 0px;
-    bottom: -30px;
-  }
+}
+/deep/.el-dialog__body {
+  padding: 5px 20px 10px;
+}
+/deep/.el-dialog {
+  margin-top: 0 !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

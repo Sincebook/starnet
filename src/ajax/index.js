@@ -125,6 +125,7 @@ export {
   viewCv,
   refuseUser,
   intentionUser,
-  offerUser
+  offerUser,
+  getCompanyType
 }
 from './corporateCenter.js';

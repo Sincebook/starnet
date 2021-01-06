@@ -3,7 +3,7 @@
     <div class="title">
       <div class="name">企业信息</div>
     </div>
-    <div class="info notAllow" v-if="info.status === 1">
+    <div class="info notAllow" v-if="userinfo.user.status === 1">
       <el-alert
         title="您还没有进行企业认证"
         type="warning"
@@ -63,12 +63,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
-  props: ['info', 'companyInfo'],
+  props: ['companyInfo'],
   methods: {
     goCelebrity() {
       this.$emit('goCelebrity');
     }
+  },
+  computed: {
+    ...mapState({
+      userinfo: (state) => state.userinfo
+    })
   }
 };
 </script>
