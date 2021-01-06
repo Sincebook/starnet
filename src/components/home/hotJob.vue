@@ -34,7 +34,6 @@ export default {
         if (res.code === '0') {
           this.list = res.data.jobs.slice(0, 8);
         }
-        console.log(res);
       });
     },
     go() {

@@ -456,7 +456,7 @@ export default {
         begintime: '',
         endtime: '',
         description: '',
-        type: 1
+        type: '1'
       },
       rules: {
         image: [

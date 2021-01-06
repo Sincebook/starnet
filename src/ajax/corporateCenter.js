@@ -83,3 +83,7 @@ export function intentionUser(obj) {
 export function offerUser(obj) {
   return http.post('/api/information/offer', obj);
 };
+// 获取企业类型
+export function getCompanyType(obj) {
+  return http.get('/api/companytype/findAll', obj);
+};

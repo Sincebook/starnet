@@ -1,21 +1,18 @@
 <template>
   <div
     id="nav"
-    :class="
-      $route.path === '/home' ||
-      $route.path === '/vip' ||
-      $route.path === '/sign'
-        ? 'newNav'
-        : ''
+    :class="$route.path === '/home' || $route.path === '/vip' ? 'newNav' : ''"
+    class="nav"
+    v-if="
+      $route.path !== '/bindPhone' &&
+      $route.path !== '/bindWbPhone' &&
+      $route.path !== '/sign'
     "
-    class="normalNav nav"
-    v-if="$route.path !== '/bindPhone' && $route.path !== '/bindWbPhone'"
   >
     <div class="left">
-      <span
-        ><router-link to="/home"
-          ><img :src="logoImg" alt="绘星" class="nav-icon" /></router-link
-      ></span>
+      <router-link to="/home"
+        ><img :src="logoImg" alt="绘星" class="nav-icon"
+      /></router-link>
       <span><router-link to="/home">首页</router-link></span>
       <span><router-link to="/talent">人才目录</router-link></span>
       <span><router-link to="/company">公司目录</router-link></span>
@@ -39,29 +36,41 @@
         </svg>
       </div>
       <router-link to="/vip"><span class="vip">VIP会员</span></router-link>
-      <router-link to="/sign" v-if="!userHeader"
+      <router-link v-if="!$store.state.isLogin" to="/sign"
         ><span class="login">登录</span></router-link
       >
-      <span class="header_part" v-if="userHeader">
+      <router-link v-if="!$store.state.isLogin" to="/sign"
+        ><span class="register">注册</span></router-link
+      >
+      <div class="header_part" v-else>
         <el-dropdown>
           <span class="el-dropdown-link">
             <router-link
-              :to="this.type > 3 ? '/corporateCenter' : '/personalcenter'"
+              :to="
+                $store.state.userinfo.user.type > 3
+                  ? '/corporateCenter'
+                  : '/personalcenter'
+              "
             >
-              <img
+              <el-avatar
                 class="login_header"
-                :src="userHeader"
-                v-if="userHeader"
-                alt=""
-              />
+                :src="$store.state.userinfo.user.head"
+                fit="cover"
+                ><img
+                  src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+              /></el-avatar>
             </router-link>
           </span>
           <el-dropdown-menu slot="dropdown">
             <router-link
-              :to="this.type > 3 ? '/corporateCenter' : '/personalcenter'"
+              :to="
+                $store.state.userinfo.user.type > 3
+                  ? '/corporateCenter'
+                  : '/personalcenter'
+              "
             >
               <el-dropdown-item>{{
-                this.type > 3 ? "企业中心" : "个人中心"
+                $store.state.userinfo.user.type > 3 ? "企业中心" : "个人中心"
               }}</el-dropdown-item>
             </router-link>
             <router-link to="/protocol/useIt">
@@ -70,11 +79,7 @@
             <el-dropdown-item @click.native="getOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-      </span>
-      <!-- <span v-if="userHeader">{{userName}}</span> -->
-      <router-link to="/sign" v-if="!userHeader"
-        ><span class="register">注册</span></router-link
-      >
+      </div>
     </div>
   </div>
 </template>
@@ -86,9 +91,6 @@ export default {
   data() {
     return {
       logoImg: '//ftp.qnets.cn/since/logo.png',
-      userHeader: '',
-      userName: '',
-      type: '',
       isSearch: false,
       i: 0
     };
@@ -97,30 +99,23 @@ export default {
     this.getMyLoginInfo();
   },
   mounted() {
-    if (!this.userHeader) {
-      this.getMyLoginInfo();
-    }
     window.addEventListener('scroll', this.handleScorll, true);
   },
   methods: {
     getMyLoginInfo() {
-      // console.log('hhhh');
       getMyinfo().then(res => {
         if (res.code === '0') {
           this.$store.commit('isLogin', true);
-          this.userHeader = res.data.user.head;
-          this.userName = res.data.user.name;
-          this.type = res.data.user.type;
+          this.$store.commit('userinfo', res.data);
         }
-        // console.log(res);
+      }).catch(err => {
+        return err;
       });
     },
     search(e) {
       let target = e.target;
-      // console.log(target.parentNode);
       let value = target.parentNode.firstChild.firstChild.value;
       if (value !== '') {
-        // console.log(value === '');
         this.isSearch = true;
         this.$router.replace({ name: 'search', query: { value: value } }, onComplete => { },
           onAbort => { });
@@ -128,22 +123,20 @@ export default {
       }
     },
     enterSearch(e) {
-      // console.log(e.target.value);
       this.$router.replace({ name: 'search', query: { value: e.target.value } }, onComplete => { },
         onAbort => { });
       e.target.value = '';
     },
     getOut() {
-      console.log('getout');
       getOutLogin().then(res => {
-        console.log(res);
         if (res.code === '0') {
-          this.$store.commit('isLogin', false);
           this.$message({
             message: '已退出登录',
             type: 'success'
           });
-          this.userHeader = '';
+          this.$router.push('/home');
+          this.$store.commit('isLogin', false);
+          this.$store.commit('userinfo', {});
         }
       });
     },
@@ -157,18 +150,20 @@ export default {
       this.i = scrollTop;
       if (scrollTop > 300) {
         if (scroll < 0) {
-          ele.classList.remove('normalNav', 'downNav', 'newNav');
+          ele.classList.remove('downNav', 'newNav');
           ele.classList.add('upNav', 'transtion');
         } else {
-          ele.classList.remove('normalNav', 'upNav', 'newNav');
-          ele.classList.add('downNav');
+          ele.classList.remove('upNav', 'newNav');
+          if (this.$route.path === '/home' || this.$route.path === '/vip') {
+            ele.classList.add('downNav');
+          } else {
+            ele.classList.add('downNav', 'transtion');
+          }
         }
       } else {
         ele.classList.remove('upNav', 'downNav', 'transtion');
-        if (this.$route.path === '/home' || this.$route.path === '/vip' || this.$route.path === '/sign') {
+        if (this.$route.path === '/home' || this.$route.path === '/vip') {
           ele.classList.add('newNav');
-        } else {
-          ele.classList.add('normalNav');
         }
       }
     }
@@ -200,18 +195,8 @@ a {
   transition: transform 0.3s cubic-bezier(0.35, 0, 0.25, 1),
     -webkit-transform 0.3s cubic-bezier(0.35, 0, 0.25, 1);
 }
-.header_part {
-  position: relative;
-  right: -20px;
-}
-.login_header {
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  cursor: pointer;
-}
 .nav {
-  position: fixed;
+  position: sticky;
   z-index: 999;
   top: 0;
   left: 0;
@@ -227,6 +212,7 @@ a {
     flex: 5;
     justify-self: start;
     display: flex;
+    height: 30px;
     align-items: center;
     span {
       margin: 0 25px;
@@ -271,11 +257,16 @@ a {
     .vip {
       color: goldenrod;
     }
+    .login_header {
+      width: 35px;
+      height: 35px;
+      cursor: pointer;
+    }
+    /deep/.el-avatar > img {
+      width: 35px;
+      height: 35px;
+    }
   }
-}
-.normalNav {
-  position: relative;
-  top: 0;
 }
 .newNav {
   position: absolute;
@@ -283,6 +274,7 @@ a {
   background: rgba(0, 0, 0, 0);
 }
 .nav-icon {
-  height: 25px;
+  overflow: hidden;
+  height: 55px;
 }
 </style>

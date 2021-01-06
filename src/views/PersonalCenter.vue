@@ -2,39 +2,37 @@
   <div class="center">
     <div class="left">
       <div class="info">
-        <el-avatar class="user-img" :src="userInfo.user.head" fit="cover"
+        <el-avatar class="user-img" :src="info.user.head" fit="cover"
           ><img
             src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
         /></el-avatar>
         <div class="user-info">
           <div class="nick">
             <div class="name">
-              {{
-                userInfo.user.name == null ? "未设置昵称" : userInfo.user.name
-              }}
+              {{ info.user.name == null ? "未设置昵称" : info.user.name }}
             </div>
             <div class="vip">
               <el-link
                 icon="el-icon-edit"
                 @click="goCelebrity()"
-                :disabled="userInfo.user.status !== 1 ? true : false"
+                :disabled="info.user.status !== 1 ? true : false"
                 :underline="false"
-                :type="userInfo.user.status !== 1 ? 'success' : 'info'"
-                >{{ userInfo.user.status !== 1 ? "已认证" : "未认证" }}</el-link
+                :type="info.user.status !== 1 ? 'success' : 'info'"
+                >{{ info.user.status !== 1 ? "已认证" : "未认证" }}</el-link
               >
             </div>
           </div>
           <div class="counts">
             <div>
-              粉丝<span>{{ userInfo.user.funs | setNum }}</span>
+              粉丝<span>{{ info.user.funs | setNum }}</span>
             </div>
             <el-divider direction="vertical"></el-divider>
             <div>
-              关注<span>{{ userInfo.likeNum | setNum }}</span>
+              关注<span>{{ info.likeNum | setNum }}</span>
             </div>
             <el-divider direction="vertical"></el-divider>
             <div>
-              收藏<span>{{ userInfo.collectNum | setNum }}</span>
+              收藏<span>{{ info.collectNum | setNum }}</span>
             </div>
           </div>
         </div>
@@ -57,7 +55,6 @@
       <keep-alive>
         <components
           @cancel="cancel"
-          :info="userInfo.user"
           @change="changeInfo"
           @goCelebrity="goCelebrity"
           :is="child"
@@ -68,6 +65,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import {
   mineInfo
 } from '../ajax/index';
@@ -97,18 +95,7 @@ export default {
         { id: 9, title: '举报中心', child: 'report' }
       ],
       activeIndex: 1,
-      child: 'info',
-      userInfo: {
-        user: {
-          head: null,
-          name: null,
-          status: 1,
-          phone: '',
-          funs: 0
-        },
-        collectNum: 0,
-        likeNum: 0
-      }
+      child: 'info'
     };
   },
   methods: {
@@ -122,7 +109,7 @@ export default {
     changeInfo() {
       mineInfo().then(res => {
         if (res.code === '0') {
-          this.userInfo = res.data;
+          this.$store.commit('userinfo', res.data);
         } else {
           this.$message.error(res.errMsg);
         }
@@ -132,11 +119,16 @@ export default {
     },
     cancel(id) {
       if (id === 1) {
-        this.userInfo.likeNum--;
+        this.$store.state.userinfo.likeNum--;
       } else {
-        this.userInfo.collectNum--;
+        this.$store.state.userinfo.collectNum--;
       }
     }
+  },
+  computed: {
+    ...mapState({
+      info: (state) => state.userinfo
+    })
   },
   components: {
     info,
@@ -149,17 +141,6 @@ export default {
     collect,
     follow,
     report
-  },
-  created() {
-    mineInfo().then(res => {
-      if (res.code === '0') {
-        this.userInfo = res.data;
-      } else {
-        this.$message.error(res.errMsg);
-      }
-    }).catch(err => {
-      return err;
-    });
   }
 };
 </script>

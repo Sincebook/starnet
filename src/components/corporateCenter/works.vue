@@ -92,7 +92,7 @@
         :model="ruleForm"
         :rules="rules"
         ref="ruleForm"
-        label-width="50px"
+        label-width="70px"
         :disabled="formFlag"
       >
         <el-form-item label="类型" prop="type">
@@ -249,12 +249,12 @@ export default {
     },
     getVideo(page) {
       CompanyVideo({ num: this.nums, page: page }).then(res => {
-        if (res.code === '0') {
+        if (res.code === '0' && res.data.allpage !== 0) {
           this.isHave = true;
           this.list = res.data;
         } else {
           this.isHave = false;
-          this.$message.error(res.errMsg);
+          this.$message.error('暂无视频');
         }
       }).catch(err => {
         this.isHave = false;

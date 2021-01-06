@@ -75,7 +75,6 @@ export default {
       if (res.code === '0') {
         this.banners = res.data;
       }
-      console.log(res);
     });
   }
 };

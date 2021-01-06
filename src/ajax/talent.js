@@ -1,5 +1,5 @@
 import http from '@/utils/http';
-
+// 获取最新人才
 export function findByTalentNew(params) {
   return http.get('/api/userinfo/findByUptime', params);
 }
@@ -11,7 +11,7 @@ export function findByThree(params) {
 export function findByName(params) {
   return http.get('/api/userinfo/findByName', params);
 }
-// 请求热门工作
+// 请求热门人才
 export function findHotTalent(params) {
   return http.get('/api/userinfo/findHotTalents', params);
 }
