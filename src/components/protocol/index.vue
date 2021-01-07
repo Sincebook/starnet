@@ -6,14 +6,28 @@
       <!-- 导航栏start -->
       <div class="tab">
         <ul>
-          <router-link to="/protocol/about"> <li>关于我们</li></router-link>
+          <router-link to="/protocol/about">
+            <li v-on:click="changeBg" ref="about">关于我们</li></router-link
+          >
           <router-link to="/protocol/useIt">
-            <li>使用帮助</li>
+            <li v-on:click="changeBg" ref="useIt">使用帮助</li>
           </router-link>
-          <router-link to="/protocol/userProtocol"> <li>用户协议</li></router-link>
-          <router-link to="/protocol/security"> <li>信任与安全</li></router-link>
-          <router-link to="/protocol/privacy"> <li>隐私条款</li></router-link>
-          <router-link to="/protocol/joinUs"> <li>加入我们</li></router-link>
+          <router-link to="/protocol/userProtocol">
+            <li v-on:click="changeBg" ref="userProtocol">
+              用户协议
+            </li></router-link
+          >
+          <router-link to="/protocol/security">
+            <li v-on:click="changeBg" ref="security">
+              信任与安全
+            </li></router-link
+          >
+          <router-link to="/protocol/privacy">
+            <li v-on:click="changeBg" ref="privacy">隐私条款</li>
+          </router-link>
+          <router-link to="/protocol/joinUs">
+            <li v-on:click="changeBg" ref="joinUs">加入我们</li>
+          </router-link>
         </ul>
       </div>
       <!-- 导航栏end -->
@@ -27,8 +41,23 @@ export default {
   name: 'protocolIndex',
   data() {
     return {
-
+      last: null
     };
+  },
+  mounted() {
+    console.log(this.$route.path.split('/'));
+    this.last = this.$refs[this.$route.path.split('/')[2]];
+    console.log(this.last);
+    this.last.style.backgroundColor = '#fff';
+  },
+  methods: {
+    changeBg($event) {
+      $event.target.style.backgroundColor = '#fff';
+      if (this.last) {
+        this.last.style.backgroundColor = '#ccc4c4';
+      }
+      this.last = $event.target;
+    }
   },
   components: {
 
@@ -59,7 +88,11 @@ li {
 .tab {
   width: 100%;
   height: 50px;
-  background-color: #777777;
+  background-color: #ccc4c4;
+  .router-link-active {
+    display: inline;
+    background-color: #fff;
+  }
 }
 
 .tab ul {
