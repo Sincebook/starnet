@@ -9,9 +9,6 @@
           <h2 class="title oneLine" :title="item.title">
             {{ item.title.slice(0, 9) }}
           </h2>
-          <!-- <svg @click.stop="share(1)" class="icon" aria-hidden="true">
-            <use xlink:href="#icon-weixin1"></use>
-          </svg> -->
           <svg @click.stop="share(3)" class="icon" aria-hidden="true">
             <use xlink:href="#icon-weibo"></use>
           </svg>
@@ -24,8 +21,8 @@
           <p class="job-require">职位要求：{{ item.jobneed }}</p>
           <p>薪酬：{{ item.money }}</p>
           <p>工作周期：{{ item.worktime }}</p>
-          <p>开始日期：{{ item.begintime }}</p>
-          <p>截止日期：{{ item.endtime }}</p>
+          <p>开始日期：{{ Number(item.begintime) | formatDate }}</p>
+          <p>截止日期：{{ Number(item.endtime) | formatDate }}</p>
         </div>
         <div class="foot">
           <div v-if="item.type !== 1" class="left" @click.stop="recommend">
@@ -47,6 +44,7 @@
 </template>
 
 <script>
+import { formatDate } from '../../assets/js/date.js';
 import { starJob, isStar, noStarJob } from '@/ajax';
 export default {
   props: ['item'],
@@ -56,9 +54,6 @@ export default {
     };
   },
   created() {
-    // console.log(this.item.id);
-    this.item.begintime = this.$formatDate(this.item.begintime);
-    this.item.endtime = this.$formatDate(this.item.endtime);
     if (this.$store.state.isLogin) {
       this.isStar();
     }
@@ -127,6 +122,12 @@ export default {
     // 查看详情
     deatil(id) {
       this.$router.push({ name: 'jobDetail', params: { id: id } });
+    }
+  },
+  filters: {
+    formatDate(time) {
+      var date = new Date(time);
+      return formatDate(date, 'yyyy-MM-dd');
     }
   }
 };
