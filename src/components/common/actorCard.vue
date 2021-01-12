@@ -1,5 +1,5 @@
 <template>
-  <div class="actor-card" @click="goPush(item.id)">
+  <div class="actor-card" @click="goPush(item.id, item.userid)">
     <div class="actor-head">
       <el-image class="bgImg" :src="item.image" fit="cover"></el-image>
     </div>
@@ -116,8 +116,8 @@ export default {
         }
       });
     },
-    goPush(id) {
-      this.$router.push('/talentDetail/' + id);
+    goPush(id, userid) {
+      this.$router.push('/talentDetail/' + id + '?userid=' + userid);
     },
     openDialog(item) {
       if (!this.$store.state.isLogin) {

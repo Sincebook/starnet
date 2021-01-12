@@ -1,91 +1,130 @@
 <template>
-  <div class="talent-video" v-if="srcs.length">
-    <p class="title">视频</p>
-    <div class="video-list">
+  <div v-if="talentNav.isHave" class="talent-video">
+    <h4 class="headtitle">视 频</h4>
+    <div class="list">
       <div
-        v-for="(item, index) in srcs"
-        :key="item + index"
-        class="videos"
-        @click="changePlayer"
+        class="videoItem"
+        v-for="item in list.datas"
+        :key="'video' + item.id"
+        @click="play(item)"
       >
-        <videos :src="item.path" :videoId="'page' + index"></videos>
+        <video class="el-video" :src="item.path"></video>
       </div>
     </div>
-    <pagination
-      :allPages="allpages"
-      style="margin-bottom: 0"
-      @getProjects="changePage"
-    ></pagination>
+    <div class="footer-page">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-size="8"
+        layout="prev, pager, next"
+        :page-count="list.allpage"
+        hide-on-single-page
+      >
+      </el-pagination>
+    </div>
+    <el-dialog
+      :destroy-on-close="true"
+      :before-close="handleClose"
+      :title="selectVideo.description"
+      :visible.sync="dialogVisible"
+      width="1000px"
+    >
+      <video
+        class="selectVideo"
+        ref="video"
+        controls
+        :src="selectVideo.path"
+      ></video>
+    </el-dialog>
   </div>
 </template>
 <script>
-import Pagination from '../common/pagination.vue';
-import Videos from './videos.vue';
+import { mapState } from 'vuex';
 import { getUserImg } from '@/ajax';
-// @ is an alias to /src
 export default {
-  props: ['userid'],
-  name: 'talentVideo',
   data() {
     return {
-      srcs: [],
-      lastTarget: null,
-      allpages: 1,
-      obj: { type: 2, num: 4 }
+      list: [],
+      currentPage: 1,
+      selectVideo: {},
+      dialogVisible: false
     };
   },
   created() {
-    this.getData(1);
+    this.getUserVideo(this.currentPage);
   },
   methods: {
-    changePlayer(e) {
-      console.log(this.lastTarget);
-      if (e.target.localName !== 'video') return;
-      if (!this.lastTarget) {
-        this.lastTarget = e.target;
-      } else {
-        this.lastTarget.pause();
-        this.lastTarget = e.target;
-      }
+    handleCurrentChange(val) {
+      this.getUserVideo(val);
     },
-    changePage(page) {
-      this.getData(page);
+    play(item) {
+      this.selectVideo = item;
+      this.dialogVisible = true;
     },
-    getData(page) {
-      this.obj.page = page;
-      this.obj.userid = this.userid;
-      getUserImg(this.obj).then(res => {
-        console.log(res);
+    handleClose(done) {
+      this.$refs.video.pause();
+      done();
+    },
+    getUserVideo(page) {
+      getUserImg({ type: 2, num: 4, userid: this.$route.query.userid, page: this.currentPage }).then(res => {
         if (res.code === '0') {
-          this.srcs = res.data.datas;
-          this.allpages = res.data.allpage;
+          this.$store.commit('talentNavVideo', true);
+          this.list = res.data;
+        } else {
+          this.$store.commit('talentNavVideo', false);
         }
+      }).catch(err => {
+        return err;
       });
     }
   },
-  components: {
-    Videos,
-    Pagination
+  computed: {
+    ...mapState({
+      talentNav: (state) => state.talentNav[2]
+    })
   }
 };
 </script>
 <style lang='less' scoped>
 .talent-video {
-  width: 960px;
   background-color: #fff;
-  margin: 40px auto 0 auto;
-  padding: 20px;
-  text-align: center;
-  .title {
-    margin: 0px auto;
+  width: 1110px;
+  margin: 50px auto;
+  padding: 30px 0 20px;
+  position: relative;
+  .headtitle {
     text-align: center;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 26px;
+    padding-bottom: 20px;
+    color: #333;
   }
-  .videos {
-    display: inline-block;
-    margin: 20px;
-    width: 420px;
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0 15px 10px 15px;
   }
+  .videoItem {
+    margin: 15px;
+    width: 510px;
+    cursor: pointer;
+    .el-video {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+  }
+  .footer-page {
+    text-align: center;
+  }
+}
+.selectVideo {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+/deep/.el-dialog__body {
+  padding: 15px 20px 17px;
 }
 </style>

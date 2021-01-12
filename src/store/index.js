@@ -18,7 +18,32 @@ export default new Vuex.Store({
       },
       collectNum: 0,
       likeNum: 0
-    } // 用户登录后信息存放
+    }, // 用户登录后信息存放
+    talentNav: [{
+      id: 'desc',
+      title: '个人简介',
+      isHave: true
+    }, {
+      id: 'photo',
+      title: '照片',
+      isHave: false
+    }, {
+      id: 'video',
+      title: '视频',
+      isHave: false
+    }, {
+      id: 'audio',
+      title: '音频',
+      isHave: false
+    }, {
+      id: 'work',
+      title: '工作经历',
+      isHave: false
+    }, {
+      id: 'msg',
+      title: '留言',
+      isHave: true
+    }] // 人才页面nav
   },
   mutations: {
     test(state, test) {
@@ -32,6 +57,18 @@ export default new Vuex.Store({
     },
     userinfo(state, userinfo) {
       state.userinfo = userinfo;
+    },
+    talentNavPhoto(state, photo) {
+      state.talentNav[1].isHave = photo;
+    },
+    talentNavVideo(state, video) {
+      state.talentNav[2].isHave = video;
+    },
+    talentNavAudio(state, audio) {
+      state.talentNav[3].isHave = audio;
+    },
+    talentNavWork(state, work) {
+      state.talentNav[4].isHave = work;
     }
   },
   actions: {

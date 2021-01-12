@@ -46,7 +46,6 @@ export {
   findByThree,
   findByName,
   findHotTalent,
-  getUserBg,
   findByVocation
 }
 from './talent';
@@ -59,7 +58,8 @@ export {
   getUserImg,
   getUserWork,
   getAllMomes,
-  addMemos
+  addMemos,
+  getUserLifeImg
 }
 from './talentDetail';
 

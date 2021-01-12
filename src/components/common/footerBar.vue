@@ -105,20 +105,10 @@ export default {
   color:#fff;
 }
 .nav-icon{
-  height: 25px;
+  width: 100px;
 }
 .newFoot {
   display: none;
-  // position: absolute;
-  // bottom: 0;
-  // z-index: 1;
-  // width: 100%;
-  // .footer-nav {
-  //   display: none;
-  // }
-  // .footer-fixed {
-  //   background-color: transparent;
-  // }
 }
 .footer-nav {
   padding: 40px 240px;

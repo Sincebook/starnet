@@ -9,16 +9,16 @@
     >
       <video-card :ding="item"></video-card>
     </div>
-    <pagination
+    <!-- <pagination
       :allPages="allpages"
       class="videoPag"
       @getProjects="changePage"
-    ></pagination>
+    ></pagination> -->
   </div>
 </template>
 <script>
 import VideoCard from './videoCard.vue';
-import Pagination from '../../common/pagination.vue';
+// import Pagination from '../../common/pagination.vue';
 import { getComVideoByUserId } from '@/ajax';
 // @ is an alias to /src
 export default {
@@ -60,9 +60,8 @@ export default {
     }
   },
   components: {
-    VideoCard,
-    Pagination
-
+    VideoCard
+    // Pagination
   }
 };
 </script>

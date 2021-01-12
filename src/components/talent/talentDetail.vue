@@ -1,157 +1,57 @@
 <template>
   <div class="talent-detail">
-    <talent-header :userid='userid' v-if="userid"></talent-header>
-    <div class="nav">
-      <div class="container">
-        <span @click="changeHash('resume')">个人简介</span>
-        <span @click="changeHash('talentImg')">照片</span>
-        <span @click="changeHash('talentVideo')">视频</span>
-        <span @click="changeHash('talentAudio')">音频</span>
-        <span @click="changeHash('wortRecord')">工作经历</span>
-        <span @click="changeHash('criticism')">留言</span>
-      </div>
-    </div>
-    <talent-resume id="resume" :data="resume"></talent-resume>
-    <talent-img id="talentImg" :userid="userid" v-if="userid"></talent-img>
-    <talent-video
-      id="talentVideo"
-      :userid="userid"
-      v-if="userid"
-    ></talent-video>
-    <talent-audio
-      id="talentAudio"
-      :userid="userid"
-      v-if="userid"
-    ></talent-audio>
-    <work-record id="wortRecord" :userid="userid" v-if="userid"></work-record>
-    <div class="critism" id="criticism" v-if="critism">
-      <criticism
-        v-for="item in critismFive"
-        :key="item.name + item.id"
-        :item="item"
-      ></criticism>
-      <div
-        style="
-          background-color: #fff;
-          width: 960px;
-          margin: 0 auto;
-          text-align: center;
-        "
-        v-if="critism.length"
-      >
-        <span
-          style="cursor: pointer"
-          @click="showMoreCritism"
-          v-if="!isClickMore"
-          >查看更多...</span
-        >
-      </div>
-      <criticism-input
-        v-if="userid"
-        :userid="userid"
-        @resetCritism="resetCritism"
-      ></criticism-input>
-    </div>
+    <talent-header :info="info"></talent-header>
+    <talent-nav></talent-nav>
+    <talent-resume
+      id="desc"
+      :info="info"
+      :offheight="offheight"
+    ></talent-resume>
+    <talent-img id="photo"></talent-img>
+    <talent-video id="video"></talent-video>
+    <talent-audio id="audio"></talent-audio>
+    <talent-work id="work"></talent-work>
+    <talent-msg id="msg"></talent-msg>
   </div>
 </template>
 <script>
-import Criticism from '../common/criticism.vue';
-import CriticismInput from '../common/criticismInput.vue';
-import TalentAudio from './talentAudio.vue';
 import TalentHeader from './talentHeader.vue';
+import TalentNav from './talentNav.vue';
 import TalentImg from './talentImg.vue';
 import TalentResume from './talentResume.vue';
 import TalentVideo from './talentVideo.vue';
-import workRecord from './workRecord.vue';
-import { userinfoById, getAllMomes } from '@/ajax';
+import TalentAudio from './talentAudio.vue';
+import talentWork from './talentWork.vue';
+import talentMsg from './talentMsg.vue';
+import { userinfoById } from '@/ajax';
 export default {
-  name: 'talentDetail',
   data() {
     return {
-      userid: '',
-      resume: '',
-      critism: '',
-      critismFive: '',
-      isClickMore: false
+      info: [],
+      offheight: ''
     };
   },
   components: {
     TalentHeader,
+    TalentNav,
     TalentResume,
     TalentImg,
     TalentVideo,
     TalentAudio,
-    workRecord,
-    Criticism,
-    CriticismInput
+    talentWork,
+    talentMsg
   },
   created() {
-    this.userinfo();
-  },
-  methods: {
-    // 锚点
-    changeHash(id) {
-      // console.log(id);
-      if (document.querySelector('#' + id)) {
-        document.querySelector('#' + id).scrollIntoView(true);
+    userinfoById({ id: this.$route.params.id }).then(res => {
+      if (res.code === '0') {
+        this.info = res.data;
+        this.$nextTick(() => {
+          this.offheight = document.getElementById('selfEvaluation').offsetHeight;
+        });
       }
-    },
-    // 简介
-    userinfo() {
-      // console.log(this.$route.params);
-      userinfoById({ id: this.$route.params.id }).then(res => {
-        // console.log(res);
-        this.userid = res.data.userid;
-        this.resume = res.data;
-        this.getMomes();
-      });
-    },
-    // 获取留言
-    getMomes() {
-      getAllMomes({ toid: this.userid }).then(res => {
-        this.critism = res.data;
-        if (!this.isClickMore) {
-          this.critismFive = this.critism.slice(0, 5);
-        } else {
-          this.critismFive = this.critism;
-        }
-      });
-    },
-    // 刷新留言列表
-    resetCritism() {
-      this.getMomes();
-    },
-    showMoreCritism() {
-      if (this.critismFive.length === this.critism.length) return;
-      this.critismFive = this.critism;
-      this.isClickMore = true;
-    }
+    }).catch(err => {
+      return err;
+    });
   }
 };
 </script>
-<style lang='less' scoped>
-.talent-detail {
-  background-color: #f5f5f5;
-}
-.nav {
-  width: 100%;
-  height: 50px;
-  background-color: rgb(200, 200, 200);
-  .container {
-    width: 960px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
-    line-height: 50px;
-    color: #2d6496;
-    span {
-      margin: 0 30px;
-      cursor: pointer;
-    }
-  }
-  .critism {
-    padding: 20px;
-    background-color: #fff;
-  }
-}
-</style>

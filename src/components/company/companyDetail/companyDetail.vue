@@ -21,7 +21,7 @@
       id="comIntro"
     ></company-intro>
     <company-image id="comImage" v-if="userid" :userid="userid"></company-image>
-    <company-video id="comVideo" :userid="userid" v-if="userid"></company-video>
+    <!-- <company-video id="comVideo" :userid="userid" v-if="userid"></company-video> -->
     <company-perform
       id="comPerform"
       :userid="userid"
@@ -66,7 +66,6 @@ import CompanyImage from './companyImage.vue';
 import CompanyVideo from './companyVideo.vue';
 import CompanyPerform from './companyPerform.vue';
 import Criticism from '../../common/criticism.vue';
-import CriticismInput from '../../common/criticismInput.vue';
 // import CompanyMark from './companyMark.vue';
 import {
   getComInfoById,
@@ -114,8 +113,7 @@ export default {
     CompanyImage,
     CompanyVideo,
     CompanyPerform,
-    Criticism,
-    CriticismInput
+    Criticism
     // CompanyMark
 
   },

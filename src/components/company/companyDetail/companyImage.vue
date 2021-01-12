@@ -6,16 +6,16 @@
         <img v-for="src in images" :key="src.id" :src="src.path" />
       </viewer>
     </div>
-    <pagination
+    <!-- <pagination
       class="imspagination"
       :allPages="allpages"
       @getProjects="changePage"
-    ></pagination>
+    ></pagination> -->
   </div>
 </template>
 
 <script>
-import Pagination from '../../common/pagination.vue';
+// import Pagination from '../../common/pagination.vue';
 import { getComPhotosByUserId } from '@/ajax';
 export default {
   props: ['userid'],
@@ -44,7 +44,7 @@ export default {
     }
   },
   components: {
-    Pagination
+    // Pagination
   }
 };
 
