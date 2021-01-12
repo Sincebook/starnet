@@ -1,12 +1,30 @@
 <template>
   <div class="talentHeader">
     <div class="left">
-      <div class="list">
+      <div class="list" v-if="list.length === 4">
         <el-image
-          v-for="item in list"
-          :key="'img' + item.path"
+          v-for="(item, index) in list"
+          :key="'img' + index"
           class="img"
           :src="item.path"
+          :preview-src-list="srcList"
+          fit="cover"
+        ></el-image>
+      </div>
+      <div class="list" v-else-if="info.image">
+        <el-image
+          v-for="(item, index) in list"
+          :key="'img' + index"
+          class="img"
+          :src="item.path"
+          :preview-src-list="srcList"
+          fit="cover"
+        ></el-image>
+        <el-image
+          v-for="(item, index) in 4 - list.length"
+          :key="'img1' + index"
+          class="img"
+          :src="info.image"
           :preview-src-list="srcList"
           fit="cover"
         ></el-image>
@@ -68,6 +86,8 @@ export default {
       if (res.code === '0') {
         this.list = res.data.datas.slice(0, 4);
       }
+    }).catch(err => {
+      return err;
     });
     if (this.$store.state.isLogin) {
       this.isFun(this.$route.query.userid);
@@ -161,10 +181,19 @@ export default {
   },
   computed: {
     srcList() {
-      let res = this.list.map(item => {
-        return item.path;
-      });
-      return res;
+      if (this.list.length === 4) {
+        let res1 = this.list.map(item => {
+          return item.path;
+        });
+        return res1;
+      } else {
+        let res2 = [];
+        res2 = this.list.map(item => {
+          return item.path;
+        });
+        res2.push(this.info.image);
+        return res2;
+      }
     }
   }
 };
@@ -187,6 +216,9 @@ export default {
       flex-wrap: wrap;
     }
     .img {
+      border: none;
+      outline: none;
+      object-fit: cover;
       display: block;
       margin: 5px;
       width: 260px;
