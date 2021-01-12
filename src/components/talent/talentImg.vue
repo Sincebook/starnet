@@ -1,84 +1,93 @@
 <template>
-  <div class="talent-img" v-if="imgs.length">
-    <p class="title">照片</p>
-    <div class="img-list">
-      <viewer :images="imgs">
-        <img
-          v-for="(src, index) in imgs"
-          :src="src.path"
-          :key="'hahah' + index"
-          alt=""
-        />
-      </viewer>
+  <div v-if="talentNav.isHave" class="talent-img">
+    <h4 class="headtitle">照 片</h4>
+    <div class="list">
+      <el-image
+        class="itemImg"
+        v-for="item in list.datas"
+        :key="'img' + item.id"
+        :src="item.path"
+        fit="cover"
+      ></el-image>
     </div>
-    <pagination
-      :allPages="allpages"
-      style="margin-bottom: 0"
-      @getProjects="changePage"
-    ></pagination>
+    <div class="footer-page">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-size="8"
+        layout="prev, pager, next"
+        :page-count="list.allpage"
+        hide-on-single-page
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
-import Pagination from '../common/pagination.vue';
-// @ is an alias to /src
+import { mapState } from 'vuex';
 import { getUserImg } from '@/ajax';
 export default {
-  props: ['userid'],
-  name: 'talentImg',
   data() {
     return {
-      imgs: [],
-      allpages: 1,
-      obj: { type: 1, num: 8 }
+      list: [],
+      currentPage: 1
     };
   },
   created() {
-    this.getData(1);
+    this.getUserImg(this.currentPage);
   },
   methods: {
-    changePage(page) {
-      this.getData(page);
+    handleCurrentChange(val) {
+      this.getUserImg(val);
     },
-    getData(page) {
-      // console.log(this.userid);
-      this.obj.page = page;
-      this.obj.userid = this.userid;
-      getUserImg(this.obj).then(res => {
-        // console.log(res);
+    getUserImg(page) {
+      getUserImg({ type: 1, page: this.currentPage, num: 8, userid: this.$route.query.userid }).then(res => {
         if (res.code === '0') {
-          this.imgs = res.data.datas;
-          this.allpages = res.data.allpage;
+          this.$store.commit('talentNavPhoto', true);
+          this.list = res.data;
+        } else {
+          this.$store.commit('talentNavPhoto', false);
         }
+      }).catch(err => {
+        return err;
       });
     }
   },
-  components: {
-    Pagination
-
+  computed: {
+    ...mapState({
+      talentNav: (state) => state.talentNav[1]
+    })
   }
 };
 </script>
 <style lang='less' scoped>
 .talent-img {
-  width: 960px;
-  margin: 40px auto 0 auto;
   background-color: #fff;
-  padding-top: 20px;
-  text-align: center;
-  padding-bottom: 30px;
-  .title {
-    margin: 0px auto 20px auto;
+  width: 1110px;
+  margin: 50px auto;
+  padding: 30px 0 20px;
+  position: relative;
+  .headtitle {
     text-align: center;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 26px;
+    padding-bottom: 20px;
+    color: #333;
   }
-  .img-list {
-    margin-bottom: 20px;
-    img {
-      width: 220px;
-      height: 320px;
-      margin: 10px;
+  .list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0 15px 10px 15px;
+    .itemImg {
+      width: 240px;
+      height: 350px;
+      margin: 15px;
+      display: block;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     }
+  }
+  .footer-page {
+    text-align: center;
   }
 }
 </style>

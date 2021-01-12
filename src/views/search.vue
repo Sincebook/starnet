@@ -3,22 +3,19 @@
     <p v-show="false">{{ value }}</p>
     <actor-card
       data-aos="fade-up"
-      v-for="(item, index) in cards"
+      v-for="(item, index) in cards.datas"
       :key="'talent' + item.id + index"
       :item="item"
     ></actor-card>
   </div>
 </template>
 <script>
-// @ is an alias to /src
 import actorCard from '../components/common/actorCard';
 import { findByName } from '@/ajax';
 export default {
-  name: 'search',
   data() {
     return {
-      cards: '',
-      allpages: 1,
+      cards: [],
       preValue: ''
     };
   },
@@ -33,17 +30,14 @@ export default {
   },
   methods: {
     nameSearch(name) {
-      //   console.log(111);
       findByName({ name }).then(res => {
-        // console.log(res);
         if (res.code === '0') {
-          this.cards = res.data.datas;
+          this.cards = res.data;
         } else {
-          this.$message({
-            message: res.errMsg,
-            type: 'error'
-          });
+          this.$message.error('暂无数据');
         }
+      }).catch(err => {
+        return err;
       });
     }
   },
@@ -61,27 +55,13 @@ export default {
 .talent-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  width: 1180px;
+  width: 1160px;
   margin: 10px auto;
   /deep/ .actor-card {
-    width: 240px;
-    height: 360px;
-    margin: 20px 10px;
-    .actor-head {
-      height: 230px;
-    }
-    .info {
-      padding-top: 230px;
-    }
-    .desc {
-      margin: 10px 0 10px 0;
-    }
-    .btn-box {
-      .btn {
-        height: 33px;
-      }
-    }
+    margin: 10px 10px;
+  }
+  .el-alert {
+    width: 1140px;
   }
 }
 </style>

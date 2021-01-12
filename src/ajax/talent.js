@@ -15,10 +15,6 @@ export function findByName(params) {
 export function findHotTalent(params) {
   return http.get('/api/userinfo/findHotTalents', params);
 }
-// 获取每个用户的背景
-export function getUserBg(params) {
-  return http.get('/api/banner/findByUserId', params);
-}
 // 根据职业搜索人才
 export function findByVocation(params) {
   return http.get('/api/userinfo/findByVocation', params);

@@ -43,7 +43,7 @@
                 placeholder="请输入验证码"
               ></el-input> </el-form-item
             ><el-checkbox style="margin-bottom: 15px" v-model="rememberPwd"
-              >记住密码</el-checkbox
+              >自动登录</el-checkbox
             ><el-form-item>
               <el-button style="width: 100%" type="primary" @click="login()"
                 >登录</el-button
