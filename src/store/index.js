@@ -43,7 +43,32 @@ export default new Vuex.Store({
       id: 'msg',
       title: '留言',
       isHave: true
-    }] // 人才页面nav
+    }], // 人才页面nav
+    companyNav: [{
+      id: 'desc',
+      title: '公司简介',
+      isHave: true
+    }, {
+      id: 'photo',
+      title: '照片',
+      isHave: false
+    }, {
+      id: 'video',
+      title: '视频',
+      isHave: false
+    }, {
+      id: 'audio',
+      title: '音频',
+      isHave: false
+    }, {
+      id: 'work',
+      title: '工作经历',
+      isHave: false
+    }, {
+      id: 'msg',
+      title: '留言',
+      isHave: true
+    }] // 公司页面nav
   },
   mutations: {
     test(state, test) {
@@ -69,6 +94,18 @@ export default new Vuex.Store({
     },
     talentNavWork(state, work) {
       state.talentNav[4].isHave = work;
+    },
+    companyNavPhoto(state, photo) {
+      state.companyNav[1].isHave = photo;
+    },
+    companyNavVideo(state, video) {
+      state.companyNav[2].isHave = video;
+    },
+    companyNavAudio(state, audio) {
+      state.companyNav[3].isHave = audio;
+    },
+    companyNavWork(state, work) {
+      state.companyNav[4].isHave = work;
     }
   },
   actions: {

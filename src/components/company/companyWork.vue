@@ -1,5 +1,5 @@
 <template>
-  <div v-if="talentNav.isHave" class="talent-work">
+  <div v-if="companyNav.isHave" class="talent-work">
     <h4 class="headtitle">工作经历</h4>
     <div class="list">
       <div
@@ -15,7 +15,10 @@
           v-for="(item1, index) in item"
           :key="'workItem1' + index"
         >
-          <p class="desc">{{ item1.description }}</p>
+          <p class="desc">
+            <span style="color: #0097d0">{{ item1.title }}：</span
+            >{{ item1.description }}
+          </p>
         </div>
       </div>
     </div>
@@ -23,7 +26,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import { getUserWork } from '@/ajax';
+import { getGrade } from '@/ajax';
 export default {
   data() {
     return {
@@ -31,13 +34,12 @@ export default {
     };
   },
   created() {
-    getUserWork({ userid: this.$route.params.userid }).then(res => {
-      console.log(res);
+    getGrade({ userid: this.$route.params.userid }).then(res => {
       if (res.code === '0') {
-        this.$store.commit('talentNavWork', true);
+        this.$store.commit('companyNavWork', true);
         this.list = res.data;
       } else {
-        this.$store.commit('talentNavWork', false);
+        this.$store.commit('companyNavWork', false);
       }
     }).catch(err => {
       return err;
@@ -45,16 +47,16 @@ export default {
   },
   computed: {
     ...mapState({
-      talentNav: (state) => state.talentNav[4]
+      companyNav: (state) => state.companyNav[4]
     }),
     workList() {
       let obj = {};
       this.list.forEach(item => {
-        if (obj[item.title]) {
-          obj[item.title].push(item);
+        if (obj[item.type]) {
+          obj[item.type].push(item);
         } else {
-          obj[item.title] = [];
-          obj[item.title].push(item);
+          obj[item.type] = [];
+          obj[item.type].push(item);
         }
       });
       return obj;

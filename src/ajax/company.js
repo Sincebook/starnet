@@ -6,7 +6,6 @@ export function findHotCompany() {
 export function findByUptime(params) {
   return http.get('/api/companyinfo/findByUptime', params);
 }
-
 export function findByCategory(params) {
   return http.get('/api/companyinfo/findByCategory', params);
 }
@@ -14,7 +13,6 @@ export function findByCategory(params) {
 export function findByTwo(params) {
   return http.get('/api/companyinfo/findByTwo', params);
 }
-
 export function getComInfoById(params) {
   return http.get('/api/companyinfo/findById', params);
 }

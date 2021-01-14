@@ -1,14 +1,19 @@
 <template>
-  <div v-if="talentNav.isHave" class="talent-video">
+  <div v-if="companyNav.isHave" class="talent-video">
     <h4 class="headtitle">视 频</h4>
     <div class="list">
       <div
         class="videoItem"
-        v-for="item in list.datas"
+        v-for="item in list.companyVideos"
         :key="'video' + item.id"
         @click="play(item)"
       >
-        <video class="el-video" :src="item.path"></video>
+        <video class="el-video" :src="item.video"></video>
+        <div class="infos">
+          <h4 class="title oneLine">{{ item.title }}</h4>
+          <p class="desc threeLine">{{ item.description }}</p>
+          <div class="btn">点击查看详情</div>
+        </div>
       </div>
     </div>
     <div class="footer-page">
@@ -33,14 +38,14 @@
         class="selectVideo"
         ref="video"
         controls
-        :src="selectVideo.path"
+        :src="selectVideo.video"
       ></video>
     </el-dialog>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex';
-import { getUserImg } from '@/ajax';
+import { getComVideoByUserId } from '@/ajax';
 export default {
   data() {
     return {
@@ -66,12 +71,12 @@ export default {
       done();
     },
     getUserVideo(page) {
-      getUserImg({ type: 2, num: 4, userid: this.$route.params.userid, page: this.currentPage }).then(res => {
+      getComVideoByUserId({ userid: this.$route.params.userid, page: this.currentPage }).then(res => {
         if (res.code === '0') {
-          this.$store.commit('talentNavVideo', true);
+          this.$store.commit('companyNavVideo', true);
           this.list = res.data;
         } else {
-          this.$store.commit('talentNavVideo', false);
+          this.$store.commit('companyNavVideo', false);
         }
       }).catch(err => {
         return err;
@@ -80,7 +85,7 @@ export default {
   },
   computed: {
     ...mapState({
-      talentNav: (state) => state.talentNav[2]
+      companyNav: (state) => state.companyNav[2]
     })
   }
 };
@@ -106,13 +111,35 @@ export default {
   }
   .videoItem {
     margin: 15px;
-    width: 510px;
+    width: 330px;
     cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     .el-video {
+      height: 160px;
       display: block;
       width: 100%;
       object-fit: cover;
       pointer-events: none;
+    }
+    .infos {
+      margin: 10px;
+    }
+    .title {
+      font-size: 20px;
+      margin-bottom: 5px;
+      color: #0097d0;
+    }
+    .desc {
+      font-size: 16px;
+      height: 48px;
+      color: #909399;
+    }
+    .btn {
+      text-align: right;
+    }
+    &:hover {
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     }
   }
   .footer-page {
@@ -121,6 +148,7 @@ export default {
 }
 .selectVideo {
   width: 100%;
+  height: 560px;
   border: none;
   outline: none;
 }

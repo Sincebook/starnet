@@ -53,6 +53,22 @@
             ></video-card>
           </div>
         </el-tab-pane>
+        <el-tab-pane label="我的音频" name="3">
+          <el-alert
+            v-if="!isHave"
+            title="暂无音频"
+            type="warning"
+            :closable="false"
+            show-icon
+          >
+          </el-alert>
+          <audio-card
+            v-else
+            @deleteWorks="deleteWorks"
+            :flag="flag"
+            :item="audioList"
+          ></audio-card>
+        </el-tab-pane>
       </el-tabs>
       <el-button
         class="upload"
@@ -141,6 +157,8 @@
                   ? "只能上传jpg/png文件，且不超过500kb"
                   : ruleForm.type === 2
                   ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过100m"
+                  : ruleForm.type === 3
+                  ? "只能上传mp3文件，且不超过20m"
                   : ""
               }}
             </div>
@@ -162,6 +180,7 @@
 
 <script>
 import videoCard from '../corporateCenter/videoCard.vue';
+import audioCard from '../personalCenter/audioCard.vue';
 import {
   mineOpus,
   CompanyVideo,
@@ -170,6 +189,7 @@ import {
   deleteOpus,
   deleteCompanyVideo
 } from '../../ajax/index';
+import { formatDate } from '../../assets/js/date.js';
 export default {
   data() {
     return {
@@ -178,6 +198,7 @@ export default {
       currentPage: 1,
       nums: 8,
       allpage: 1,
+      audioList: [], // 音频存放
       list: [], // 视频 照片存放
       imgList: [], // 照片放大
       dialogVisible: false,
@@ -211,6 +232,9 @@ export default {
       }, {
         id: 2,
         value: '视频'
+      }, {
+        id: 3,
+        value: '音频'
       }]
     };
   },
@@ -221,8 +245,10 @@ export default {
     handleCurrentChange(val) {
       if (this.activeName === '1') {
         this.getOpus(val);
-      } else {
+      } else if (this.activeName === '2') {
         this.getVideo(val);
+      } else {
+        this.getOpus(val);
       }
     },
     getOpus(page) {
@@ -231,6 +257,18 @@ export default {
           this.isHave = true;
           if (this.activeName === '2') {
             this.list = res.data;
+          } else if (this.activeName === '3') {
+            let time;
+            this.audioList = res.data.map(item => {
+              time = formatDate(new Date(Number(item.uptime)), 'yyyy-MM-dd');
+              return {
+                id: item.id,
+                title: item.description,
+                artist: time,
+                src: item.path
+              };
+            });
+            this.flag = true;
           } else {
             this.list = res.data;
             this.imgList = res.data.datas.map(item => {
@@ -267,7 +305,7 @@ export default {
       this.isHave = true;
       this.flag = false;
       this.currentPage = 1;
-      if (value.paneName === '1') {
+      if (value.paneName !== '2') {
         this.getOpus(this.currentPage);
       } else {
         this.getVideo(this.currentPage);
@@ -300,7 +338,6 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
-        this.$message.error(err);
         return err;
       });
     },
@@ -331,7 +368,7 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.formFlag = true;
-          if (this.ruleForm.type === 1) {
+          if (this.ruleForm.type !== 2) {
             addOpus({
               type: this.ruleForm.type,
               description: this.ruleForm.title,
@@ -390,6 +427,8 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2;
       const isVIDEO = file.type === 'video/mp4' || file.type === 'video/ogg' || file.type === 'video/avi' || file.type === 'video/wmv' || file.type === 'video/rmvb';
       const isLt100M = file.size / 1024 / 1024 < 100;
+      const isAUDIO = file.type === 'audio/mp3' || file.type === 'audio/mpeg';
+      const isLt20M = file.size / 1024 / 1024 < 20;
       if (this.ruleForm.type === '') {
         this.$message.error('请选择上传类型');
         return false;
@@ -409,6 +448,14 @@ export default {
           this.$message.error('上传视频大小不能超过 50MB!');
         }
         return isVIDEO && isLt100M;
+      } else if (this.ruleForm.type === 3) {
+        if (!isAUDIO) {
+          this.$message.error('上传音频只能是 MP3 格式!');
+        }
+        if (!isLt20M) {
+          this.$message.error('上传音频大小不能超过 20MB!');
+        }
+        return isAUDIO && isLt20M;
       }
     },
     handleRemove() {
@@ -416,7 +463,8 @@ export default {
     }
   },
   components: {
-    videoCard
+    videoCard,
+    audioCard
   }
 };
 </script>

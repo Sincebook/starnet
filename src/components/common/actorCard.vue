@@ -14,13 +14,10 @@
       </p>
       <div class="btn-box">
         <div class="btn msg" @click.stop="openDialog(item)">私信</div>
-        <div
-          class="btn"
-          :class="two === '关注' ? 'flw' : 'flw_s'"
-          @click.stop="watchIt"
-        >
-          {{ two }}
+        <div v-if="!isFollow" class="btn flw" @click.stop="follow(item)">
+          关注
         </div>
+        <div v-else class="btn flw_s" @click.stop="cancelFlw(item)">已关注</div>
       </div>
     </div>
     <!-- 私信对接弹窗 -->
@@ -33,6 +30,8 @@
       width="600px"
     >
       <el-input
+        maxlength="300"
+        show-word-limit
         resize="none"
         type="textarea"
         :autosize="{ minRows: 5, maxRows: 5 }"
@@ -51,80 +50,80 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { watchIt, noWatch, addMsg, isFun } from '@/ajax';
 export default {
   props: ['item'],
   data() {
     return {
-      two: '关注',
+      isFollow: false, // 是否关注
+      replayMsg: '', // 私信的内容
       selectItem: {},
-      replayMsg: '',
       dialogVisible: false
     };
   },
   mounted() {
-    if (this.$store.state.isLogin) {
+    if (this.isLogin) {
       this.isFun();
     }
   },
   methods: {
-    watchIt() {
-      if (!this.$store.state.isLogin) {
-        this.$message({
-          message: '请先登录',
-          type: 'error'
-        });
-        return;
-      }
-      if (this.two === '已关注') {
-        this.two = '关注';
-        noWatch({ starid: this.item.userid }).then(res => {
-          if (res.code === '0') {
-            this.$message({
-              message: '已取消关注',
-              type: 'success'
-            });
-          }
-        }, reason => {
-          this.$message({
-            message: reason,
-            type: 'error'
-          });
-        });
+    // 关注
+    follow(item) {
+      if (!this.isLogin) {
+        this.$message.error('请先登录');
+      } else if (Number(item.userid) === Number(this.userinfo.user.id)) {
+        this.$message.error('不能关注自己');
       } else {
-        this.two = '已关注';
-        watchIt({ starid: this.item.userid, name: this.item.name, image: this.item.image }).then(res => {
+        watchIt({ starid: item.userid, name: item.name, image: item.image }).then(res => {
           if (res.code === '0') {
             this.$message({
               message: '关注成功',
               type: 'success'
             });
+            this.isFollow = true;
           } else {
-            this.$message({
-              message: '取消失败',
-              type: 'error'
-            });
+            this.$message.error('关注失败');
           }
+        }).catch(err => {
+          return err;
         });
       }
+    },
+    // 取消关注
+    cancelFlw(item) {
+      noWatch({ starid: item.userid }).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            message: '已取消关注',
+            type: 'success'
+          });
+          this.isFollow = false;
+        } else {
+          this.$message.error('取消失败');
+        }
+      }).catch(err => {
+        return err;
+      });
     },
     // 判断该用户是否关注了该明星
     isFun() {
       isFun({ starid: this.item.userid }).then(res => {
         if (res.data) {
-          this.two = '已关注';
+          this.isFollow = true;
         }
+      }).catch(err => {
+        return err;
       });
     },
     goPush(id, userid) {
-      this.$router.push('/talentDetail/' + id + '?userid=' + userid);
+      this.$router.push('/talentDetail/' + id + '/' + userid);
     },
     openDialog(item) {
-      if (!this.$store.state.isLogin) {
-        this.$message({
-          message: '请先登录',
-          type: 'error'
-        });
+      if (!this.isLogin) {
+        this.$message.error('请先登录');
+      } else if (Number(item.userid) === Number(this.userinfo.user.id)) {
+        this.$message.error('不能私信自己');
       } else {
         this.selectItem = item;
         this.dialogVisible = true;
@@ -150,6 +149,12 @@ export default {
         return err;
       });
     }
+  },
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.isLogin,
+      userinfo: (state) => state.userinfo
+    })
   }
 };
 </script>

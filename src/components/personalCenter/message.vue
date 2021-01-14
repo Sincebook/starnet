@@ -104,7 +104,7 @@ export default {
   methods: {
     handleCurrentChange(val) {
       mineMessage({ page: val, num: this.nums }).then(res => {
-        if (res.code === '0') {
+        if (res.code === '0' && res.data.datas.length !== 0) {
           this.isHave = true;
           this.list = res.data;
         } else {
@@ -170,12 +170,12 @@ export default {
   },
   created() {
     mineMessage({ page: this.currentPage, num: this.nums }).then(res => {
-      if (res.code === '0') {
+      if (res.code === '0' && res.data.datas.length !== 0) {
         this.isHave = true;
         this.list = res.data;
       } else {
         this.isHave = false;
-        this.$message.error(res.errMsg);
+        this.$message.error('暂无私信');
       }
     }).catch(err => {
       this.isHave = false;

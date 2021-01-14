@@ -45,7 +45,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="info notAllow" v-if="info.status === 1">
+    <div class="info notAllow" v-if="userinfo.user.status === 1">
       <el-alert
         title="您还没有进行企业认证"
         type="warning"
@@ -361,7 +361,7 @@
                   </div>
                   <div class="head1">
                     申请人：
-                    <div @click="watchDetail1(item.userid)">
+                    <div @click="watchDetail1(item.id, item.userid)">
                       <el-image
                         class="user-img"
                         :src="item.roleimage"
@@ -432,6 +432,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { companyJob, deleteJob, getJobType, addJob, editJob, getAllRole, addRole, deleteRole, findAllDeliver, viewCv, refuseUser, intentionUser, offerUser } from '../../ajax/index';
 import { formatDate } from '../../assets/js/date.js';
 export default {
@@ -741,8 +742,8 @@ export default {
       this.$router.push({ name: 'jobDetail', params: { id: id } });
     },
     // 查看个人主页详情
-    watchDetail1(id) {
-      this.$router.push({ name: 'talentDetail', params: { id: id } });
+    watchDetail1(id, userid) {
+      this.$router.push('/talentDetail/' + id + '/' + userid);
     },
     // 查看投递
     watchDeliver(id) {
@@ -922,7 +923,10 @@ export default {
         }
       });
       return res;
-    }
+    },
+    ...mapState({
+      userinfo: (state) => state.userinfo
+    })
   }
 };
 </script>
