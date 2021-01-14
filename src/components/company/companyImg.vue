@@ -1,5 +1,5 @@
 <template>
-  <div v-if="talentNav.isHave" class="talent-img">
+  <div v-if="companyNav.isHave" class="company-img">
     <h4 class="headtitle">照 片</h4>
     <div class="list">
       <el-image
@@ -14,7 +14,7 @@
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
-        :page-size="8"
+        :page-size="9"
         layout="prev, pager, next"
         :page-count="list.allpage"
         hide-on-single-page
@@ -42,12 +42,12 @@ export default {
       this.getUserImg(val);
     },
     getUserImg(page) {
-      getUserImg({ type: 1, page: this.currentPage, num: 8, userid: this.userid }).then(res => {
+      getUserImg({ type: 1, page: this.currentPage, num: 9, userid: this.userid }).then(res => {
         if (res.code === '0') {
-          this.$store.commit('talentNavPhoto', true);
+          this.$store.commit('companyNavPhoto', true);
           this.list = res.data;
         } else {
-          this.$store.commit('talentNavPhoto', false);
+          this.$store.commit('companyNavPhoto', false);
         }
       }).catch(err => {
         return err;
@@ -56,13 +56,13 @@ export default {
   },
   computed: {
     ...mapState({
-      talentNav: (state) => state.talentNav[1]
+      companyNav: (state) => state.companyNav[1]
     })
   }
 };
 </script>
 <style lang='less' scoped>
-.talent-img {
+.company-img {
   background-color: #fff;
   width: 1110px;
   margin: 50px auto;
@@ -80,8 +80,8 @@ export default {
     flex-wrap: wrap;
     margin: 0 15px 10px 15px;
     .itemImg {
-      width: 240px;
-      height: 350px;
+      width: 330px;
+      height: 210px;
       margin: 15px;
       display: block;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);

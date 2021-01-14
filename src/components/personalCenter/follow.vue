@@ -12,7 +12,11 @@
         show-icon
       ></el-alert>
       <div v-else class="list">
-        <div class="item-box" v-for="item in list.stars" :key="item.id">
+        <div
+          class="item-box"
+          v-for="item in list.stars"
+          :key="'stars' + item.id"
+        >
           <div class="item">
             <el-image class="user-img" :src="item.image" fit="cover"></el-image>
             <div class="user-info">
@@ -25,7 +29,7 @@
                   type="primary"
                   size="mini"
                   plain
-                  @click="watchDetail(item.id, item.type)"
+                  @click="watchDetail(item.id, item.starid, item.type)"
                   >个人主页</el-button
                 >
               </div>
@@ -34,7 +38,7 @@
                   type="danger"
                   size="mini"
                   plain
-                  @click="cancel(item.id)"
+                  @click="cancel(item.starid)"
                   >取消关注</el-button
                 >
               </div>
@@ -83,11 +87,10 @@ export default {
           this.list = res.data;
         } else {
           this.isHave = false;
-          this.$message.error(res.errMsg);
+          this.$message.error('暂无关注');
         }
       }).catch(err => {
         this.isHave = false;
-        this.$message.error(err);
         return err;
       });
     },
@@ -106,20 +109,19 @@ export default {
           }
           this.$emit('cancel', 1);
         } else {
-          this.$message.error(res.errMsg);
+          this.$message.error('取消失败');
         }
       }).catch(err => {
-        this.$message.error(err);
         return err;
       });
     },
     // 查看个人主页
-    watchDetail(id, type) {
+    watchDetail(id, starid, type) {
       // 0用户 1公司
       if (type === 0) {
-        this.$router.push({ name: 'talentDetail', params: { id: id } });
+        this.$router.push('/talentDetail/' + id + '/' + starid);
       } else {
-        this.$router.push({ name: 'companyDetail', params: { id: id } });
+        this.$router.push('/companyDetail/' + id + '/' + starid);
       }
     }
   },
@@ -133,11 +135,10 @@ export default {
         this.list = res.data;
       } else {
         this.isHave = false;
-        this.$message.error(res.errMsg);
+        this.$message.error('暂无关注');
       }
     }).catch(err => {
       this.isHave = false;
-      this.$message.error(err);
       return err;
     });
   }

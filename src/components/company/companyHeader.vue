@@ -1,47 +1,15 @@
 <template>
-  <div class="talentHeader">
-    <div class="left">
-      <div class="list" v-if="list.length === 4">
-        <el-image
-          v-for="(item, index) in list"
-          :key="'img' + index"
-          class="img"
-          :src="item.path"
-          :preview-src-list="srcList"
-          fit="cover"
-        ></el-image>
-      </div>
-      <div class="list" v-else-if="info.image">
-        <el-image
-          v-for="(item, index) in list"
-          :key="'img' + index"
-          class="img"
-          :src="item.path"
-          :preview-src-list="srcList"
-          fit="cover"
-        ></el-image>
-        <el-image
-          v-for="(item, index) in 4 - list.length"
-          :key="'img1' + index"
-          class="img"
-          :src="info.image"
-          :preview-src-list="srcList"
-          fit="cover"
-        ></el-image>
-      </div>
-    </div>
-    <div class="right">
-      <div class="content">
-        <div class="infos">
-          <span class="name">{{ info.name }}</span>
-          <span class="nickname">{{ info.nickname }}</span>
-        </div>
-        <div class="btns">
-          <div class="btn msg" @click="openDialog">私信</div>
-          <div v-if="!isFollow" class="btn flw" @click="follow">关注</div>
-          <div v-else class="btn flw_s" @click="cancelFlw">已关注</div>
-          <div class="btn font">粉丝数 {{ funs | setNum }}</div>
-        </div>
+  <div class="company-header">
+    <div class="bgImg" :style="{ backgroundImage: `url(${info.image})` }"></div>
+    <div class="infos">
+      <el-avatar class="logo" :src="info.logo"></el-avatar>
+      <h4 class="name">{{ info.name }}</h4>
+      <div class="btns">
+        <div class="btn msg" @click="openDialog">私信</div>
+        <div v-if="!isFollow" class="btn flw" @click="follow">关注</div>
+        <div v-else class="btn flw_s" @click="cancelFlw">已关注</div>
+        <div class="btn font">粉丝数 {{ funs | setNum }}</div>
+        <div class="btn font">成交量 {{ info.oknum | setNum }}</div>
       </div>
     </div>
     <!-- 私信对接弹窗 -->
@@ -70,29 +38,23 @@
     </el-dialog>
   </div>
 </template>
+
 <script>
 import { mapState } from 'vuex';
-import { getUserLifeImg, getFuns, addMsg, isFun, watchIt, noWatch } from '@/ajax';
+import { addMsg, noWatch, watchIt, isFun, getFuns } from '@/ajax';
 export default {
   props: ['info'],
   data() {
     return {
-      list: [],
-      isFollow: false,
-      replayMsg: '',
-      funs: '',
+      isFollow: false, // 是否关注
+      replayMsg: '', // 私信的内容
+      funs: '', // 粉丝数
+      suss: '', // 成交量
       dialogVisible: false,
       userid: this.$route.params.userid
     };
   },
   created() {
-    getUserLifeImg({ userid: this.$route.params.id, type: 4, page: 1 }).then(res => {
-      if (res.code === '0') {
-        this.list = res.data.datas.slice(0, 4);
-      }
-    }).catch(err => {
-      return err;
-    });
     this.isFun(this.userid);
     this.getFuns(this.userid);
   },
@@ -133,7 +95,7 @@ export default {
       } else if (Number(this.userid) === Number(this.userinfo.user.id)) {
         this.$message.error('不能关注自己');
       } else {
-        watchIt({ starid: this.userid, name: this.info.name, image: this.info.image }).then(res => {
+        watchIt({ starid: this.info.userid, name: this.info.name, image: this.info.image }).then(res => {
           if (res.code === '0') {
             this.$message({
               message: '关注成功',
@@ -150,7 +112,7 @@ export default {
     },
     // 取消关注
     cancelFlw() {
-      noWatch({ starid: this.userid }).then(res => {
+      noWatch({ starid: this.info.userid }).then(res => {
         if (res.code === '0') {
           this.$message({
             message: '已取消关注',
@@ -164,7 +126,7 @@ export default {
         return err;
       });
     },
-    // 判断该用户是否关注了该明星
+    // 判断该用户是否关注了该公司
     isFun(userid) {
       isFun({ starid: userid }).then(res => {
         if (res.data) {
@@ -186,21 +148,6 @@ export default {
     }
   },
   computed: {
-    srcList() {
-      if (this.list.length === 4) {
-        let res1 = this.list.map(item => {
-          return item.path;
-        });
-        return res1;
-      } else {
-        let res2 = [];
-        res2 = this.list.map(item => {
-          return item.path;
-        });
-        res2.push(this.info.image);
-        return res2;
-      }
-    },
     ...mapState({
       isLogin: (state) => state.isLogin,
       userinfo: (state) => state.userinfo
@@ -208,65 +155,40 @@ export default {
   }
 };
 </script>
-<style lang='less' scoped>
-.talentHeader {
-  height: 630px;
-  width: 1210px;
-  margin: 0 auto;
-  display: flex;
-  .left,
-  .right {
-    flex: 1;
-    margin: 45px;
+
+<style lang="less" scoped>
+.company-header {
+  width: 100%;
+  height: 100%;
+  .bgImg {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    width: 100%;
+    height: 340px;
   }
-  .left {
-    margin-right: 20px;
-    .list {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .img {
-      border: none;
-      outline: none;
-      object-fit: cover;
-      display: block;
-      margin: 5px;
-      width: 260px;
-      height: 260px;
-    }
-  }
-  .right {
-    margin-left: 20px;
+  .infos {
+    width: 100%;
+    text-align: center;
     position: relative;
-    .content {
+    .logo {
       position: absolute;
-      margin-left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
+      left: 50%;
+      transform: translate(-50%, -65px);
+      width: 123px;
+      height: 123px;
+      border-radius: 50%;
+      border: 3px solid #fff;
     }
-    .infos {
-      &::after {
-        content: "";
-        display: block;
-        width: 200px;
-        height: 2px;
-        background-image: linear-gradient(to right, #cccccc, #f5f5f5);
-      }
+    .name {
+      font-size: 24px;
+      padding-top: 75px;
     }
     .btns {
       display: flex;
       align-items: center;
-      margin-top: 20px;
-    }
-    .name {
-      letter-spacing: 10px;
-      color: #0097d0;
-      font-size: 32px;
-    }
-    .nickname {
-      margin-left: 10px;
-      font-size: 14px;
-      color: #999;
+      justify-content: center;
+      margin: 25px 0 40px;
     }
     .btn {
       cursor: pointer;

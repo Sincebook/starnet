@@ -1,5 +1,5 @@
 <template>
-  <div v-if="talentNav.isHave" class="talent-audio">
+  <div v-if="companyNav.isHave" class="talent-audio">
     <h4 class="headtitle">音 频</h4>
     <div class="activeAudio">
       <svg class="icon" @click="play" aria-hidden="true">
@@ -65,11 +65,11 @@ export default {
     getUserAudio() {
       getUserImg({ type: 3, page: this.currentPage, userid: this.$route.params.userid }).then(res => {
         if (res.code === '0') {
-          this.$store.commit('talentNavAudio', true);
+          this.$store.commit('companyNavAudio', true);
           this.list = res.data;
           this.selectAudio = res.data[0];
         } else {
-          this.$store.commit('talentNavAudio', false);
+          this.$store.commit('companyNavAudio', false);
         }
       }).catch(err => {
         return err;
@@ -119,7 +119,7 @@ export default {
   },
   computed: {
     ...mapState({
-      talentNav: (state) => state.talentNav[3]
+      companyNav: (state) => state.companyNav[3]
     })
   }
 };

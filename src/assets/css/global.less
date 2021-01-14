@@ -61,6 +61,17 @@ img {
     -webkit-box-orient: vertical;
 }
 
+// 超出三行隐藏
+.threeLine {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
 // 去除基本样式
 input,
 select {

@@ -3,7 +3,7 @@
     <div class="title">
       <div class="name">企业荣誉</div>
     </div>
-    <div class="info notAllow" v-if="info.status === 1">
+    <div class="info notAllow" v-if="userinfo.user.status === 1">
       <el-alert
         title="您还没有进行企业认证"
         type="warning"
@@ -116,6 +116,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import {
   addGrade,
   getGrade,
@@ -192,7 +193,7 @@ export default {
       });
     },
     getHonor() {
-      getGrade({ userid: this.info.id }).then(res => {
+      getGrade({ userid: this.userinfo.user.id }).then(res => {
         if (res.code === '0') {
           this.isHave = true;
           this.list = res.data;
@@ -226,9 +227,14 @@ export default {
     }
   },
   created() {
-    if (this.info.status !== 1) {
+    if (this.userinfo.status !== 1) {
       this.getHonor();
     }
+  },
+  computed: {
+    ...mapState({
+      userinfo: (state) => state.userinfo
+    })
   }
 };
 </script>

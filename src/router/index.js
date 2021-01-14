@@ -11,7 +11,7 @@ import BindPhone from '../views/BindPhone.vue';
 import BindWbPhone from '../views/BindWbPhone.vue';
 import PersonalCenter from '../views/PersonalCenter.vue';
 import CorporateCenter from '../views/CorporateCenter.vue';
-import companyDetail from '../components/company/companyDetail/companyDetail.vue';
+import companyDetail from '../components/company/companyDetail.vue';
 import jobDetail from '../components/job/jobDetail.vue';
 import talentDetail from '../components/talent/talentDetail.vue';
 import search from '../views/search.vue';
@@ -106,7 +106,7 @@ const routes = [{
     component: CorporateCenter
   },
   {
-    path: '/companyDetail/:id',
+    path: '/companyDetail/:id/:userid',
     name: 'companyDetail',
     component: companyDetail,
     meta: {
@@ -122,7 +122,7 @@ const routes = [{
     }
   },
   {
-    path: '/talentDetail/:id',
+    path: '/talentDetail/:id/:userid',
     name: 'talentDetail',
     component: talentDetail,
     meta: {
