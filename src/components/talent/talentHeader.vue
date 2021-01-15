@@ -44,6 +44,12 @@
         </div>
       </div>
     </div>
+    <div class="share">
+      <span>分享</span>
+      <svg @click="share" class="icon" aria-hidden="true">
+        <use xlink:href="#icon-weibo"></use>
+      </svg>
+    </div>
     <!-- 私信对接弹窗 -->
     <el-dialog
       custom-class="dialog"
@@ -183,6 +189,11 @@ export default {
       }).catch(err => {
         return err;
       });
+    },
+    // 微博分享
+    share() {
+      let url = window.location.origin + '/%23/talentDetail/' + this.$route.params.id + '/' + this.userid;
+      window.open('http://v.t.sina.com.cn/share/share.php?title=绘星网分享---人才：' + this.info.name + '&url=' + url + '&content=utf-8&pic=' + this.srcList[0], 'newwindow', 'height:400,width:400,top:100,left:100');
     }
   },
   computed: {
@@ -213,6 +224,7 @@ export default {
   height: 630px;
   width: 1210px;
   margin: 0 auto;
+  position: relative;
   display: flex;
   .left,
   .right {
@@ -314,6 +326,22 @@ export default {
         color: #fff;
         border-color: #67c23a;
       }
+    }
+  }
+  .share {
+    position: absolute;
+    top: 50px;
+    right: 45px;
+    display: flex;
+    align-items: center;
+    span {
+      font-size: 14px;
+      color: #909399;
+    }
+    .icon {
+      cursor: pointer;
+      margin-left: 10px;
+      font-size: 20px;
     }
   }
 }

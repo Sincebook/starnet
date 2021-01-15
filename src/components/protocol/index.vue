@@ -66,8 +66,8 @@ export default {
 </script>
 <style lang='less' scoped>
 .protocol {
-  width: 960px;
-  margin: 0 auto;
+  width: 1110px;
+  margin: 50px auto;
 }
 a {
   text-decoration: none;
@@ -75,10 +75,7 @@ a {
 }
 
 .w {
-  width: 960px;
-  margin: 0 auto;
   background-color: #ffffff;
-  /* height: 500px; */
 }
 
 li {
@@ -87,7 +84,7 @@ li {
 
 .tab {
   width: 100%;
-  height: 50px;
+  height: 60px;
   background-color: #ccc4c4;
   .router-link-active {
     display: inline;
@@ -103,8 +100,8 @@ li {
 .tab ul li {
   float: left;
   width: 143.33px;
-  height: 50px;
-  line-height: 50px;
+  height: 60px;
+  line-height: 60px;
   text-align: center;
   /* border: 1px solid #000; */
   list-style: none;

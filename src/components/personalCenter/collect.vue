@@ -41,7 +41,7 @@
                   type="primary"
                   size="mini"
                   plain
-                  @click="watchDetail(item.id)"
+                  @click="watchDetail(item.id, item.userid)"
                   >查看详情</el-button
                 >
               </div>
@@ -131,8 +131,8 @@ export default {
       });
     },
     // 查看详情
-    watchDetail(id) {
-      this.$router.push({ name: 'jobDetail', params: { id: id } });
+    watchDetail(id, userid) {
+      this.$router.push('jobDetail/' + id + '/' + userid);
     }
   },
   created() {

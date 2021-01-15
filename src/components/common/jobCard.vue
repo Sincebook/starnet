@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="job-card" @click="deatil(item.id)">
+    <div class="job-card" @click="deatil(item.id, item.userid)">
       <div class="job-head">
         <el-image class="img" :src="item.image" fit="cover"></el-image>
       </div>
       <div class="job-content">
         <div class="head">
           <h2 class="title oneLine" :title="item.title">
-            {{ item.title.slice(0, 9) }}
+            {{ item.title }}
           </h2>
-          <svg @click.stop="share(3)" class="icon" aria-hidden="true">
+          <svg @click.stop="share" class="icon" aria-hidden="true">
             <use xlink:href="#icon-weibo"></use>
           </svg>
         </div>
@@ -25,17 +25,21 @@
           <p>截止日期：{{ Number(item.endtime) | formatDate }}</p>
         </div>
         <div class="foot">
-          <div v-if="item.type !== 1" class="left" @click.stop="recommend">
+          <div v-if="item.type !== 1" class="left">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-tuijian"></use>
             </svg>
             编辑推荐
           </div>
-          <div class="right" @click.stop="collect">
+          <div class="right" v-if="!isColl" @click.stop="collect(item)">
             <svg class="icon" aria-hidden="true" ref="star">
-              <use xlink:href="#icon-ai-mark"></use>
-            </svg>
-            {{ shoucang }}
+              <use xlink:href="#icon-ai-mark"></use></svg
+            >点击收藏
+          </div>
+          <div class="right" v-else @click.stop="cancel(item)">
+            <svg class="icon" aria-hidden="true" ref="star">
+              <use xlink:href="#icon-ai-mark"></use></svg
+            >已收藏
           </div>
         </div>
       </div>
@@ -44,84 +48,79 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { formatDate } from '../../assets/js/date.js';
 import { starJob, isStar, noStarJob } from '@/ajax';
 export default {
   props: ['item'],
   data() {
     return {
+      isColl: false,
       shoucang: '点击收藏'
     };
   },
-  created() {
-    if (this.$store.state.isLogin) {
+  mounted() {
+    if (this.isLogin) {
       this.isStar();
     }
   },
   methods: {
     // 分享
     share(index) {
-      let url = window.location.href + '#' + this.item.id;
-      console.log(url);
-      if (index === 3) {
-        window.open('http://v.t.sina.com.cn/share/share.php?title=' + this.item.title + '&url=' + url + '&content=utf-8&sourceUrl=' + this.item.description + '&pic=' + this.item.image, 'newwindow', 'height:400,width:400,top:100,left:100'
-        );
-      }
-      if (index === 1) {
-        this.$message({
-          message: '请将链接复制到微信...'
-        });
-        // window.open('http://qr.liantu.com/api.php?text=' + encodeURIComponent(url), 'weixin', 'height=320,width=320');
-      }
-    },
-    // 推荐
-    recommend() {
-      this.$emit('recommend');
+      let url = window.location.origin + '/%23/jobDetail/' + this.item.id + '/' + this.item.userid;
+      window.open('http://v.t.sina.com.cn/share/share.php?title=绘星网分享---工作：' + this.item.title + '&url=' + url + '&content=utf-8&pic=' + this.item.image, 'newwindow', 'height:400,width:400,top:100,left:100');
     },
     // 收藏
-    collect() {
-      if (!this.$store.state.isLogin) {
-        this.$message({
-          message: '请先登录',
-          type: 'error'
-        });
-        return;
-      }
-      // this.$emit('collect');
-      if (this.shoucang === '已收藏') {
-        noStarJob({ jobid: this.item.id }).then(res => {
+    collect(item) {
+      if (!this.isLogin) {
+        this.$message.error('请先登录');
+      } else if (this.userinfo.user.type >= 4) {
+        this.$message.error('企业用户不能收藏职位');
+      } else {
+        starJob({ jobid: item.id }).then(res => {
           if (res.code === '0') {
-            this.$refs.star.style.color = 'rgb(150, 140, 140)';
-            this.shoucang = '点击收藏';
+            this.$message({
+              message: '收藏成功',
+              type: 'success'
+            });
+            this.isColl = true;
           } else {
-            this.$message.error(res.errMsg);
+            this.$message.error('收藏失败');
           }
+        }).catch(err => {
+          return err;
         });
-        return;
       }
-      starJob({ jobid: this.item.id }).then(res => {
-        console.log(res);
-        if (res.code === '0') {
-          this.$refs.star.style.color = 'rgb(81, 156, 234)';
-          this.shoucang = '已收藏';
-        } else {
-          this.$message.error(res.errMsg);
-        }
-      });
     },
     // 判断是否收藏
     isStar() {
       isStar({ jobid: this.item.id }).then(res => {
-        // console.log(res);
         if (res.code === '0') {
-          this.$refs.star.style.color = 'rgb(81, 156, 234)';
-          this.shoucang = '已收藏';
+          this.isColl = true;
         }
+      }).catch(err => {
+        return err;
       });
     },
     // 查看详情
-    deatil(id) {
-      this.$router.push({ name: 'jobDetail', params: { id: id } });
+    deatil(id, userid) {
+      this.$router.push('jobDetail/' + id + '/' + userid);
+    },
+    // 取消收藏
+    cancel(item) {
+      noStarJob({ jobid: item.id }).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            message: '已取消收藏',
+            type: 'success'
+          });
+          this.isColl = false;
+        } else {
+          this.$message.error('取消失败');
+        }
+      }).catch(err => {
+        return err;
+      });
     }
   },
   filters: {
@@ -129,6 +128,12 @@ export default {
       var date = new Date(time);
       return formatDate(date, 'yyyy-MM-dd');
     }
+  },
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.isLogin,
+      userinfo: (state) => state.userinfo
+    })
   }
 };
 </script>

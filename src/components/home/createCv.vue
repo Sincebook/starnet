@@ -12,14 +12,30 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   methods: {
     createCv() {
       // 判断 没登录跳转到登录页面  登陆后跳转到个人中心
+      if (this.isLogin) {
+        if (this.userinfo.user.type >= 4) {
+          this.$router.push('/corporateCenter');
+        } else {
+          this.$router.push('/personalCenter');
+        }
+      } else {
+        this.$router.push('/sign');
+      }
     },
     lookVip() {
       this.$router.push('/vip');
     }
+  },
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.isLogin,
+      userinfo: (state) => state.userinfo
+    })
   }
 };
 </script>

@@ -15,7 +15,11 @@
           v-for="(item1, index) in item"
           :key="'workItem1' + index"
         >
-          <p class="desc">{{ item1.description }}</p>
+          <p class="desc">
+            <span style="color: #0097d0"
+              >{{ item1.time + "，" + item1.title }}：</span
+            >{{ item1.description }}
+          </p>
         </div>
       </div>
     </div>
@@ -50,11 +54,11 @@ export default {
     workList() {
       let obj = {};
       this.list.forEach(item => {
-        if (obj[item.title]) {
-          obj[item.title].push(item);
+        if (obj[item.type]) {
+          obj[item.type].push(item);
         } else {
-          obj[item.title] = [];
-          obj[item.title].push(item);
+          obj[item.type] = [];
+          obj[item.type].push(item);
         }
       });
       return obj;

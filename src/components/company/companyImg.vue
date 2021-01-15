@@ -8,6 +8,7 @@
         :key="'img' + item.id"
         :src="item.path"
         fit="cover"
+        :preview-src-list="srcList"
       ></el-image>
     </div>
     <div class="footer-page">
@@ -57,7 +58,12 @@ export default {
   computed: {
     ...mapState({
       companyNav: (state) => state.companyNav[1]
-    })
+    }),
+    srcList() {
+      return this.list.datas.map(item => {
+        return item.path;
+      });
+    }
   }
 };
 </script>
@@ -84,7 +90,11 @@ export default {
       height: 210px;
       margin: 15px;
       display: block;
+      transition: all 0.25s;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      &:hover {
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      }
     }
   }
   .footer-page {

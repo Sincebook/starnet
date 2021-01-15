@@ -11,6 +11,12 @@
         <div class="btn font">粉丝数 {{ funs | setNum }}</div>
         <div class="btn font">成交量 {{ info.oknum | setNum }}</div>
       </div>
+      <div class="share">
+        <span>分享</span>
+        <svg @click="share" class="icon" aria-hidden="true">
+          <use xlink:href="#icon-weibo"></use>
+        </svg>
+      </div>
     </div>
     <!-- 私信对接弹窗 -->
     <el-dialog
@@ -145,6 +151,11 @@ export default {
       }).catch(err => {
         return err;
       });
+    },
+    // 微博分享
+    share() {
+      let url = window.location.origin + '/%23/companyDetail/' + this.$route.params.id + '/' + this.userid;
+      window.open('http://v.t.sina.com.cn/share/share.php?title=绘星网分享---公司：' + this.info.name + '&url=' + url + '&content=utf-8&pic=' + this.info.image, 'newwindow', 'height:400,width:400,top:100,left:100');
     }
   },
   computed: {
@@ -168,7 +179,8 @@ export default {
     height: 340px;
   }
   .infos {
-    width: 100%;
+    width: 1110px;
+    margin: 0 auto;
     text-align: center;
     position: relative;
     .logo {
@@ -178,7 +190,12 @@ export default {
       width: 123px;
       height: 123px;
       border-radius: 50%;
+      object-fit: cover;
       border: 3px solid #fff;
+    }
+    /deep/.el-avatar > img {
+      width: 100%;
+      height: 100%s;
     }
     .name {
       font-size: 24px;
@@ -235,6 +252,22 @@ export default {
         background: #67c23a;
         color: #fff;
         border-color: #67c23a;
+      }
+    }
+    .share {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      span {
+        font-size: 14px;
+        color: #909399;
+      }
+      .icon {
+        cursor: pointer;
+        margin-left: 10px;
+        font-size: 20px;
       }
     }
   }

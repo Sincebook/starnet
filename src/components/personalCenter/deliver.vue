@@ -46,7 +46,7 @@
                   type="primary"
                   size="mini"
                   plain
-                  @click="watchDetail(item.jobid)"
+                  @click="watchDetail(item.jobid, item.companyInfoId)"
                   >查看详情</el-button
                 >
               </div>
@@ -114,11 +114,10 @@ export default {
           this.list = res.data;
         } else {
           this.isHave = false;
-          this.$message.error(res.errMsg);
+          this.$message.error('获取失败');
         }
       }).catch(err => {
         this.isHave = false;
-        this.$message.error(err);
         return err;
       });
     },
@@ -141,7 +140,6 @@ export default {
         }
       }).catch(err => {
         this.isHave = false;
-        this.$message.error(err);
         return err;
       });
     },
@@ -158,7 +156,7 @@ export default {
             message: '取消成功',
             type: 'success'
           });
-          if (this.list.datas.length === 1 && this.currentPage !== 1) {
+          if (this.list.applys.length === 1 && this.currentPage !== 1) {
             this.handleCurrentChange(this.currentPage - 1);
           } else {
             this.handleCurrentChange(this.currentPage);
@@ -167,13 +165,12 @@ export default {
           this.$message.error(res.errMsg);
         }
       }).catch(err => {
-        this.$message.error(err);
         return err;
       });
     },
     // 查看详情
-    watchDetail(id) {
-      this.$router.push({ name: 'jobDetail', params: { id: id } });
+    watchDetail(id, userid) {
+      this.$router.push('jobDetail/' + id + '/' + userid);
     }
   },
   created() {
