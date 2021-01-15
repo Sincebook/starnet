@@ -8,7 +8,7 @@
         /></el-avatar>
         <div class="user-info">
           <div class="nick">
-            <div class="name">
+            <div class="name oneLine">
               {{ info.user.name == null ? "未设置昵称" : info.user.name }}
             </div>
             <div class="vip">
@@ -79,7 +79,7 @@ import recruit from '../components/corporateCenter/recruit';
 import message from '../components/personalCenter/message';
 import follow from '../components/personalCenter/follow';
 import report from '../components/personalCenter/report';
-import collect from '../components/personalCenter/collect';
+// import collect from '../components/personalCenter/collect';
 import works from '../components/corporateCenter/works';
 export default {
   data() {
@@ -94,8 +94,8 @@ export default {
         { id: 6, title: '我的私信', child: 'message' },
         { id: 7, title: '我的作品', child: 'works' },
         { id: 8, title: '我的关注', child: 'follow' },
-        { id: 9, title: '我的收藏', child: 'collect' },
-        { id: 10, title: '举报中心', child: 'report' }
+        // { id: 9, title: '我的收藏', child: 'collect' },
+        { id: 9, title: '举报中心', child: 'report' }
       ],
       activeIndex: 1,
       child: 'userinfo',
@@ -166,7 +166,7 @@ export default {
     message,
     follow,
     report,
-    collect,
+    // collect,
     works
   }
 };
@@ -206,6 +206,7 @@ export default {
           margin: 15px 0;
         }
         .name {
+          max-width: 90px;
           font-size: 16px;
           font-weight: 600;
           margin-right: 10px;

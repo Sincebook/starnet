@@ -9,6 +9,9 @@
         @click="play(item)"
       >
         <video class="el-video" :src="item.path"></video>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-play"></use>
+        </svg>
       </div>
     </div>
     <div class="footer-page">
@@ -105,14 +108,28 @@ export default {
     margin: 0 15px 10px 15px;
   }
   .videoItem {
+    position: relative;
     margin: 15px;
     width: 510px;
     cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+    &:hover {
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    }
     .el-video {
       display: block;
       width: 100%;
       object-fit: cover;
       pointer-events: none;
+    }
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 50px;
+      color: #f5f5f5;
     }
   }
   .footer-page {

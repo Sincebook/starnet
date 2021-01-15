@@ -31,7 +31,7 @@
                     :style="isCode2 ? 'pointer-events:none' : ''"
                     @click="getCodes('2')"
                   >
-                    {{ isCode2 ? count2 : "获取验证码" }}
+                    {{ isCode2 ? count2 + "S" : "获取验证码" }}
                   </div></template
                 ></el-input
               ></el-form-item
@@ -108,7 +108,7 @@
                     :style="isCode1 ? 'pointer-events:none' : ''"
                     @click="getCodes('1')"
                   >
-                    {{ isCode1 ? count1 : "获取验证码" }}
+                    {{ isCode1 ? count1 + "S" : "获取验证码" }}
                   </div></template
                 ></el-input
               >

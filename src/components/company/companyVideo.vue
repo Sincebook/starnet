@@ -72,7 +72,7 @@ export default {
     },
     getUserVideo(page) {
       getComVideoByUserId({ userid: this.$route.params.userid, page: this.currentPage }).then(res => {
-        if (res.code === '0') {
+        if (res.code === '0' && res.data.companyVideos.length !== 0) {
           this.$store.commit('companyNavVideo', true);
           this.list = res.data;
         } else {

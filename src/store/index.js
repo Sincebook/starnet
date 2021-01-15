@@ -62,7 +62,7 @@ export default new Vuex.Store({
       isHave: false
     }, {
       id: 'work',
-      title: '工作经历',
+      title: '企业荣誉',
       isHave: false
     }, {
       id: 'msg',

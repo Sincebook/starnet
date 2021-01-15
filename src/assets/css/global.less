@@ -72,6 +72,17 @@ img {
     -webkit-box-orient: vertical;
 }
 
+// 超出五行隐藏
+.fiveLine {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
 // 去除基本样式
 input,
 select {

@@ -1,6 +1,6 @@
 <template>
-  <div v-if="companyNav.isHave" class="talent-work">
-    <h4 class="headtitle">工作经历</h4>
+  <div v-if="companyNav.isHave" class="company-work">
+    <h4 class="headtitle">企业荣誉</h4>
     <div class="list">
       <div
         class="item"
@@ -16,7 +16,8 @@
           :key="'workItem1' + index"
         >
           <p class="desc">
-            <span style="color: #0097d0">{{ item1.title }}：</span
+            <span style="color: #0097d0"
+              >{{ item1.time + "，" + item1.title }}：</span
             >{{ item1.description }}
           </p>
         </div>
@@ -65,7 +66,7 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.talent-work {
+.company-work {
   background-color: #fff;
   width: 1110px;
   margin: 50px auto;

@@ -36,7 +36,7 @@
                     :style="isCode ? 'pointer-events:none' : ''"
                     @click="getCodes()"
                   >
-                    {{ isCode ? count : "获取验证码" }}
+                    {{ isCode ? count + "S" : "获取验证码" }}
                   </div></template
                 ></el-input
               >

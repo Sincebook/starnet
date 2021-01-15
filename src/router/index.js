@@ -114,7 +114,7 @@ const routes = [{
     }
   },
   {
-    path: '/jobDetail/:id',
+    path: '/jobDetail/:id/:userid',
     name: 'jobDetail',
     component: jobDetail,
     meta: {

@@ -79,3 +79,15 @@ export function cancelFollow(obj) {
 export function report(obj) {
   return http.post('/api/report/add', obj);
 };
+// 获取工作经历
+export function getWorkInfo(obj) {
+  return http.get('/api/workinfo/findByUserid', obj);
+};
+// 删除工作经历
+export function deleteWorkInfo(obj) {
+  return http.post('/api/workinfo/deleteById', obj);
+};
+// 添加工作经历
+export function addWorkInfo(obj) {
+  return http.post('/api/workinfo/add', obj);
+};

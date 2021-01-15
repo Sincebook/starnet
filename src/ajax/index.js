@@ -82,7 +82,10 @@ export {
   cancelCollect,
   mineFollow,
   cancelFollow,
-  report
+  report,
+  getWorkInfo,
+  deleteWorkInfo,
+  addWorkInfo
 }
 from './personalCenter';
 export {

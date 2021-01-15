@@ -353,18 +353,19 @@
                 <div class="user-info">
                   <div class="head">
                     <span class="user-name"
-                      >角色：<span @click="watchDetail(item.jobid)">{{
-                        item.rolename
-                      }}</span></span
+                      >角色：<span
+                        @click="watchDetail(item.jobid, item.companyInfoId)"
+                        >{{ item.rolename }}</span
+                      ></span
                     >
                     <span class="user-vip">{{ item.status }}</span>
                   </div>
                   <div class="head1">
                     申请人：
-                    <div @click="watchDetail1(item.id, item.userid)">
+                    <div @click="watchDetail1(item.userinfoId, item.userid)">
                       <el-image
                         class="user-img"
-                        :src="item.roleimage"
+                        :src="item.userimage"
                         fit="cover"
                       ></el-image
                       >{{ item.username }}
@@ -377,7 +378,7 @@
                       type="primary"
                       size="mini"
                       plain
-                      @click="view(item.infoid, item.userid)"
+                      @click="view(item.infoid, item.userinfoId, item.userid)"
                       >查看简历</el-button
                     >
                   </div>
@@ -738,12 +739,12 @@ export default {
       return isJPG && isLt2M;
     },
     // 查看职位详情
-    watchDetail(id) {
-      this.$router.push({ name: 'jobDetail', params: { id: id } });
+    watchDetail(jobid, companyInfoId) {
+      this.$router.push('/jobDetail/' + jobid + '/' + companyInfoId);
     },
     // 查看个人主页详情
-    watchDetail1(id, userid) {
-      this.$router.push('/talentDetail/' + id + '/' + userid);
+    watchDetail1(userinfoId, userid) {
+      this.$router.push('/talentDetail/' + userinfoId + '/' + userid);
     },
     // 查看投递
     watchDeliver(id) {
@@ -832,9 +833,9 @@ export default {
       this.roleList = [];
     },
     // 查看简历
-    view(infoid, userid) {
+    view(infoid, userinfoId, userid) {
       viewCv({ id: infoid }).then(res => {
-        this.watchDetail1(userid);
+        this.watchDetail1(userinfoId, userid);
       }).catch(err => {
         return err;
       });

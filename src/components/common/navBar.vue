@@ -263,8 +263,8 @@ a {
       cursor: pointer;
     }
     /deep/.el-avatar > img {
-      width: 35px;
-      height: 35px;
+      width: 100%;
+      height: 100%s;
     }
   }
 }

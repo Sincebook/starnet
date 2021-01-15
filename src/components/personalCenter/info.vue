@@ -76,10 +76,14 @@ export default {
     })
   },
   watch: {
-    userinfo(newVal, oldVal) {
-      this.ruleForm.nick = newVal.user.name;
-      this.phone = newVal.user.phone;
-      this.imageUrl = newVal.user.head;
+    userinfo: {
+      deep: true,
+      immediate: true,
+      handler(newVal, oldVal) {
+        this.ruleForm.nick = newVal.user.name;
+        this.phone = newVal.user.phone;
+        this.imageUrl = newVal.user.head;
+      }
     }
   },
   methods: {
