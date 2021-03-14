@@ -8,7 +8,7 @@
         :key="'video' + item.id"
         @click="play(item)"
       >
-        <video class="el-video" :src="item.path"></video>
+        <video class="el-video" :src="item.path" :poster="item.image"></video>
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-play"></use>
         </svg>
