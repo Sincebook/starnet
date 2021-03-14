@@ -69,6 +69,7 @@ export default {
       done();
     },
     getUserVideo(page) {
+      console.log(this.$route.params.userid);
       getUserImg({ type: 2, num: 4, userid: this.$route.params.userid, page: this.currentPage }).then(res => {
         if (res.code === '0') {
           this.$store.commit('talentNavVideo', true);

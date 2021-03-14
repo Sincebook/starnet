@@ -102,13 +102,13 @@
       :destroy-on-close="true"
       title="上传作品"
       :visible.sync="dialogVisible1"
-      width="500px"
+      width="600px"
     >
       <el-form
         :model="ruleForm"
         :rules="rules"
         ref="ruleForm"
-        label-width="50px"
+        label-width="100px"
         :disabled="formFlag"
       >
         <el-form-item label="类型" prop="type">
@@ -144,11 +144,11 @@
             <div slot="tip" class="el-upload__tip">
               {{
                 ruleForm.type === 1
-                  ? "只能上传jpg/png文件，且不超过500kb"
+                  ? "只能上传jpg/png文件，且不超过20MB"
                   : ruleForm.type === 2
-                  ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过100m"
+                  ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过1G"
                   : ruleForm.type === 3
-                  ? "只能上传mp3文件，且不超过20m"
+                  ? "只能上传mp3文件，且不超过50MB"
                   : ""
               }}
             </div>
@@ -334,21 +334,21 @@ export default {
       this.ruleForm.file = content.file;
     },
     beforeUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg' || 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 20;
       const isVIDEO = file.type === 'video/mp4' || file.type === 'video/ogg' || file.type === 'video/avi' || file.type === 'video/wmv' || file.type === 'video/rmvb';
-      const isLt100M = file.size / 1024 / 1024 < 100;
+      const isLt100M = file.size / 1024 / 1024 < 1000;
       const isAUDIO = file.type === 'audio/mp3' || file.type === 'audio/mpeg';
-      const isLt20M = file.size / 1024 / 1024 < 20;
+      const isLt20M = file.size / 1024 / 1024 < 50;
       if (this.ruleForm.type === '') {
         this.$message.error('请选择上传类型');
         return false;
       } else if (this.ruleForm.type === 1) {
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+          this.$message.error('上传头像图片只能是 JPG/png 格式!');
         }
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+          this.$message.error('上传头像图片大小不能超过 20MB!');
         }
         return isJPG && isLt2M;
       } else if (this.ruleForm.type === 2) {
@@ -356,7 +356,7 @@ export default {
           this.$message.error('上传视频只能是 MP4/OGG/AVI/WMV/RMVB 格式!');
         }
         if (!isLt100M) {
-          this.$message.error('上传视频大小不能超过 50MB!');
+          this.$message.error('上传视频大小不能超过 1G!');
         }
         return isVIDEO && isLt100M;
       } else if (this.ruleForm.type === 3) {
@@ -364,7 +364,7 @@ export default {
           this.$message.error('上传音频只能是 MP3 格式!');
         }
         if (!isLt20M) {
-          this.$message.error('上传音频大小不能超过 20MB!');
+          this.$message.error('上传音频大小不能超过 50MB!');
         }
         return isAUDIO && isLt20M;
       }
