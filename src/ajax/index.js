@@ -85,7 +85,8 @@ export {
   report,
   getWorkInfo,
   deleteWorkInfo,
-  addWorkInfo
+  addWorkInfo,
+  addOpusCover
 }
 from './personalCenter';
 export {
@@ -129,6 +130,7 @@ export {
   refuseUser,
   intentionUser,
   offerUser,
-  getCompanyType
+  getCompanyType,
+  addCompanyCoverVideo
 }
 from './corporateCenter.js';

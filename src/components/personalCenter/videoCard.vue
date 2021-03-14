@@ -1,7 +1,7 @@
 <template>
   <div class="video">
     <div style="cursor: pointer" @click="play(item)">
-      <video class="el-image" :src="item.path"></video>
+      <video class="el-image" :src="item.path" :poster="item.image"></video>
     </div>
     <div class="content">
       <div class="title twoLine">{{ item.description }}</div>

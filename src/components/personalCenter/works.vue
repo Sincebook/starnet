@@ -128,7 +128,33 @@
             placeholder="请输入标题"
           ></el-input>
         </el-form-item>
-        <el-form-item label="文件" prop="file">
+        <el-form-item label="封面" prop="coverFile" v-if="ruleForm.type === 2">
+          <ImgCutter
+              v-on:cutDown="cutDownCover"
+              class="img-cut"
+            >
+            <el-button slot="open" size="small" type="primary"
+              >选取封面图片</el-button
+            >
+          </ImgCutter>
+          <div class="el-upload__tip">
+            只能上传jpg/png文件，且不超过500kb
+          </div>
+        </el-form-item>
+        <el-form-item label="文件" prop="file" v-if="ruleForm.type === 1">
+          <ImgCutter
+              v-on:cutDown="cutDown"
+              class="img-cut"
+            >
+            <el-button slot="open" size="small" type="primary"
+              >选取文件</el-button
+            >
+          </ImgCutter>
+          <div class="el-upload__tip">
+            只能上传jpg/png文件，且不超过500kb
+          </div>
+        </el-form-item>
+        <el-form-item label="文件" prop="file" v-if="ruleForm.type !== 1">
           <el-upload
             class="upload-demo"
             ref="upload"
@@ -138,7 +164,7 @@
             :on-remove="handleRemove"
             :before-upload="beforeUpload"
           >
-            <el-button slot="trigger" size="small" type="primary"
+            <el-button slot="trigger" size="small" class="btn" type="primary"
               >选取文件</el-button
             >
             <div slot="tip" class="el-upload__tip">
@@ -169,13 +195,15 @@
 </template>
 
 <script>
+import ImgCutter from 'vue-img-cutter';
 import videoCard from './videoCard';
 import audioCard from './audioCard';
 import { formatDate } from '../../assets/js/date.js';
 import {
   mineOpus,
   addOpus,
-  deleteOpus
+  deleteOpus,
+  addOpusCover
 } from '../../ajax/index';
 export default {
   data() {
@@ -196,6 +224,7 @@ export default {
       ruleForm: {
         title: '',
         type: '',
+        coverFile: '',
         file: ''
       },
       rules: {
@@ -207,6 +236,9 @@ export default {
         ],
         file: [
           { required: true, message: '文件不能为空', trigger: 'blur' }
+        ],
+        coverFile: [
+          { required: true, message: '封面不能为空', trigger: 'blur' }
         ]
       },
       typeList: [{
@@ -225,6 +257,12 @@ export default {
     this.getOpus(this.currentPage);
   },
   methods: {
+    cutDown(obj) {
+      this.ruleForm.file = obj.file;
+    },
+    cutDownCover(obj) {
+      this.ruleForm.coverFile = obj.file;
+    },
     handleCurrentChange(val) {
       this.getOpus(val);
     },
@@ -305,6 +343,32 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.formFlag = true;
+          if (this.ruleForm.type === 2) {
+            addOpusCover({
+              type: this.ruleForm.type,
+              description: this.ruleForm.title,
+              image: this.ruleForm.coverFile,
+              file: this.ruleForm.file
+            }).then(res => {
+              if (res.code === '0') {
+                this.$message({
+                  message: '上传成功',
+                  type: 'success'
+                });
+                this.handleCurrentChange(1);
+                this.$refs.ruleForm.resetFields();
+                this.dialogVisible1 = false;
+              } else {
+                this.$message.error(res.errMsg);
+              }
+              this.formFlag = false;
+            }).catch(err => {
+              this.formFlag = false;
+              this.$message.error(err);
+              return err;
+            });
+            return;
+          }
           addOpus({
             type: this.ruleForm.type,
             description: this.ruleForm.title,
@@ -375,7 +439,8 @@ export default {
   },
   components: {
     videoCard,
-    audioCard
+    audioCard,
+    ImgCutter
   }
 };
 </script>
@@ -436,6 +501,9 @@ export default {
     bottom: 20px;
   }
 }
+.img-cut {
+  display: inline-block;
+}
 video {
   width: 760px;
   height: 430px;
@@ -452,6 +520,10 @@ video {
   display: inline-block;
   margin: 0;
   margin-left: 10px;
+}
+.btn {
+  width: 80px !important;
+  height: 32px !important;
 }
 .el-form-item {
   &:last-child {
