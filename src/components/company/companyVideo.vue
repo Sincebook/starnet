@@ -8,7 +8,7 @@
         :key="'video' + item.id"
         @click="play(item)"
       >
-        <video class="el-video" :src="item.video"></video>
+        <video class="el-video" :src="item.video" :poster="item.image"></video>
         <div class="infos">
           <h4 class="title oneLine">{{ item.title }}</h4>
           <p class="desc threeLine">{{ item.description }}</p>

@@ -39,6 +39,10 @@ export function mineOpus(obj) {
 export function addOpus(obj) {
   return http.post('/api/opus/add', obj);
 };
+// 添加带封面视频
+export function addOpusCover(obj) {
+  return http.post('/api/opus/addVideo', obj);
+};
 // 删除作品
 export function deleteOpus(obj) {
   return http.post('/api/opus/deleteById', obj);
