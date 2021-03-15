@@ -13,7 +13,18 @@
           :disabled="flag"
         >
           <el-form-item label="头像">
-            <el-upload
+            <ImgCutter
+              v-on:cutDown="cutDown"
+              class="avatar-uploader"
+              :http-request="upload"
+              action=""
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+            </ImgCutter>
+            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <!-- <el-upload
               class="avatar-uploader"
               :http-request="upload"
               action=""
@@ -25,8 +36,8 @@
               <i
                 v-else
                 class="el-icon-plus avatar-uploader-icon"
-              ></i> </el-upload
-          ></el-form-item>
+              ></i> </el-upload> -->
+          </el-form-item>
           <el-form-item label="昵称" prop="nick">
             <el-input
               v-model="ruleForm.nick"
@@ -49,11 +60,15 @@
 </template>
 
 <script>
+import ImgCutter from 'vue-img-cutter';
 import { mapState } from 'vuex';
 import {
   extraInfo
 } from '../../ajax/index';
 export default {
+  components: {
+    ImgCutter
+  },
   data() {
     return {
       imageUrl: '',
@@ -123,14 +138,14 @@ export default {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg' || 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 20;
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是JPG/png格式!');
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 20MB!');
       }
       return isJPG && isLt2M;
     },
@@ -145,6 +160,10 @@ export default {
       } else {
         callback();
       }
+    },
+    cutDown(obj) {
+      this.imageUrl = obj.dataURL;
+      this.ruleForm.avatarImg = obj.file;
     }
   }
 };
@@ -179,7 +198,7 @@ export default {
   overflow: hidden;
 }
 /deep/ .avatar-uploader {
-  height: 110px;
+  height: 60px;
 }
 .avatar-uploader-icon {
   font-size: 28px;

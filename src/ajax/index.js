@@ -90,7 +90,8 @@ export {
   addWorkInfo,
   mineNotice,
   deleteNotice,
-  isNews
+  isNews,
+  addOpusCover
 }
 from './personalCenter';
 export {
@@ -134,6 +135,7 @@ export {
   refuseUser,
   intentionUser,
   offerUser,
-  getCompanyType
+  getCompanyType,
+  addCompanyCoverVideo
 }
 from './corporateCenter.js';

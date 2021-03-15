@@ -55,6 +55,10 @@ export function deleteRole(obj) {
 export function addCompanyVideo(obj) {
   return http.post('/api/companyvideo/add', obj);
 };
+// 添加带封面企业视频
+export function addCompanyCoverVideo(obj) {
+  return http.post('/api/companyvideo/addVideo', obj);
+};
 // 获取企业视频
 export function CompanyVideo(obj) {
   return http.get('/api/companyvideo/findAllMyVideos', obj);

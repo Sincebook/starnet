@@ -8,7 +8,7 @@
         :key="'video' + item.id"
         @click="play(item)"
       >
-        <video class="el-video" :src="item.path"></video>
+        <video class="el-video" :src="item.path" :poster="item.image"></video>
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-play"></use>
         </svg>
@@ -69,6 +69,7 @@ export default {
       done();
     },
     getUserVideo(page) {
+      console.log(this.$route.params.userid);
       getUserImg({ type: 2, num: 4, userid: this.$route.params.userid, page: this.currentPage }).then(res => {
         if (res.code === '0') {
           this.$store.commit('talentNavVideo', true);

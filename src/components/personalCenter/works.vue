@@ -102,13 +102,13 @@
       :destroy-on-close="true"
       title="上传作品"
       :visible.sync="dialogVisible1"
-      width="500px"
+      width="600px"
     >
       <el-form
         :model="ruleForm"
         :rules="rules"
         ref="ruleForm"
-        label-width="50px"
+        label-width="100px"
         :disabled="formFlag"
       >
         <el-form-item label="类型" prop="type">
@@ -128,7 +128,33 @@
             placeholder="请输入标题"
           ></el-input>
         </el-form-item>
-        <el-form-item label="文件" prop="file">
+        <el-form-item label="封面" prop="coverFile" v-if="ruleForm.type === 2">
+          <ImgCutter
+              v-on:cutDown="cutDownCover"
+              class="img-cut"
+            >
+            <el-button slot="open" size="small" type="primary"
+              >选取封面图片</el-button
+            >
+          </ImgCutter>
+          <div class="el-upload__tip">
+            只能上传jpg/png文件，且不超过500kb
+          </div>
+        </el-form-item>
+        <el-form-item label="文件" prop="file" v-if="ruleForm.type === 1">
+          <ImgCutter
+              v-on:cutDown="cutDown"
+              class="img-cut"
+            >
+            <el-button slot="open" size="small" type="primary"
+              >选取文件</el-button
+            >
+          </ImgCutter>
+          <div class="el-upload__tip">
+            只能上传jpg/png文件，且不超过500kb
+          </div>
+        </el-form-item>
+        <el-form-item label="文件" prop="file" v-if="ruleForm.type !== 1">
           <el-upload
             class="upload-demo"
             ref="upload"
@@ -138,17 +164,17 @@
             :on-remove="handleRemove"
             :before-upload="beforeUpload"
           >
-            <el-button slot="trigger" size="small" type="primary"
+            <el-button slot="trigger" size="small" class="btn" type="primary"
               >选取文件</el-button
             >
             <div slot="tip" class="el-upload__tip">
               {{
                 ruleForm.type === 1
-                  ? "只能上传jpg/png文件，且不超过500kb"
+                  ? "只能上传jpg/png文件，且不超过20MB"
                   : ruleForm.type === 2
-                  ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过100m"
+                  ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过1G"
                   : ruleForm.type === 3
-                  ? "只能上传mp3文件，且不超过20m"
+                  ? "只能上传mp3文件，且不超过50MB"
                   : ""
               }}
             </div>
@@ -169,13 +195,15 @@
 </template>
 
 <script>
+import ImgCutter from 'vue-img-cutter';
 import videoCard from './videoCard';
 import audioCard from './audioCard';
 import { formatDate } from '../../assets/js/date.js';
 import {
   mineOpus,
   addOpus,
-  deleteOpus
+  deleteOpus,
+  addOpusCover
 } from '../../ajax/index';
 export default {
   data() {
@@ -196,6 +224,7 @@ export default {
       ruleForm: {
         title: '',
         type: '',
+        coverFile: '',
         file: ''
       },
       rules: {
@@ -207,6 +236,9 @@ export default {
         ],
         file: [
           { required: true, message: '文件不能为空', trigger: 'blur' }
+        ],
+        coverFile: [
+          { required: true, message: '封面不能为空', trigger: 'blur' }
         ]
       },
       typeList: [{
@@ -225,6 +257,12 @@ export default {
     this.getOpus(this.currentPage);
   },
   methods: {
+    cutDown(obj) {
+      this.ruleForm.file = obj.file;
+    },
+    cutDownCover(obj) {
+      this.ruleForm.coverFile = obj.file;
+    },
     handleCurrentChange(val) {
       this.getOpus(val);
     },
@@ -305,6 +343,32 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.formFlag = true;
+          if (this.ruleForm.type === 2) {
+            addOpusCover({
+              type: this.ruleForm.type,
+              description: this.ruleForm.title,
+              image: this.ruleForm.coverFile,
+              file: this.ruleForm.file
+            }).then(res => {
+              if (res.code === '0') {
+                this.$message({
+                  message: '上传成功',
+                  type: 'success'
+                });
+                this.handleCurrentChange(1);
+                this.$refs.ruleForm.resetFields();
+                this.dialogVisible1 = false;
+              } else {
+                this.$message.error(res.errMsg);
+              }
+              this.formFlag = false;
+            }).catch(err => {
+              this.formFlag = false;
+              this.$message.error(err);
+              return err;
+            });
+            return;
+          }
           addOpus({
             type: this.ruleForm.type,
             description: this.ruleForm.title,
@@ -334,21 +398,21 @@ export default {
       this.ruleForm.file = content.file;
     },
     beforeUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg' || 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 20;
       const isVIDEO = file.type === 'video/mp4' || file.type === 'video/ogg' || file.type === 'video/avi' || file.type === 'video/wmv' || file.type === 'video/rmvb';
-      const isLt100M = file.size / 1024 / 1024 < 100;
+      const isLt100M = file.size / 1024 / 1024 < 1000;
       const isAUDIO = file.type === 'audio/mp3' || file.type === 'audio/mpeg';
-      const isLt20M = file.size / 1024 / 1024 < 20;
+      const isLt20M = file.size / 1024 / 1024 < 50;
       if (this.ruleForm.type === '') {
         this.$message.error('请选择上传类型');
         return false;
       } else if (this.ruleForm.type === 1) {
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+          this.$message.error('上传头像图片只能是 JPG/png 格式!');
         }
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+          this.$message.error('上传头像图片大小不能超过 20MB!');
         }
         return isJPG && isLt2M;
       } else if (this.ruleForm.type === 2) {
@@ -356,7 +420,7 @@ export default {
           this.$message.error('上传视频只能是 MP4/OGG/AVI/WMV/RMVB 格式!');
         }
         if (!isLt100M) {
-          this.$message.error('上传视频大小不能超过 50MB!');
+          this.$message.error('上传视频大小不能超过 1G!');
         }
         return isVIDEO && isLt100M;
       } else if (this.ruleForm.type === 3) {
@@ -364,7 +428,7 @@ export default {
           this.$message.error('上传音频只能是 MP3 格式!');
         }
         if (!isLt20M) {
-          this.$message.error('上传音频大小不能超过 20MB!');
+          this.$message.error('上传音频大小不能超过 50MB!');
         }
         return isAUDIO && isLt20M;
       }
@@ -375,7 +439,8 @@ export default {
   },
   components: {
     videoCard,
-    audioCard
+    audioCard,
+    ImgCutter
   }
 };
 </script>
@@ -436,6 +501,9 @@ export default {
     bottom: 20px;
   }
 }
+.img-cut {
+  display: inline-block;
+}
 video {
   width: 760px;
   height: 430px;
@@ -452,6 +520,10 @@ video {
   display: inline-block;
   margin: 0;
   margin-left: 10px;
+}
+.btn {
+  width: 80px !important;
+  height: 32px !important;
 }
 .el-form-item {
   &:last-child {
