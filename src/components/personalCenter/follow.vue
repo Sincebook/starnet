@@ -56,12 +56,10 @@
         layout="prev, pager, next"
         :page-count="list.allpage"
         hide-on-single-page
-      >
-      </el-pagination>
+      ></el-pagination>
     </div>
   </div>
 </template>
-
 <script>
 import {
   mineFollow,

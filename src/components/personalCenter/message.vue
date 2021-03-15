@@ -10,8 +10,7 @@
         type="warning"
         :closable="false"
         show-icon
-      >
-      </el-alert>
+      ></el-alert>
       <div v-else class="list">
         <div class="item-box" v-for="item in list.datas" :key="item.id">
           <div class="item">

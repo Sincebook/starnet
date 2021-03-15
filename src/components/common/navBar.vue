@@ -6,7 +6,8 @@
     v-if="
       $route.path !== '/bindPhone' &&
       $route.path !== '/bindWbPhone' &&
-      $route.path !== '/sign'
+      $route.path !== '/sign'&&
+      $route.path !== '/login'
     "
   >
     <div class="left">
@@ -39,7 +40,7 @@
       <router-link v-if="!$store.state.isLogin" to="/sign"
         ><span class="login">登录</span></router-link
       >
-      <router-link v-if="!$store.state.isLogin" to="/sign"
+      <router-link v-if="!$store.state.isLogin" to="/login"
         ><span class="register">注册</span></router-link
       >
       <div class="header_part" v-else>

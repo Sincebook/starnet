@@ -11,7 +11,55 @@
         <h1 class="desc">让演艺梦想扬帆起航</h1>
       </div>
       <el-tabs v-model="activeName">
-        <el-tab-pane label="登录" name="first">
+        <!--密码登录-->
+        <el-tab-pane label="密码登录" name="first">
+          <el-form :model="ruleForm1" :rules="rules" ref="ruleForm1" class="demo-ruleForm">
+            <el-form-item prop="phone">
+              <el-input
+                @input="ruleForm1.phone = ruleForm1.phone.replace(/\D/g, '')"
+                type="text"
+                maxlength="11"
+                v-model="ruleForm1.phone"
+                placeholder="请输入手机号">
+                </el-input>
+            </el-form-item>
+            <el-form-item style="margin-bottom:  15px " prop="password" >
+              <el-input type="password" v-model="ruleForm1.password"  placeholder="请输入密码" maxlength="16" minlength="8"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button style="width: 100% " type="primary" @click="passwordUser()"
+                >登录</el-button
+              ></el-form-item>
+            <div class="tips">
+              登录即同意<el-link
+                href="#/protocol/userProtocol"
+                :underline="false"
+                type="primary"
+                >《绘星使用协议》</el-link
+              >&<el-link
+                href="#/protocol/privacy"
+                :underline="false"
+                type="primary"
+                >《隐私协议》</el-link
+              >
+            </div>
+             <div class="others-btn">
+              <div class="btn" @click="wbLogin()">
+                <svg class="icon icon-weibo" aria-hidden="true">
+                  <use xlink:href="#icon-weibo"></use></svg
+                >微博登录
+              </div>
+              <div class="btn" @click="wxLogin()">
+                <svg class="icon icon-weixin" aria-hidden="true">
+                  <use xlink:href="#icon-weixin1"></use></svg
+                >微信登录
+              </div>
+            </div>
+            <el-button type="text" class="zc" @click="toLogin">没有账号？注册</el-button>
+        </el-form>
+        </el-tab-pane>
+        <!--验证码登录-->
+        <el-tab-pane label="验证码登录" name="second">
           <el-form
             :model="ruleForm"
             :rules="rules"
@@ -42,13 +90,10 @@
                 v-model="ruleForm.code"
                 placeholder="请输入验证码"
               ></el-input> </el-form-item
-            ><el-checkbox style="margin-bottom: 15px" v-model="rememberPwd"
-              >自动登录</el-checkbox
             ><el-form-item>
-              <el-button style="width: 100%" type="primary" @click="login()"
+              <el-button style="width: 100% " type="primary" @click="loginUser()"
                 >登录</el-button
-              >
-            </el-form-item>
+              ></el-form-item>
             <div class="tips">
               登录即同意<el-link
                 href="#/protocol/userProtocol"
@@ -74,107 +119,35 @@
                 >微信登录
               </div>
             </div>
-          </el-form>
-        </el-tab-pane>
-        <el-tab-pane label="注册" name="second">
-          <el-form
-            :model="ruleForm1"
-            :rules="rules"
-            ref="ruleForm1"
-            class="demo-ruleForm"
-          >
-            <el-form-item prop="type">
-              <el-select v-model="ruleForm1.type" placeholder="请选择注册类型">
-                <el-option
-                  v-for="item in typeList"
-                  :key="item.id"
-                  :value="item.id"
-                  :label="item.value"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item prop="phone">
-              <el-input
-                @input="ruleForm1.phone = ruleForm1.phone.replace(/\D/g, '')"
-                type="text"
-                maxlength="11"
-                v-model="ruleForm1.phone"
-                placeholder="请输入手机号"
-              >
-                <template slot="suffix">
-                  <div
-                    class="send-btn"
-                    :style="isCode1 ? 'pointer-events:none' : ''"
-                    @click="getCodes('1')"
-                  >
-                    {{ isCode1 ? count1 + "S" : "获取验证码" }}
-                  </div></template
-                ></el-input
-              >
-            </el-form-item>
-            <el-form-item prop="code">
-              <el-input
-                @input="ruleForm1.code = ruleForm1.code.replace(/\D/g, '')"
-                type="text"
-                v-model="ruleForm1.code"
-                placeholder="请输入验证码"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button style="width: 100%" type="primary" @click="register()"
-                >注册</el-button
-              >
-            </el-form-item>
-            <div class="tips">
-              注册即同意<el-link
-                href="#/protocol/userProtocol"
-                :underline="false"
-                type="primary"
-                >《绘星使用协议》</el-link
-              >&<el-link
-                href="#/protocol/privacy"
-                :underline="false"
-                type="primary"
-                >《隐私协议》</el-link
-              >
-            </div>
+            <el-button type="text" class="zc" @click="toLogin">没有账号？注册</el-button>
           </el-form>
         </el-tab-pane>
       </el-tabs>
     </div>
   </div>
 </template>
-
 <script>
 import { mapState } from 'vuex';
-import { getCode, registerUser, loginUser, wxLogin, wbLogin, getMyinfo } from '../ajax/index';
+import { getCode, loginUser, passwordUser, wxLogin, wbLogin, getMyinfo } from '../ajax/index';
 export default {
   data() {
     return {
       logoImg: '//ftp.qnets.cn/since/logo.png',
       rememberPwd: false,
-      typeList: [
-        { id: 1, value: '个人用户' },
-        { id: 4, value: '企业用户' }
-      ],
       ruleForm: {
         phone: '',
         code: ''
       },
       ruleForm1: {
         phone: '',
-        code: '',
-        type: ''
+        password: ''
       },
       rules: {
         phone: [
           { required: true, validator: this.checkPhone, trigger: 'blur' }
         ],
-        type: [
-          { required: true, message: '注册类型不能为空', trigger: 'change' }
-        ],
-        code: [{ required: true, message: '验证码不能为空', trigger: 'blur' }]
+        code: [{ required: true, message: '验证码不能为空', trigger: 'blur' }],
+        password: [{ required: true, validator: this.checkPassword, trigger: 'blur' }]
       },
       activeName: 'first',
       isCode1: false,
@@ -196,34 +169,7 @@ export default {
   methods: {
     getCodes(id) {
       const reg = /^1[3|4|5|6|7|8|9]\d{9}$/;
-      if (id === '1' && reg.test(this.ruleForm1.phone)) {
-        getCode({
-          type: id,
-          phone: this.ruleForm1.phone
-        }).then((res) => {
-          if (res.code === '0') {
-            if (!this.timer1) {
-              this.count1 = 60;
-              this.isCode1 = true;
-              this.timer1 = setInterval(() => {
-                if (this.count1 > 0 && this.count1 <= 60) {
-                  this.count1--;
-                } else {
-                  this.isCode1 = false;
-                  clearInterval(this.timer1);
-                  this.timer1 = null;
-                }
-              }, 1000);
-            }
-            this.$message({
-              message: '验证码已发送',
-              type: 'success'
-            });
-          } else {
-            this.$message.error(res.errMsg);
-          }
-        });
-      } else if (id === '2' && reg.test(this.ruleForm.phone)) {
+      if (id === '2' && reg.test(this.ruleForm.phone)) {
         getCode({
           type: id,
           phone: this.ruleForm.phone
@@ -256,7 +202,40 @@ export default {
           });
       }
     },
-    login() {
+    passwordUser() {
+      console.log('111111111111111');
+     this.$refs.ruleForm1.validate((valid) => {
+       console.log('22222222222222222222');
+       console.log(valid);
+        if (valid) {
+          console.log('333333333333333333333');
+          passwordUser(this.ruleForm1)
+            .then((res) => {
+              console.log('44444444444444444');
+              if (res.code === '0') {
+                this.$message({
+                  message: '登录成功，正在跳转...',
+                  type: 'success'
+                });
+                setTimeout(() => {
+                  this.getUserinfo();
+                  this.$router.push('/home');
+                }, 1500);
+              } else {
+                console.log('密码或账号不正确');
+                console.log(res.errMsg);
+                this.$message.error(res.errMsg);
+              }
+            })
+            .catch((err) => {
+              return err;
+            });
+        } else {
+          return false;
+        }
+      });
+    },
+    loginUser() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           loginUser(this.ruleForm)
@@ -271,32 +250,7 @@ export default {
                   this.$router.push('/home');
                 }, 1500);
               } else {
-                this.$message.error(res.errMsg);
-              }
-            })
-            .catch((err) => {
-              return err;
-            });
-        } else {
-          return false;
-        }
-      });
-    },
-    register() {
-      this.$refs.ruleForm1.validate((valid) => {
-        if (valid) {
-          registerUser(this.ruleForm1)
-            .then((res) => {
-              if (res.code === '0') {
-                this.$message({
-                  message: '注册成功，正在跳转...',
-                  type: 'success'
-                });
-                setTimeout(() => {
-                  this.getUserinfo();
-                  this.$router.push('/home');
-                }, 1500);
-              } else {
+                console.log(res.errMsg);
                 this.$message.error(res.errMsg);
               }
             })
@@ -317,6 +271,15 @@ export default {
       } else {
         callback();
       }
+    },
+    checkPassword(rule, value, callback) {
+      const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+      if (value === '') {
+        return callback(new Error('密码不能为空'));
+      } else if (!reg.test(value)) {
+        return callback(new Error('密码格式不正确'));
+      }
+        callback();
     },
     wxLogin() {
       wxLogin()
@@ -351,6 +314,9 @@ export default {
           this.$store.commit('userinfo', res.data);
         }
       });
+    },
+    toLogin() {
+      this.$router.push('/login');
     }
   }
 };
@@ -380,6 +346,11 @@ export default {
     height: 80px;
   }
 }
+.zc{
+  font-size: 15px;
+  margin-left: 32%;
+}
+
 .sign-box {
   position: relative;
   overflow: hidden;
@@ -428,7 +399,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 18px;
+      margin-bottom: 10px;
     }
     .others-btn {
       display: flex;
@@ -456,6 +427,7 @@ export default {
     }
   }
 }
+
 /deep/.el-tabs__header {
   margin: 10px 15px 25px;
 }
