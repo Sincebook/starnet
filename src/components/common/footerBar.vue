@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$route.path !== '/sign' && $route.path !== '/bindPhone' && $route.path !== '/bindWbPhone'">
+  <div v-if="$route.path !== '/sign' && $route.path !== '/bindPhone' && $route.path !== '/bindWbPhone' && $route.path !== '/login'">
     <div class="footer-nav">
       <div>
         <p>

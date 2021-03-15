@@ -15,6 +15,7 @@ import companyDetail from '../components/company/companyDetail.vue';
 import jobDetail from '../components/job/jobDetail.vue';
 import talentDetail from '../components/talent/talentDetail.vue';
 import search from '../views/search.vue';
+import Login from '../views/Login.vue';
 Vue.use(VueRouter);
 
 const routes = [{
@@ -58,6 +59,14 @@ const routes = [{
     component: Sign,
     meta: {
       title: '登录'
+    }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    meta: {
+      title: '注册'
     }
   },
   {

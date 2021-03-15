@@ -80,21 +80,25 @@ import collect from '../components/personalCenter/collect';
 import follow from '../components/personalCenter/follow';
 import report from '../components/personalCenter/report';
 import honor from '../components/personalCenter/honor';
+import password from '../components/personalCenter/password';
+import notice from '../components/personalCenter/notice';
 export default {
   data() {
     return {
       menu: [
         { id: 1, title: '个人资料', child: 'info' },
         { id: 2, title: '实名认证', child: 'celebrity' },
+        { id: 3, title: '修改密码', child: 'password' },
         // { id: 3, title: '账号安全', child: 'safe' },
-        { id: 3, title: '我的简历', child: 'cv' },
-        { id: 4, title: '我的私信', child: 'message' },
-        { id: 5, title: '我的作品', child: 'works' },
-        { id: 6, title: '工作经历', child: 'honor' },
-        { id: 7, title: '投递记录', child: 'deliver' },
-        { id: 8, title: '我的收藏', child: 'collect' },
-        { id: 9, title: '我的关注', child: 'follow' },
-        { id: 10, title: '举报中心', child: 'report' }
+        { id: 4, title: '我的简历', child: 'cv' },
+        { id: 5, title: '我的私信', child: 'message' },
+        { id: 6, title: '我的作品', child: 'works' },
+        { id: 7, title: '工作经历', child: 'honor' },
+        { id: 8, title: '投递记录', child: 'deliver' },
+        { id: 9, title: '我的收藏', child: 'collect' },
+        { id: 10, title: '我的关注', child: 'follow' },
+        { id: 11, title: '系统通知', child: 'notice' },
+        { id: 12, title: '举报中心', child: 'report' }
       ],
       activeIndex: 1,
       child: 'info'
@@ -135,6 +139,7 @@ export default {
   components: {
     info,
     celebrity,
+    password,
     cv,
     message,
     works,
@@ -143,7 +148,8 @@ export default {
     collect,
     follow,
     report,
-    honor
+    honor,
+    notice
   }
 };
 </script>
