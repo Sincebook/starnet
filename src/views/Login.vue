@@ -18,6 +18,7 @@
             ref="ruleForm1"
             class="demo-ruleForm"
           >
+          <div class="content">
             <el-form-item prop="type">
               <el-select v-model="ruleForm1.type" placeholder="请选择注册类型">
                 <el-option
@@ -78,7 +79,10 @@
                 >《隐私协议》</el-link
               >
             </div>
+          </div>
+            <div class="zcdiv">
             <el-button type="text" class="zc" @click="toSign">已有账号？登录</el-button>
+            </div>
           </el-form>
         </el-tab-pane>
       </el-tabs>
@@ -250,9 +254,24 @@ export default {
     height: 80px;
   }
 }
-.zc{
-  font-size: 15px;
-  margin-left: 32%;
+.content{
+  margin: 0 15px;
+}
+.zcdiv{
+    margin-top: 15px;
+    width: 100%;
+    height: 49px;
+    background: #fafafa;
+    border-top: 1px solid #F0F0F0;
+    zoom: 1;
+    font-size: 15px;
+    .zc{
+      margin-left: 35%;
+      color:gray;
+      &:hover {
+        color: #409eff;
+      }
+    }
 }
 .register{
   margin-top: 26px;
@@ -346,8 +365,5 @@ export default {
   padding: 0;
   text-align: center;
   font-size: 16px;
-}
-/deep/.el-tabs__content {
-  margin: 0 15px;
 }
 </style>
