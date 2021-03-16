@@ -366,6 +366,7 @@ export default {
     zoom: 1;
     font-size: 15px;
     .zc{
+      margin-top:5px;
       margin-left: 35%;
       color:gray;
       &:hover {
