@@ -50,7 +50,7 @@
 </template>
 <script>
 import { formatDate } from '../../assets/js/date.js';
-import { mineNotice, deleteNotice } from '../../ajax/index';
+import { comNotice, deletecomNotice } from '../../ajax/index';
 export default {
     data() {
         return {
@@ -64,7 +64,7 @@ export default {
     methods: {
       // 查看我收到的消息 页数
       handleCurrentChange(val) {
-        mineNotice({
+        comNotice({
           page: val,
           num: this.nums
         }).then(res => {
@@ -82,7 +82,7 @@ export default {
       },
       // 删除消息
       cancel(id) {
-        deleteNotice({ id: id }).then(res => {
+        deletecomNotice({ id: id }).then(res => {
           console.log('1111111111111111111111111111');
             this.$confirm('此操作将永久删除,是否继续？', '提示', {
               confirmButtonText: '确实',
@@ -117,7 +117,7 @@ export default {
       }
     },
     created() {
-      mineNotice({
+      comNotice({
           page: this.currentPage,
           num: this.nums
         }).then(res => {

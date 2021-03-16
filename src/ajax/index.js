@@ -136,6 +136,9 @@ export {
   intentionUser,
   offerUser,
   getCompanyType,
-  addCompanyCoverVideo
+  addCompanyCoverVideo,
+  comNotice,
+  deletecomNotice,
+  iscomNews
 }
 from './corporateCenter.js';

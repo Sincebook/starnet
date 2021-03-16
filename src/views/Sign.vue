@@ -14,6 +14,7 @@
         <!--密码登录-->
         <el-tab-pane label="密码登录" name="first">
           <el-form :model="ruleForm1" :rules="rules" ref="ruleForm1" class="demo-ruleForm">
+            <div class="content">
             <el-form-item prop="phone">
               <el-input
                 @input="ruleForm1.phone = ruleForm1.phone.replace(/\D/g, '')"
@@ -27,7 +28,7 @@
               <el-input type="password" v-model="ruleForm1.password"  placeholder="请输入密码" maxlength="16" minlength="8"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button style="width: 100% " type="primary" @click="passwordUser()"
+              <el-button class="loginbt" style="width: 100% " type="primary" @click="passwordUser()"
                 >登录</el-button
               ></el-form-item>
             <div class="tips">
@@ -55,7 +56,10 @@
                 >微信登录
               </div>
             </div>
+            </div>
+            <div class="zcdiv">
             <el-button type="text" class="zc" @click="toLogin">没有账号？注册</el-button>
+            </div>
         </el-form>
         </el-tab-pane>
         <!--验证码登录-->
@@ -65,7 +69,8 @@
             :rules="rules"
             ref="ruleForm"
             class="demo-ruleForm"
-            ><el-form-item prop="phone">
+            ><div class="content">
+            <el-form-item prop="phone">
               <el-input
                 @input="ruleForm.phone = ruleForm.phone.replace(/\D/g, '')"
                 type="text"
@@ -91,7 +96,7 @@
                 placeholder="请输入验证码"
               ></el-input> </el-form-item
             ><el-form-item>
-              <el-button style="width: 100% " type="primary" @click="loginUser()"
+              <el-button class="loginbt" style="width: 100% " type="primary" @click="loginUser()"
                 >登录</el-button
               ></el-form-item>
             <div class="tips">
@@ -119,7 +124,10 @@
                 >微信登录
               </div>
             </div>
+            </div>
+            <div class="zcdiv">
             <el-button type="text" class="zc" @click="toLogin">没有账号？注册</el-button>
+            </div>
           </el-form>
         </el-tab-pane>
       </el-tabs>
@@ -346,11 +354,28 @@ export default {
     height: 80px;
   }
 }
-.zc{
-  font-size: 15px;
-  margin-left: 32%;
+.content{
+  margin: 0 15px;
 }
-
+.zcdiv{
+    margin-top: 15px;
+    width: 100%;
+    height: 49px;
+    background: #fafafa;
+    border-top: 1px solid #F0F0F0;
+    zoom: 1;
+    font-size: 15px;
+    .zc{
+      margin-left: 35%;
+      color:gray;
+      &:hover {
+        color: #409eff;
+      }
+    }
+}
+.loginbt{
+  margin-top: 10px;
+}
 .sign-box {
   position: relative;
   overflow: hidden;
@@ -362,7 +387,7 @@ export default {
   .sign {
     position: absolute;
     width: 360px;
-    height: 370px;
+    height: 380px;
     border-radius: 4px;
     top: 50%;
     left: 50%;
@@ -441,8 +466,5 @@ export default {
   padding: 0;
   text-align: center;
   font-size: 16px;
-}
-/deep/.el-tabs__content {
-  margin: 0 15px;
 }
 </style>
