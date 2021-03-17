@@ -13,6 +13,7 @@
           :disabled="flag"
         >
           <el-form-item label="头像">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <ImgCutter
               v-on:cutDown="cutDown"
               class="avatar-uploader"
@@ -23,7 +24,6 @@
               :before-upload="beforeAvatarUpload"
             >
             </ImgCutter>
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <!-- <el-upload
               class="avatar-uploader"
               :http-request="upload"
@@ -198,12 +198,14 @@ export default {
   overflow: hidden;
 }
 /deep/ .avatar-uploader {
-  height: 60px;
+  width: 100px;
+  font-size: 5px;
+  margin-top: 5px;
 }
 .avatar-uploader-icon {
-  font-size: 28px;
+  font-size: 24px;
   color: #8c939d;
-  width: 108px;
+  width: 200px;
   height: 108px;
   line-height: 108px;
   text-align: center;
