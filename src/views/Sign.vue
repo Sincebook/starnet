@@ -31,19 +31,6 @@
               <el-button class="loginbt" style="width: 100% " type="primary" @click="passwordUser()"
                 >登录</el-button
               ></el-form-item>
-            <div class="tips">
-              登录即同意<el-link
-                href="#/protocol/userProtocol"
-                :underline="false"
-                type="primary"
-                >《绘星使用协议》</el-link
-              >&<el-link
-                href="#/protocol/privacy"
-                :underline="false"
-                type="primary"
-                >《隐私协议》</el-link
-              >
-            </div>
              <div class="others-btn">
               <div class="btn" @click="wbLogin()">
                 <svg class="icon icon-weibo" aria-hidden="true">
@@ -99,19 +86,6 @@
               <el-button class="loginbt" style="width: 100% " type="primary" @click="loginUser()"
                 >登录</el-button
               ></el-form-item>
-            <div class="tips">
-              登录即同意<el-link
-                href="#/protocol/userProtocol"
-                :underline="false"
-                type="primary"
-                >《绘星使用协议》</el-link
-              >&<el-link
-                href="#/protocol/privacy"
-                :underline="false"
-                type="primary"
-                >《隐私协议》</el-link
-              >
-            </div>
             <div class="others-btn">
               <div class="btn" @click="wbLogin()">
                 <svg class="icon icon-weibo" aria-hidden="true">
@@ -388,7 +362,7 @@ export default {
   .sign {
     position: absolute;
     width: 360px;
-    height: 380px;
+    height: 350px;
     border-radius: 4px;
     top: 50%;
     left: 50%;
@@ -440,13 +414,14 @@ export default {
           color: #409eff;
         }
         .icon-weibo {
-          font-size: 30px;
+          font-size: 18px;
           color: #eb241b;
           margin-right: 5px;
         }
         .icon-weixin {
-          font-size: 28px;
-          margin-right: 10px;
+          margin-left: 160px;
+          font-size: 20px;
+          margin-right: 8px;
           color: #97dc73;
         }
       }
