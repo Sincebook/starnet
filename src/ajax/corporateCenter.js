@@ -55,6 +55,10 @@ export function deleteRole(obj) {
 export function addCompanyVideo(obj) {
   return http.post('/api/companyvideo/add', obj);
 };
+// 添加带封面企业视频
+export function addCompanyCoverVideo(obj) {
+  return http.post('/api/companyvideo/addVideo', obj);
+};
 // 获取企业视频
 export function CompanyVideo(obj) {
   return http.get('/api/companyvideo/findAllMyVideos', obj);
@@ -87,3 +91,15 @@ export function offerUser(obj) {
 export function getCompanyType(obj) {
   return http.get('/api/companytype/findAll', obj);
 };
+// 我的系统消息
+export function comNotice(obj) {
+  return http.get('/api/news/findMine', obj);
+}
+// 删除某条消息
+export function deletecomNotice(obj) {
+  return http.post('/api/news/deleteById', obj);
+}
+// 判读是否有新消息
+export function iscomNews(obj) {
+  return http.get('/api/news/news', obj);
+}

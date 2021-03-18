@@ -39,6 +39,10 @@ export function mineOpus(obj) {
 export function addOpus(obj) {
   return http.post('/api/opus/add', obj);
 };
+// 添加带封面视频
+export function addOpusCover(obj) {
+  return http.post('/api/opus/addVideo', obj);
+};
 // 删除作品
 export function deleteOpus(obj) {
   return http.post('/api/opus/deleteById', obj);
@@ -75,6 +79,18 @@ export function mineFollow(obj) {
 export function cancelFollow(obj) {
   return http.post('/api/funs/deleteById', obj);
 };
+// 我的系统消息
+export function mineNotice(obj) {
+  return http.get('/api/news/findMine', obj);
+}
+// 删除某条消息
+export function deleteNotice(obj) {
+  return http.post('/api/news/deleteById', obj);
+}
+// 判读是否有新消息
+export function isNews(obj) {
+  return http.get('/api/news/news', obj);
+}
 // 举报
 export function report(obj) {
   return http.post('/api/report/add', obj);
@@ -91,3 +107,7 @@ export function deleteWorkInfo(obj) {
 export function addWorkInfo(obj) {
   return http.post('/api/workinfo/add', obj);
 };
+// 判断是否有新消息
+export function news(obj) {
+  return http.get('/api.news/news', obj);
+}

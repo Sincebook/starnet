@@ -236,9 +236,9 @@ export default {
         vocation: [
           { required: true, message: '职业不能为空', trigger: 'blur' }
         ],
-        company: [
-          { required: true, message: '经济公司不能为空', trigger: 'blur' }
-        ],
+        // company: [
+        //   { required: true, message: '经济公司不能为空', trigger: 'blur' }
+        // ],
         selfEvaluation: [
           { required: true, message: '个人描述不能为空', trigger: 'blur' }
         ]
@@ -303,14 +303,14 @@ export default {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg' || 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 20;
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 JPG/png 格式!');
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 20MB!');
       }
       return isJPG && isLt2M;
     }

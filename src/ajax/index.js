@@ -3,9 +3,11 @@ export {
   getCode,
   registerUser,
   loginUser,
+  passwordUser,
   wxLogin,
   wbLogin,
-  getMyinfo
+  getMyinfo,
+  changePassword
 }
 from './sign.js';
 export {
@@ -85,7 +87,11 @@ export {
   report,
   getWorkInfo,
   deleteWorkInfo,
-  addWorkInfo
+  addWorkInfo,
+  mineNotice,
+  deleteNotice,
+  isNews,
+  addOpusCover
 }
 from './personalCenter';
 export {
@@ -129,6 +135,10 @@ export {
   refuseUser,
   intentionUser,
   offerUser,
-  getCompanyType
+  getCompanyType,
+  addCompanyCoverVideo,
+  comNotice,
+  deletecomNotice,
+  iscomNews
 }
 from './corporateCenter.js';

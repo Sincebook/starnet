@@ -46,7 +46,11 @@
             :class="{ active: activeIndex === item.id }"
             @click="tabChange(item.id, item.child)"
           >
+          <div  class="item" v-if="item.id===5 && item.status===1">
             {{ item.title }}
+            <svg t="1615811266498" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2227" width="200" height="200"><path d="M512 512m-286.423125 0a286.423125 286.423125 0 1 0 572.84718751 0 286.423125 286.423125 0 1 0-572.84718751 0Z" fill="#f43530" p-id="2228"></path></svg>
+          </div>
+          <div v-else>{{item.title}}</div>
           </li>
         </ul>
       </div>
@@ -67,6 +71,7 @@
 <script>
 import { mapState } from 'vuex';
 import {
+  isNews,
   mineInfo
 } from '../ajax/index';
 import info from '../components/personalCenter/info';
@@ -80,24 +85,29 @@ import collect from '../components/personalCenter/collect';
 import follow from '../components/personalCenter/follow';
 import report from '../components/personalCenter/report';
 import honor from '../components/personalCenter/honor';
+import password from '../components/personalCenter/password';
+import notice from '../components/personalCenter/notice';
 export default {
   data() {
     return {
       menu: [
-        { id: 1, title: '个人资料', child: 'info' },
-        { id: 2, title: '实名认证', child: 'celebrity' },
+        { id: 1, title: '个人资料', child: 'info', status: 0 },
+        { id: 2, title: '实名认证', child: 'celebrity', status: 0 },
+        { id: 3, title: '修改密码', child: 'password', status: 0 },
         // { id: 3, title: '账号安全', child: 'safe' },
-        { id: 3, title: '我的简历', child: 'cv' },
-        { id: 4, title: '我的私信', child: 'message' },
-        { id: 5, title: '我的作品', child: 'works' },
-        { id: 6, title: '工作经历', child: 'honor' },
-        { id: 7, title: '投递记录', child: 'deliver' },
-        { id: 8, title: '我的收藏', child: 'collect' },
-        { id: 9, title: '我的关注', child: 'follow' },
-        { id: 10, title: '举报中心', child: 'report' }
+        { id: 4, title: '我的简历', child: 'cv', status: 0 },
+        { id: 5, title: '系统通知', child: 'notice', status: 0 },
+        { id: 6, title: '我的私信', child: 'message', status: 0 },
+        { id: 7, title: '我的作品', child: 'works', status: 0 },
+        { id: 8, title: '工作经历', child: 'honor', status: 0 },
+        { id: 9, title: '投递记录', child: 'deliver', status: 0 },
+        { id: 10, title: '我的收藏', child: 'collect', status: 0 },
+        { id: 11, title: '我的关注', child: 'follow', status: 0 },
+        { id: 12, title: '举报中心', child: 'report', status: 0 }
       ],
       activeIndex: 1,
-      child: 'info'
+      child: 'info',
+      status: 0
     };
   },
   methods: {
@@ -125,6 +135,21 @@ export default {
       } else {
         this.$store.state.userinfo.collectNum--;
       }
+    },
+    haveNews() {
+        isNews().then(res => {
+          console.log(res.code);
+          console.log(res.data);
+          if (res.data === 1) {
+            this.menu[4].status = 1;
+            console.log(this.menu[10].status);
+            console.log('有新消息');
+          } else {
+            this.menu[4].status = 0;
+            console.log('没有新消息');
+            console.log(this.menu[4].status);
+          }
+        });
     }
   },
   computed: {
@@ -132,9 +157,13 @@ export default {
       info: (state) => state.userinfo
     })
   },
+  mounted() {
+    this.haveNews();
+  },
   components: {
     info,
     celebrity,
+    password,
     cv,
     message,
     works,
@@ -143,7 +172,8 @@ export default {
     collect,
     follow,
     report,
-    honor
+    honor,
+    notice
   }
 };
 </script>
@@ -220,6 +250,10 @@ export default {
         line-height: 60px;
         padding: 0 0 0 25px;
         transition: all 0.25s;
+        .item{
+          margin-top: 10px;
+          margin-right: 50px;
+        }
       }
     }
   }
