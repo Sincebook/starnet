@@ -220,14 +220,13 @@ export default {
       .user-img {
         width: 80px;
         height: 80px;
+        cursor: pointer;
         margin: 0 20px;
-        overflow: hidden;
-        border-radius: 40px;
-        background-color: #ccc;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: cover;
       }
+      /deep/.el-avatar > img {
+      width: 100%;
+      height: 100%s;
+    }
       .user-info {
         .nick,
         .counts {
