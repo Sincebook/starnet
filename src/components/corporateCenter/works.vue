@@ -5,7 +5,8 @@
     </div>
     <div class="info">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="我的照片" name="1">
+        <!--我的照片-->
+        <el-tab-pane label="我的照片" name="1"  @click="handlerClick(typeList[0].id)">
           <el-alert
             v-if="!isHave"
             title="暂无照片"
@@ -34,6 +35,7 @@
             </div>
           </div>
         </el-tab-pane>
+        <!--我的视频-->
         <el-tab-pane label="我的视频" name="2">
           <el-alert
             v-if="!isHave"
@@ -53,6 +55,7 @@
             ></video-card>
           </div>
         </el-tab-pane>
+        <!--我的音频-->
         <el-tab-pane label="我的音频" name="3">
           <el-alert
             v-if="!isHave"
@@ -70,10 +73,11 @@
           ></audio-card>
         </el-tab-pane>
       </el-tabs>
+      <!--上传作品-->
       <el-button
         class="upload"
         size="mini"
-        @click="dialogVisible1 = true"
+        @click="dialogVisible1 = true ,changeOptions()"
         type="primary"
         >上传作品</el-button
       >
@@ -98,6 +102,7 @@
     >
       <video ref="video" controls :src="selectVideo.video"></video>
     </el-dialog>
+    <!--弹窗-->
     <el-dialog
       :destroy-on-close="true"
       title="上传作品"
@@ -111,7 +116,8 @@
         label-width="70px"
         :disabled="formFlag"
       >
-        <el-form-item label="类型" prop="type">
+      <!--输入类型-->
+        <el-form-item label="类型" prop="type" >
           <el-select v-model="ruleForm.type" placeholder="请选择类型">
             <el-option
               v-for="item in typeList"
@@ -122,12 +128,14 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <!--输入标题-->
         <el-form-item label="标题" prop="title">
           <el-input
             v-model="ruleForm.title"
             placeholder="请输入标题"
           ></el-input>
         </el-form-item>
+        <!--视频显示详情-->
         <el-form-item
           v-if="ruleForm.type === 2"
           label="详情"
@@ -138,6 +146,7 @@
             placeholder="请输入详情"
           ></el-input>
         </el-form-item>
+        <!--视频显示封面-->
         <el-form-item label="封面" prop="coverFile" v-if="ruleForm.type === 2">
           <ImgCutter
               v-on:cutDown="cutDownCover"
@@ -151,6 +160,7 @@
             只能上传jpg/png文件，且不超过500kb
           </div>
         </el-form-item>
+        <!--图片上传文件-->
         <el-form-item label="文件" prop="file" v-if="ruleForm.type === 1">
           <ImgCutter
               v-on:cutDown="cutDown"
@@ -164,6 +174,7 @@
             只能上传jpg/png文件，且不超过500kb
           </div>
         </el-form-item>
+        <!--别的上传文件-->
         <el-form-item label="文件" prop="file" v-if="ruleForm.type !== 1">
           <el-upload
             class="upload-demo"
@@ -220,6 +231,7 @@ import { formatDate } from '../../assets/js/date.js';
 export default {
   data() {
     return {
+      number: 1,
       isHave: true,
       activeName: '1',
       currentPage: 1,
@@ -235,7 +247,7 @@ export default {
       formFlag: false,
       ruleForm: {
         title: '',
-        type: '',
+        type: 1,
         description: '',
         coverFile: '',
         file: ''
@@ -273,6 +285,21 @@ export default {
     this.getOpus(this.currentPage);
   },
   methods: {
+    changeOptions() {
+      if (this.number === 1) {
+        this.ruleForm.type = 1;
+        console.log(this.number);
+        console.log(this.ruleForm.type);
+      } else if (this.number === 2) {
+        this.ruleForm.type = 2;
+        console.log(this.number);
+        console.log(this.ruleForm.type);
+      } else if (this.number === 3) {
+        this.ruleForm.type = 3;
+        console.log(this.number);
+        console.log(this.ruleForm.type);
+      }
+    },
     cutDown(obj) {
       this.ruleForm.file = obj.file;
     },
@@ -342,10 +369,20 @@ export default {
       this.isHave = true;
       this.flag = false;
       this.currentPage = 1;
+      console.log(value.paneName);
       if (value.paneName !== '2') {
         this.getOpus(this.currentPage);
       } else {
         this.getVideo(this.currentPage);
+      }
+      if (value.paneName === '1') {
+        this.number = 1;
+      } else if (value.paneName === '2') {
+        this.number = 2;
+        console.log(this.number);
+      } else if (value.paneName === '3') {
+        this.number = 3;
+        console.log(this.number);
       }
     },
     handleClose(done) {

@@ -10,6 +10,10 @@ import './assets/css/global.less'; // 全局样式
 import 'aos/dist/aos.css'; // aos动画库样式
 import * as filters from './assets/js/filter.js'; // 导入全局过滤器
 import ElementUI from 'element-ui';
+import UploadCropper from 'vue-upload-cropper';
+import VueCropper from 'vue-cropper';
+Vue.use(VueCropper);
+Vue.use(UploadCropper);
 Vue.use(ElementUI);
 Vue.config.roductionTip = false;
 AOS.init(); // aos动画初始化
