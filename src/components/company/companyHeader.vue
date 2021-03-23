@@ -10,13 +10,17 @@
         <div v-else class="btn flw_s" @click="cancelFlw">已关注</div>
         <div class="btn font">粉丝数 {{ funs | setNum }}</div>
         <div class="btn font">成交量 {{ info.oknum | setNum }}</div>
-      </div>
-      <div class="share">
         <span>分享</span>
         <svg @click="share" class="icon" aria-hidden="true">
           <use xlink:href="#icon-weibo"></use>
         </svg>
       </div>
+      <!-- <div class="share">
+        <span>分享</span>
+        <svg @click="share" class="icon" aria-hidden="true">
+          <use xlink:href="#icon-weibo"></use>
+        </svg>
+      </div> -->
     </div>
     <!-- 私信对接弹窗 -->
     <el-dialog

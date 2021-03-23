@@ -14,10 +14,22 @@
       <router-link to="/home"
         ><img :src="logoImg" alt="绘星" class="nav-icon"
       /></router-link>
-      <span><router-link to="/home">首页</router-link></span>
-      <span><router-link to="/talent">人才目录</router-link></span>
-      <span><router-link to="/company">公司目录</router-link></span>
-      <span><router-link to="/job">工作职位</router-link></span>
+      <span>
+        <router-link v-if='this.$route.path == "/home"' class="homeIcon" to="/home">首页</router-link>
+         <router-link v-if='this.$route.path != "/home"'  to="/home">首页</router-link>
+      </span>
+      <span>
+        <router-link to="/talent" v-if='this.$route.path == "/talent"' class="homeIcon">人才目录</router-link>
+        <router-link to="/talent" v-if='this.$route.path != "/talent"'>人才目录</router-link>
+      </span>
+      <span>
+        <router-link to="/company" v-if='this.$route.path == "/company"' class="homeIcon">公司目录</router-link>
+        <router-link to="/company" v-if='this.$route.path != "/company"'>公司目录</router-link>
+      </span>
+      <span>
+        <router-link to="/job" v-if='this.$route.path == "/job"' class="homeIcon">工作职位</router-link>
+        <router-link to="/job" v-if='this.$route.path != "/job"' >工作职位</router-link>
+       </span>
       <span><router-link to="/">学院</router-link></span>
       <span><router-link to="/">活动</router-link></span>
       <span><router-link to="/">更多</router-link></span>
@@ -98,6 +110,7 @@ export default {
   },
   created() {
     this.getMyLoginInfo();
+    this.getRout();
   },
   mounted() {
     window.addEventListener('scroll', this.handleScorll, true);
@@ -112,6 +125,11 @@ export default {
       }).catch(err => {
         return err;
       });
+    },
+    getRout() {
+      if (this.$route.path === '/home') {
+        document.getElementById('homeIcon').style.color = '#fff';
+      };
     },
     search(e) {
       let target = e.target;
@@ -277,5 +295,8 @@ a {
 .nav-icon {
   overflow: hidden;
   height: 55px;
+}
+.homeIcon {
+  color: #fff
 }
 </style>

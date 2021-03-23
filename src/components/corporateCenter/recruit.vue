@@ -79,20 +79,48 @@
           :disabled="flag"
         >
           <el-form-item label="项目照片" prop="image">
+            <!--element上传图片按钮-->
             <el-upload
+            :http-request="upload"
               class="avatar-uploader"
-              :http-request="upload"
               action=""
               :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
+              :on-change='changeUpload'
             >
               <img v-if="imageUrl" :src="imageUrl" class="avatar" />
               <i
                 v-else
                 class="el-icon-plus avatar-uploader-icon"
-              ></i> </el-upload
-          ></el-form-item>
+              ></i> </el-upload>
+               <!-- vueCropper 剪裁图片实现-->
+    <el-dialog title="图片剪裁" :visible.sync="dialogVisible" append-to-body>
+      <div class="cropper-content">
+        <div class="cropper" style="text-align:center">
+        <vueCropper
+            ref="cropper"
+            :img="option.img"
+            :outputSize="option.size"
+            :outputType="option.outputType"
+            :info="true"
+            :full="option.full"
+            :canMove="option.canMove"
+            :canMoveBox="option.canMoveBox"
+            :original="option.original"
+            :autoCrop="option.autoCrop"
+            :fixed="option.fixed"
+            :fixedNumber="option.fixedNumber"
+            :centerBox="option.centerBox"
+            :infoTrue="option.infoTrue"
+            :fixedBox="option.fixedBox"
+          ></vueCropper>
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="finish" :loading="loading">确认</el-button>
+      </div>
+    </el-dialog>
+          </el-form-item>
           <el-form-item label="项目详情" prop="description">
             <el-input
               maxlength="300"
@@ -225,15 +253,42 @@
                 :http-request="upload1"
                 action=""
                 :show-file-list="false"
-                :on-success="handleAvatarSuccess1"
-                :before-upload="beforeAvatarUpload"
+                :on-change='changeUpload1'
               >
                 <img v-if="roleimgUrl" :src="roleimgUrl" class="avatar" />
                 <i
                   v-else
                   class="el-icon-plus avatar-uploader-icon"
-                ></i> </el-upload
-            ></el-form-item>
+                ></i> </el-upload>
+ <!-- vueCropper 剪裁图片实现-->
+    <el-dialog title="图片剪裁" :visible.sync="dialogVisible1" append-to-body>
+      <div class="cropper-content">
+        <div class="cropper" style="text-align:center">
+        <vueCropper
+            ref="cropper"
+            :img="option1.img"
+            :outputSize="option1.size"
+            :outputType="option1.outputType"
+            :info="true"
+            :full="option1.full"
+            :canMove="option1.canMove"
+            :canMoveBox="option1.canMoveBox"
+            :original="option1.original"
+            :autoCrop="option1.autoCrop"
+            :fixed="option1.fixed"
+            :fixedNumber="option1.fixedNumber"
+            :centerBox="option1.centerBox"
+            :infoTrue="option1.infoTrue"
+            :fixedBox="option1.fixedBox"
+          ></vueCropper>
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible1 = false">取 消</el-button>
+        <el-button type="primary" @click="finish1" :loading="loading">确认</el-button>
+      </div>
+    </el-dialog>
+            </el-form-item>
             <el-form-item label="角色详情" prop="description">
               <el-input
                 maxlength="150"
@@ -440,10 +495,54 @@ export default {
   props: ['info', 'companyInfo'],
   data() {
     return {
+       fileinfor: '',
+       dialogVisible: false,
+       dialogVisible1: false,
+      // 裁剪组件的基础配置option
+      option: {
+        img: '', // 裁剪图片的地址
+        info: true, // 裁剪框的大小信息
+        outputSize: 0.8, // 裁剪生成图片的质量
+        outputType: 'jpeg', // 裁剪生成图片的格式
+        canScale: true, // 图片是否允许滚轮缩放
+        autoCrop: true, // 是否默认生成截图框
+        // autoCropWidth: 300, // 默认生成截图框宽度
+        // autoCropHeight: 200, // 默认生成截图框高度
+        fixedBox: false, // 固定截图框大小 不允许改变
+        fixed: true, // 是否开启截图框宽高固定比例
+        fixedNumber: [2.5, 1], // 截图框的宽高比例
+        full: true, // 是否输出原图比例的截图
+        canMoveBox: true, // 截图框能否拖动
+        original: false, // 上传图片按照原始比例渲染
+        centerBox: false, // 截图框是否被限制在图片里面
+        infoTrue: true // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
+      },
+       option1: {
+        img: '', // 裁剪图片的地址
+        info: true, // 裁剪框的大小信息
+        outputSize: 0.8, // 裁剪生成图片的质量
+        outputType: 'jpeg', // 裁剪生成图片的格式
+        canScale: true, // 图片是否允许滚轮缩放
+        autoCrop: true, // 是否默认生成截图框
+        // autoCropWidth: 140, // 默认生成截图框宽度
+        // autoCropHeight: 280, // 默认生成截图框高度
+        fixedBox: false, // 固定截图框大小 不允许改变
+        fixed: true, // 是否开启截图框宽高固定比例
+        fixedNumber: [1.3, 1], // 截图框的宽高比例
+        full: true, // 是否输出原图比例的截图
+        canMoveBox: true, // 截图框能否拖动
+        original: false, // 上传图片按照原始比例渲染
+        centerBox: false, // 截图框是否被限制在图片里面
+        infoTrue: true // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
+      },
+      picsList: [], // 页面显示的数组
+      // 防止重复提交
+      loading: false,
       flag: false,
       flag1: false,
       isEdit: false,
       imageUrl: '',
+      imageData: '',
       ruleForm: {
         title: '',
         image: '',
@@ -557,8 +656,12 @@ export default {
     };
   },
   methods: {
+    goCelebrity() {
+      this.$emit('goCelebrity');
+    },
     async upload(content) {
       this.ruleForm.image = content.file;
+      console.log(content.file);
     },
     async upload1(content) {
       this.ruleForm1.image = content.file;
@@ -648,6 +751,7 @@ export default {
             });
           } else {
             this.ruleForm.begintime = new Date().getTime();
+            console.log(this.ruleForm.image);
             addJob(this.ruleForm).then(res => {
               if (res.code === '0') {
                 this.$message({
@@ -720,6 +824,83 @@ export default {
         }
       });
     },
+    changeUpload(file, fileList) {
+      const isJPG = file.raw.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+        return false;
+      }
+      this.fileinfor = file;
+      // 上传成功后将图片地址赋值给裁剪框显示图片
+      this.$nextTick(() => {
+        this.option.img = URL.createObjectURL(file.raw);
+        this.dialogVisible = true;
+      });
+      },
+    changeUpload1(file, fileList) {
+      const isJPG = file.raw.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+        return false;
+      }
+      this.fileinfor = file;
+      // 上传成功后将图片地址赋值给裁剪框显示图片
+      this.$nextTick(() => {
+        console.log('1111111');
+        this.option1.img = URL.createObjectURL(file.raw);
+        console.log(this.option1.img);
+        this.dialogVisible1 = true;
+      });
+      },
+      finish1() {
+        this.$refs.cropper.getCropBlob((data) => {
+          let file = new window.File([data], this.fileinfor.name, { type: 'image/jpeg' });
+          this.roleimgUrl = window.URL.createObjectURL(data);
+          this.ruleForm1.image = file;
+        });
+        this.dialogVisible1 = false;
+      },
+      finish() {
+      this.$refs.cropper.getCropBlob((data) => {
+      // data为base64格式地址
+        // let arr = data.split(','); let mime = arr[0].match(/:(.*?);/)[1];
+        // let bstr = atob(arr[1]); let n = bstr.length; let u8arr = new Uint8Array(n);
+        // while (n--) {
+        //   u8arr[n] = bstr.charCodeAt(n);
+        // }
+        // let bdata = new Blob([u8arr], { type: mime });
+        // blob 转 file
+        let file = new window.File([data], this.fileinfor.name, { type: 'image/jpeg' });
+        this.imageUrl = window.URL.createObjectURL(data);
+        this.ruleForm.image = file;
+//         let fs = require('fs');
+//         const path = Date.now() + '.jpg';
+//         const base64 = data.replace(/^data:image\/\w+;base64,/, ''); // 去掉图片base64码前面部分data:image/png;base64
+// // new Buffer 操作权限太大，v6.0后使用Buffer.from()创建构造函数
+//         // eslint-disable-next-line node/no-deprecated-api
+//         const dataBuffer = new Buffer(base64, 'base64'); // 把base64码转成buffer对象，
+//         console.log(dataBuffer);
+//         fs.writeFile(path, dataBuffer, function(err) { // 用fs写入文件
+//           if (err) {
+//             console.log(err);
+//           } else {
+//             console.log('写入成功！');
+//           }
+//         });
+        // this.ruleForm.image = fs;
+        // console.log(fs);
+        console.log(file);
+      });
+      this.dialogVisible = false;
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
@@ -727,6 +908,7 @@ export default {
       this.roleimgUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
+      console.log('1111111111111111111111111');
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -1148,7 +1330,6 @@ export default {
     height: 60px;
   }
 }
-
 /deep/.avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -1197,5 +1378,12 @@ export default {
 }
 .el-divider {
   margin: 15px 0;
+}
+// 截图
+.cropper-content {
+    .cropper {
+        width: auto;
+        height: 300px;
+    }
 }
 </style>

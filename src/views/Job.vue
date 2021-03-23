@@ -79,8 +79,9 @@
           </div>
         </div>
         <div class="right">
+          <span @click="lasted">默认</span>
           <span @click="lasted">最新</span>
-          <span @click="hot">热点排名</span>
+          <span @click="hot">热点</span>
         </div>
       </div>
     </div>

@@ -128,4 +128,7 @@ export default {
     }
   }
 }
+.homeIcon {
+  color: #000;
+}
 </style>

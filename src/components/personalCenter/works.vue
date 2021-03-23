@@ -73,7 +73,7 @@
       <el-button
         class="upload"
         size="mini"
-        @click="dialogVisible1 = true"
+        @click="dialogVisible1 = true , changeOptions()"
         type="primary"
         >上传作品</el-button
       >
@@ -223,7 +223,7 @@ export default {
       formFlag: false,
       ruleForm: {
         title: '',
-        type: '',
+        type: 1,
         coverFile: '',
         file: ''
       },
@@ -257,6 +257,21 @@ export default {
     this.getOpus(this.currentPage);
   },
   methods: {
+    changeOptions() {
+      if (this.number === 1) {
+        this.ruleForm.type = 1;
+        console.log(this.number);
+        console.log(this.ruleForm.type);
+      } else if (this.number === 2) {
+        this.ruleForm.type = 2;
+        console.log(this.number);
+        console.log(this.ruleForm.type);
+      } else if (this.number === 3) {
+        this.ruleForm.type = 3;
+        console.log(this.number);
+        console.log(this.ruleForm.type);
+      }
+    },
     cutDown(obj) {
       this.ruleForm.file = obj.file;
     },
@@ -307,6 +322,15 @@ export default {
       }
       this.currentPage = 1;
       this.getOpus(this.currentPage);
+      if (value.paneName === '1') {
+        this.number = 1;
+      } else if (value.paneName === '2') {
+        this.number = 2;
+        console.log(this.number);
+      } else if (value.paneName === '3') {
+        this.number = 3;
+        console.log(this.number);
+      }
     },
     handleClose(done) {
       this.$refs.video.pause();

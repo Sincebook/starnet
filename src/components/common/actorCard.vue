@@ -167,7 +167,7 @@ export default {
   position: relative;
   width: 270px;
   background-color: var(--cardBgColor);
-  height: 314px;
+  height: 360px;
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
@@ -180,7 +180,8 @@ export default {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 162px;
+    height: 270px;
+    z-index: -1;
     overflow: hidden;
     .bgImg {
       width: 100%;
@@ -189,22 +190,23 @@ export default {
     }
   }
   .info {
-    padding-top: 162px;
+    margin-top: 235px;
+    background-color: rgba(255, 255, 255, 0.99);
   }
   .name {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;
-    color: #333;
+    color: #000;
     font-size: 18px;
     font-weight: 600;
-    margin: 15px 0 0 0;
+    margin: 10px 0 0 0;
     transition: color 0.25s;
   }
   .desc {
     color: var(--fontColor);
-    margin: 11px 0 18px 0;
+    margin: 5px 0 18px 0;
     font-size: 13px;
   }
   .btn-box {
