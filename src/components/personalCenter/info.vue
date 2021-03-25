@@ -203,7 +203,7 @@ export default {
         this.$refs.cropper.getCropBlob((data) => {
           let file = new window.File([data], this.fileinfor.name, { type: 'image/jpeg' });
           this.imageUrl = window.URL.createObjectURL(data);
-          this.ruleForm.image = file;
+          this.ruleForm.avatarImg = file;
         });
         this.dialogVisible = false;
       },
@@ -218,10 +218,6 @@ export default {
       } else {
         callback();
       }
-    },
-    cutDown(obj) {
-      this.imageUrl = obj.dataURL;
-      this.ruleForm.avatarImg = obj.file;
     }
   }
 };

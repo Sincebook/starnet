@@ -159,11 +159,9 @@ export default {
           if (res.data === 1) {
             this.menu[4].status = 1;
             console.log(this.menu[10].status);
-            console.log('有新消息');
           } else {
             this.menu[4].status = 0;
             console.log('没有新消息');
-            console.log(this.menu[4].status);
           }
         });
     }
