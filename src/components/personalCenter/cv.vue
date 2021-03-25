@@ -147,6 +147,8 @@
             placeholder="请输入个人描述"
           ></el-input>
         </el-form-item>
+        <div class="ph">
+        <div class="photo">
         <el-form-item label="生活照" prop="image">
           <el-upload
             class="avatar-uploader"
@@ -155,36 +157,158 @@
             :show-file-list="false"
             :on-change='changeUpload'
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i> </el-upload>
-<el-dialog title="图片剪裁" :visible.sync="dialogVisible" append-to-body>
-      <div class="cropper-content">
-        <div class="cropper" style="text-align:center">
-        <vueCropper
-            ref="cropper"
-            :img="option.img"
-            :outputSize="option.size"
-            :outputType="option.outputType"
-            :info="true"
-            :full="option.full"
-            :canMove="option.canMove"
-            :canMoveBox="option.canMoveBox"
-            :original="option.original"
-            :autoCrop="option.autoCrop"
-            :fixed="option.fixed"
-            :fixedNumber="option.fixedNumber"
-            :centerBox="option.centerBox"
-            :infoTrue="option.infoTrue"
-            :fixedBox="option.fixedBox"
-          ></vueCropper>
-        </div>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="finish" :loading="loading">确认</el-button>
-      </div>
-    </el-dialog>
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i> </el-upload>
+          <el-dialog title="图片剪裁" :visible.sync="dialogVisible" append-to-body>
+            <div class="cropper-content">
+              <div class="cropper" style="text-align:center">
+                <vueCropper
+                  ref="cropper"
+                  :img="option.img"
+                  :outputSize="option.size"
+                  :outputType="option.outputType"
+                  :info="true"
+                  :full="option.full"
+                  :canMove="option.canMove"
+                  :canMoveBox="option.canMoveBox"
+                  :original="option.original"
+                  :autoCrop="option.autoCrop"
+                  :fixed="option.fixed"
+                  :fixedNumber="option.fixedNumber"
+                  :centerBox="option.centerBox"
+                  :infoTrue="option.infoTrue"
+                  :fixedBox="option.fixedBox"
+                ></vueCropper>
+              </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="finish" :loading="loading">确认</el-button>
+            </div>
+          </el-dialog>
         </el-form-item>
+        </div>
+        <div class="photo1">
+        <el-form-item  prop="image1">
+          <el-upload
+            class="avatar-uploader"
+            :http-request="upload1"
+            action=""
+            :show-file-list="false"
+            :on-change='changeUpload1'
+          >
+          <img v-if="imageUrl1" :src="imageUrl1" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i> </el-upload>
+          <el-dialog title="图片剪裁" :visible.sync="dialogVisible1" append-to-body>
+            <div class="cropper-content">
+              <div class="cropper" style="text-align:center">
+                <vueCropper
+                  ref="cropper"
+                  :img="option.img1"
+                  :outputSize="option.size"
+                  :outputType="option.outputType"
+                  :info="true"
+                  :full="option.full"
+                  :canMove="option.canMove"
+                  :canMoveBox="option.canMoveBox"
+                  :original="option.original"
+                  :autoCrop="option.autoCrop"
+                  :fixed="option.fixed"
+                  :fixedNumber="option.fixedNumber"
+                  :centerBox="option.centerBox"
+                  :infoTrue="option.infoTrue"
+                  :fixedBox="option.fixedBox"
+                ></vueCropper>
+              </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible1 = false">取 消</el-button>
+              <el-button type="primary" @click="finish1" :loading="loading">确认</el-button>
+            </div>
+          </el-dialog>
+        </el-form-item>
+        </div>
+        <div class="photo2">
+        <el-form-item  prop="image2">
+          <el-upload
+            class="avatar-uploader"
+            :http-request="upload2"
+            action=""
+            :show-file-list="false"
+            :on-change='changeUpload2'
+          >
+          <img v-if="imageUrl2" :src="imageUrl2" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i> </el-upload>
+          <el-dialog title="图片剪裁" :visible.sync="dialogVisible2" append-to-body>
+            <div class="cropper-content">
+              <div class="cropper" style="text-align:center">
+                <vueCropper
+                  ref="cropper"
+                  :img="option.img2"
+                  :outputSize="option.size"
+                  :outputType="option.outputType"
+                  :info="true"
+                  :full="option.full"
+                  :canMove="option.canMove"
+                  :canMoveBox="option.canMoveBox"
+                  :original="option.original"
+                  :autoCrop="option.autoCrop"
+                  :fixed="option.fixed"
+                  :fixedNumber="option.fixedNumber"
+                  :centerBox="option.centerBox"
+                  :infoTrue="option.infoTrue"
+                  :fixedBox="option.fixedBox"
+                ></vueCropper>
+              </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible2 = false">取 消</el-button>
+              <el-button type="primary" @click="finish2" :loading="loading">确认</el-button>
+            </div>
+          </el-dialog>
+        </el-form-item>
+        </div>
+        <div class="photo3">
+        <el-form-item  prop="image3">
+          <el-upload
+            class="avatar-uploader"
+            :http-request="upload3"
+            action=""
+            :show-file-list="false"
+            :on-change='changeUpload3'
+          >
+          <img v-if="imageUrl3" :src="imageUrl3" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i> </el-upload>
+          <el-dialog title="图片剪裁" :visible.sync="dialogVisible3" append-to-body>
+            <div class="cropper-content">
+              <div class="cropper" style="text-align:center">
+                <vueCropper
+                  ref="cropper"
+                  :img="option.img3"
+                  :outputSize="option.size"
+                  :outputType="option.outputType"
+                  :info="true"
+                  :full="option.full"
+                  :canMove="option.canMove"
+                  :canMoveBox="option.canMoveBox"
+                  :original="option.original"
+                  :autoCrop="option.autoCrop"
+                  :fixed="option.fixed"
+                  :fixedNumber="option.fixedNumber"
+                  :centerBox="option.centerBox"
+                  :infoTrue="option.infoTrue"
+                  :fixedBox="option.fixedBox"
+                ></vueCropper>
+              </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible3 = false">取 消</el-button>
+              <el-button type="primary" @click="finish3" :loading="loading">确认</el-button>
+            </div>
+          </el-dialog>
+        </el-form-item>
+        </div>
+        </div>
         <el-form-item>
           <el-button type="primary" @click="submitForm()">保存</el-button>
         </el-form-item>
@@ -212,10 +336,19 @@ export default {
   data() {
     return {
        fileinfor: '',
+       fileinfor1: '',
+       fileinfor2: '',
+       fileinfor3: '',
        dialogVisible: false,
+       dialogVisible1: false,
+       dialogVisible2: false,
+       dialogVisible3: false,
       // 裁剪组件的基础配置option
       option: {
         img: '', // 裁剪图片的地址
+        img1: '',
+        img2: '',
+        img3: '',
         info: true, // 裁剪框的大小信息
         outputSize: 0.8, // 裁剪生成图片的质量
         outputType: 'jpeg', // 裁剪生成图片的格式
@@ -234,8 +367,14 @@ export default {
       },
       loading: false,
       imageUrl: '',
+      imageUrl1: '',
+      imageUrl2: '',
+      imageUrl3: '',
       ruleForm: {
         image: '',
+        image1: '',
+        image2: '',
+        image3: '',
         name: '',
         nickname: '',
         height: '',
@@ -256,6 +395,15 @@ export default {
       },
       rules: {
         image: [
+          { required: true, message: '生活照不能为空', trigger: 'change' }
+        ],
+        image1: [
+          { required: true, message: '生活照不能为空', trigger: 'change' }
+        ],
+        image2: [
+          { required: true, message: '生活照不能为空', trigger: 'change' }
+        ],
+        image3: [
           { required: true, message: '生活照不能为空', trigger: 'change' }
         ],
         name: [
@@ -311,11 +459,24 @@ export default {
     async upload(content) {
       this.ruleForm.image = content.file;
     },
+    async upload1(content) {
+      this.ruleForm.image1 = content.file;
+    },
+    async upload2(content) {
+      this.ruleForm.image2 = content.file;
+    },
+    async upload3(content) {
+      this.ruleForm.image3 = content.file;
+    },
     submitForm() {
+      console.log(this.ruleForm.image);
+      console.log(this.ruleForm.image1);
+      console.log(this.ruleForm.image2);
+      console.log(this.ruleForm.image3);
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.flag = true;
-          if (this.ruleForm.image === '1') {
+          if (this.ruleForm.image === '0' && this.ruleForm.image1 === '1' && this.ruleForm.image2 === '2' && this.ruleForm.image3 === '03') {
             extraInfoDetail1(this.ruleForm).then(res => {
               if (res.code === '0') {
                 this.$message({
@@ -365,7 +526,6 @@ export default {
       // 上传成功后将图片地址赋值给裁剪框显示图片
       this.$nextTick(() => {
         this.option.img = URL.createObjectURL(file.raw);
-        console.log('1111111111111');
         this.dialogVisible = true;
       });
       },
@@ -377,21 +537,81 @@ export default {
         });
         this.dialogVisible = false;
       },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg' || 'image/png';
+    changeUpload1(file, fileList) {
+      const isJPG = file.raw.type === 'image/jpeg' || 'image/png';
       const isLt2M = file.size / 1024 / 1024 < 20;
-
       if (!isJPG) {
         this.$message.error('上传头像图片只能是 JPG/png 格式!');
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 20MB!');
+        return false;
       }
-      return isJPG && isLt2M;
-    }
+      this.fileinfor1 = file;
+      // 上传成功后将图片地址赋值给裁剪框显示图片
+      this.$nextTick(() => {
+        this.option.img1 = URL.createObjectURL(file.raw);
+        this.dialogVisible1 = true;
+      });
+      },
+      finish1() {
+        this.$refs.cropper.getCropBlob((data) => {
+          let file = new window.File([data], this.fileinfor1.name, { type: 'image/jpeg' });
+          this.imageUrl1 = window.URL.createObjectURL(data);
+          this.ruleForm.image1 = file;
+        });
+        this.dialogVisible1 = false;
+      },
+    changeUpload2(file, fileList) {
+      const isJPG = file.raw.type === 'image/jpeg' || 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 20;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG/png 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 20MB!');
+        return false;
+      }
+      this.fileinfor2 = file;
+      // 上传成功后将图片地址赋值给裁剪框显示图片
+      this.$nextTick(() => {
+        this.option.img2 = URL.createObjectURL(file.raw);
+        this.dialogVisible2 = true;
+      });
+      },
+      finish2() {
+        this.$refs.cropper.getCropBlob((data) => {
+          let file = new window.File([data], this.fileinfor2.name, { type: 'image/jpeg' });
+          this.imageUrl2 = window.URL.createObjectURL(data);
+          this.ruleForm.image2 = file;
+        });
+        this.dialogVisible2 = false;
+      },
+    changeUpload3(file, fileList) {
+      const isJPG = file.raw.type === 'image/jpeg' || 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 20;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG/png 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 20MB!');
+        return false;
+      }
+      this.fileinfor3 = file;
+      // 上传成功后将图片地址赋值给裁剪框显示图片
+      this.$nextTick(() => {
+        this.option.img3 = URL.createObjectURL(file.raw);
+        this.dialogVisible3 = true;
+      });
+      },
+      finish3() {
+        this.$refs.cropper.getCropBlob((data) => {
+          let file = new window.File([data], this.fileinfor3.name, { type: 'image/jpeg' });
+          this.imageUrl3 = window.URL.createObjectURL(data);
+          this.ruleForm.image3 = file;
+        });
+        this.dialogVisible3 = false;
+      }
   },
   created() {
     this.status = this.userinfo.user.status;
@@ -399,7 +619,17 @@ export default {
       mineInfoDetail().then(res => {
         if (res.code === '0') {
           this.imageUrl = (res.data.image === null ? '' : res.data.image);
-          this.ruleForm.image = '1';
+          console.log(res.data.image);
+          this.imageUrl1 = (res.data.image1 === null ? '' : res.data.image1);
+          console.log(res.data.image1);
+          this.imageUrl2 = (res.data.image2 === null ? '' : res.data.image2);
+          console.log(res.data.image2);
+          this.imageUrl3 = (res.data.image3 === null ? '' : res.data.image3);
+          console.log(res.data.image3);
+          this.ruleForm.image = '0';
+          this.ruleForm.image1 = '1';
+          this.ruleForm.image2 = '2';
+          this.ruleForm.image3 = '3';
           this.ruleForm.name = (res.data.name === null ? '' : res.data.name);
           this.ruleForm.nickname = (res.data.nickname === null ? '' : res.data.nickname);
           this.ruleForm.height = (res.data.height === null ? '' : res.data.height);
@@ -504,5 +734,27 @@ export default {
         width: auto;
         height: 300px;
     }
+}
+.ph {
+  width: 250px;
+}
+.photo {
+  width: 108px;
+  float: left;
+}
+.photo1 {
+  width: 108px;
+  padding-left: 10px;
+  float: left;
+}
+.photo2 {
+  width: 108px;
+  float: left;
+  clear: both;
+}
+.photo3 {
+  width:108px;
+  float: left;
+  padding-left: 10px;
 }
 </style>

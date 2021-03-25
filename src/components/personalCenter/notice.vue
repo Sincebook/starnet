@@ -121,14 +121,12 @@ export default {
           page: this.currentPage,
           num: this.nums
         }).then(res => {
-          console.log('1111111111111111111');
           console.log(res.data);
           if (res.code === '0' && res.data.datas.length !== 0) {
             this.isHave = true;
             this.notice = res.data;
             console.log(this.notice.datas);
           } else {
-            console.log('222222222222222222222222');
             this.isHave = false;
             this.$message.error('暂无消息');
           }
