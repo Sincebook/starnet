@@ -10,7 +10,9 @@ import Vip from '../views/Vip.vue';
 import BindPhone from '../views/BindPhone.vue';
 import BindWbPhone from '../views/BindWbPhone.vue';
 import PersonalCenter from '../views/PersonalCenter.vue';
+import PersonalNews from '../views/PersonalNews.vue';
 import CorporateCenter from '../views/CorporateCenter.vue';
+import CorporateNews from '../views/CorporateNews.vue';
 import companyDetail from '../components/company/companyDetail.vue';
 import jobDetail from '../components/job/jobDetail.vue';
 import talentDetail from '../components/talent/talentDetail.vue';
@@ -110,9 +112,19 @@ const routes = [{
     }
   },
   {
+    path: '/personalnews',
+    name: 'PersonalNews',
+    component: PersonalNews
+  },
+  {
     path: '/corporateCenter',
     name: 'CorporateCenter',
     component: CorporateCenter
+  },
+  {
+    path: '/corporateNews',
+    name: 'CorporateNews',
+    component: CorporateNews
   },
   {
     path: '/companyDetail/:id/:userid',
