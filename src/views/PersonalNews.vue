@@ -59,12 +59,11 @@
       <keep-alive>
         <components
           @cancel="cancel"
-          :companyInfo="companyInfo"
           @change="changeInfo"
           @goCelebrity="goCelebrity"
           :is="child"
-        ></components
-      ></keep-alive>
+        ></components>
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -72,58 +71,43 @@
 <script>
 import { mapState } from 'vuex';
 import {
-  mineInfo,
-  companyInfo,
-  isNews
+  isNews,
+  mineInfo
 } from '../ajax/index';
-import userinfo from '../components/personalCenter/info';
-import info from '../components/corporateCenter/info';
-import celebrity from '../components/corporateCenter/celebrity';
-import honor from '../components/corporateCenter/honor';
-import recruit from '../components/corporateCenter/recruit';
+import info from '../components/personalCenter/info';
+import celebrity from '../components/personalCenter/celebrity';
+import cv from '../components/personalCenter/cv';
 import message from '../components/personalCenter/message';
+import works from '../components/personalCenter/works';
+// import safe from '../components/personalCenter/safe';
+import deliver from '../components/personalCenter/deliver';
+import collect from '../components/personalCenter/collect';
 import follow from '../components/personalCenter/follow';
 import report from '../components/personalCenter/report';
-// import collect from '../components/personalCenter/collect';
-import works from '../components/corporateCenter/works';
-import password from '../components/corporateCenter/password';
-import notice from '../components/corporateCenter/notice';
+import honor from '../components/personalCenter/honor';
+import password from '../components/personalCenter/password';
+import notice from '../components/personalCenter/notice';
 export default {
   data() {
     return {
-      isCelebrity: false,
       menu: [
-        { id: 1, title: '个人资料', child: 'userinfo', status: 0 },
-        { id: 2, title: '企业信息', child: 'info', status: 0 },
-        { id: 3, title: '企业认证', child: 'celebrity', status: 0 },
-        { id: 4, title: '修改密码', child: 'password', status: 0 },
+        { id: 1, title: '个人资料', child: 'info', status: 0 },
+        { id: 2, title: '实名认证', child: 'celebrity', status: 0 },
+        { id: 3, title: '修改密码', child: 'password', status: 0 },
+        // { id: 3, title: '账号安全', child: 'safe' },
+        { id: 4, title: '我的简历', child: 'cv', status: 0 },
         { id: 5, title: '系统通知', child: 'notice', status: 0 },
-        { id: 6, title: '企业荣誉', child: 'honor', status: 0 },
-        { id: 7, title: '在招职位', child: 'recruit', status: 0 },
-        { id: 8, title: '我的私信', child: 'message', status: 0 },
-        { id: 9, title: '我的作品', child: 'works', status: 0 },
-        { id: 10, title: '我的关注', child: 'follow', status: 0 },
-        // { id: 9, title: '我的收藏', child: 'collect' },
-        { id: 11, title: '举报中心', child: 'report', status: 0 }
+        { id: 6, title: '我的私信', child: 'message', status: 0 },
+        { id: 7, title: '我的作品', child: 'works', status: 0 },
+        { id: 8, title: '工作经历', child: 'honor', status: 0 },
+        { id: 9, title: '投递记录', child: 'deliver', status: 0 },
+        { id: 10, title: '我的收藏', child: 'collect', status: 0 },
+        { id: 11, title: '我的关注', child: 'follow', status: 0 },
+        { id: 12, title: '举报中心', child: 'report', status: 0 }
       ],
-      activeIndex: 1,
-      child: 'userinfo',
-      status: 0,
-      companyInfo: {
-        status: '',
-        logo: '',
-        name: '',
-        image: '',
-        organizationCode: '',
-        legalPerson: '',
-        createTime: '',
-        type: '',
-        category: '',
-        opus: '',
-        area: '',
-        managementRange: '',
-        description: ''
-      }
+      activeIndex: 5,
+      child: 'notice',
+      status: 0
     };
   },
   methods: {
@@ -132,7 +116,7 @@ export default {
       this.activeIndex = id;
     },
     goCelebrity() {
-      this.tabChange(3, 'celebrity');
+      this.tabChange(2, 'celebrity');
     },
     changeInfo() {
       mineInfo().then(res => {
@@ -154,58 +138,43 @@ export default {
     },
     haveNews() {
         isNews().then(res => {
+          console.log(res.code);
+          console.log(res.data);
           if (res.data === 1) {
             this.menu[4].status = 1;
             console.log(this.menu[10].status);
+            console.log('有新消息');
           } else {
             this.menu[4].status = 0;
+            console.log('没有新消息');
+            console.log(this.menu[4].status);
           }
         });
     }
-  },
-  created() {
-    companyInfo().then(res => {
-      if (res.code === '0') {
-        this.companyInfo = res.data;
-      }
-    }).catch(err => {
-      return err;
-    });
   },
   computed: {
     ...mapState({
       info: (state) => state.userinfo
     })
   },
-  components: {
-    userinfo,
-    info,
-    celebrity,
-    honor,
-    recruit,
-    message,
-    follow,
-    report,
-    // collect,
-    works,
-    password,
-    notice
-  },
   mounted() {
     this.haveNews();
+  },
+  components: {
+    info,
+    celebrity,
+    password,
+    cv,
+    message,
+    works,
+    // safe,
+    deliver,
+    collect,
+    follow,
+    report,
+    honor,
+    notice
   }
-  // watch: {
-  //   '$route' (to, from) {
-  //       // from 对象中要 router 来源信息.
-  //       // do your want
-  //   }
-  // },
-  // beforeRouteEnter (to, from, next) {
-  //      console.log(to);
-  //      console.log(from);
-  //      console.log(next);
-  //      next();
-  // }
 };
 </script>
 
@@ -227,13 +196,12 @@ export default {
       .user-img {
         width: 80px;
         height: 80px;
-        cursor: pointer;
         margin: 0 20px;
+        img {
+          width: 80px;
+          height: 80px;
+        }
       }
-      /deep/.el-avatar > img {
-      width: 100%;
-      height: 100%s;
-    }
       .user-info {
         .nick,
         .counts {
@@ -282,6 +250,10 @@ export default {
         line-height: 60px;
         padding: 0 0 0 25px;
         transition: all 0.25s;
+        .item{
+          margin-top: 10px;
+          margin-right: 50px;
+        }
       }
     }
   }
@@ -295,5 +267,8 @@ export default {
 .active {
   background: #409eff;
   color: #fff;
+}
+/deep/.el-link--success {
+  color: #97dc73 !important;
 }
 </style>

@@ -106,8 +106,8 @@ export default {
         // { id: 9, title: '我的收藏', child: 'collect' },
         { id: 11, title: '举报中心', child: 'report', status: 0 }
       ],
-      activeIndex: 1,
-      child: 'userinfo',
+      activeIndex: 5,
+      child: 'notice',
       status: 0,
       companyInfo: {
         status: '',
@@ -194,18 +194,18 @@ export default {
   mounted() {
     this.haveNews();
   }
-  // watch: {
-  //   '$route' (to, from) {
-  //       // from 对象中要 router 来源信息.
-  //       // do your want
-  //   }
-  // },
-  // beforeRouteEnter (to, from, next) {
-  //      console.log(to);
-  //      console.log(from);
-  //      console.log(next);
-  //      next();
-  // }
+//   watch: {
+//     '$route' (to, from) {
+//         // from 对象中要 router 来源信息.
+//         // do your want
+//     }
+//   },
+//   beforeRouteEnter (to, from, next) {
+//        console.log(to);
+//        console.log(from);
+//        console.log(next);
+//        next();
+//   }
 };
 </script>
 
