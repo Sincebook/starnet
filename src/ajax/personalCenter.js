@@ -7,6 +7,10 @@ export function mineInfo() {
 export function extraInfo(obj) {
   return http.post('/api/user/modify', obj);
 };
+// 绑定邮箱
+export function addEmail(obj) {
+  return http.post('/api/user/addEmail', obj);
+}
 // 实名认证
 export function celebrity(obj) {
   return http.post('/api/userinfo/add', {

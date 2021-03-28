@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$route.path !== '/sign' && $route.path !== '/bindPhone' && $route.path !== '/bindWbPhone' && $route.path !== '/login'">
+  <div v-if="$route.path !== '/sign' && $route.path !== '/bindPhone' && $route.path !== '/bindWbPhone' && $route.path !== '/login'  && $route.path !== '/email'">
     <div class="footer-nav">
       <div>
         <p>
@@ -27,7 +27,7 @@
         <p style="color:#fff;">关于我们</p></router-link>
         <router-link to="/protocol/useIt"><p style="color:#fff;">用法指南</p></router-link>
         <router-link to="/protocol/joinUs"> <p style="color:#fff;">加入我们</p></router-link>
-        <router-link to="/protocol/userProtocol"><p style="color:#fff;">用户协议</p></router-link>
+        <router-link to="/protocol/userProtocol"><p style="colosr:#fff;">用户协议</p></router-link>
       </div>
       <div class="center">
         <p class="title">使用帮助</p>

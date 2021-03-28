@@ -59,6 +59,10 @@
               placeholder="请输入昵称"
             ></el-input>
           </el-form-item>
+          <el-form-item label="邮箱" prop="email" class="email">
+            <el-input v-if="email == null " v-model="ruleForm.email" placeholder="请输入邮箱"></el-input>
+            <el-input v-else disabled v-model="ruleForm.email" placeholder="请输入邮箱"></el-input>
+          </el-form-item>
           <el-form-item label="手机号" class="phone">
             <el-input disabled v-model="phone"></el-input>
           </el-form-item>
@@ -77,7 +81,7 @@
 <script>
 import { mapState } from 'vuex';
 import {
-  extraInfo
+  extraInfo, addEmail
 } from '../../ajax/index';
 export default {
   data() {
@@ -107,12 +111,17 @@ export default {
       imageUrl: '',
       ruleForm: {
         avatarImg: {},
-        nick: ''
+        nick: '',
+        email: ''
       },
       phone: '',
+      email: '',
       rules: {
         nick: [
           { required: true, validator: this.checkNick, trigger: 'blur' }
+        ],
+        email: [
+          { required: true, validator: this.checkEmail, trigger: 'blue' }
         ]
       },
       flag: false
@@ -128,7 +137,10 @@ export default {
       deep: true,
       immediate: true,
       handler(newVal, oldVal) {
+        console.log(newVal.user.email);
+        this.email = newVal.user.email;
         this.ruleForm.nick = newVal.user.name;
+        this.ruleForm.email = newVal.user.email;
         this.phone = newVal.user.phone;
         this.imageUrl = newVal.user.head;
       }
@@ -142,7 +154,9 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.flag = true;
-          extraInfo({
+          addEmail({
+            email: this.ruleForm.email
+          }) && extraInfo({
             name: this.ruleForm.nick,
             head: this.ruleForm.avatarImg
           }).then(res => {
@@ -215,6 +229,16 @@ export default {
         return callback(new Error('只允许设置中文、英文、数字、下划线'));
       } else if (value.length < 2 || value.length > 6) {
         return callback(new Error('长度在 2 到 6 个字符'));
+      } else {
+        callback();
+      }
+    },
+    checkEmail(rule, value, callback) {
+      const verify = /^\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
+      if (value === '') {
+        return callback(new Error('邮箱不能为空'));
+      } else if (!verify.test(value)) {
+        return callback(new Error('邮箱格式错误，请重新输入'));
       } else {
         callback();
       }
