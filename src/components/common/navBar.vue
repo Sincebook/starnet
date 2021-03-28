@@ -7,7 +7,8 @@
       $route.path !== '/bindPhone' &&
       $route.path !== '/bindWbPhone' &&
       $route.path !== '/sign'&&
-      $route.path !== '/login'
+      $route.path !== '/login'&&
+      $route.path !== '/email'
     "
   >
     <div class="left">

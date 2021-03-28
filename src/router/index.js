@@ -5,6 +5,7 @@ import About from '../views/About.vue';
 import Company from '../views/Company.vue';
 import Job from '../views/Job.vue';
 import Sign from '../views/Sign.vue';
+import Email from '../views/Email.vue';
 import Talent from '../views/Talent.vue';
 import Vip from '../views/Vip.vue';
 import BindPhone from '../views/BindPhone.vue';
@@ -62,6 +63,15 @@ const routes = [{
     meta: {
       title: '登录'
     }
+  },
+  {
+    path: '/email',
+    name: 'email',
+    component: Email,
+    meta: {
+      title: '邮箱登录'
+    }
+
   },
   {
     path: '/login',

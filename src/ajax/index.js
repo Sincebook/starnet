@@ -6,6 +6,7 @@ export {
   passwordUser,
   wxLogin,
   wbLogin,
+  emailLogin,
   getMyinfo,
   changePassword
 }
@@ -68,6 +69,7 @@ from './talentDetail';
 export {
   mineInfo,
   extraInfo,
+  addEmail,
   celebrity,
   mineInfoDetail,
   extraInfoDetail,

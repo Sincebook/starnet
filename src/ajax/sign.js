@@ -8,9 +8,8 @@ export function getCode(options) {
   return http.post('/api/user/code', options);
 };
 // 手机号注册
-
 export function registerUser(options) {
-  return http.post('./api/user/register', options);
+  return http.post('/api/user/register', options);
 };
 // 手机号登录
 export function loginUser(options) {
@@ -19,6 +18,10 @@ export function loginUser(options) {
 // 密码登录
 export function passwordUser(options) {
   return http.post('/api/user/password', options);
+}
+// 邮箱登录
+export function emailLogin(options) {
+  return http.post('/api/user/email', options);
 }
 // 微信登录
 export function wxLogin(obj) {
