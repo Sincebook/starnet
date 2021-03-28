@@ -475,8 +475,8 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.flag = true;
-     //     if (this.ruleForm.image === '0' && this.ruleForm.image1 === '1' && this.ruleForm.image2 === '2' && this.ruleForm.image3 === '03') {
-             extraInfoDetail(this.ruleForm).then(res => {
+          if (this.ruleForm.image === '0' && this.ruleForm.image1 === '1' && this.ruleForm.image2 === '2' && this.ruleForm.image3 === '3') {
+            extraInfoDetail1(this.ruleForm).then(res => {
               if (res.code === '0') {
                 this.$message({
                   message: '提交成功',
