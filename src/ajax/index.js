@@ -141,6 +141,7 @@ export {
   addCompanyCoverVideo,
   comNotice,
   deletecomNotice,
-  iscomNews
+  iscomNews,
+  modifyCompanyinfo
 }
 from './corporateCenter.js';

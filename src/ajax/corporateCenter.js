@@ -103,3 +103,7 @@ export function deletecomNotice(obj) {
 export function iscomNews(obj) {
   return http.get('/api/news/news', obj);
 }
+// 修改公司信息
+export function modifyCompanyinfo(obj) {
+  return http.post('api/companyinfo/modifyById', obj);
+}
