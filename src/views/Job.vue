@@ -79,7 +79,7 @@
           </div>
         </div>
         <div class="right">
-          <span @click="lasted">默认</span>
+          <span @click="moren">默认</span>
           <span @click="lasted">最新</span>
           <span @click="hot">热点</span>
         </div>
@@ -158,7 +158,7 @@ export default {
       }],
       sex: '',
       isHave: true,
-      select: 'uptime',
+      select: 'moren',
       params: null,
       jobType: [],
       name: '', // 为单类型选择后存储的类型名
@@ -181,6 +181,21 @@ export default {
     handleCurrentChange(val) {
       if (this.select === 'uptime') {
         findJobUptime({ page: val }).then(res => {
+          window.scrollTo(0, 0);
+          if (res.code === '0') {
+            this.isHave = true;
+            this.list = res.data;
+          } else {
+            this.list = [];
+            this.isHave = false;
+            this.$message.error(res.errMsg);
+          }
+        }).catch(err => {
+          this.isHave = false;
+          return err;
+        });
+      } else if (this.select === 'moren') {
+        findJobUptime({ page: val, uptime: '100000000000' }).then(res => {
           window.scrollTo(0, 0);
           if (res.code === '0') {
             this.isHave = true;
@@ -272,6 +287,11 @@ export default {
     // 最新按钮
     lasted() {
       this.select = 'uptime';
+      this.handleCurrentChange(1);
+    },
+     // 默认按钮
+    moren() {
+      this.select = 'moren';
       this.handleCurrentChange(1);
     },
     // 最热排名

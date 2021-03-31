@@ -11,7 +11,7 @@
           :style="{ backgroundImage: 'url(' + item.image + ')' }"
         ></div>
       </swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
+      <div class="swiper-pagination" id="parent" slot="pagination"></div>
     </swiper>
     <hot-actor></hot-actor>
     <hot-job></hot-job>
@@ -94,7 +94,7 @@ export default {
 .swiper-container {
   background-color: #000;
   --swiper-theme-color: rgb(255, 255, 255); /* 设置Swiper风格 */
-  --swiper-navigation-color: rgba(255, 0, 0, 0.5); /* 单独设置按钮颜色 */
+  --swiper-navigation-color: rgba(255, 0, 0, 1); /* 单独设置按钮颜色 */
   --swiper-navigation-size: 5vw; /* 设置按钮大小 */
   --swiper-navigation-size: 30px;
   width: 100%;
@@ -133,6 +133,14 @@ export default {
 .swiper-pagination-switch {
   color: red;
   background-color: red;
+}
+#parent /deep/ .swiper-pagination-bullet{
+      background: white;
+      opacity: 0.5;
+}
+#parent /deep/ .swiper-pagination-bullet-active {
+      background: white;
+      opacity: 1;
 }
 .homeIcon {
   color: #000;

@@ -126,10 +126,10 @@
             placeholder="请输入职业"
           ></el-input>
         </el-form-item>
-        <el-form-item label="经济公司" prop="company">
+        <el-form-item label="经纪公司" prop="company">
           <el-input
             v-model="ruleForm.company"
-            placeholder="请输入经济公司"
+            placeholder="请输入经纪公司"
           ></el-input>
         </el-form-item>
         <el-form-item label="代表作">

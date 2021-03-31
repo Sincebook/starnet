@@ -138,8 +138,8 @@
               toolBgc="none"
               :showChooseBtn="true"
               :lockScroll="true"
-              :cutWidth="240"
-              :cutHeight="120"
+              :cutWidth="480"
+              :cutHeight="240"
               :sizeChange="true"
               :moveAble="true"
               :imgMove="true"
@@ -154,7 +154,7 @@
             >
           </ImgCutter>
           <div class="el-upload__tip">
-            只能上传jpg/png文件，且不超过500kb
+            只能上传jpg/png文件，且不超过20MB
           </div>
         </el-form-item>
         <el-form-item label="文件" prop="file" v-if="ruleForm.type === 1">
@@ -167,8 +167,8 @@
               toolBgc="none"
               :showChooseBtn="true"
               :lockScroll="true"
-              :cutWidth="240"
-              :cutHeight="350"
+              :cutWidth="480"
+              :cutHeight="700"
               :sizeChange="true"
               :moveAble="true"
               :imgMove="true"
@@ -183,7 +183,7 @@
             >
           </ImgCutter>
           <div class="el-upload__tip">
-            只能上传jpg/png文件，且不超过500kb
+            只能上传jpg/png文件，且不超过20MB
           </div>
         </el-form-item>
         <el-form-item label="文件" prop="file" v-if="ruleForm.type !== 1">
