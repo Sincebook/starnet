@@ -126,10 +126,10 @@
             placeholder="请输入职业"
           ></el-input>
         </el-form-item>
-        <el-form-item label="经济公司" prop="company">
+        <el-form-item label="经纪公司" prop="company">
           <el-input
             v-model="ruleForm.company"
-            placeholder="请输入经济公司"
+            placeholder="请输入经纪公司"
           ></el-input>
         </el-form-item>
         <el-form-item label="代表作">
@@ -325,8 +325,7 @@ import home from './home.json';
 import country from './country.json';
 import {
   mineInfoDetail,
-  extraInfoDetail,
-  extraInfoDetail1
+  extraInfoDetail // extraInfoDetail1
 } from '../../ajax/index';
 export default {
   components: {
@@ -476,23 +475,7 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.flag = true;
-          if (this.ruleForm.image === '0' && this.ruleForm.image1 === '1' && this.ruleForm.image2 === '2' && this.ruleForm.image3 === '3') {
-            extraInfoDetail1(this.ruleForm).then(res => {
-              if (res.code === '0') {
-                this.$message({
-                  message: '提交成功',
-                  type: 'success'
-                });
-              } else {
-                this.$message.error(res.errMsg);
-              }
-              this.flag = false;
-            }).catch(err => {
-              this.flag = false;
-              this.$message.error(err);
-              return err;
-            });
-          } else {
+          // if (this.ruleForm.image === '0' && this.ruleForm.image1 === '1' && this.ruleForm.image2 === '2' && this.ruleForm.image3 === '3') {
             extraInfoDetail(this.ruleForm).then(res => {
               if (res.code === '0') {
                 this.$message({
@@ -508,8 +491,8 @@ export default {
               this.$message.error(err);
               return err;
             });
-          }
         }
+      // };
       });
     },
     changeUpload(file, fileList) {

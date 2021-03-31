@@ -14,7 +14,7 @@
         <div class="desc fiveLine">{{ info.description }}</div>
       </div>
       <div class="userinfo">
-        <div class="infos">
+        <div class="infos" @click="goCompany(info1.id)">
           <el-avatar class="logo" :src="info1.logo"></el-avatar>
           <span class="name">{{ info1.name }}</span>
         </div>
@@ -84,6 +84,9 @@ export default {
       } else {
         this.dialogVisible = true;
       }
+    },
+    goCompany(id) {
+      window.location.href = '../../../#/companyDetail/' + id + '/' + this.$route.params.userid;
     },
     handleClose() {
       this.dialogVisible = false;

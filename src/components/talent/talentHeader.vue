@@ -11,6 +11,36 @@
           fit="cover"
         ></el-image>
       </div>
+      <div class="list" v-else-if="info.image&&info.image1&&info.image2&&info.image3">
+        <el-image
+          :key="'img' + 0"
+          class="img"
+          :src="info.image"
+          :preview-src-list="srcList"
+          fit="cover"
+        ></el-image>
+         <el-image
+          :key="'img' + 1"
+          class="img"
+          :src="info.image1"
+          :preview-src-list="srcList"
+          fit="cover"
+        ></el-image>
+         <el-image
+          :key="'img' + 2"
+          class="img"
+          :src="info.image2"
+          :preview-src-list="srcList"
+          fit="cover"
+        ></el-image>
+         <el-image
+          :key="'img' + 3"
+          class="img"
+          :src="info.image3"
+          :preview-src-list="srcList"
+          fit="cover"
+        ></el-image>
+      </div>
       <div class="list" v-else-if="info.image">
         <el-image
           v-for="(item, index) in list"

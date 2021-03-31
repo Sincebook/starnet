@@ -10,10 +10,12 @@
         <div v-else class="btn flw_s" @click="cancelFlw">已关注</div>
         <div class="btn font">粉丝数 {{ funs | setNum }}</div>
         <div class="btn font">成交量 {{ info.oknum | setNum }}</div>
+        <div class="share">
         <span>分享</span>
         <svg @click="share" class="icon" aria-hidden="true">
           <use xlink:href="#icon-weibo"></use>
         </svg>
+        </div>
       </div>
       <!-- <div class="share">
         <span>分享</span>
@@ -259,19 +261,17 @@ export default {
       }
     }
     .share {
-      position: absolute;
-      top: 0;
-      right: 0;
       display: flex;
       align-items: center;
       span {
         font-size: 14px;
-        color: #909399;
+        color: #555;
       }
       .icon {
         cursor: pointer;
-        margin-left: 10px;
+        margin-left: 2px;
         font-size: 20px;
+        color: red;
       }
     }
   }

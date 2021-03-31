@@ -61,7 +61,7 @@
           </div>
         </div>
         <div class="right">
-          <span @click="lasted">默认</span>
+          <span @click="moren">默认</span>
           <span @click="lasted">最新</span>
           <span @click="hot">热点</span>
         </div>
@@ -125,7 +125,7 @@ export default {
       }],
       area: '',
       isHave: true,
-      select: 'uptime',
+      select: 'moren',
       name: '', // 为单类型选择后存储的类型名
       nameArr: ['公司分类', 'Company', 'classification']
     };
@@ -153,11 +153,28 @@ export default {
   },
   methods: {
     handleCurrentChange(val) {
-      if (this.select === 'uptime') {
+      if (this.select === 'moren') {
         findByUptime({ page: val }).then(res => {
           window.scrollTo(0, 0);
           if (res.code === '0') {
             this.isHave = true;
+            this.list = res.data;
+          } else {
+            this.isHave = false;
+            this.$message.error(res.errMsg);
+          }
+        }).catch(err => {
+          this.isHave = false;
+          return err;
+        });
+      } else if (this.select === 'uptime') {
+        findByUptime({ page: val }).then(res => {
+          window.scrollTo(0, 0);
+          if (res.code === '0') {
+            this.isHave = true;
+            console.log(res.data);
+            res.data.companyInfoVOs.length = 12;
+            res.data.allpage = 1;
             this.list = res.data;
           } else {
             this.isHave = false;
@@ -261,6 +278,10 @@ export default {
     // 最新按钮
     lasted() {
       this.select = 'uptime';
+      this.handleCurrentChange(1);
+    },
+    moren() {
+      this.select = 'moren';
       this.handleCurrentChange(1);
     },
     // 最热排名
