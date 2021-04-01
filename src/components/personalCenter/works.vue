@@ -129,7 +129,44 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="封面" prop="coverFile" v-if="ruleForm.type === 2">
-          <ImgCutter
+          <el-upload
+            class="avatar-uploader"
+            :http-request="upload"
+            action=""
+            :show-file-list="false"
+            :on-change='changeUpload'
+            :on-remove="handleRemove"
+          >
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i> </el-upload>
+          <el-dialog title="图片剪裁" :visible.sync="dialogVisible2" append-to-body>
+            <div class="cropper-content">
+              <div class="cropper" style="text-align:center">
+                <vueCropper
+                  ref="cropper"
+                  :img="option.img"
+                  :outputSize="option.size"
+                  :outputType="option.outputType"
+                  :info="true"
+                  :full="option.full"
+                  :canMove="option.canMove"
+                  :canMoveBox="option.canMoveBox"
+                  :original="option.original"
+                  :autoCrop="option.autoCrop"
+                  :fixed="option.fixed"
+                  :fixedNumber="option.fixedNumber"
+                  :centerBox="option.centerBox"
+                  :infoTrue="option.infoTrue"
+                  :fixedBox="option.fixedBox"
+                ></vueCropper>
+              </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible2 = false">取 消</el-button>
+              <el-button type="primary" @click="finish" :loading="loading">确认</el-button>
+            </div>
+          </el-dialog>
+          <!-- <ImgCutter
               v-on:cutDown="cutDownCover"
               class="img-cut"
               :crossOrigin="true"
@@ -152,38 +189,51 @@
             <el-button slot="open" size="small" type="primary"
               >选取封面图片</el-button
             >
-          </ImgCutter>
+          </ImgCutter> -->
           <div class="el-upload__tip">
-            只能上传jpg/png文件，且不超过20MB
+            只能上传jpg文件，且不超过500kb
           </div>
         </el-form-item>
         <el-form-item label="文件" prop="file" v-if="ruleForm.type === 1">
-          <ImgCutter
-              v-on:cutDown="cutDown"
-              class="img-cut"
-              :crossOrigin="true"
-              crossOriginHeader="*"
-              rate="24:35"
-              toolBgc="none"
-              :showChooseBtn="true"
-              :lockScroll="true"
-              :cutWidth="480"
-              :cutHeight="700"
-              :sizeChange="true"
-              :moveAble="true"
-              :imgMove="true"
-              :originalGraph="false"
-              :smallToUpload="true"
-              :saveCutPosition="true"
-              :scaleAble="true"
-              :previewMode="true"
-            >
-            <el-button slot="open" size="small" type="primary"
-              >选取文件</el-button
-            >
-          </ImgCutter>
+          <el-upload
+            class="avatar-uploader"
+            :http-request="upload"
+            action=""
+            :show-file-list="false"
+            :on-change='changeUpload1'
+            :on-remove="handleRemove"
+          >
+          <img v-if="imageUrl1" :src="imageUrl1" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i> </el-upload>
+          <el-dialog title="图片剪裁" :visible.sync="dialogVisible3" append-to-body>
+            <div class="cropper-content">
+              <div class="cropper" style="text-align:center">
+                <vueCropper
+                  ref="cropper"
+                  :img="option.img1"
+                  :outputSize="option.size"
+                  :outputType="option.outputType"
+                  :info="true"
+                  :full="option.full"
+                  :canMove="option.canMove"
+                  :canMoveBox="option.canMoveBox"
+                  :original="option.original"
+                  :autoCrop="option.autoCrop"
+                  :fixed="option.fixed"
+                  :fixedNumber="option.fixedNumber"
+                  :centerBox="option.centerBox"
+                  :infoTrue="option.infoTrue"
+                  :fixedBox="option.fixedBox"
+                ></vueCropper>
+              </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible3 = false">取 消</el-button>
+              <el-button type="primary" @click="finish1" :loading="loading1">确认</el-button>
+            </div>
+          </el-dialog>
           <div class="el-upload__tip">
-            只能上传jpg/png文件，且不超过20MB
+            只能上传jpg文件，且不超过500kb
           </div>
         </el-form-item>
         <el-form-item label="文件" prop="file" v-if="ruleForm.type !== 1">
@@ -202,7 +252,7 @@
             <div slot="tip" class="el-upload__tip">
               {{
                 ruleForm.type === 1
-                  ? "只能上传jpg/png文件，且不超过20MB"
+                  ? "只能上传jpg文件，且不超过20MB"
                   : ruleForm.type === 2
                   ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过1G"
                   : ruleForm.type === 3
@@ -227,6 +277,7 @@
 </template>
 
 <script>
+import { VueCropper } from 'vue-cropper';
 import ImgCutter from 'vue-img-cutter';
 import videoCard from './videoCard';
 import audioCard from './audioCard';
@@ -240,6 +291,25 @@ import {
 export default {
   data() {
     return {
+      option: {
+        img: '', // 裁剪图片的地址
+        img1: '',
+        info: true, // 裁剪框的大小信息
+        outputSize: 0.8, // 裁剪生成图片的质量
+        outputType: 'jpeg', // 裁剪生成图片的格式
+        canScale: true, // 图片是否允许滚轮缩放
+        autoCrop: true, // 是否默认生成截图框
+        // autoCropWidth: 300, // 默认生成截图框宽度
+        // autoCropHeight: 200, // 默认生成截图框高度
+        fixedBox: false, // 固定截图框大小 不允许改变
+        fixed: true, // 是否开启截图框宽高固定比例
+        fixedNumber: [2, 1], // 截图框的宽高比例
+        full: true, // 是否输出原图比例的截图
+        canMoveBox: true, // 截图框能否拖动
+        original: false, // 上传图片按照原始比例渲染
+        centerBox: false, // 截图框是否被限制在图片里面
+        infoTrue: true // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
+      },
       isHave: true,
       activeName: '1',
       currentPage: 1,
@@ -250,6 +320,14 @@ export default {
       imgList: [], // 照片放大
       dialogVisible: false,
       dialogVisible1: false,
+      dialogVisible2: false,
+      dialogVisible3: false,
+      fileinfor: '',
+      imageUrl: '',
+      loading: false,
+      fileinfor1: '',
+      imageUrl1: '',
+      loading1: false,
       selectVideo: [],
       flag: false,
       formFlag: false,
@@ -292,16 +370,10 @@ export default {
     changeOptions() {
       if (this.number === 1) {
         this.ruleForm.type = 1;
-        console.log(this.number);
-        console.log(this.ruleForm.type);
       } else if (this.number === 2) {
         this.ruleForm.type = 2;
-        console.log(this.number);
-        console.log(this.ruleForm.type);
       } else if (this.number === 3) {
         this.ruleForm.type = 3;
-        console.log(this.number);
-        console.log(this.ruleForm.type);
       }
     },
     cutDown(obj) {
@@ -358,10 +430,8 @@ export default {
         this.number = 1;
       } else if (value.paneName === '2') {
         this.number = 2;
-        console.log(this.number);
       } else if (value.paneName === '3') {
         this.number = 3;
-        console.log(this.number);
       }
     },
     handleClose(done) {
@@ -414,6 +484,7 @@ export default {
                 this.handleCurrentChange(1);
                 this.$refs.ruleForm.resetFields();
                 this.dialogVisible1 = false;
+                this.imageUrl = '';
               } else {
                 this.$message.error(res.errMsg);
               }
@@ -438,6 +509,7 @@ export default {
               this.handleCurrentChange(1);
               this.$refs.ruleForm.resetFields();
               this.dialogVisible1 = false;
+              this.imageUrl1 = '';
             } else {
               this.$message.error(res.errMsg);
             }
@@ -452,6 +524,56 @@ export default {
     },
     async upload(content) {
       this.ruleForm.file = content.file;
+    },
+    changeUpload(file, fileList) {
+      const isJPG = file.raw.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 20;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 20MB!');
+        return false;
+      }
+      this.fileinfor = file;
+      // 上传成功后将图片地址赋值给裁剪框显示图片
+      this.$nextTick(() => {
+        this.option.img = URL.createObjectURL(file.raw);
+        this.dialogVisible2 = true;
+      });
+    },
+    finish() {
+        this.$refs.cropper.getCropBlob((data) => {
+          let file = new window.File([data], this.fileinfor.name, { type: 'image/jpeg' });
+          this.imageUrl = window.URL.createObjectURL(data);
+          this.ruleForm.coverFile = file;
+        });
+        this.dialogVisible2 = false;
+    },
+    changeUpload1(file, fileList) {
+      const isJPG = file.raw.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 20;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 20MB!');
+        return false;
+      }
+      this.fileinfor1 = file;
+      // 上传成功后将图片地址赋值给裁剪框显示图片
+      this.$nextTick(() => {
+        this.option.img1 = URL.createObjectURL(file.raw);
+        this.dialogVisible3 = true;
+      });
+    },
+    finish1() {
+        this.$refs.cropper.getCropBlob((data) => {
+          let file = new window.File([data], this.fileinfor1.name, { type: 'image/jpeg' });
+          this.imageUrl1 = window.URL.createObjectURL(data);
+          this.ruleForm.file = file;
+        });
+        this.dialogVisible3 = false;
     },
     beforeUpload(file) {
       const isJPG = file.type === 'image/jpeg' || 'image/png';
@@ -496,7 +618,8 @@ export default {
   components: {
     videoCard,
     audioCard,
-    ImgCutter
+    ImgCutter,
+    VueCropper
   }
 };
 </script>
@@ -586,5 +709,36 @@ video {
     text-align: right;
     margin: 0;
   }
+}
+.cropper-content {
+    .cropper {
+        width: auto;
+        height: 300px;
+    }
+}
+/deep/.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+/deep/ .avatar-uploader {
+    height: 80px;
+}
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 160px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+}
+.avatar {
+    width:  160px;
+    height: 80px;
+    border-radius: 5px;
+    display: block;
+    cursor: pointer;
 }
 </style>
