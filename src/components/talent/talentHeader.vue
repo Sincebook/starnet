@@ -13,33 +13,14 @@
       </div>
       <div class="list" v-else-if="info.image&&info.image1&&info.image2&&info.image3">
         <el-image
-          :key="'img' + 0"
+          v-for="item in lists"
+          :key="item.id"
           class="img"
-          :src="info.image"
+          :src="item.path"
           :preview-src-list="srcList"
           fit="cover"
-        ></el-image>
-         <el-image
-          :key="'img' + 1"
-          class="img"
-          :src="info.image1"
-          :preview-src-list="srcList"
-          fit="cover"
-        ></el-image>
-         <el-image
-          :key="'img' + 2"
-          class="img"
-          :src="info.image2"
-          :preview-src-list="srcList"
-          fit="cover"
-        ></el-image>
-         <el-image
-          :key="'img' + 3"
-          class="img"
-          :src="info.image3"
-          :preview-src-list="srcList"
-          fit="cover"
-        ></el-image>
+        >
+        </el-image>
       </div>
       <div class="list" v-else-if="info.image">
         <el-image
@@ -114,6 +95,7 @@ export default {
   data() {
     return {
       list: [],
+      lists: [],
       isFollow: false,
       replayMsg: '',
       funs: '',
@@ -123,6 +105,14 @@ export default {
   },
   created() {
     getUserLifeImg({ userid: this.$route.params.id, type: 4, page: 1 }).then(res => {
+      this.lists = [
+        { path: this.info.image },
+        { path: this.info.image1 },
+        { path: this.info.image2 },
+        { path: this.info.image3 }
+      ];
+      console.log(this.lists);
+      console.log(this.info.image3);
       if (res.code === '0') {
         this.list = res.data.datas.slice(0, 4);
       }

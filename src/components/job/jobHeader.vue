@@ -14,10 +14,12 @@
         <div class="desc fiveLine">{{ info.description }}</div>
       </div>
       <div class="userinfo">
+        <a>
         <div class="infos" @click="goCompany(info1.id)">
           <el-avatar class="logo" :src="info1.logo"></el-avatar>
           <span class="name">{{ info1.name }}</span>
         </div>
+        </a>
         <div class="btns">
           <div class="btn msg" @click="openDialog">私信</div>
           <div v-if="!isFollow" class="btn flw" @click="follow">关注</div>
