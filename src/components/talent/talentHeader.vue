@@ -218,8 +218,8 @@ export default {
   },
   computed: {
     srcList() {
-      if (this.list.length === 4) {
-        let res1 = this.list.map(item => {
+      if (this.lists.length === 4) {
+        let res1 = this.lists.map(item => {
           return item.path;
         });
         return res1;
