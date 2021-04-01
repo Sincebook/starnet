@@ -144,7 +144,7 @@
             type="textarea"
             :autosize="{ minRows: 6, maxRows: 6 }"
             v-model="ruleForm.selfEvaluation"
-            placeholder="请输入个人描述"
+            placeholder="请输入个人描述(不多于500字)"
           ></el-input>
         </el-form-item>
         <div class="ph">

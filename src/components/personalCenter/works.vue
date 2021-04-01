@@ -154,7 +154,7 @@
                   :original="option.original"
                   :autoCrop="option.autoCrop"
                   :fixed="option.fixed"
-                  :fixedNumber="option.fixedNumber"
+                  :fixedNumber="option.fixedNumber1"
                   :centerBox="option.centerBox"
                   :infoTrue="option.infoTrue"
                   :fixedBox="option.fixedBox"
@@ -191,7 +191,7 @@
             >
           </ImgCutter> -->
           <div class="el-upload__tip">
-            只能上传jpg文件，且不超过500kb
+            只能上传jpg/png文件，且不超过20MB
           </div>
         </el-form-item>
         <el-form-item label="文件" prop="file" v-if="ruleForm.type === 1">
@@ -233,7 +233,7 @@
             </div>
           </el-dialog>
           <div class="el-upload__tip">
-            只能上传jpg文件，且不超过500kb
+            只能上传jpg/png文件，且不超过20MB
           </div>
         </el-form-item>
         <el-form-item label="文件" prop="file" v-if="ruleForm.type !== 1">
@@ -252,7 +252,7 @@
             <div slot="tip" class="el-upload__tip">
               {{
                 ruleForm.type === 1
-                  ? "只能上传jpg文件，且不超过20MB"
+                  ? "只能上传jpg/png文件，且不超过20MB"
                   : ruleForm.type === 2
                   ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过1G"
                   : ruleForm.type === 3
@@ -303,7 +303,8 @@ export default {
         // autoCropHeight: 200, // 默认生成截图框高度
         fixedBox: false, // 固定截图框大小 不允许改变
         fixed: true, // 是否开启截图框宽高固定比例
-        fixedNumber: [2, 1], // 截图框的宽高比例
+        fixedNumber: [1.1, 1.5], // 截图框的宽高比例
+        fixedNumber1: [1.5, 1], // 截图框的宽高比例
         full: true, // 是否输出原图比例的截图
         canMoveBox: true, // 截图框能否拖动
         original: false, // 上传图片按照原始比例渲染
@@ -526,10 +527,10 @@ export default {
       this.ruleForm.file = content.file;
     },
     changeUpload(file, fileList) {
-      const isJPG = file.raw.type === 'image/jpeg';
+      const isJPG = file.raw.type === 'image/jpeg' || 'image/png';
       const isLt2M = file.size / 1024 / 1024 < 20;
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 JPG/png 格式!');
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 20MB!');
@@ -551,10 +552,10 @@ export default {
         this.dialogVisible2 = false;
     },
     changeUpload1(file, fileList) {
-      const isJPG = file.raw.type === 'image/jpeg';
+      const isJPG = file.raw.type === 'image/jpeg' || 'image/png';
       const isLt2M = file.size / 1024 / 1024 < 20;
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 JPG/png 格式!');
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 20MB!');
@@ -729,14 +730,14 @@ video {
 .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 160px;
-    height: 80px;
+    width:  60px;
+    height: 75px;
     line-height: 80px;
     text-align: center;
 }
 .avatar {
-    width:  160px;
-    height: 80px;
+    width:  60px;
+    height: 75px;
     border-radius: 5px;
     display: block;
     cursor: pointer;
