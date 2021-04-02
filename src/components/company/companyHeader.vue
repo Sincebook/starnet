@@ -182,7 +182,7 @@ export default {
     background-position: center center;
     background-size: cover;
     width: 100%;
-    height: 340px;
+    height: 30vw;
   }
   .infos {
     width: 1110px;

@@ -12,6 +12,7 @@
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-play"></use>
         </svg>
+        <div style="text-align:center;">{{item.description}}</div>
       </div>
     </div>
     <div class="footer-page">

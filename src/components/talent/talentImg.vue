@@ -2,14 +2,19 @@
   <div v-if="talentNav.isHave" class="talent-img">
     <h4 class="headtitle">照 片</h4>
     <div class="list">
+      <div v-for="item in list.datas"
+        :key="'img' + item.id">
       <el-image
         class="itemImg"
-        v-for="item in list.datas"
-        :key="'img' + item.id"
         :src="item.path"
+        :title="item.description"
         fit="cover"
         :preview-src-list="srcList"
       ></el-image>
+      <div style="text-align:center;">
+         <b >{{item.description}}</b>
+      </div>
+      </div>
     </div>
     <div class="footer-page">
       <el-pagination
