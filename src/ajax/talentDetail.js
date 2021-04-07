@@ -4,10 +4,6 @@ import http from '@/utils/http';
 export function userinfoById(params) {
   return http.get('/api/userinfo/findById', params);
 }
-// 根据id获取生活照
-export function getUserLifeImg(params) {
-  return http.get('/api/opus/findByTypeAndUserId', params);
-}
 // 关注他
 export function watchIt(params) {
   return http.post('/api/funs/add', params);

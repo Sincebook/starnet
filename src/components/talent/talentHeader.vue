@@ -1,42 +1,13 @@
 <template>
   <div class="talentHeader">
     <div class="left">
-      <div class="list" v-if="list.length === 4">
+      <div class="list" v-if="lifeList">
         <el-image
-          v-for="(item, index) in list"
-          :key="'img' + index"
+          v-for="(item, index) in lifeList"
+          :key="'lifeimg' + index"
           class="img"
-          :src="item.path"
-          :preview-src-list="srcList"
-          fit="cover"
-        ></el-image>
-      </div>
-      <div class="list" v-else-if="info.image&&info.image1&&info.image2&&info.image3">
-        <el-image
-          v-for="item in lists"
-          :key="item.id"
-          class="img"
-          :src="item.path"
-          :preview-src-list="srcList"
-          fit="cover"
-        >
-        </el-image>
-      </div>
-      <div class="list" v-else-if="info.image">
-        <el-image
-          v-for="(item, index) in list"
-          :key="'img' + index"
-          class="img"
-          :src="item.path"
-          :preview-src-list="srcList"
-          fit="cover"
-        ></el-image>
-        <el-image
-          v-for="(item, index) in 4 - list.length"
-          :key="'img1' + index"
-          class="img"
-          :src="info.image"
-          :preview-src-list="srcList"
+          :src="item"
+          :preview-src-list="lifeList"
           fit="cover"
         ></el-image>
       </div>
@@ -89,13 +60,11 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import { getUserLifeImg, getFuns, addMsg, isFun, watchIt, noWatch } from '@/ajax';
+import { getFuns, addMsg, isFun, watchIt, noWatch } from '@/ajax';
 export default {
-  props: ['info'],
+  props: ['info', 'lifeList'],
   data() {
     return {
-      list: [],
-      lists: [],
       isFollow: false,
       replayMsg: '',
       funs: '',
@@ -104,21 +73,6 @@ export default {
     };
   },
   created() {
-    getUserLifeImg({ userid: this.$route.params.id, type: 4, page: 1 }).then(res => {
-      this.lists = [
-        { path: this.info.image },
-        { path: this.info.image1 },
-        { path: this.info.image2 },
-        { path: this.info.image3 }
-      ];
-      console.log(this.lists);
-      console.log(this.info.image3);
-      if (res.code === '0') {
-        this.list = res.data.datas.slice(0, 4);
-      }
-    }).catch(err => {
-      return err;
-    });
     this.isFun(this.userid);
     this.getFuns(this.userid);
   },
@@ -217,21 +171,6 @@ export default {
     }
   },
   computed: {
-    srcList() {
-      if (this.lists.length === 4) {
-        let res1 = this.lists.map(item => {
-          return item.path;
-        });
-        return res1;
-      } else {
-        let res2 = [];
-        res2 = this.list.map(item => {
-          return item.path;
-        });
-        res2.push(this.info.image);
-        return res2;
-      }
-    },
     ...mapState({
       isLogin: (state) => state.isLogin,
       userinfo: (state) => state.userinfo

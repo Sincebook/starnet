@@ -61,8 +61,7 @@ export {
   getUserImg,
   getUserWork,
   getAllMomes,
-  addMemos,
-  getUserLifeImg
+  addMemos
 }
 from './talentDetail';
 

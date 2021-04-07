@@ -1,6 +1,6 @@
 <template>
   <div class="talent-detail">
-    <talent-header :info="info"></talent-header>
+    <talent-header :info="info" :lifeList="lifeList"></talent-header>
     <talent-nav></talent-nav>
     <talent-resume
       id="desc"
@@ -28,7 +28,8 @@ export default {
   data() {
     return {
       info: [],
-      offheight: ''
+      offheight: '',
+      lifeList: []
     };
   },
   components: {
@@ -45,6 +46,25 @@ export default {
     userinfoById({ id: this.$route.params.id }).then(res => {
       if (res.code === '0') {
         this.info = res.data;
+        let res1 = [];
+        if (this.info.image) {
+          res1.push(this.info.image);
+        }
+        if (this.info.image1) {
+          res1.push(this.info.image1);
+        }
+        if (this.info.image2) {
+          res1.push(this.info.image2);
+        }
+        if (this.info.image3) {
+          res1.push(this.info.image3);
+        }
+        for (let i = 0; i < 4; i++) {
+          if (res1.length < 4) {
+            res1.push(res1[0]);
+          }
+        }
+        this.lifeList = res1;
         this.$nextTick(() => {
           this.offheight = document.getElementById('selfEvaluation').offsetHeight;
         });
