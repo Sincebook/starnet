@@ -63,6 +63,24 @@
               >
             </el-dropdown-menu>
           </el-dropdown>
+          <el-dropdown
+            trigger="click"
+            placement="bottom"
+            @command="handleCommand4"
+          >
+            <span class="el-dropdown-link">
+              {{ age ? age : "年龄" }}
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                v-for="item in ageType"
+                :key="item.id"
+                :command="item.name"
+                >{{ item.name }}</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </el-dropdown>
           <div class="search bar1">
             <form>
               <input
@@ -120,7 +138,7 @@
 <script>
 import subBar from '../components/common/subBar';
 import actorCard from '../components/common/actorCard';
-import { findByTalentNew, getJobType, findByName, findHotTalent, findByThree, findByVocation } from '@/ajax';
+import { findByTalentNew, getJobType, findByName, findHotTalent, findByFour, findByVocation } from '@/ajax';
 export default {
   data() {
     return {
@@ -151,6 +169,16 @@ export default {
         id: 3, name: '女'
       }],
       sex: '',
+      ageType: [{
+        id: 1, name: '全部'
+      }, {
+        id: 2, name: '0-20'
+      }, {
+        id: 3, name: '20-40'
+      }, {
+        id: 4, name: '40+'
+      }],
+      age: '',
       isHave: true,
       select: 'moren',
       params: '',
@@ -203,7 +231,8 @@ export default {
           return err;
         });
       } else if (this.select === 'type') {
-        findByThree({ workArea: this.area, vocation: this.job, sex: this.sex, page: val }).then(res => {
+        console.log('这里错了马？');
+        findByFour({ workArea: this.area, vocation: this.job, sex: this.sex, age: this.age, page: val }).then(res => {
           if (res.code === '0') {
             this.isHave = true;
             this.list = res.data;
@@ -256,6 +285,14 @@ export default {
       }
       this.newType();
     },
+    handleCommand4(command) {
+      if (command === '全部') {
+        this.age = '';
+      } else {
+        this.age = command;
+      }
+      this.newType();
+    },
     // 搜索
     search() {
       if (!this.searchVal) {
@@ -305,18 +342,28 @@ export default {
     },
     // 下拉选择api
     newType() {
-      if (this.area === '' && this.job === '' && this.sex === '') {
+      if (this.area === '' && this.job === '' && this.sex === '' && this.age === '') {
         this.select = 'uptime';
         this.handleCurrentChange(1);
       } else {
         this.select = 'type';
         this.currentPage = 1;
-        findByThree({
+        // if (this.age === '0-20') {
+        //   this.age = 2;
+        // } else if (this.age === '20-40') {
+        //   this.age = 3;
+        // } else if (this.age === '40+') {
+        //   this.age = 4;
+        // }
+        console.log('11111');
+        findByFour({
           workArea: this.area,
           vocation: this.job,
           sex: this.sex,
+          age: 1,
           page: this.currentPage
         }).then(res => {
+           console.log('222222');
           if (res.code === '0') {
             this.isHave = true;
             this.list = res.data;
@@ -326,6 +373,7 @@ export default {
             this.$message.error(res.errMsg);
           }
         }).catch(err => {
+          console.log('222222');
           this.isHave = false;
           return err;
         });

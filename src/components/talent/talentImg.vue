@@ -11,7 +11,7 @@
         fit="cover"
         :preview-src-list="srcList"
       ></el-image>
-      <div style="text-align:center;">
+      <div class="picName">
          <b >{{item.description}}</b>
       </div>
       </div>
@@ -105,5 +105,14 @@ export default {
   .footer-page {
     text-align: center;
   }
+    .picName {
+        text-align:center;
+        margin: 0 auto;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+       -webkit-line-clamp: 1;
+       overflow: hidden;
+       max-width: 180px;
+      }
 }
 </style>

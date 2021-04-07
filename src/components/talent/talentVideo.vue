@@ -12,7 +12,10 @@
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-play"></use>
         </svg>
-        <div style="text-align:center;">{{item.description}}</div>
+        <div style="padding:12px;">
+          <div class="videoName"> {{item.description}}</div>
+          <div style="float:right;line-height:30px;">点击查看详情</div>
+        </div>
       </div>
     </div>
     <div class="footer-page">
@@ -71,7 +74,7 @@ export default {
     },
     getUserVideo(page) {
       console.log(this.$route.params.userid);
-      getUserImg({ type: 2, num: 4, userid: this.$route.params.userid, page: this.currentPage }).then(res => {
+      getUserImg({ type: 2, num: 6, userid: this.$route.params.userid, page: this.currentPage }).then(res => {
         if (res.code === '0') {
           this.$store.commit('talentNavVideo', true);
           this.list = res.data;
@@ -112,7 +115,7 @@ export default {
   .videoItem {
     position: relative;
     margin: 15px;
-    width: 510px;
+    width: 330px;
     cursor: pointer;
     transition: all 0.25s;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
@@ -132,6 +135,17 @@ export default {
       transform: translate(-50%, -50%);
       font-size: 50px;
       color: #f5f5f5;
+    }
+    .videoName {
+      font-size:18px;
+      color: #0097d0;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+      max-width: 200px;
+      float:left;
+      margin-bottom: 12px;
     }
   }
   .footer-page {
