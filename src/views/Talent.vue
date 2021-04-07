@@ -179,6 +179,7 @@ export default {
         id: 4, name: '40+'
       }],
       age: '',
+      ageId: 1,
       isHave: true,
       select: 'moren',
       params: '',
@@ -231,7 +232,6 @@ export default {
           return err;
         });
       } else if (this.select === 'type') {
-        console.log('这里错了马？');
         findByFour({ workArea: this.area, vocation: this.job, sex: this.sex, age: this.age, page: val }).then(res => {
           if (res.code === '0') {
             this.isHave = true;
@@ -348,22 +348,20 @@ export default {
       } else {
         this.select = 'type';
         this.currentPage = 1;
-        // if (this.age === '0-20') {
-        //   this.age = 2;
-        // } else if (this.age === '20-40') {
-        //   this.age = 3;
-        // } else if (this.age === '40+') {
-        //   this.age = 4;
-        // }
-        console.log('11111');
+        if (this.age === '0-20') {
+          this.ageId = 2;
+        } else if (this.age === '20-40') {
+          this.ageId = 3;
+        } else if (this.age === '40+') {
+          this.ageId = 4;
+        }
         findByFour({
           workArea: this.area,
           vocation: this.job,
           sex: this.sex,
-          age: 1,
+          age: this.ageId,
           page: this.currentPage
         }).then(res => {
-           console.log('222222');
           if (res.code === '0') {
             this.isHave = true;
             this.list = res.data;
@@ -373,7 +371,6 @@ export default {
             this.$message.error(res.errMsg);
           }
         }).catch(err => {
-          console.log('222222');
           this.isHave = false;
           return err;
         });

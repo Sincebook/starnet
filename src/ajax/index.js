@@ -46,7 +46,7 @@ export {
 from './job';
 export {
   findByTalentNew,
-  findByThree,
+  findByFour,
   findByName,
   findHotTalent,
   findByVocation

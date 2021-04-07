@@ -65,7 +65,7 @@ export default {
   background-color: #fff;
   width: 1110px;
   margin: 50px auto;
-  padding: 30px 80px;
+  padding: 30px 30px;
   position: relative;
   .headtitle {
     text-align: center;
