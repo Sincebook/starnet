@@ -237,8 +237,16 @@ export default {
     .btn-box {
       width: 100%;
       display: flex;
+      display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+      display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+      display: -ms-flexbox;      /* TWEENER - IE 10 */
+      display: -webkit-flex;     /* NEW - Chrome */
       align-items: center;
-      justify-content: space-evenly;
+      justify-content: space-between;
+      &::before,&::after {
+        content: "";
+        display: block;
+      }
       .btn {
         width: 68px;
         height: 34px;
