@@ -170,15 +170,11 @@
               placeholder="请输入年龄要求"
             ></el-input>
           </el-form-item>
-          <el-form-item label="性别要求" prop="sex">
-            <el-select v-model="ruleForm.sex" placeholder="请选择性别">
-              <el-option
-                v-for="item in sexList"
-                :key="item.value"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
+          <el-form-item label="招聘人数" prop="sex">
+            <el-input
+              v-model="ruleForm.sex"
+              placeholder="请输入招聘人数"
+            ></el-input>
           </el-form-item>
           <el-form-item label="面试地点" prop="place">
             <el-input
@@ -517,7 +513,7 @@ export default {
         centerBox: false, // 截图框是否被限制在图片里面
         infoTrue: true // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
       },
-       option1: {
+      option1: {
         img: '', // 裁剪图片的地址
         info: true, // 裁剪框的大小信息
         outputSize: 0.8, // 裁剪生成图片的质量
@@ -573,7 +569,7 @@ export default {
           { required: true, validator: this.checkJobType }
         ],
         sex: [
-          { required: true, message: '性别不能为空', trigger: 'change' }
+          { required: true, message: '招聘人数不能为空', trigger: 'change' }
         ],
         age: [
           { required: true, message: '年龄要求不能为空', trigger: 'blur' }

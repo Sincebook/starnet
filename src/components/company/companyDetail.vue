@@ -11,6 +11,7 @@
     <company-video id="video"></company-video>
     <company-audio id="audio"></company-audio>
     <company-work id="work"></company-work>
+    <company-job id="job"></company-job>
     <company-msg id="msg"></company-msg>
   </div>
 </template>
@@ -22,6 +23,7 @@ import companyImg from './companyImg.vue';
 import companyVideo from './companyVideo.vue';
 import companyAudio from './companyAudio.vue';
 import companyWork from './companyWork.vue';
+import companyJob from './companyJob.vue';
 import companyMsg from './companyMsg.vue';
 import { getComInfoById } from '@/ajax';
 export default {
@@ -39,6 +41,7 @@ export default {
     companyVideo,
     companyAudio,
     companyWork,
+    companyJob,
     companyMsg
   },
   created() {
