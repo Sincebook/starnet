@@ -756,6 +756,7 @@ export default {
                 });
                 this.$refs.ruleForm.resetFields();
                 this.imageUrl = '';
+                this.editJob(res.data);
               } else {
                 this.$message.error(res.errMsg);
               }
@@ -856,7 +857,7 @@ export default {
         this.dialogVisible1 = true;
       });
       },
-      finish1() {
+    finish1() {
         this.$refs.cropper.getCropBlob((data) => {
           let file = new window.File([data], this.fileinfor.name, { type: 'image/jpeg' });
           this.roleimgUrl = window.URL.createObjectURL(data);
@@ -864,7 +865,7 @@ export default {
         });
         this.dialogVisible1 = false;
       },
-      finish() {
+    finish() {
       this.$refs.cropper.getCropBlob((data) => {
       // data为base64格式地址
         // let arr = data.split(','); let mime = arr[0].match(/:(.*?);/)[1];
