@@ -49,3 +49,7 @@ export function getBackGroundImgs() {
 export function findByOneType(params) {
   return http.get('/api/companyinfo/findByCategory', params);
 }
+// 根据id 获取公司在招职位
+export function findCompanyJob(params) {
+  return http.get('/apijob/findByUserId', params);
+}

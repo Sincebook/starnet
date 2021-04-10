@@ -14,10 +14,11 @@
           </svg>
         </div>
         <div class="container">
+          <p class="job-require">招聘职位：{{ item.job }}</p>
           <p class="job-require">发布人：{{ item.launch }}</p>
           <p>面试地点：{{ item.place }}</p>
           <p>年龄要求：{{ item.age }}</p>
-          <p>性别：{{ item.sex }}</p>
+          <p>招聘人数：{{ item.sex }}</p>
           <p class="job-require">职位要求：{{ item.jobneed }}</p>
           <p>薪酬：{{ item.money }}</p>
           <p>工作周期：{{ item.worktime }}</p>
@@ -104,7 +105,7 @@ export default {
     },
     // 查看详情
     deatil(id, userid) {
-      this.$router.push('jobDetail/' + id + '/' + userid);
+      this.$router.push('/jobDetail/' + id + '/' + userid);
     },
     // 取消收藏
     cancel(item) {
@@ -145,7 +146,7 @@ export default {
   position: relative;
   width: 270px;
   background-color: var(--cardBgColor);
-  height: 420px;
+  height: 450px;
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
@@ -160,7 +161,7 @@ export default {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 120px;
+    height: 125px;
     overflow: hidden;
     .img {
       width: 100%;
@@ -171,7 +172,7 @@ export default {
   .job-content {
     text-align: left;
     width: 100%;
-    padding: 130px 15px 0px 15px;
+    padding: 135px 15px 0px 15px;
     height: 100%;
     position: relative;
     .job-require {
