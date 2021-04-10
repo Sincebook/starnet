@@ -13,6 +13,11 @@
       ></el-image>
       <div class="picName">
          <b >{{item.description}}</b>
+         <a>
+          <svg @click="share1(item.description, item.path)" class="icon" aria-hidden="true">
+            <use xlink:href="#icon-weibo"></use>
+          </svg>
+         </a>
       </div>
       </div>
     </div>
@@ -58,6 +63,11 @@ export default {
       }).catch(err => {
         return err;
       });
+    },
+    share1(description, i) {
+      console.log(i);
+      let url = window.location.origin + '/%23/talentDetail/' + this.$route.params.id + '/' + this.userid;
+      window.open('http://v.t.sina.com.cn/share/share.php?title=绘星网分享---图片：' + description + '&url=' + url + '&content=utf-8&pic=' + i, 'newwindow', 'height:400,width:400,top:100,left:100');
     }
   },
   computed: {

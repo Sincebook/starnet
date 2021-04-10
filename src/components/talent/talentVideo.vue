@@ -42,6 +42,11 @@
         controls
         :src="selectVideo.path"
       ></video>
+      <a>
+        <svg @click="share2(selectVideo.description, selectVideo.image)" class="icon1" aria-hidden="true">
+            <use xlink:href="#icon-weibo"></use>
+          </svg>
+         </a>
     </el-dialog>
   </div>
 </template>
@@ -84,6 +89,11 @@ export default {
       }).catch(err => {
         return err;
       });
+    },
+    share2(description, i) {
+      console.log(i);
+      let url = window.location.origin + '/%23/talentDetail/' + this.$route.params.id + '/' + this.$route.params.userid;
+      window.open('http://v.t.sina.com.cn/share/share.php?title=绘星网分享---视频：' + description + '&url=' + url + '&content=utf-8&pic=' + i, 'newwindow', 'height:400,width:400,top:100,left:100');
     }
   },
   computed: {
@@ -94,6 +104,15 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+.icon1 {
+  width:15px;
+  position: absolute;
+  top:98%;
+  left:98%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+  color: #f5f5f5;
+}
 .talent-video {
   background-color: #fff;
   width: 1110px;
