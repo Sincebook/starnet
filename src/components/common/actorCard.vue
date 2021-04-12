@@ -167,7 +167,7 @@ export default {
   position: relative;
   width: 270px;
   background-color: var(--cardBgColor);
-  height: 360px;
+  height: 365px;
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
@@ -180,7 +180,7 @@ export default {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 270px;
+    height: 235px;
     z-index: -1;
     overflow: hidden;
     .bgImg {
@@ -191,7 +191,6 @@ export default {
   }
   .info {
     margin-top: 235px;
-    background-color: rgba(255, 255, 255, 0.99);
   }
   .name {
     overflow: hidden;

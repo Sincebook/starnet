@@ -6,8 +6,8 @@
     v-if="
       $route.path !== '/bindPhone' &&
       $route.path !== '/bindWbPhone' &&
-      $route.path !== '/sign'&&
-      $route.path !== '/login'&&
+      $route.path !== '/sign' &&
+      $route.path !== '/login' &&
       $route.path !== '/email'
     "
   >
@@ -16,21 +16,17 @@
         ><img :src="logoImg" alt="绘星" class="nav-icon"
       /></router-link>
       <span>
-        <router-link v-if='this.$route.path == "/home"' class="homeIcon" to="/home">首页</router-link>
-         <router-link v-if='this.$route.path != "/home"'  to="/home">首页</router-link>
+        <router-link to="/home" :style="isLight==='/home'?'color:#fff;':''">首页</router-link>
       </span>
       <span>
-        <router-link to="/talent" v-if='this.$route.path == "/talent"' class="homeIcon">人才目录</router-link>
-        <router-link to="/talent" v-if='this.$route.path != "/talent"'>人才目录</router-link>
+        <router-link to="/talent" :style="isLight==='/talent'?'color:#fff;':''">人才目录</router-link>
       </span>
       <span>
-        <router-link to="/company" v-if='this.$route.path == "/company"' class="homeIcon">公司目录</router-link>
-        <router-link to="/company" v-if='this.$route.path != "/company"'>公司目录</router-link>
+        <router-link to="/company" :style="isLight==='/company'?'color:#fff;':''">公司目录</router-link>
       </span>
       <span>
-        <router-link to="/job" v-if='this.$route.path == "/job"' class="homeIcon">工作职位</router-link>
-        <router-link to="/job" v-if='this.$route.path != "/job"' >工作职位</router-link>
-       </span>
+        <router-link to="/job" :style="isLight==='/job'?'color:#fff;':''">工作职位</router-link>
+      </span>
       <span><router-link to="/">学院</router-link></span>
       <span><router-link to="/">活动</router-link></span>
       <span><router-link to="/">更多</router-link></span>
@@ -124,7 +120,6 @@ export default {
   },
   created() {
     this.getMyLoginInfo();
-    this.getRout();
   },
   mounted() {
     window.addEventListener('scroll', this.handleScorll, true);
@@ -154,11 +149,6 @@ export default {
       }).catch(err => {
         return err;
       });
-    },
-    getRout() {
-      if (this.$route.path === '/home') {
-        document.getElementById('homeIcon').style.color = '#fff';
-      };
     },
     search(e) {
       let target = e.target;
@@ -215,6 +205,12 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    isLight() {
+      let rout = this.$route.path;
+      return rout;
+    }
   }
 };
 </script>
@@ -270,13 +266,14 @@ a {
     flex: 3;
     justify-self: flex-end;
     display: flex;
-    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-    display: -ms-flexbox;      /* TWEENER - IE 10 */
-    display: -webkit-flex;     /* NEW - Chrome */
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     align-items: center;
     justify-content: space-between;
-    &::before,&::after {
+    &::before,
+    &::after {
       content: "";
       display: block;
     }
@@ -343,6 +340,6 @@ a {
   height: 55px;
 }
 .homeIcon {
-  color: #fff
+  color: #fff;
 }
 </style>

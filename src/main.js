@@ -23,25 +23,25 @@ Object.keys(filters).forEach(key => {
 Vue.prototype.$message = function (msg) {
   ElementUI.Message({
     ...msg,
-    duration: 1000
+    duration: 3000
   });
 };
 Vue.prototype.$message.error = function (msg) {
   return ElementUI.Message.error({
     message: msg,
-    duration: 1000
+    duration: 5000
   });
 };
 Vue.prototype.$message.warnning = function (msg) {
   return ElementUI.Message.error({
     message: msg,
-    duration: 1000
+    duration: 3000
   });
 };
 Vue.prototype.$message.success = function (msg) {
   return ElementUI.Message.success({
     message: msg,
-    duration: 1000
+    duration: 2000
   });
 };
 router.beforeEach((to, from, next) => {

@@ -70,7 +70,7 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
     width: 1160px;
-    height: 750px;
+    height: 770px;
     margin: 0 auto;
     /deep/ .actor-card {
       margin: 10px 10px;

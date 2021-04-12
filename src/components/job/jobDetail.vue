@@ -3,7 +3,7 @@
     <job-header :info="info" :info1="info1"></job-header>
     <job-nav :info="info"></job-nav>
     <job-resume :info="info"></job-resume>
-    <job-works id="works" :roleList="roleList"></job-works>
+    <job-works v-if="isLogin" id="works" :roleList="roleList"></job-works>
   </div>
 </template>
 <script>
@@ -12,6 +12,7 @@ import jobNav from './jobNav.vue';
 import jobResume from './jobResume.vue';
 import jobWorks from './jobWorks.vue';
 import { getJobById, getAllRoles, fingComInfo } from '@/ajax';
+import { mapState } from 'vuex';
 export default {
   data() {
     return {
@@ -56,6 +57,11 @@ export default {
         return err;
       });
     }
+  },
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.isLogin
+    })
   },
   components: {
     jobHeader,
