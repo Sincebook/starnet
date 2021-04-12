@@ -22,23 +22,6 @@ export default {
     };
   },
   methods: {
-    handleScroll () {
-            // 页面滚动距顶部距离
-      let ele = document.getElementById('nav');
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-      let scroll = scrollTop - this.i;
-      this.i = scrollTop;
-      if (scrollTop > 300) {
-        if (scroll < 0) {
-          ele.classList.remove('downNav', 'newNav');
-          ele.classList.add('upNav', 'transtion');
-        } else {
-          ele.classList.remove('upNav', 'newNav');
-        }
-      } else {
-        ele.classList.remove('upNav', 'downNav', 'transtion');
-      }
-    },
     // 锚点跳转
     push(id) {
       document.querySelector('#' + id).scrollIntoView(true);
@@ -48,13 +31,6 @@ export default {
     ...mapState({
       talentNav: (state) => state.talentNav
     })
-  },
-  mounted() {
-    window.addEventListener('scroll', this.handleScroll);
-  },
-  // 移除监听事件
-  destroyed () {
-    window.removeEventListener('scroll', this.handleScroll);
   }
 };
 </script>

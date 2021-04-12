@@ -65,6 +65,10 @@ export default new Vuex.Store({
       title: '企业荣誉',
       isHave: false
     }, {
+      id: 'job',
+      title: '在招职位',
+      isHave: true
+    }, {
       id: 'msg',
       title: '留言',
       isHave: true
@@ -106,6 +110,9 @@ export default new Vuex.Store({
     },
     companyNavWork(state, work) {
       state.companyNav[4].isHave = work;
+    },
+    companyNavJob(state, job) {
+      state.companyNav[5].isHave = job;
     }
   },
   actions: {

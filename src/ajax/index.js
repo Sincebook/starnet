@@ -33,7 +33,8 @@ export {
   fingComInfo,
   findComByName,
   getBackGroundImgs,
-  findByOneType
+  findByOneType,
+  findCompanyJob
 }
 from './company.js';
 export {
