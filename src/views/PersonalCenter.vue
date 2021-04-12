@@ -114,6 +114,11 @@ export default {
     tabChange(id, child) {
       this.child = child;
       this.activeIndex = id;
+      console.log(id, child);
+      if (id === 5 && child === 'notice') {
+        this.menu[4].status = 0;
+        console.log(this.menu[4].status);
+      }
     },
     goCelebrity() {
       this.tabChange(2, 'celebrity');
