@@ -12,8 +12,10 @@ import BindPhone from '../views/BindPhone.vue';
 import BindWbPhone from '../views/BindWbPhone.vue';
 import PersonalCenter from '../views/PersonalCenter.vue';
 import PersonalNews from '../views/PersonalNews.vue';
+import PersonalCelebrity from '../views/PersonalCelebrity.vue';
 import CorporateCenter from '../views/CorporateCenter.vue';
 import CorporateNews from '../views/CorporateNews.vue';
+import CorporateCelebrity from '../views/CorporateCelebrity.vue';
 import companyDetail from '../components/company/companyDetail.vue';
 import jobDetail from '../components/job/jobDetail.vue';
 import talentDetail from '../components/talent/talentDetail.vue';
@@ -127,6 +129,11 @@ const routes = [{
     component: PersonalNews
   },
   {
+    path: '/personalcelebrity',
+    name: 'PersonalCelebrity',
+    component: PersonalCelebrity
+  },
+  {
     path: '/corporateCenter',
     name: 'CorporateCenter',
     component: CorporateCenter
@@ -135,6 +142,11 @@ const routes = [{
     path: '/corporateNews',
     name: 'CorporateNews',
     component: CorporateNews
+  },
+  {
+    path: '/corporateCelebrity',
+    name: 'CorporateCelebrity',
+    component: CorporateCelebrity
   },
   {
     path: '/companyDetail/:id/:userid',
