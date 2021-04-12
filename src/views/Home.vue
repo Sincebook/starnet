@@ -19,6 +19,16 @@
     <create-cv></create-cv>
     <safe-card></safe-card>
     <join-us></join-us>
+    <el-dialog
+      v-if=" isLogin == 1 && isCelebrity == 0"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>你还没有认证，快去认证吧～</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="celebrityTo()" class="celebrity">立即认证</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -31,10 +41,13 @@ import hotJob from '../components/home/hotJob';
 import createCv from '../components/home/createCv';
 import safeCard from '../components/home/safe';
 import joinUs from '../components/home/joinUs';
-import { getbanner } from '../ajax/index';
+import { getbanner, mineInfoDetail } from '../ajax/index';
+import { mapState } from 'vuex';
 export default {
   data() {
     return {
+      isCelebrity: 1,
+      dialogVisible: true,
       swiperOption: {
         autoplay: true,
         pagination: {
@@ -76,6 +89,42 @@ export default {
         this.banners = res.data;
       }
     });
+  },
+  methods: {
+    handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+    },
+    isDialog() {
+     mineInfoDetail().then(res => {
+      if (res.code === '0') {
+        this.isCelebrity = 1;
+        console.log(this.isCelebrity);
+      } else {
+        this.isCelebrity = 0;
+      }
+    }).catch(err => {
+      return err;
+    });
+    },
+    celebrityTo() {
+      if (this.$store.state.userinfo.user.type > 3) {
+        this.$router.push('/corporateCelebrity');
+      } else {
+        this.$router.push('/personalcelebrity');
+      }
+    }
+  },
+  mounted() {
+      this.isDialog();
+  },
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.isLogin
+    })
   }
 };
 </script>
@@ -144,5 +193,20 @@ export default {
 }
 .homeIcon {
   color: #000;
+}
+.celebrity {
+  margin-right: 33%;
+  text-align: center;
+}
+.el-button{
+  width: 35%;
+  height: 40px;
+  font-size: 16px;
+  margin-bottom: 5%;
+}
+.el-dialog__body{
+  span {
+    font-size: 16px;
+  }
 }
 </style>
