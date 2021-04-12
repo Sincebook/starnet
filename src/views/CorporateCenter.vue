@@ -46,7 +46,7 @@
             :class="{ active: activeIndex === item.id }"
             @click="tabChange(item.id, item.child)"
           >
-          <div  class="item" v-if="item.id===5 && item.status===1">
+          <div  class="item" v-if="item.id===5 && item.status===1" >
             {{ item.title }}
             <svg t="1615811266498" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2227" width="200" height="200"><path d="M512 512m-286.423125 0a286.423125 286.423125 0 1 0 572.84718751 0 286.423125 286.423125 0 1 0-572.84718751 0Z" fill="#f43530" p-id="2228"></path></svg>
           </div>
@@ -130,6 +130,11 @@ export default {
     tabChange(id, child) {
       this.child = child;
       this.activeIndex = id;
+      console.log(id, child);
+      if (id === 5 && child === 'notice') {
+        this.menu[4].status = 0;
+        console.log(this.menu[4].status);
+      }
     },
     goCelebrity() {
       this.tabChange(3, 'celebrity');
@@ -156,7 +161,6 @@ export default {
         isNews().then(res => {
           if (res.data === 1) {
             this.menu[4].status = 1;
-            console.log(this.menu[10].status);
           } else {
             this.menu[4].status = 0;
           }
