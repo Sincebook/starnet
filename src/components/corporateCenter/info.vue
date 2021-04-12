@@ -60,52 +60,8 @@
             </div>
           </el-dialog>
         </el-form-item>
-        <el-form-item label="组织机构码：">
-          <span>{{ companyInfo.organizationCode }}</span>
-        </el-form-item>
-        <el-form-item label="公司名称：">
-          <span>{{ companyInfo.name }}</span>
-        </el-form-item>
-        <el-form-item label="成立时间：">
-          <span>{{ companyInfo.createTime }}</span>
-        </el-form-item>
-        <el-form-item label="企业性质：">
-          <span>{{ companyInfo.type }}</span>
-        </el-form-item>
-        <el-form-item label="公司类型：">
-          <span>{{ companyInfo.category }}</span>
-        </el-form-item>
-        <el-form-item label="法人代表：">
-          <span>{{ companyInfo.legalPerson }}</span>
-        </el-form-item>
-        <el-form-item label="企业地点：">
-          <span>{{ companyInfo.area }}</span>
-        </el-form-item>
-        <el-form-item label="经营范围：">
-          <span>{{ companyInfo.managementRange }}</span>
-        </el-form-item>
-        <!--代表作-->
-        <el-form-item label="代表作：" prop="opus">
-          <el-input
-              v-model="ruleForm.opus"
-              placeholder="请输入公司代表作"
-              type="textarea"
-              :rows="2"
-            ></el-input>
-          <!-- <span>{{ companyInfo.opus }}</span> -->
-        </el-form-item>
-        <!--公司简历-->
-        <el-form-item label="公司简介：" prop="description">
-            <el-input
-              v-model="ruleForm.description"
-              placeholder="请输入公司简介"
-              type="textarea"
-              :rows="7"
-            ></el-input>
-          <!-- <div class="textarea">{{ companyInfo.description }}</div> -->
-        </el-form-item>
-        <!--公司照片-->
-        <el-form-item label="公司照片：" prop="image">
+          <!--公司照片-->
+        <el-form-item label="公司照片：" prop="image" style="width:300px;height:100px">
           <el-upload
             class="avatar-uploader"
             :http-request="upload1"
@@ -144,6 +100,54 @@
           </el-dialog>
           <!-- <el-image class="companyIdcard" fit="cover" :src="companyInfo.image">
           </el-image -->
+        </el-form-item>
+        <el-form-item label="机构代码：">
+          <span>{{ companyInfo.organizationCode }}</span>
+        </el-form-item>
+        <el-form-item label="公司名称：">
+          <span>{{ companyInfo.name }}</span>
+        </el-form-item>
+        <el-form-item label="成立时间：">
+          <span>{{ companyInfo.createTime }}</span>
+        </el-form-item>
+        <el-form-item label="企业性质：">
+          <span>{{ companyInfo.type }}</span>
+        </el-form-item>
+        <el-form-item label="公司类型：">
+          <span>{{ companyInfo.category }}</span>
+        </el-form-item>
+        <el-form-item label="法人代表：">
+          <span>{{ companyInfo.legalPerson }}</span>
+        </el-form-item>
+        <el-form-item label="企业地点：">
+          <span>{{ companyInfo.area }}</span>
+        </el-form-item>
+        <el-form-item label="经营范围：">
+          <span>{{ companyInfo.managementRange }}</span>
+        </el-form-item>
+        <!--代表作-->
+        <el-form-item label="代表作：" prop="opus" style="width:90%">
+          <el-input
+              maxlength="100"
+              :show-word-limit="true"
+              v-model="ruleForm.opus"
+              placeholder="请输入公司代表作"
+              type="textarea"
+              :rows="2"
+            ></el-input>
+          <!-- <span>{{ companyInfo.opus }}</span> -->
+        </el-form-item>
+        <!--公司简历-->
+        <el-form-item label="公司简介：" prop="description">
+            <el-input
+              maxlength="500"
+              :show-word-limit="true"
+              v-model="ruleForm.description"
+              placeholder="请输入公司简介"
+              type="textarea"
+              :rows="9"
+            ></el-input>
+          <!-- <div class="textarea">{{ companyInfo.description }}</div> -->
         </el-form-item>
         <el-form-item>
             <el-button type="primary" class="submit" :disabled="flag2" @click="submitForm()"
@@ -438,8 +442,8 @@ export default {
     text-align: center;
 }
 .avatar {
-    width:  54px;
-    height: 54px;
+    width:  100px;
+    height: 100px;
     border-radius: 5px;
     display: block;
     cursor: pointer;
