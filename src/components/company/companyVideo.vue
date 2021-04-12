@@ -40,6 +40,15 @@
         controls
         :src="selectVideo.video"
       ></video>
+      <a>
+        <div style="margin-top:2px;float:right;width:20px">
+          <svg @click="share2(selectVideo.description, selectVideo.image)" class="icon1" aria-hidden="true">
+            <use xlink:href="#icon-weibo"></use>
+          </svg>
+        </div>
+        <div style="float:right;width:50px;">分享到</div>
+         </a>
+      <br><br>
     </el-dialog>
   </div>
 </template>
@@ -70,6 +79,11 @@ export default {
       this.$refs.video.pause();
       done();
     },
+    share2(description, i) {
+      console.log(i);
+      let url = window.location.origin + '/%23/talentDetail/' + this.$route.params.id + '/' + this.$route.params.userid;
+      window.open('http://v.t.sina.com.cn/share/share.php?title=绘星网分享---视频：' + description + '&url=' + url + '&content=utf-8&pic=' + i, 'newwindow', 'height:400,width:400,top:100,left:100');
+    },
     getUserVideo(page) {
       getComVideoByUserId({ userid: this.$route.params.userid, page: this.currentPage }).then(res => {
         if (res.code === '0' && res.data.companyVideos.length !== 0) {
@@ -91,6 +105,10 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+.icon1 {
+  width:18px;
+  height: 18px;
+}
 .talent-video {
   background-color: #fff;
   width: 1110px;

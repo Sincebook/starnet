@@ -43,10 +43,14 @@
         :src="selectVideo.path"
       ></video>
       <a>
-        <svg @click="share2(selectVideo.description, selectVideo.image)" class="icon1" aria-hidden="true">
+        <div style="margin-top:2px;float:right;width:20px">
+          <svg @click="share2(selectVideo.description, selectVideo.image)" class="icon1" aria-hidden="true">
             <use xlink:href="#icon-weibo"></use>
           </svg>
+        </div>
+        <div style="float:right;width:50px;">分享到</div>
          </a>
+         <br><br>
     </el-dialog>
   </div>
 </template>
@@ -105,13 +109,8 @@ export default {
 </script>
 <style lang='less' scoped>
 .icon1 {
-  width:15px;
-  position: absolute;
-  top:98%;
-  left:98%;
-  transform: translate(-50%, -50%);
-  font-size: 50px;
-  color: #f5f5f5;
+  width:18px;
+  height: 18px;
 }
 .talent-video {
   background-color: #fff;
