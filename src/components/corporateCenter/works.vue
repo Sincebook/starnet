@@ -265,7 +265,7 @@
                 ruleForm.type === 1
                   ? "只能上传jpg/png文件，且不超过20MB"
                   : ruleForm.type === 2
-                  ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过1GB"
+                  ? "只能上传mp4/ogg/avi/wmv/rmvb/mov文件，且不超过1GB"
                   : ruleForm.type === 3
                   ? "只能上传mp3文件，且不超过50MB"
                   : ""
@@ -654,7 +654,7 @@ export default {
     beforeUpload(file) {
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 20;
-      const isVIDEO = file.type === 'video/mp4' || file.type === 'video/ogg' || file.type === 'video/avi' || file.type === 'video/wmv' || file.type === 'video/rmvb';
+      const isVIDEO = file.type === 'video/mp4' || file.type === 'video/ogg' || file.type === 'video/avi' || file.type === 'video/wmv' || file.type === 'video/rmvb' || file.type === 'video/rmvb';
       const isLt100M = file.size / 1024 / 1024 < 1000;
       const isAUDIO = file.type === 'audio/mp3' || file.type === 'audio/mpeg';
       const isLt20M = file.size / 1024 / 1024 < 50;
@@ -671,7 +671,7 @@ export default {
         return isJPG && isLt2M;
       } else if (this.ruleForm.type === 2) {
         if (!isVIDEO) {
-          this.$message.error('上传视频只能是 MP4/OGG/AVI/WMV/RMVB 格式!');
+          this.$message.error('上传视频只能是 MP4/OGG/AVI/WMV/RMVB/MOV 格式!');
         }
         if (!isLt100M) {
           this.$message.error('上传视频大小不能超过 1000MB!');

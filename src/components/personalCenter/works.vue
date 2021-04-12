@@ -254,7 +254,7 @@
                 ruleForm.type === 1
                   ? "只能上传jpg/png文件，且不超过20MB"
                   : ruleForm.type === 2
-                  ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过1G"
+                  ? "只能上传mp4/ogg/avi/wmv/rmvb/mov文件，且不超过1G"
                   : ruleForm.type === 3
                   ? "只能上传mp3文件，且不超过50MB"
                   : ""
