@@ -11,9 +11,9 @@
         fit="cover"
         :preview-src-list="srcList"
       ></el-image>
-      <div class="picName">
-         <b >{{item.description}}</b>
-         <a>
+      <div>
+         <b style="float:left;padding-left:14px;">{{item.description}}</b>
+         <a style="float:right;padding-right:14px;">分享到
           <svg @click="share1(item.description, item.path)" class="icon" aria-hidden="true">
             <use xlink:href="#icon-weibo"></use>
           </svg>
