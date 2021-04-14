@@ -20,6 +20,8 @@ AOS.init(); // aos动画初始化
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });
+
+Vue.prototype.$notify = ElementUI.Notification;
 Vue.prototype.$message = function (msg) {
   ElementUI.Message({
     ...msg,
