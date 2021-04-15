@@ -262,6 +262,9 @@
             </div>
           </el-upload>
         </el-form-item>
+        <div class="progress">
+          <el-progress :text-inside="true" :stroke-width="20" :percentage="percentage"></el-progress>
+        </div>
         <el-form-item>
           <el-button
             style="margin-left: 10px"
@@ -277,6 +280,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { VueCropper } from 'vue-cropper';
 import ImgCutter from 'vue-img-cutter';
 import videoCard from './videoCard';
@@ -284,9 +288,9 @@ import audioCard from './audioCard';
 import { formatDate } from '../../assets/js/date.js';
 import {
   mineOpus,
-  addOpus,
-  deleteOpus,
-  addOpusCover
+  // addOpus,
+  deleteOpus
+  // addOpusCover
 } from '../../ajax/index';
 export default {
   data() {
@@ -361,7 +365,8 @@ export default {
       }, {
         id: 3,
         value: '音频'
-      }]
+      }],
+      percentage: 0 // 上传进度
     };
   },
   created() {
@@ -470,56 +475,121 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.formFlag = true;
+          let config = {
+              onUploadProgress: (e) => {
+                // progressEvent.loaded:已上传文件大小
+                // progressEvent.total:被上传文件的总大小
+                if (e.lengthComputable) {
+                  var rate = this.percentage = Math.floor((e.loaded / e.total) * 100); // 已上传的比例
+                  if (rate <= 99) {
+                    this.percentage = rate;
+                  } else {
+                    this.percentage = 99;
+                  }
+                }
+              }
+          };
           if (this.ruleForm.type === 2) {
-            addOpusCover({
-              type: this.ruleForm.type,
-              description: this.ruleForm.title,
-              image: this.ruleForm.coverFile,
-              file: this.ruleForm.file
-            }).then(res => {
-              if (res.code === '0') {
-                this.$message({
-                  message: '上传成功',
-                  type: 'success'
+            let formdata = new FormData();
+            formdata.append('type', this.ruleForm.type);
+            formdata.append('description', this.ruleForm.title);
+            formdata.append('image', this.ruleForm.coverFile);
+            formdata.append('file', this.ruleForm.file);
+            // addOpusCover({
+            //   type: this.ruleForm.type,
+            //   description: this.ruleForm.title,
+            //   image: this.ruleForm.coverFile,
+            //   file: this.ruleForm.file
+            // })
+            axios.post('/api/opus/addVideo', formdata, config).then(res => {
+              if (res.data.code === '0') {
+                this.percentage = 100;
+                this.formFlag = false;
+                this.$notify({
+                  title: '提示',
+                  message: '作品上传成功',
+                  duration: 0,
+                  type: 'success',
+                  position: 'bottom-right'
                 });
-                this.handleCurrentChange(1);
                 this.$refs.ruleForm.resetFields();
                 this.dialogVisible1 = false;
+                this.percentage = 0;
                 this.imageUrl = '';
               } else {
-                this.$message.error(res.errMsg);
+                this.percentage = 0;
+                this.formFlag = false;
+                this.dialogVisible1 = false;
+                this.$notify({
+                  title: '提示',
+                  message: res.data.errMsg,
+                  duration: 0,
+                  type: 'error',
+                  position: 'bottom-right'
+                });
               }
               this.formFlag = false;
             }).catch(err => {
+              this.percentage = 0;
               this.formFlag = false;
-              this.$message.error(err);
+              this.dialogVisible1 = false;
+              this.$notify({
+                  title: '提示',
+                  message: '服务器请求失败',
+                  duration: 0,
+                  type: 'error',
+                  position: 'bottom-right'
+              });
               return err;
             });
-            return;
-          }
-          addOpus({
-            type: this.ruleForm.type,
-            description: this.ruleForm.title,
-            file: this.ruleForm.file
-          }).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                message: '上传成功',
-                type: 'success'
+          } else {
+            let formdata = new FormData();
+            formdata.append('type', this.ruleForm.type);
+            formdata.append('description', this.ruleForm.title);
+            formdata.append('file', this.ruleForm.file);
+          axios.post('/api/opus/add', formdata, config).then(res => {
+            if (res.data.code === '0') {
+              this.percentage = 100;
+              this.formFlag = false;
+              this.$notify({
+                title: '提示',
+                message: '作品上传成功',
+                duration: 0,
+                type: 'success',
+                position: 'bottom-right'
               });
               this.handleCurrentChange(1);
               this.$refs.ruleForm.resetFields();
               this.dialogVisible1 = false;
+              this.percentage = 0;
               this.imageUrl1 = '';
             } else {
-              this.$message.error(res.errMsg);
+              this.percentage = 0;
+              this.formFlag = false;
+              this.dialogVisible1 = false;
+              this.$notify({
+                  title: '提示',
+                  message: res.data.errMsg,
+                  duration: 0,
+                  type: 'error',
+                  position: 'bottom-right'
+              });
             }
             this.formFlag = false;
           }).catch(err => {
-            this.formFlag = false;
-            this.$message.error(err);
-            return err;
+              this.percentage = 0;
+              this.formFlag = false;
+              this.dialogVisible1 = false;
+              this.$notify({
+                  title: '提示',
+                  message: '服务器请求失败',
+                  duration: 0,
+                  type: 'error',
+                  position: 'bottom-right'
+              });
+              return err;
           });
+          }
         }
       });
     },
@@ -699,11 +769,16 @@ video {
 .el-upload__tip {
   display: inline-block;
   margin: 0;
-  margin-left: 10px;
+}
+.el-upload .el-button{
+  margin-right: 10px;
 }
 .btn {
   width: 80px !important;
   height: 32px !important;
+}
+.progress{
+  margin-bottom: 30px;
 }
 .el-form-item {
   &:last-child {
@@ -725,19 +800,19 @@ video {
     overflow: hidden;
   }
 /deep/ .avatar-uploader {
-    height: 80px;
+    height: 120px;
 }
 .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width:  60px;
-    height: 75px;
-    line-height: 80px;
+    width: 160px;
+    height: 120px;
+    line-height: 120px;
     text-align: center;
 }
 .avatar {
-    width:  60px;
-    height: 75px;
+    width:  160px;
+    height: 120px;
     border-radius: 5px;
     display: block;
     cursor: pointer;
