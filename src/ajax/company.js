@@ -51,5 +51,5 @@ export function findByOneType(params) {
 }
 // 根据id 获取公司在招职位
 export function findCompanyJob(params) {
-  return http.get('/apijob/findByUserId', params);
+  return http.get('/api/job/findByUserId', params);
 }
