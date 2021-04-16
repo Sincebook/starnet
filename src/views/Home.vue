@@ -41,7 +41,7 @@ import hotJob from '../components/home/hotJob';
 import createCv from '../components/home/createCv';
 import safeCard from '../components/home/safe';
 import joinUs from '../components/home/joinUs';
-import { getbanner, mineInfoDetail } from '../ajax/index';
+import { getbanner, getMyinfo } from '../ajax/index';
 import { mapState } from 'vuex';
 export default {
   data() {
@@ -98,28 +98,51 @@ export default {
           })
           .catch(_ => {});
     },
-    isDialog() {
-     mineInfoDetail().then(res => {
-      if (res.code === '0') {
-        this.isCelebrity = 1;
-        console.log(this.isCelebrity);
-      } else {
-        this.isCelebrity = 0;
-      }
-    }).catch(err => {
-      return err;
-    });
-    },
+    // isUserDialog() {
+    //  mineInfoDetail().then(res => {
+    //   if (res.code === '0') {
+    //     this.isCelebrity = 1;
+    //     console.log(this.isCelebrity);
+    //   } else {
+    //     this.isCelebrity = 0;
+    //   }
+    // }).catch(err => {
+    //   return err;
+    // });
+    // },
+    // isComDialog() {
+    //   companyInfo().then(res => {
+    //     if (res.code === '0' && res.data.name) {
+    //       this.isCelebrity = 1;
+    //       console.log(this.isCelebrity);
+    //       console.log(res.data);
+    //     } else {
+    //       this.isCelebrity = 0;
+    //     }
+    //   });
+    // },
     celebrityTo() {
       if (this.$store.state.userinfo.user.type > 3) {
         this.$router.push('/corporateCelebrity');
       } else {
         this.$router.push('/personalcelebrity');
       }
+    },
+    isDialog() {
+      getMyinfo().then(res => {
+        if (res.code === '0' && res.data.user.status === 2) {
+          console.log(res.code);
+          console.log(res.data.user.status);
+          this.isCelebrity = 1;
+        } else {
+          this.isCelebrity = 0;
+          console.log(res.data.user.status);
+        }
+      });
     }
   },
   mounted() {
-      this.isDialog();
+    this.isDialog();
   },
   computed: {
     ...mapState({
