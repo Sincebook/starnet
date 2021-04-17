@@ -265,7 +265,7 @@
                 ruleForm.type === 1
                   ? "只能上传jpg/png文件，且不超过20MB"
                   : ruleForm.type === 2
-                  ? "只能上传mp4/ogg/avi/wmv/rmvb文件，且不超过1GB"
+                  ? "只能上传mp4/ogg/avi/wmv/rmvb/mov文件，且不超过1GB"
                   : ruleForm.type === 3
                   ? "只能上传mp3文件，且不超过50MB"
                   : ""
@@ -273,6 +273,9 @@
             </div>
           </el-upload>
         </el-form-item>
+        <div class="progress">
+          <el-progress :text-inside="true" :stroke-width="20" :percentage="percentage"></el-progress>
+        </div>
         <el-form-item>
           <el-button
             style="margin-left: 10px"
@@ -288,6 +291,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { VueCropper } from 'vue-cropper';
 import ImgCutter from 'vue-img-cutter';
 import videoCard from '../corporateCenter/videoCard.vue';
@@ -295,8 +299,8 @@ import audioCard from '../personalCenter/audioCard.vue';
 import {
   mineOpus,
   CompanyVideo,
-  addOpus,
-  addCompanyCoverVideo,
+  // addOpus,
+  // addCompanyCoverVideo,
   deleteOpus,
   deleteCompanyVideo
 } from '../../ajax/index';
@@ -385,7 +389,8 @@ export default {
       }, {
         id: 3,
         value: '音频'
-      }]
+      }],
+      percentage: 0 // 上传进度
     };
   },
   created() {
@@ -540,57 +545,126 @@ export default {
       });
     },
     submitUpload() {
-      this.$refs.ruleForm.validate((valid) => {
+       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.formFlag = true;
+          let config = {
+              onUploadProgress: (e) => {
+                // progressEvent.loaded:已上传文件大小
+                // progressEvent.total:被上传文件的总大小
+                if (e.lengthComputable) {
+                  var rate = this.percentage = Math.floor((e.loaded / e.total) * 100); // 已上传的比例
+                  if (rate <= 99) {
+                    this.percentage = rate;
+                  } else {
+                    this.percentage = 99;
+                  }
+                }
+              }
+          };
           if (this.ruleForm.type !== 2) {
-            addOpus({
-              type: this.ruleForm.type,
-              description: this.ruleForm.title,
-              file: this.ruleForm.file
-            }).then(res => {
-              if (res.code === '0') {
-                this.$message({
-                  message: '上传成功',
-                  type: 'success'
+            let formdata = new FormData();
+            formdata.append('type', this.ruleForm.type);
+            formdata.append('description', this.ruleForm.title);
+            formdata.append('file', this.ruleForm.file);
+            // addOpus({
+            //   type: this.ruleForm.type,
+            //   description: this.ruleForm.title,
+            //   file: this.ruleForm.file
+            // })
+            axios.post('/api/opus/add', formdata, config).then(res => {
+              if (res.data.code === '0') {
+                this.percentage = 100;
+                this.formFlag = false;
+                this.$notify({
+                  title: '提示',
+                  message: '作品上传成功',
+                  duration: 0,
+                  type: 'success',
+                  position: 'bottom-right'
                 });
                 this.handleCurrentChange(1);
                 this.$refs.ruleForm.resetFields();
                 this.dialogVisible1 = false;
+                this.percentage = 0;
                 this.imageUrl1 = '';
               } else {
-                this.$message.error(res.errMsg);
+              this.percentage = 0;
+              this.formFlag = false;
+              this.dialogVisible1 = false;
+              this.$notify({
+                  title: '提示',
+                  message: res.data.errMsg,
+                  duration: 0,
+                  type: 'error',
+                  position: 'bottom-right'
+                });
               }
-              this.formFlag = false;
             }).catch(err => {
+              this.percentage = 0;
               this.formFlag = false;
-              this.$message.error(err);
+              this.dialogVisible1 = false;
+              this.$notify({
+                  title: '提示',
+                  message: '服务器请求失败',
+                  duration: 0,
+                  type: 'error',
+                  position: 'bottom-right'
+              });
               return err;
             });
           } else {
-            addCompanyCoverVideo({
-              time: new Date().getTime(),
-              title: this.ruleForm.title,
-              description: this.ruleForm.description,
-              image: this.ruleForm.coverFile,
-              video: this.ruleForm.file
-            }).then(res => {
-              if (res.code === '0') {
-                this.$message({
-                  message: '上传成功',
-                  type: 'success'
+            // addCompanyCoverVideo({
+            //   time: new Date().getTime(),
+            //   title: this.ruleForm.title,
+            //   description: this.ruleForm.description,
+            //   image: this.ruleForm.coverFile,
+            //   video: this.ruleForm.file
+            // })
+            let formdata = new FormData();
+            formdata.append('time', new Date().getTime());
+            formdata.append('title', this.ruleForm.title);
+            formdata.append('description', this.ruleForm.description);
+            formdata.append('image', this.ruleForm.coverFile);
+            formdata.append('video', this.ruleForm.file);
+            axios.post('/api/companyvideo/addVideo', formdata, config).then(res => {
+              if (res.data.code === '0') {
+                this.percentage = 100;
+                this.formFlag = false;
+                this.$notify({
+                  title: '提示',
+                  message: '作品上传成功',
+                  duration: 0,
+                  type: 'success',
+                  position: 'bottom-right'
                 });
-                this.handleCurrentChange(1);
                 this.$refs.ruleForm.resetFields();
                 this.dialogVisible1 = false;
+                this.percentage = 0;
                 this.imageUrl = '';
               } else {
-                this.$message.error(res.errMsg);
+                this.percentage = 0;
+                this.formFlag = false;
+                this.dialogVisible1 = false;
+                this.$notify({
+                  title: '提示',
+                  message: res.data.errMsg,
+                  duration: 0,
+                  type: 'error',
+                  position: 'bottom-right'
+                });
               }
-              this.formFlag = false;
             }).catch(err => {
+              this.percentage = 0;
               this.formFlag = false;
-              this.$message.error(err);
+              this.dialogVisible1 = false;
+              this.$notify({
+                  title: '提示',
+                  message: '服务器请求失败',
+                  duration: 0,
+                  type: 'error',
+                  position: 'bottom-right'
+              });
               return err;
             });
           }
@@ -650,11 +724,11 @@ export default {
           this.ruleForm.file = file;
         });
         this.dialogVisible3 = false;
-      },
+    },
     beforeUpload(file) {
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 20;
-      const isVIDEO = file.type === 'video/mp4' || file.type === 'video/ogg' || file.type === 'video/avi' || file.type === 'video/wmv' || file.type === 'video/rmvb';
+      const isVIDEO = file.type === 'video/mp4' || file.type === 'video/ogg' || file.type === 'video/avi' || file.type === 'video/wmv' || file.type === 'video/rmvb' || file.type === 'video/rmvb';
       const isLt100M = file.size / 1024 / 1024 < 1000;
       const isAUDIO = file.type === 'audio/mp3' || file.type === 'audio/mpeg';
       const isLt20M = file.size / 1024 / 1024 < 50;
@@ -671,7 +745,7 @@ export default {
         return isJPG && isLt2M;
       } else if (this.ruleForm.type === 2) {
         if (!isVIDEO) {
-          this.$message.error('上传视频只能是 MP4/OGG/AVI/WMV/RMVB 格式!');
+          this.$message.error('上传视频只能是 MP4/OGG/AVI/WMV/RMVB/MOV 格式!');
         }
         if (!isLt100M) {
           this.$message.error('上传视频大小不能超过 1000MB!');
@@ -772,7 +846,12 @@ video {
 .el-upload__tip {
   display: inline-block;
   margin: 0;
-  margin-left: 10px;
+}
+.el-upload .el-button{
+  margin-right: 10px;
+}
+.progress{
+  margin-bottom: 30px;
 }
 .el-form-item {
   &:last-child {

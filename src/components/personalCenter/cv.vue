@@ -140,9 +140,11 @@
         </el-form-item>
         <el-form-item label="个人描述" prop="selfEvaluation">
           <el-input
+            maxlength="300"
+            :show-word-limit="true"
             resize="none"
             type="textarea"
-            :autosize="{ minRows: 6, maxRows: 6 }"
+            :autosize="{ minRows: 11, maxRows: 11 }"
             v-model="ruleForm.selfEvaluation"
             placeholder="请输入个人描述(不多于500字)"
           ></el-input>

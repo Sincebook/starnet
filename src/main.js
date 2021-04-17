@@ -20,10 +20,12 @@ AOS.init(); // aos动画初始化
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });
+
+Vue.prototype.$notify = ElementUI.Notification;
 Vue.prototype.$message = function (msg) {
   ElementUI.Message({
     ...msg,
-    duration: 3000
+    duration: 2000
   });
 };
 Vue.prototype.$message.error = function (msg) {
@@ -41,7 +43,7 @@ Vue.prototype.$message.warnning = function (msg) {
 Vue.prototype.$message.success = function (msg) {
   return ElementUI.Message.success({
     message: msg,
-    duration: 2000
+    duration: 1000
   });
 };
 router.beforeEach((to, from, next) => {
