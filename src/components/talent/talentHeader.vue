@@ -204,6 +204,10 @@ export default {
       margin: 5px;
       width: 260px;
       height: 260px;
+      &:hover {
+        box-shadow: -8px -8px 16px -10px rgba(0, 0, 0, 0.8),
+        8px 8px 16px -10px rgba(0, 0, 0, 0.8);
+      }
     }
   }
   .right {

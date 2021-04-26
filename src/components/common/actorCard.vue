@@ -172,6 +172,8 @@ export default {
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);
   &:hover {
+    box-shadow: -8px -8px 16px -10px rgba(0, 0, 0, 0.3),
+      8px 8px 16px -10px rgba(0, 0, 0, 0.3);
     .actor-head .bgImg {
       transform: scale(1.1);
     }
