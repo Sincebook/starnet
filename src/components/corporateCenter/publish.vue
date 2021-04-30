@@ -1,9 +1,7 @@
 <template>
   <div class="info-box">
     <div class="title">
-      <!-- <div class="name">在招职位</div> -->
-      <el-page-header @back="goBack" content="在招职位">
-      </el-page-header>
+      <div class="name">发布职位</div>
       <el-form
         v-if="isEdit"
         :model="ruleForm2"
@@ -63,89 +61,7 @@
       </div>
     </div>
     <div class="info" v-else>
-      <div class="content" v-if="active === 1">
-        <el-alert
-          v-if="!isHave"
-          title="暂无发布"
-          type="warning"
-          :closable="false"
-          show-icon
-        ></el-alert>
-        <div v-else class="list">
-          <div class="item-box" v-for="(item,index) in list.jobs" :key="index">
-            <div class="item">
-              <el-image
-                class="user-img"
-                :src="item.image"
-                fit="cover"
-              ></el-image>
-              <div class="user-info">
-                <div class="user-name">
-                  <span class="head" @click="watchDetail(item.id)">{{
-                    item.title
-                  }}</span>
-                  <span>{{ item.launch }}</span>
-                </div>
-                <div class="content">
-                  <span>职位：{{ item.job }}</span>
-                  <span
-                    >时间：{{ Number(item.begintime) | formatDate }} -
-                    {{ Number(item.endtime) | formatDate }}</span
-                  >
-                </div>
-                <div class="content">
-                  <span>面试地点：{{ item.place }}</span>
-                  <span>年龄要求：{{ item.age }}岁</span>
-                  <span>薪资：{{ item.money }}</span>
-                </div>
-                <div class="content oneLine">要求：{{ item.jobneed }}</div>
-              </div>
-              <div class="user-btn">
-                <div>
-                  <el-button
-                    type="primary"
-                    size="mini"
-                    plain
-                    @click="watchDeliver(item.id)"
-                    >查看投递</el-button
-                  >
-                </div>
-                <div>
-                  <el-button
-                    type="warning"
-                    size="mini"
-                    plain
-                    @click="editJob(item)"
-                    >修改职位</el-button
-                  >
-                </div>
-                <div>
-                  <el-button
-                    type="danger"
-                    size="mini"
-                    plain
-                    @click="cancel(item.id)"
-                    >删除职位</el-button
-                  >
-                </div>
-              </div>
-            </div>
-            <el-divider></el-divider>
-          </div>
-        </div>
-        <div class="footer-page">
-          <el-pagination
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-size="6"
-            layout="prev, pager, next"
-            :page-count="list.allpage"
-            hide-on-single-page
-          >
-          </el-pagination>
-        </div>
-      </div>
-      <div class="content" v-else-if="active === 0">
+      <div class="content">
         <el-form
           :model="ruleForm"
           :rules="rules"
@@ -282,7 +198,6 @@
             ></el-input>
           </el-form-item>
             <!--更多信息-->
-        <el-form-item class="collapse" label=" ">
           <el-collapse v-model="activeNames" accordion>
               <el-collapse-item title="添加更多信息" name="1">
                 <el-form-item label="年龄要求" prop="age">
@@ -297,7 +212,7 @@
                    placeholder="请输入招聘人数"
                   ></el-input>
                 </el-form-item>
-                <!-- <el-form-item label="薪酬" prop="money">
+                <el-form-item label="薪酬" prop="money">
                     <el-input
                     v-model="ruleForm.money"
                     placeholder="请输入薪酬"
@@ -308,10 +223,9 @@
                     v-model="ruleForm.worktime"
                     placeholder="请输入工作周期"
                     ></el-input>
-                </el-form-item> -->
+                </el-form-item>
               </el-collapse-item>
           </el-collapse>
-        </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm">保存</el-button>
           </el-form-item>
@@ -413,113 +327,19 @@
           </el-form>
         </div>
       </div>
-      <div class="content" v-else>
-        <div class="info1">
-          <el-alert
-            v-if="!isHave"
-            title="暂无投递"
-            type="warning"
-            :closable="false"
-            show-icon
-          ></el-alert>
-          <div v-else class="list">
-            <div class="item-box" v-for="item in list.applys" :key="item.id">
-              <div class="item">
-                <el-image
-                  class="user-img"
-                  :src="item.roleimage"
-                  fit="cover"
-                ></el-image>
-                <div class="user-info">
-                  <div class="head">
-                    <span class="user-name"
-                      >角色：<span
-                        @click="watchDetail(item.jobid, item.companyInfoId)"
-                        >{{ item.rolename }}</span
-                      ></span
-                    >
-                    <span class="user-vip">{{ item.status }}</span>
-                  </div>
-                  <div class="head1">
-                    申请人：
-                    <div @click="watchDetail1(item.userinfoId, item.userid)">
-                      <el-image
-                        class="user-img"
-                        :src="item.userimage"
-                        fit="cover"
-                      ></el-image
-                      >{{ item.username }}
-                    </div>
-                  </div>
-                </div>
-                <div class="user-btn">
-                  <div>
-                    <el-button
-                      type="primary"
-                      size="mini"
-                      plain
-                      @click="view(item.infoid, item.userinfoId, item.userid)"
-                      >查看简历</el-button
-                    >
-                  </div>
-                  <div
-                    v-if="
-                      item.status !== '已被拒绝' && item.status !== '已被录用'
-                    "
-                  >
-                    <el-button
-                      type="warning"
-                      size="mini"
-                      plain
-                      @click="intention(item.infoid, item.status)"
-                      >{{
-                        item.status === "有意向" ? "确认录用" : "意向面试"
-                      }}</el-button
-                    >
-                  </div>
-                  <div
-                    v-if="
-                      item.status !== '已被拒绝' && item.status !== '已被录用'
-                    "
-                  >
-                    <el-button
-                      type="danger"
-                      size="mini"
-                      plain
-                      @click="refuse(item.infoid)"
-                      >拒绝录用</el-button
-                    >
-                  </div>
-                </div>
-              </div>
-              <el-divider></el-divider>
-            </div>
-            <div class="footer-page">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :current-page.sync="currentPage"
-                :page-size="6"
-                layout="prev, pager, next"
-                :page-count="list.allpage"
-                hide-on-single-page
-              >
-              </el-pagination>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import { companyJob, deleteJob, addJob, editJob, getAllRole, addRole, deleteRole, findAllDeliver, viewCv, refuseUser, intentionUser, offerUser } from '../../ajax/index';
+import { companyJob, deleteJob, getJobType, addJob, editJob, getAllRole, addRole, deleteRole, findAllDeliver, viewCv, refuseUser, intentionUser, offerUser } from '../../ajax/index';
 import { formatDate } from '../../assets/js/date.js';
 export default {
   props: ['info', 'companyInfo'],
   data() {
     return {
+        activeName: '1',
        fileinfor: '',
        dialogVisible: false,
        dialogVisible1: false,
@@ -598,19 +418,19 @@ export default {
           { required: true, validator: this.checkJobType }
         ],
         sex: [
-          { message: '招聘人数不能为空', trigger: 'change' }
+          { required: false, message: '招聘人数不能为空', trigger: 'change' }
         ],
         age: [
-          { message: '年龄要求不能为空', trigger: 'blur' }
+          { required: false, message: '年龄要求不能为空', trigger: 'blur' }
         ],
         place: [
           { required: true, message: '面试地点不能为空', trigger: 'blur' }
         ],
         worktime: [
-          { message: '工作周期不能为空', trigger: 'blur' }
+          { required: false, message: '工作周期不能为空', trigger: 'blur' }
         ],
         money: [
-          { message: '薪酬不能为空', trigger: 'blur' }
+          { required: false, message: '薪酬不能为空', trigger: 'blur' }
         ],
         jobneed: [
           { required: true, message: '职位要求不能为空', trigger: 'blur' }
@@ -646,7 +466,7 @@ export default {
           { required: true, message: '角色年龄不能为空', trigger: 'blur' }
         ]
       },
-      active: 1, // 0 发布职位  1 已发布 2 查看投递记录
+      active: 0, // 0 发布职位  1 已发布 2 查看投递记录
       isHave: true,
       list: [],
       currentPage: 1,
@@ -681,12 +501,6 @@ export default {
     };
   },
   methods: {
-    goBack() {
-       this.isHave = true;
-        this.active = 1;
-        this.clearJob();
-        this.getCompanyJobs(this.currentPage);
-    },
     goCelebrity() {
       this.$emit('goCelebrity');
     },
@@ -715,6 +529,24 @@ export default {
         callback();
       }
     },
+    // 获取公司所有已发布职位
+    getCompanyJobs(page) {
+      companyJob({
+        page: page
+      }).then(res => {
+        if (res.code === '0') {
+          this.isHave = true;
+          this.list = res.data;
+        } else {
+          this.isHave = false;
+          this.$message.error(res.errMsg);
+        }
+      }).catch(err => {
+        this.isHave = false;
+        this.$message.error(err);
+        return err;
+      });
+    },
     handleCurrentChange(val) {
       if (this.active === 1) {
         this.getCompanyJobs(val);
@@ -738,24 +570,6 @@ export default {
           return err;
         });
       }
-    },
-      // 获取公司所有已发布职位
-    getCompanyJobs(page) {
-      companyJob({
-        page: page
-      }).then(res => {
-        if (res.code === '0') {
-          this.isHave = true;
-          this.list = res.data;
-        } else {
-          this.isHave = false;
-          this.$message.error(res.errMsg);
-        }
-      }).catch(err => {
-        this.isHave = false;
-        this.$message.error(err);
-        return err;
-      });
     },
     // 发布 项目/职位
     submitForm() {
@@ -1114,32 +928,14 @@ export default {
     }
   },
   created() {
-    // getJobType().then(res => {
-    //   if (res.code === '0') {
-    //     this.jobType = res.data;
-    //   }
-    // }).catch(err => {
-    //   this.$message.error(err);
-    //   return err;
-    // });
-    // 获取公司所有已发布职位
-    companyJob({
-      page: this.currentPage
-      }).then(res => {
-        if (res.code === '0') {
-          this.isHave = true;
-          this.list = res.data;
-          console.log(this.list);
-          console.log(this.isHave);
-        } else {
-          this.isHave = false;
-          this.$message.error(res.errMsg);
-        }
-      }).catch(err => {
-        this.isHave = false;
-        this.$message.error(err);
-        return err;
-      });
+    getJobType().then(res => {
+      if (res.code === '0') {
+        this.jobType = res.data;
+      }
+    }).catch(err => {
+      this.$message.error(err);
+      return err;
+    });
   },
   filters: {
     formatDate(time) {

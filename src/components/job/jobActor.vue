@@ -29,11 +29,12 @@
 
 <script>
 import { mapState } from 'vuex';
-import { applyJob, isApply } from '@/ajax';
+import { applyJob, isApply, getMyinfo } from '@/ajax';
 export default {
   props: ['item'],
   data() {
     return {
+      isCelebrity: 1,
       isApply: false
     };
   },
@@ -46,6 +47,16 @@ export default {
         this.$message.error('请先登录');
       } else if (this.userinfo.user.type >= 4) {
         this.$message.error('企业用户不能申请职位');
+      } else if (this.isCelebrity === 0) {
+        this.$confirm('你还没有认证，快去认证吧～', '提示', {
+          confirmButtonText: '立即认证',
+          center: true,
+          showCancelButton: true,
+          type: 'warning'
+        }).then(() => {
+          this.$router.push('/personalcelebrity');
+        });
+        console.log('111111111111111111111111111');
       } else {
         applyJob({ jobid: jobid, roleid: id }).then(res => {
           if (res.code === '0') {
@@ -69,6 +80,18 @@ export default {
       }).catch(err => {
         return err;
       });
+    },
+    isDialog() {
+      getMyinfo().then(res => {
+        if (res.code === '0' && res.data.user.status === 2) {
+          console.log(res.code);
+          console.log(res.data.user.status);
+          this.isCelebrity = 1;
+        } else {
+          this.isCelebrity = 0;
+          console.log(res.data.user.status);
+        };
+      });
     }
   },
   computed: {
@@ -76,6 +99,9 @@ export default {
       isLogin: (state) => state.isLogin,
       userinfo: (state) => state.userinfo
     })
+  },
+  mounted() {
+    this.isDialog();
   }
 };
 </script>
