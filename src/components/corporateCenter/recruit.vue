@@ -283,7 +283,7 @@
           </el-form-item>
             <!--更多信息-->
         <el-form-item class="collapse" label=" ">
-          <el-collapse v-model="activeNames" accordion>
+          <el-collapse accordion>
               <el-collapse-item title="添加更多信息" name="1">
                 <el-form-item label="年龄要求" prop="age">
                   <el-input
@@ -631,7 +631,7 @@ export default {
       },
       rules1: {
         image: [
-          { required: true, message: '角色照片不能为空', trigger: 'change' }
+          { required: false, message: '角色照片不能为空', trigger: 'change' }
         ],
         name: [
           { required: true, message: '角色名字不能为空', trigger: 'blur' }
@@ -857,13 +857,13 @@ export default {
       });
     },
     changeUpload(file, fileList) {
-      const isJPG = file.raw.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.raw.type === 'image/jpeg' || 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 20;
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 JPG/PNG 格式!');
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 20MB!');
         return false;
       }
       this.fileinfor = file;
@@ -874,13 +874,13 @@ export default {
       });
       },
     changeUpload1(file, fileList) {
-      const isJPG = file.raw.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.raw.type === 'image/jpeg' || 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 20;
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 JPG/PNG 格式!');
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 20MB!');
         return false;
       }
       this.fileinfor = file;
@@ -941,14 +941,14 @@ export default {
     },
     beforeAvatarUpload(file) {
       console.log('1111111111111111111111111');
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg' || 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 20;
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 JPG/PNG 格式!');
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 20MB!');
       }
       return isJPG && isLt2M;
     },

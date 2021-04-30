@@ -24,26 +24,30 @@ Object.keys(filters).forEach(key => {
 Vue.prototype.$notify = ElementUI.Notification;
 Vue.prototype.$message = function (msg) {
   ElementUI.Message({
+    showClose: true,
     ...msg,
-    duration: 2000
+    duration: 3000
   });
 };
 Vue.prototype.$message.error = function (msg) {
   return ElementUI.Message.error({
+    showClose: true,
     message: msg,
     duration: 5000
   });
 };
 Vue.prototype.$message.warnning = function (msg) {
   return ElementUI.Message.error({
+    showClose: true,
     message: msg,
     duration: 3000
   });
 };
 Vue.prototype.$message.success = function (msg) {
   return ElementUI.Message.success({
+    showClose: true,
     message: msg,
-    duration: 1000
+    duration: 3000
   });
 };
 router.beforeEach((to, from, next) => {

@@ -318,4 +318,7 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+/deep/ .el-icon-circle-close {
+  color: #fff;
+}
 </style>

@@ -126,4 +126,7 @@ export default {
        max-width: 180px;
       }
 }
+/deep/ .el-icon-circle-close {
+  color: #fff;
+}
 </style>

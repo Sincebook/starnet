@@ -116,4 +116,7 @@ export default {
     text-align: center;
   }
 }
+/deep/ .el-icon-circle-close {
+  color: #fff;
+}
 </style>

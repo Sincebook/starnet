@@ -507,7 +507,7 @@ export default {
                 this.formFlag = false;
                 this.$notify({
                   title: '提示',
-                  message: '作品上传成功',
+                  message: '视频作品上传成功，等待管理员审核。',
                   duration: 0,
                   type: 'success',
                   position: 'bottom-right'

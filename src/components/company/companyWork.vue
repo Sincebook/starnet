@@ -102,4 +102,7 @@ export default {
     }
   }
 }
+/deep/ .el-icon-circle-close {
+  color: #fff;
+}
 </style>
