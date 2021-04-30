@@ -81,6 +81,7 @@ import info from '../components/corporateCenter/info';
 import celebrity from '../components/corporateCenter/celebrity';
 import honor from '../components/corporateCenter/honor';
 import recruit from '../components/corporateCenter/recruit';
+import publish from '../components/corporateCenter/publish';
 import message from '../components/personalCenter/message';
 import follow from '../components/personalCenter/follow';
 import report from '../components/personalCenter/report';
@@ -93,18 +94,19 @@ export default {
     return {
       isCelebrity: false,
       menu: [
-        { id: 1, title: '个人资料', child: 'userinfo', status: 0 },
+       { id: 1, title: '个人资料', child: 'userinfo', status: 0 },
         { id: 2, title: '企业信息', child: 'info', status: 0 },
         { id: 3, title: '企业认证', child: 'celebrity', status: 0 },
         { id: 4, title: '修改密码', child: 'password', status: 0 },
         { id: 5, title: '系统通知', child: 'notice', status: 0 },
         { id: 6, title: '企业荣誉', child: 'honor', status: 0 },
         { id: 7, title: '在招职位', child: 'recruit', status: 0 },
-        { id: 8, title: '我的私信', child: 'message', status: 0 },
-        { id: 9, title: '我的作品', child: 'works', status: 0 },
-        { id: 10, title: '我的关注', child: 'follow', status: 0 },
+        { id: 8, title: '发布项目', child: 'publish', status: 0 },
+        { id: 9, title: '我的私信', child: 'message', status: 0 },
+        { id: 10, title: '我的作品', child: 'works', status: 0 },
+        { id: 11, title: '我的关注', child: 'follow', status: 0 },
         // { id: 9, title: '我的收藏', child: 'collect' },
-        { id: 11, title: '举报中心', child: 'report', status: 0 }
+        { id: 12, title: '举报中心', child: 'report', status: 0 }
       ],
       activeIndex: 5,
       child: 'notice',
@@ -183,6 +185,7 @@ export default {
     celebrity,
     honor,
     recruit,
+    publish,
     message,
     follow,
     report,
