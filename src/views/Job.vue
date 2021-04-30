@@ -14,7 +14,7 @@
             @command="handleCommand1"
           >
             <span class="el-dropdown-link">
-              {{ area ? area : "地区" }}
+              {{ area ? area : areaFlag ? "全部" : "地区"}}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -32,7 +32,7 @@
             @command="handleCommand2"
           >
             <span class="el-dropdown-link">
-              {{ sex ? sex : "性别" }}
+              {{ sex ? sex : sexFlag ? "全部" : "性别" }}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -50,7 +50,7 @@
             @command="handleCommand3"
           >
             <span class="el-dropdown-link">
-              {{ age ? age : "年龄" }}
+              {{ age ? age : ageFlag ? "全部" : "年龄" }}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -127,6 +127,9 @@ export default {
       searchVal: '', // 搜索绑定
       list: [],
       currentPage: 1,
+      areaFlag: false,
+      ageFlag: false,
+      sexFlag: false,
       ageType: [{
         id: 1, name: '0-20'
       }, {
@@ -242,6 +245,7 @@ export default {
     handleCommand1(command) {
       if (command === '全部') {
         this.area = '';
+        this.areaFlag = true;
       } else {
         this.area = command;
       }
@@ -250,6 +254,7 @@ export default {
     handleCommand2(command) {
       if (command === '全部') {
         this.sex = '';
+        this.sexFlag = true;
       } else {
         this.sex = command;
       }
@@ -258,6 +263,7 @@ export default {
     handleCommand3(command) {
       if (command === '全部') {
         this.age = '';
+        this.ageFlag = true;
       } else {
         this.age = command;
       }

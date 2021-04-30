@@ -14,7 +14,7 @@
             @command="handleCommand1"
           >
             <span class="el-dropdown-link">
-              {{ job ? job : "分类" }}
+              {{ job ? job : jobFlag ? '全部' : "分类" }}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -33,7 +33,7 @@
             @command="handleCommand2"
           >
             <span class="el-dropdown-link">
-              {{ area ? area : "地区" }}
+              {{ area ? area : areaFlag ? '全部' : '地区'}}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -112,6 +112,8 @@ export default {
       currentPage: 1,
       jobType: [],
       job: '',
+      areaFlag: false,
+      jobFlag: false,
       areaType: [{
         id: 1, name: '全部'
       }, {
@@ -217,6 +219,7 @@ export default {
     handleCommand1(command) {
       if (command === '全部') {
         this.job = '';
+        this.jobFlag = true;
       } else {
         this.job = command;
       }
@@ -225,6 +228,7 @@ export default {
     handleCommand2(command) {
       if (command === '全部') {
         this.area = '';
+        this.areaFlag = true;
       } else {
         this.area = command;
       }
