@@ -67,7 +67,7 @@ export default new Vuex.Store({
     }, {
       id: 'job',
       title: '在招职位',
-      isHave: true
+      isHave: false
     }, {
       id: 'msg',
       title: '留言',

@@ -40,7 +40,7 @@ export default {
     },
     findCompanyJob1() {
       findCompanyJob({ page: this.currentPage, num: 6, userid: this.$route.params.userid }).then(res => {
-        if (res.code === '0') {
+        if (res.data.jobs.length !== 0) {
           this.$store.commit('companyNavJob', true);
           this.list = res.data;
         } else {
