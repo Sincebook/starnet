@@ -126,7 +126,7 @@
           <span>{{ companyInfo.managementRange }}</span>
         </el-form-item>
         <!--代表作-->
-        <el-form-item label="代表作：" prop="opus" style="width:90%">
+        <el-form-item label="代表作品：" prop="opus" style="width:90%">
           <el-input
               maxlength="100"
               :show-word-limit="true"
@@ -359,10 +359,6 @@ export default {
   .demo-ruleForm {
     display: flex;
     flex-wrap: wrap;
-    padding-top: 25px;
-    margin-bottom: 25px;
-    border: 1px dashed rgba(153, 153, 153, 0.5);
-    border-radius: 5px;
   }
   .desc {
     display: flex;
@@ -461,8 +457,5 @@ export default {
         width: auto;
         height: 300px;
     }
-  }
-  .submit {
-    margin-top: 50px;
   }
 </style>

@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="job-actor">
-      <div class="left">
+      <!-- <div class="left">
         <el-image class="img" :src="item.image" fit="cover"></el-image>
-      </div>
+      </div> -->
       <div class="right">
         <div class="name">{{ item.name }}</div>
         <div class="info">
-          <span>性别：{{ item.sex }}</span>
-          <span>年龄：{{ item.age }}</span>
+          <span>性别要求：{{ item.sex }}</span>
+          <span>年龄要求：{{ item.age }}</span>
         </div>
         <div class="desc">{{ item.description }}</div>
         <div class="btns">
@@ -112,11 +112,11 @@ export default {
   .left {
     width: 180px;
     margin-right: 20px;
-    .img {
-      display: block;
-      width: 180px;
-      height: 240px;
-    }
+    // .img {
+    //   display: block;
+    //   width: 180px;
+    //   height: 240px;
+    // }
   }
   .right {
     flex: 1;
@@ -127,7 +127,7 @@ export default {
       margin-bottom: 10px;
     }
     .desc {
-      min-height: 123px;
+      min-height: 50px;
     }
     .desc,
     .info {
@@ -138,7 +138,7 @@ export default {
     }
     .btns {
       .btn {
-        cursor: pointer;
+        // cursor: pointer;
         margin-right: 20px;
         width: 68px;
         height: 34px;
@@ -148,6 +148,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        float:right;
       }
       .flw_s {
         color: #67c23a;

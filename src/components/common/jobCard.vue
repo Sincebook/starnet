@@ -17,10 +17,10 @@
           <p class="job-require">招聘职位：{{ item.job }}</p>
           <p class="job-require">发布人：{{ item.launch }}</p>
           <p>面试地点：{{ item.place }}</p>
-          <p>年龄要求：{{ item.age }}</p>
-          <p>招聘人数：{{ item.sex }}</p>
-          <p class="job-require">职位要求：{{ item.jobneed }}</p>
-          <p>薪酬：{{ item.money }}</p>
+          <!-- <p>年龄要求：{{ item.age }}</p> -->
+          <!-- <p>招聘人数：{{ item.sex }}</p> -->
+          <p class="job-require">申请条件：{{ item.jobneed }}</p>
+          <!-- <p>薪酬：{{ item.money }}</p> -->
           <p>工作周期：{{ item.worktime }}</p>
           <p>开始日期：{{ Number(item.begintime) | formatDate }}</p>
           <p>截止日期：{{ Number(item.endtime) | formatDate }}</p>
@@ -146,7 +146,7 @@ export default {
   position: relative;
   width: 270px;
   background-color: var(--cardBgColor);
-  height: 450px;
+  height: 380px;
   transition: all 0.25s;
   box-shadow: -4px -4px 8px -5px rgba(0, 0, 0, 0.1),
     4px 4px 8px -5px rgba(0, 0, 0, 0.1);

@@ -72,7 +72,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    height: 940px;
+    height: 800px;
     width: 1160px;
     margin: 0 auto;
     overflow: hidden;
