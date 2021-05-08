@@ -2,49 +2,6 @@
   <div class="info-box">
     <div class="title">
       <div class="name">发布职位</div>
-      <el-form
-        v-if="isEdit"
-        :model="ruleForm2"
-        :rules="rules2"
-        ref="ruleForm2"
-        class="demo-ruleForm2"
-        :disabled="isdeleteRole"
-      >
-        <el-form-item prop="id">
-          <el-select
-            v-model="ruleForm2.id"
-            placeholder="请选择要删除的角色"
-            clearable
-          >
-            <el-option
-              v-for="(res, index) in roleList"
-              :key="res.id"
-              :label="index + 1 + '. ' + res.name"
-              :value="res.id"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="danger" @click="submitForm2()" size="mini"
-            >删除</el-button
-          >
-        </el-form-item>
-      </el-form>
-      <!--click点击哪个 就显示当前的值-->
-      <el-dropdown v-if="active === 2" style="cursor: pointer">
-        <span class="el-dropdown-link">
-          条件筛选({{ tj }})<i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            @click.native="clickItem(item)"
-            v-for="item in tiaojian"
-            :key="item.id"
-            >{{ item.value }}</el-dropdown-item
-          >
-        </el-dropdown-menu>
-      </el-dropdown>
     </div>
     <div class="info notAllow" v-if="userinfo.user.status === 1">
       <el-alert
@@ -129,63 +86,6 @@
             </div>
             </el-dialog>
           </el-form-item>
-          <el-form-item label="项目详情" prop="description">
-            <el-input
-              maxlength="300"
-              :show-word-limit="true"
-              resize="none"
-              type="textarea"
-              :autosize="{ minRows: 6, maxRows: 6 }"
-              v-model="ruleForm.description"
-              placeholder="请输入项目详情"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="职位类型" prop="job">
-            <el-select
-              collapse-tags
-              v-model="ruleForm.job"
-              multiple
-              placeholder="请选择职位类型"
-            >
-              <el-option
-                v-for="item in jobType"
-                :key="item.id"
-                :label="item.name"
-                :value="item.name"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <!-- <el-form-item label="年龄要求" prop="age">
-            <el-input
-              v-model="ruleForm.age"
-              placeholder="请输入年龄要求"
-            ></el-input>
-          </el-form-item> -->
-          <!-- <el-form-item label="招聘人数" prop="sex">
-            <el-input
-              v-model="ruleForm.sex"
-              placeholder="请输入招聘人数"
-            ></el-input>
-          </el-form-item> -->
-          <el-form-item label="面试地点" prop="place">
-            <el-input
-              v-model="ruleForm.place"
-              placeholder="请输入面试地点"
-            ></el-input>
-          </el-form-item>
-          <!-- <el-form-item label="工作周期" prop="worktime">
-            <el-input
-              v-model="ruleForm.worktime"
-              placeholder="请输入工作周期"
-            ></el-input>
-          </el-form-item> -->
-          <!-- <el-form-item label="薪酬" prop="money">
-            <el-input
-              v-model="ruleForm.money"
-              placeholder="请输入薪酬"
-            ></el-input>
-          </el-form-item> -->
           <el-form-item label="职位要求" prop="jobneed">
             <el-input
               maxlength="150"
@@ -197,44 +97,61 @@
               placeholder="请输入职位要求"
             ></el-input>
           </el-form-item>
-            <!--更多信息-->
-          <el-collapse accordion>
-              <el-collapse-item title="添加更多信息" name="1">
-                <el-form-item label="年龄要求" prop="age">
-                  <el-input
-                   v-model="ruleForm.age"
-                   placeholder="请输入年龄要求"
-                  ></el-input>
-                </el-form-item>
-                <el-form-item label="招聘人数" prop="sex">
-                  <el-input
-                   v-model="ruleForm.sex"
-                   placeholder="请输入招聘人数"
-                  ></el-input>
-                </el-form-item>
-                <el-form-item label="薪酬" prop="money">
-                    <el-input
-                    v-model="ruleForm.money"
-                    placeholder="请输入薪酬"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item label="工作周期" prop="worktime">
-                    <el-input
-                    v-model="ruleForm.worktime"
-                    placeholder="请输入工作周期"
-                    ></el-input>
-                </el-form-item>
-              </el-collapse-item>
-          </el-collapse>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm">保存</el-button>
+          <el-form-item label="面试地点" prop="place">
+            <el-input
+              v-model="ruleForm.place"
+              placeholder="请输入面试地点"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="项目周期" prop="worktime">
+            <el-input
+              v-model="ruleForm.worktime"
+              placeholder="请输入项目周期"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="项目详情" prop="description">
+            <el-input
+              maxlength="300"
+              :show-word-limit="true"
+              resize="none"
+              type="textarea"
+              :autosize="{ minRows: 6, maxRows: 6 }"
+              v-model="ruleForm.description"
+              placeholder="请输入项目详情"
+            ></el-input>
           </el-form-item>
         </el-form>
         <!--发布角色-->
-        <div v-if="isEdit">
+        <div>
           <el-divider></el-divider>
+          <div v-for="(role, index) in this.roles"  :key="'role'+index" >
+            <el-form class="ruleForm2" label-width="100px">
+              <el-form-item label="职位名称：">
+                <span>{{ role.name }}</span>
+              </el-form-item>
+              <el-form-item label="性别：">
+                <span>{{ role.sex }}</span>
+              </el-form-item>
+              <el-form-item label="年龄：">
+                <span>{{ role.age }}</span>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="danger" @click="detelerole(index)">移除</el-button>
+              </el-form-item>
+              <el-form-item label="招募人数：">
+                <span>{{ role.nums }}</span>
+              </el-form-item>
+              <el-form-item label="薪资：">
+                <span>{{ role.money }}</span>
+              </el-form-item>
+              <el-form-item label="职位详情：">
+                <span>{{ role.description }}</span>
+              </el-form-item>
+            </el-form>
+            <el-divider></el-divider>
+          </div>
           <div class="warn">
-              请在下方添加您所需要招募的项目角色（如：男女主角/配角群演/摄影师/灯光师等等）
+              请在下方添加您所需要招募的项目职位（如：男女主角/配角群演/摄影师/灯光师等等）
           </div>
           <el-form
             :model="ruleForm1"
@@ -242,16 +159,23 @@
             ref="ruleForm1"
             label-width="90px"
             class="demo-ruleForm1"
-            :disabled="flag1"
+            :disabled="flag"
           >
-            <el-form-item label="角色名称" prop="name">
-              <el-input
-                maxlength="10"
+            <el-form-item label="职位名称" prop="name">
+              <el-select
                 v-model="ruleForm1.name"
-                placeholder="请输入角色名称"
-              ></el-input>
+                placeholder="请选择职位名称"
+              >
+                <el-option
+                  v-for="item in jobType"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name"
+                >
+                </el-option>
+              </el-select>
             </el-form-item>
-            <el-form-item label="角色性别" prop="sex">
+            <el-form-item label="性别" prop="sex">
               <el-select v-model="ruleForm1.sex" placeholder="请选择性别">
                 <el-option
                   v-for="item in sexList"
@@ -261,56 +185,28 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="角色年龄" prop="age">
+            <el-form-item label="年龄" prop="age">
               <el-input
                 maxlength="10"
                 v-model="ruleForm1.age"
-                placeholder="请输入角色年龄"
+                placeholder="请输入年龄 例如18-30"
               ></el-input>
             </el-form-item>
-            <el-form-item label="人物图片(概念图)" prop="image">
-              <el-upload
-                class="avatar-uploader1"
-                :http-request="upload1"
-                action=""
-                :show-file-list="false"
-                :on-change='changeUpload1'
-              >
-                <img v-if="roleimgUrl" :src="roleimgUrl" class="avatar" />
-                <i
-                  v-else
-                  class="el-icon-plus avatar-uploader-icon"
-                ></i> </el-upload>
-            <!-- vueCropper 剪裁图片实现-->
-                <el-dialog title="图片剪裁" :visible.sync="dialogVisible1" append-to-body>
-                <div class="cropper-content">
-                    <div class="cropper" style="text-align:center">
-                    <vueCropper
-                        ref="cropper"
-                        :img="option1.img"
-                        :outputSize="option1.size"
-                        :outputType="option1.outputType"
-                        :info="true"
-                        :full="option1.full"
-                        :canMove="option1.canMove"
-                        :canMoveBox="option1.canMoveBox"
-                        :original="option1.original"
-                        :autoCrop="option1.autoCrop"
-                        :fixed="option1.fixed"
-                        :fixedNumber="option1.fixedNumber"
-                        :centerBox="option1.centerBox"
-                        :infoTrue="option1.infoTrue"
-                        :fixedBox="option1.fixedBox"
-                    ></vueCropper>
-                    </div>
-                </div>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible1 = false">取 消</el-button>
-                    <el-button type="primary" @click="finish1" :loading="loading">确认</el-button>
-                </div>
-                </el-dialog>
+            <el-form-item label="招募人数" prop="nums">
+              <el-input
+                maxlength="10"
+                v-model="ruleForm1.nums"
+                placeholder="请输入招募人数"
+              ></el-input>
             </el-form-item>
-            <el-form-item label="角色详情" prop="description">
+            <el-form-item label="薪资" prop="money">
+              <el-input
+                maxlength="10"
+                v-model="ruleForm1.money"
+                placeholder="请输入薪资"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="职位详情" prop="description">
               <el-input
                 maxlength="150"
                 :show-word-limit="true"
@@ -326,6 +222,7 @@
             </el-form-item>
           </el-form>
         </div>
+        <el-button :disabled="flag" type="primary" @click="submitForm">发布</el-button>
       </div>
     </div>
   </div>
@@ -333,16 +230,14 @@
 
 <script>
 import { mapState } from 'vuex';
-import { companyJob, deleteJob, getJobType, addJob, editJob, getAllRole, addRole, deleteRole, findAllDeliver, viewCv, refuseUser, intentionUser, offerUser } from '../../ajax/index';
+import { addJob, getJobType } from '../../ajax/index';
 import { formatDate } from '../../assets/js/date.js';
 export default {
   props: ['info', 'companyInfo'],
   data() {
     return {
-        activeName: '1',
        fileinfor: '',
        dialogVisible: false,
-       dialogVisible1: false,
       // 裁剪组件的基础配置option
       option: {
         img: '', // 裁剪图片的地址
@@ -362,48 +257,26 @@ export default {
         centerBox: false, // 截图框是否被限制在图片里面
         infoTrue: true // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
       },
-      option1: {
-        img: '', // 裁剪图片的地址
-        info: true, // 裁剪框的大小信息
-        outputSize: 0.8, // 裁剪生成图片的质量
-        outputType: 'jpeg', // 裁剪生成图片的格式
-        canScale: true, // 图片是否允许滚轮缩放
-        autoCrop: true, // 是否默认生成截图框
-        // autoCropWidth: 140, // 默认生成截图框宽度
-        // autoCropHeight: 280, // 默认生成截图框高度
-        fixedBox: false, // 固定截图框大小 不允许改变
-        fixed: true, // 是否开启截图框宽高固定比例
-        fixedNumber: [1.3, 1], // 截图框的宽高比例
-        full: true, // 是否输出原图比例的截图
-        canMoveBox: true, // 截图框能否拖动
-        original: false, // 上传图片按照原始比例渲染
-        centerBox: false, // 截图框是否被限制在图片里面
-        infoTrue: true // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
-      },
       picsList: [], // 页面显示的数组
       // 防止重复提交
       loading: false,
       flag: false,
-      flag1: false,
-      isEdit: false,
       imageUrl: '',
       imageData: '',
       ruleForm: {
-        title: '',
         image: '',
+        title: '',
+        description: '',
         launch: '',
-        job: [],
-        age: '',
-        sex: '',
-        jobneed: '',
         place: '',
-        money: '',
+        jobneed: '',
         worktime: '',
+        job: '',
         begintime: '',
         endtime: '',
-        description: '',
-        type: '1'
+        roles: []
       },
+      roles: [],
       rules: {
         image: [
           { required: true, message: '项目照片不能为空', trigger: 'change' }
@@ -411,65 +284,50 @@ export default {
         title: [
           { required: true, message: '项目标题不能为空', trigger: 'blur' }
         ],
-        endtime: [
-          { required: true, message: '截至日期不能为空', trigger: 'change' }
-        ],
-        job: [
-          { required: true, validator: this.checkJobType }
-        ],
-        sex: [
-          { required: false, message: '招聘人数不能为空', trigger: 'change' }
-        ],
-        age: [
-          { required: false, message: '年龄要求不能为空', trigger: 'blur' }
+        description: [
+          { required: true, message: '项目详情不能为空', trigger: 'blur' }
         ],
         place: [
           { required: true, message: '面试地点不能为空', trigger: 'blur' }
         ],
-        worktime: [
-          { required: false, message: '工作周期不能为空', trigger: 'blur' }
+        endtime: [
+          { required: true, message: '截至日期不能为空', trigger: 'change' }
         ],
-        money: [
-          { required: false, message: '薪酬不能为空', trigger: 'blur' }
+        worktime: [
+          { required: true, message: '项目周期不能为空', trigger: 'blur' }
         ],
         jobneed: [
           { required: true, message: '职位要求不能为空', trigger: 'blur' }
-        ],
-        description: [
-          { required: true, message: '项目详情不能为空', trigger: 'blur' }
         ]
       },
-      editItem: [], // 选中要修改的项目
-      roleimgUrl: '',
       ruleForm1: {
-        jobid: '',
         name: '',
         sex: '',
         age: '',
-        image: '',
+        nums: '',
+        money: '',
         description: ''
       },
       rules1: {
-        image: [
-          { required: false, message: '角色照片不能为空', trigger: 'change' }
-        ],
         name: [
-          { required: true, message: '角色名字不能为空', trigger: 'blur' }
+          { required: true, message: '职位名字不能为空', trigger: 'change' }
         ],
         sex: [
-          { required: true, message: '角色性别不能为空', trigger: 'change' }
-        ],
-        description: [
-          { required: true, message: '角色详情不能为空', trigger: 'blur' }
+          { required: true, message: '性别不能为空', trigger: 'change' }
         ],
         age: [
-          { required: true, message: '角色年龄不能为空', trigger: 'blur' }
+          { required: true, message: '年龄不能为空', trigger: 'blur' }
+        ],
+        nums: [
+          { required: true, message: '人数不能为空', trigger: 'blur' }
+        ],
+        money: [
+          { required: true, message: '薪资不能为空', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '职位详情不能为空', trigger: 'blur' }
         ]
       },
-      active: 0, // 0 发布职位  1 已发布 2 查看投递记录
-      isHave: true,
-      list: [],
-      currentPage: 1,
       jobType: [],
       sexList: [{
         value: '男'
@@ -477,28 +335,18 @@ export default {
         value: '女'
       }, {
         value: '不限'
-      }],
-      isdeleteRole: false,
-      roleList: [],
-      ruleForm2: {
-        id: ''
-      },
-      rules2: {
-        id: [
-          { required: true, message: '请选择要删除的角色', trigger: 'change' }
-        ]
-      },
-      jobid: '', // 选中的职位id
-      tiaojian: [
-        { id: 0, value: '全部', code: 'a' },
-        { id: 1, value: '待查看', code: 'w' },
-        { id: 2, value: '已查看', code: 'h' },
-        { id: 3, value: '有意向', code: 'c' },
-        { id: 4, value: '已拒绝', code: 'r' },
-        { id: 5, value: '已录用', code: 's' }
-      ],
-      filter: 'a' // 投递记录筛选 小写字母 a代表所有  w代表待查看  h代表已查看 r代表拒绝 s代表已录用 c代表有意向根据此条件筛选信息
+      }]
     };
+  },
+  created() {
+    getJobType().then(res => {
+      if (res.code === '0') {
+        this.jobType = res.data;
+      }
+    }).catch(err => {
+      this.$message.error(err);
+      return err;
+    });
   },
   methods: {
     goCelebrity() {
@@ -506,169 +354,66 @@ export default {
     },
     async upload(content) {
       this.ruleForm.image = content.file;
-      console.log(content.file);
-    },
-    async upload1(content) {
-      this.ruleForm1.image = content.file;
-    },
-    // 切换 发布职位与已发布tabber
-    changePage(active) {
-      if (active === 1) {
-        this.active = 1;
-        this.clearJob();
-        this.getCompanyJobs(this.currentPage);
-      } else {
-        this.active = 0;
-      }
-    },
-    // 表单检查工作类型
-    checkJobType(rule, value, callback) {
-      if (value.length === 0) {
-        callback(new Error('职位类型不能为空'));
-      } else {
-        callback();
-      }
-    },
-    // 获取公司所有已发布职位
-    getCompanyJobs(page) {
-      companyJob({
-        page: page
-      }).then(res => {
-        if (res.code === '0') {
-          this.isHave = true;
-          this.list = res.data;
-        } else {
-          this.isHave = false;
-          this.$message.error(res.errMsg);
-        }
-      }).catch(err => {
-        this.isHave = false;
-        this.$message.error(err);
-        return err;
-      });
-    },
-    handleCurrentChange(val) {
-      if (this.active === 1) {
-        this.getCompanyJobs(val);
-      } else {
-        findAllDeliver({
-          jobid: this.jobid,
-          filter: this.filter,
-          num: '6',
-          page: val
-        }).then(res => {
-          if (res.code === '0') {
-            this.isHave = true;
-            this.list = res.data;
-          } else {
-            this.isHave = false;
-            this.$message.error(res.errMsg);
-          }
-        }).catch(err => {
-          this.isHave = false;
-          this.$message.error(err);
-          return err;
-        });
-      }
     },
     // 发布 项目/职位
     submitForm() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
+          if (this.roles.length === 0) {
+            this.$message({
+              message: '请在下方添加您所需要招募的项目职位',
+              type: 'error'
+            });
+            return;
+          }
           this.ruleForm.launch = this.companyInfo.name;
           this.flag = true;
-          if (this.isEdit) {
-            editJob(Object.assign({ id: this.ruleForm1.jobid }, this.ruleForm)).then(res => {
-              if (res.code === '0') {
-                this.$message({
-                  message: '修改成功',
-                  type: 'success'
-                });
-                this.clearJob();
-              } else {
-                this.$message.error(res.errMsg);
-              }
-              this.flag = false;
-            }).catch(err => {
-              this.flag = false;
-              this.$message.error(err);
-              return err;
+          this.ruleForm.begintime = new Date().getTime();
+          let arr = [];
+          this.roles.forEach(item => {
+            arr.push(item.name);
+          });
+          this.ruleForm.job = arr.join(',');
+          this.ruleForm.roles = this.roles;
+          // this.ruleForm.roles = JSON.stringify(this.roles);
+          addJob(this.ruleForm).then(res => {
+          if (res.code === '0') {
+            this.$message({
+              message: '发布成功',
+              type: 'success'
             });
+            this.$refs.ruleForm.resetFields();
+            this.imageUrl = '';
           } else {
-            this.ruleForm.begintime = new Date().getTime();
-            console.log(this.ruleForm.image);
-            addJob(this.ruleForm).then(res => {
-              if (res.code === '0') {
-                this.$message({
-                  message: '发布成功',
-                  type: 'success'
-                });
-                this.$refs.ruleForm.resetFields();
-                this.imageUrl = '';
-                this.editJob(res.data);
-              } else {
-                this.$message.error(res.errMsg);
-              }
-              this.flag = false;
-            }).catch(err => {
-              this.flag = false;
-              this.$message.error(err);
-              return err;
-            });
+            this.$message.error(res.errMsg);
           }
+          this.flag = false;
+      }).catch(err => {
+          this.flag = false;
+          this.$message.error(err);
+          return err;
+        }
+      );
         }
       });
     },
-    // 发布 角色
     submitForm1() {
       this.$refs.ruleForm1.validate((valid) => {
         if (valid) {
-          this.flag1 = true;
-          addRole(this.ruleForm1).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                message: '发布成功',
-                type: 'success'
-              });
-              this.getRole(this.ruleForm1.jobid);
-              this.$refs.ruleForm1.resetFields();
-              this.roleimgUrl = '';
-            } else {
-              this.$message.error(res.errMsg);
-            }
-            this.flag1 = false;
-          }).catch(err => {
-            this.flag1 = false;
-            this.$message.error(err);
-            return err;
-          });
+          let item = {
+            name: this.ruleForm1.name,
+            sex: this.ruleForm1.sex,
+            age: this.ruleForm1.age,
+            nums: this.ruleForm1.nums,
+            money: this.ruleForm1.money,
+            description: this.ruleForm1.description
+          };
+          this.roles.push(item);
+          this.$refs.ruleForm1.resetFields();
         }
       });
     },
-    // 删除 角色
-    submitForm2() {
-      this.$refs.ruleForm2.validate((valid) => {
-        if (valid) {
-          this.flag2 = true;
-          deleteRole(this.ruleForm2).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                message: '删除成功',
-                type: 'success'
-              });
-              this.getRole(this.ruleForm1.jobid);
-              this.$refs.ruleForm2.resetFields();
-            } else {
-              this.$message.error(res.errMsg);
-            }
-            this.flag2 = false;
-          }).catch(err => {
-            this.flag2 = false;
-            this.$message.error(err);
-            return err;
-          });
-        }
-      });
+    detelerole() {
     },
     changeUpload(file, fileList) {
       const isJPG = file.raw.type === 'image/jpeg' || 'image/png';
@@ -686,34 +431,7 @@ export default {
         this.option.img = URL.createObjectURL(file.raw);
         this.dialogVisible = true;
       });
-      },
-    changeUpload1(file, fileList) {
-      const isJPG = file.raw.type === 'image/jpeg' || 'image/png';
-      const isLt2M = file.size / 1024 / 1024 < 20;
-      if (!isJPG) {
-        this.$message.error('上传图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 20MB!');
-        return false;
-      }
-      this.fileinfor = file;
-      // 上传成功后将图片地址赋值给裁剪框显示图片
-      this.$nextTick(() => {
-        console.log('1111111');
-        this.option1.img = URL.createObjectURL(file.raw);
-        console.log(this.option1.img);
-        this.dialogVisible1 = true;
-      });
-      },
-    finish1() {
-        this.$refs.cropper.getCropBlob((data) => {
-          let file = new window.File([data], this.fileinfor.name, { type: 'image/jpeg' });
-          this.roleimgUrl = window.URL.createObjectURL(data);
-          this.ruleForm1.image = file;
-        });
-        this.dialogVisible1 = false;
-      },
+    },
     finish() {
       this.$refs.cropper.getCropBlob((data) => {
       // data为base64格式地址
@@ -750,11 +468,7 @@ export default {
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
-    handleAvatarSuccess1(res, file) {
-      this.roleimgUrl = URL.createObjectURL(file.raw);
-    },
     beforeAvatarUpload(file) {
-      console.log('1111111111111111111111111');
       const isJPG = file.type === 'image/jpeg' || 'image/png';
       const isLt2M = file.size / 1024 / 1024 < 20;
 
@@ -765,177 +479,7 @@ export default {
         this.$message.error('上传头像图片大小不能超过 20MB!');
       }
       return isJPG && isLt2M;
-    },
-    // 查看职位详情
-    watchDetail(jobid, companyInfoId) {
-      this.$router.push('/jobDetail/' + jobid + '/' + companyInfoId);
-    },
-    // 查看个人主页详情
-    watchDetail1(userinfoId, userid) {
-      this.$router.push('/talentDetail/' + userinfoId + '/' + userid);
-    },
-    // 查看投递
-    watchDeliver(id) {
-      this.active = 2;
-      this.jobid = id;
-      findAllDeliver({
-        jobid: id,
-        filter: this.filter,
-        num: '6',
-        page: this.currentPage
-      }).then(res => {
-        if (res.code === '0') {
-          this.isHave = true;
-          this.list = res.data;
-        } else {
-          this.isHave = false;
-          this.$message.error(res.errMsg);
-        }
-      }).catch(err => {
-        this.isHave = false;
-        this.$message.error(err);
-        return err;
-      });
-    },
-    // 获取所有角色
-    getRole(id) {
-      getAllRole({ jobid: id }).then(res => {
-        if (res.code === '0') {
-          this.roleList = res.data;
-        }
-      }).catch(err => {
-        this.$message.error(err);
-        return err;
-      });
-    },
-    // 修改项目
-    editJob(item) {
-      this.getRole(item.id);
-      this.active = 0;
-      this.isEdit = true;
-      this.ruleForm1.jobid = item.id;
-      this.imageUrl = item.image;
-      this.ruleForm.job = item.job.split(',');
-      this.ruleForm.title = item.title;
-      this.ruleForm.image = item.image;
-      this.ruleForm.launch = item.launch;
-      this.ruleForm.age = item.age;
-      this.ruleForm.sex = item.sex;
-      this.ruleForm.jobneed = item.jobneed;
-      this.ruleForm.place = item.place;
-      this.ruleForm.money = item.money;
-      this.ruleForm.worktime = item.worktime;
-      this.ruleForm.begintime = item.begintime;
-      this.ruleForm.endtime = item.endtime;
-      this.ruleForm.description = item.description;
-    },
-    // 删除项目
-    cancel(id) {
-      deleteJob({ id: id }).then(res => {
-        if (res.code === '0') {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          });
-          if (this.list.jobs.length === 1 && this.currentPage !== 1) {
-            this.handleCurrentChange(this.currentPage - 1);
-          } else {
-            this.handleCurrentChange(this.currentPage);
-          }
-        } else {
-          this.$message.error(res.errMsg);
-        }
-      }).catch(err => {
-        this.$message.error(err);
-        return err;
-      });
-    },
-    clearJob() {
-      this.isEdit = false;
-      this.imageUrl = '';
-      for (const key in this.ruleForm) {
-        this.ruleForm[key] = '';
-      }
-      this.ruleForm.job = [];
-      this.ruleForm2.id = '';
-      this.roleList = [];
-    },
-    // 查看简历
-    view(infoid, userinfoId, userid) {
-      viewCv({ id: infoid }).then(res => {
-        this.watchDetail1(userinfoId, userid);
-      }).catch(err => {
-        return err;
-      });
-    },
-    // 拒绝录用
-    refuse(id) {
-      refuseUser({ id: id }).then(res => {
-        if (res.code === '0') {
-          this.$message({
-            message: '拒绝成功',
-            type: 'success'
-          });
-          this.watchDeliver(this.jobid);
-        } else {
-          this.$message.error(res.errMsg);
-        }
-      }).catch(err => {
-        return err;
-      });
-    },
-    // 意向面试
-    intention(infoid, status) {
-      if (status === '有意向') {
-        offerUser({
-          id: infoid
-        }).then(res => {
-          if (res.code === '0') {
-            this.$message({
-              message: '录用成功',
-              type: 'success'
-            });
-            this.watchDeliver(this.jobid);
-          } else {
-            this.$message.error(res.errMsg);
-          }
-        }).catch(err => {
-          return err;
-        });
-      } else {
-        intentionUser({
-          id: infoid
-        }).then(res => {
-          if (res.code === '0') {
-            this.$message({
-              message: '意向成功',
-              type: 'success'
-            });
-            this.watchDeliver(this.jobid);
-          } else {
-            this.$message.error(res.errMsg);
-          }
-        }).catch(err => {
-          return err;
-        });
-      }
-    },
-    // 条件筛选
-    clickItem(item) {
-      this.filter = item.code;
-      this.currentPage = 1;
-      this.watchDeliver(this.jobid);
     }
-  },
-  created() {
-    getJobType().then(res => {
-      if (res.code === '0') {
-        this.jobType = res.data;
-      }
-    }).catch(err => {
-      this.$message.error(err);
-      return err;
-    });
   },
   filters: {
     formatDate(time) {
@@ -944,15 +488,6 @@ export default {
     }
   },
   computed: {
-    tj() {
-      let res = '';
-      this.tiaojian.forEach(item => {
-        if (item.code === this.filter) {
-          res = item.value;
-        }
-      });
-      return res;
-    },
     ...mapState({
       userinfo: (state) => state.userinfo
     })
@@ -1130,11 +665,34 @@ export default {
       .el-textarea {
         width: 100%;
       }
-      &:nth-last-child(2) {
+      &:last-child {
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .ruleForm2{
+    display: flex;
+    flex-wrap: wrap;
+    .el-form-item {
+      width: 25%;
+      margin-bottom: 0;
+      .el-input,
+      .el-select,
+      .el-cascader,
+      .el-date-editor,
+      .el-textarea {
         width: 100%;
       }
       &:last-child {
-        margin-bottom: 0;
+        span{
+          word-break: break-all;
+        }
+      }
+      &:nth-last-child(4) {
+        text-align: right;
+      }
+      &:last-child {
+        width: 100%;
       }
     }
   }
@@ -1143,26 +701,16 @@ export default {
     flex-wrap: wrap;
     .el-form-item {
       width: 33.333%;
-      &:nth-last-child(3) {
-        width: 33.333%;
-      }
       &:nth-last-child(2) {
         width: 66.667%;
       }
       &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-  .demo-ruleForm2 {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    .el-form-item {
-      margin: 0;
-      &:first-child {
-        margin-right: 10px;
+        position: relative;
+        /deep/.el-form-item__content{
+          position: absolute;
+          right: 0;
+          bottom: 0;
+        }
       }
     }
   }
@@ -1197,30 +745,8 @@ export default {
     cursor: pointer;
   }
 }
-/deep/ .avatar-uploader,
-.avatar-uploader1 {
+/deep/ .avatar-uploader {
   height: 140px;
-}
-/deep/.avatar-uploader1 .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 196px;
-    height: 138px;
-    line-height: 138px;
-    text-align: center;
-  }
-  .avatar {
-    width: 196px;
-    height: 138px;
-    display: block;
-    cursor: pointer;
-  }
 }
 .el-divider {
   margin: 15px 0;
