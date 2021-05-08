@@ -35,10 +35,6 @@ export function getJobType(obj) {
 export function addJob(obj) {
   return http.post('/api/job/add', obj);
 };
-// 发布职位
-export function addJobandRole(obj) {
-  return http.post('/api/job/addJob', obj);
-};
 // 修改职位
 export function editJob(obj) {
   return http.post('/api/job/modifyById', obj);

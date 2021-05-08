@@ -120,6 +120,9 @@
               placeholder="请输入项目详情"
             ></el-input>
           </el-form-item>
+          <el-form-item>
+            <el-button :disabled="flag" type="primary" @click="submitForm">发布</el-button>
+          </el-form-item>
         </el-form>
         <!--发布角色-->
         <div>
@@ -222,7 +225,6 @@
             </el-form-item>
           </el-form>
         </div>
-        <el-button :disabled="flag" type="primary" @click="submitForm">发布</el-button>
       </div>
     </div>
   </div>
@@ -361,7 +363,7 @@ export default {
         if (valid) {
           if (this.roles.length === 0) {
             this.$message({
-              message: '请在下方添加您所需要招募的项目职位',
+              message: '至少需要添加一个项目职位',
               type: 'error'
             });
             return;
@@ -374,8 +376,7 @@ export default {
             arr.push(item.name);
           });
           this.ruleForm.job = arr.join(',');
-          this.ruleForm.roles = this.roles;
-          // this.ruleForm.roles = JSON.stringify(this.roles);
+          this.ruleForm.roles = JSON.stringify(this.roles);
           addJob(this.ruleForm).then(res => {
           if (res.code === '0') {
             this.$message({
@@ -666,7 +667,12 @@ export default {
         width: 100%;
       }
       &:last-child {
-        margin-bottom: 10px;
+        position: relative;
+        /deep/.el-form-item__content{
+          position: absolute;
+          right: 0;
+          bottom: 0;
+        }
       }
     }
   }
