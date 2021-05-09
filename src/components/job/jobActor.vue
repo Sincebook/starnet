@@ -9,7 +9,10 @@
         <div class="info">
           <span>性别要求：{{ item.sex }}</span>
           <span>年龄要求：{{ item.age }}</span>
+          <span>薪酬待遇：{{ item.money }}</span>
+          <span>招聘人数：{{ item.nums }}</span>
         </div>
+        <a>工作内容:</a>
         <div class="desc">{{ item.description }}</div>
         <div class="btns">
           <div
