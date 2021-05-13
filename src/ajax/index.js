@@ -142,6 +142,7 @@ export {
   comNotice,
   deletecomNotice,
   iscomNews,
-  modifyCompanyinfo
+  modifyCompanyinfo,
+  addJobandRole
 }
 from './corporateCenter.js';
