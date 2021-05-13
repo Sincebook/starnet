@@ -55,7 +55,7 @@ const routes = [{
     name: 'Job',
     component: Job,
     meta: {
-      title: '项目目录'
+      title: '工作职位'
     }
   },
   {

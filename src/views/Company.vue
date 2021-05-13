@@ -121,9 +121,31 @@ export default {
       }, {
         id: 3, name: '上海'
       }, {
-        id: 4, name: '郑州'
+        id: 4, name: '广州'
       }, {
-        id: 5, name: '西安'
+        id: 5, name: '深圳'
+      }, {
+        id: 6, name: '重庆'
+      }, {
+        id: 7, name: '成都'
+      }, {
+        id: 8, name: '杭州'
+      }, {
+        id: 9, name: '武汉'
+      }, {
+        id: 10, name: '苏州'
+      }, {
+        id: 11, name: '西安'
+      }, {
+        id: 12, name: '郑州'
+      }, {
+        id: 13, name: '长沙'
+      }, {
+        id: 14, name: '东莞'
+      }, {
+        id: 15, name: '沈阳'
+      }, {
+        id: 16, name: '天津'
       }],
       area: '',
       isHave: true,
