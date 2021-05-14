@@ -19,3 +19,7 @@ export function findHotCompanys(params) {
 export function getbanner(params) {
   return http.get('/api/banner/findByType', params);
 }
+// 查看是否有新的投递
+export function jobNews(params) {
+  return http.get('/api/news/JobNews', params);
+}

@@ -29,6 +29,16 @@
         <el-button type="primary" @click="celebrityTo()" class="celebrity">立即认证</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      v-if="jobNews = 1 "
+      :visible.sync="dialogVisible1"
+      width="30%"
+      :before-close="handleClose1">
+      <span>您有的投递，快去查看吧～</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="jobNewsTo()" class="celebrity">前往查看</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -41,13 +51,18 @@ import hotJob from '../components/home/hotJob';
 import createCv from '../components/home/createCv';
 import safeCard from '../components/home/safe';
 import joinUs from '../components/home/joinUs';
-import { getbanner, getMyinfo } from '../ajax/index';
+import { getbanner, getMyinfo, jobNews } from '../ajax/index';
 import { mapState } from 'vuex';
 export default {
   data() {
     return {
+      time: '',
+      jobNews: 0,
+      type: 0,
+      id: 0,
       isCelebrity: 1,
       dialogVisible: true,
+      dialogVisible1: false,
       swiperOption: {
         autoplay: true,
         pagination: {
@@ -65,7 +80,8 @@ export default {
         { id: 1, pic: '//ftp.qnets.cn/since/bg2.jpg' },
         { id: 2, pic: '//ftp.qnets.cn/since/bg3.jpg' },
         { id: 3, pic: '//ftp.qnets.cn/since/bg4.jpg' }
-      ]
+      ],
+      flag: true
     };
   },
   components: {
@@ -81,6 +97,9 @@ export default {
   directives: {
     swiper: directive
   },
+  beforeDestroy() {
+    clearInterval(this.time);
+  },
   created() {
     getbanner({
       type: '1'
@@ -89,6 +108,11 @@ export default {
         this.banners = res.data;
       }
     });
+    this.time = setInterval(() => {
+         if (this.flag) {
+          this.isjobNews();
+         }
+      }, 2000);
   },
   methods: {
     handleClose(done) {
@@ -98,29 +122,11 @@ export default {
           })
           .catch(_ => {});
     },
-    // isUserDialog() {
-    //  mineInfoDetail().then(res => {
-    //   if (res.code === '0') {
-    //     this.isCelebrity = 1;
-    //     console.log(this.isCelebrity);
-    //   } else {
-    //     this.isCelebrity = 0;
-    //   }
-    // }).catch(err => {
-    //   return err;
-    // });
-    // },
-    // isComDialog() {
-    //   companyInfo().then(res => {
-    //     if (res.code === '0' && res.data.name) {
-    //       this.isCelebrity = 1;
-    //       console.log(this.isCelebrity);
-    //       console.log(res.data);
-    //     } else {
-    //       this.isCelebrity = 0;
-    //     }
-    //   });
-    // },
+    handleClose1(done) {
+        this.flag = true;
+        done();
+        // this.timeCLock();
+    },
     celebrityTo() {
       if (this.$store.state.userinfo.user.type > 3) {
         this.$router.push('/corporateCelebrity');
@@ -131,22 +137,59 @@ export default {
     isDialog() {
       getMyinfo().then(res => {
         if (res.code === '0' && res.data.user.status === 2) {
-          console.log(res.code);
-          console.log(res.data.user.status);
+          // console.log(res.code);
+          // console.log(res.data.user.status);
           this.isCelebrity = 1;
         } else {
+          console.log(res);
           this.isCelebrity = 0;
-          console.log(res.data.user.status);
+          // console.log(res.data.user.status);
+        }
+      });
+    },
+    jobNewsTo() {
+      this.dialogVisible1 = false;
+      this.$router.push('/corporateRecruit');
+    },
+    isjobNews() {
+      getMyinfo().then(res => {
+        if (res.code === '0') {
+          this.type = res.data.user.type;
+          this.id = res.data.user.id;
+           if (this.type === 6 || this.type === 5 || this.type === 4) {
+            jobNews({
+              userid: this.id
+            }).then(res => {
+              if (res.code === '0') {
+                this.flag = false;
+                this.jobNews = 1;
+                this.dialogVisible1 = true;
+              } else {
+                console.log('没有新投递');
+                // this.jobNews = 0;
+              }
+            });
+          }
+        } else {
         }
       });
     }
+    // timeCLock() {
+    //    setInterval(() => {
+    //      if (this.flag) {
+    //       this.isjobNews();
+    //      }
+    //   }, 2000);
+    // }
   },
   mounted() {
     this.isDialog();
+    // this.timeCLock();
   },
   computed: {
     ...mapState({
-      isLogin: (state) => state.isLogin
+      isLogin: (state) => state.isLogin,
+      userinfo: (state) => state.userinfo
     })
   }
 };

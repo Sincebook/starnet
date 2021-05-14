@@ -100,7 +100,8 @@ export {
   findHotJobs,
   findHotTalents,
   findHotCompanys,
-  getbanner
+  getbanner,
+  jobNews
 }
 from './home';
 export {
