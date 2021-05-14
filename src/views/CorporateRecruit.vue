@@ -126,8 +126,8 @@ export default {
         // { id: 9, title: '我的收藏', child: 'collect' },
         { id: 12, title: '举报中心', child: 'report', status: 0 }
       ],
-      activeIndex: 1,
-      child: 'userinfo',
+      activeIndex: 7,
+      child: 'recruit',
       status: 0,
       companyInfo: {
         status: '',

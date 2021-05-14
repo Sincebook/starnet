@@ -46,7 +46,7 @@
             :class="{ active: activeIndex === item.id }"
             @click="tabChange(item.id, item.child)"
           >
-          <div  class="item" v-if="item.id===5 && item.status===1">
+          <div  class="item" v-if="item.id===5 && item.status===1" >
             {{ item.title }}
             <svg t="1615811266498" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2227" width="200" height="200"><path d="M512 512m-286.423125 0a286.423125 286.423125 0 1 0 572.84718751 0 286.423125 286.423125 0 1 0-572.84718751 0Z" fill="#f43530" p-id="2228"></path></svg>
           </div>
@@ -66,6 +66,16 @@
         ></components
       ></keep-alive>
     </div>
+    <el-dialog
+      v-if="jobNews = 1 "
+      :visible.sync="dialogVisible1"
+      width="30%"
+      :before-close="handleClose1">
+      <span>您有的投递，快去查看吧～</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="jobNewsTo()" class="celebrity">前往查看</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -74,7 +84,9 @@ import { mapState } from 'vuex';
 import {
   mineInfo,
   companyInfo,
-  isNews
+  isNews,
+  getMyinfo,
+  jobNews
 } from '../ajax/index';
 import userinfo from '../components/personalCenter/info';
 import info from '../components/corporateCenter/info';
@@ -92,9 +104,15 @@ import notice from '../components/corporateCenter/notice';
 export default {
   data() {
     return {
+      time: '',
+      jobNews: 0,
+      type: 0,
+      id: 0,
+      dialogVisible1: false,
+      flag: true,
       isCelebrity: false,
       menu: [
-       { id: 1, title: '个人资料', child: 'userinfo', status: 0 },
+        { id: 1, title: '个人资料', child: 'userinfo', status: 0 },
         { id: 2, title: '企业信息', child: 'info', status: 0 },
         { id: 3, title: '企业认证', child: 'celebrity', status: 0 },
         { id: 4, title: '修改密码', child: 'password', status: 0 },
@@ -132,6 +150,11 @@ export default {
     tabChange(id, child) {
       this.child = child;
       this.activeIndex = id;
+      console.log(id, child);
+      if (id === 5 && child === 'notice') {
+        this.menu[4].status = 0;
+        console.log(this.menu[4].status);
+      }
     },
     goCelebrity() {
       this.tabChange(3, 'celebrity');
@@ -158,12 +181,46 @@ export default {
         isNews().then(res => {
           if (res.data === 1) {
             this.menu[4].status = 1;
-            console.log(this.menu[10].status);
           } else {
             this.menu[4].status = 0;
           }
         });
+    },
+    handleClose1(done) {
+        this.flag = true;
+        done();
+        // this.timeCLock();
+    },
+    jobNewsTo() {
+      this.dialogVisible1 = false;
+      this.$router.push('/corporateRecruit');
+    },
+    isjobNews() {
+      getMyinfo().then(res => {
+        if (res.code === '0') {
+          this.type = res.data.user.type;
+          this.id = res.data.user.id;
+           if (this.type === 6 || this.type === 5 || this.type === 4) {
+            jobNews({
+              userid: this.id
+            }).then(res => {
+              if (res.code === '0') {
+                this.flag = false;
+                this.jobNews = 1;
+                this.dialogVisible1 = true;
+              } else {
+                console.log('没有新投递');
+                // this.jobNews = 0;
+              }
+            });
+          }
+        } else {
+        }
+      });
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.time);
   },
   created() {
     companyInfo().then(res => {
@@ -173,6 +230,11 @@ export default {
     }).catch(err => {
       return err;
     });
+    this.time = setInterval(() => {
+         if (this.flag) {
+          this.isjobNews();
+         }
+      }, 2000);
   },
   computed: {
     ...mapState({
@@ -197,18 +259,18 @@ export default {
   mounted() {
     this.haveNews();
   }
-//   watch: {
-//     '$route' (to, from) {
-//         // from 对象中要 router 来源信息.
-//         // do your want
-//     }
-//   },
-//   beforeRouteEnter (to, from, next) {
-//        console.log(to);
-//        console.log(from);
-//        console.log(next);
-//        next();
-//   }
+  // watch: {
+  //   '$route' (to, from) {
+  //       // from 对象中要 router 来源信息.
+  //       // do your want
+  //   }
+  // },
+  // beforeRouteEnter (to, from, next) {
+  //      console.log(to);
+  //      console.log(from);
+  //      console.log(next);
+  //      next();
+  // }
 };
 </script>
 

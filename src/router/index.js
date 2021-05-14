@@ -16,6 +16,7 @@ import PersonalCelebrity from '../views/PersonalCelebrity.vue';
 import CorporateCenter from '../views/CorporateCenter.vue';
 import CorporateNews from '../views/CorporateNews.vue';
 import CorporateCelebrity from '../views/CorporateCelebrity.vue';
+import CorporateRecruit from '../views/CorporateRecruit.vue';
 import companyDetail from '../components/company/companyDetail.vue';
 import jobDetail from '../components/job/jobDetail.vue';
 import talentDetail from '../components/talent/talentDetail.vue';
@@ -142,6 +143,11 @@ const routes = [{
     path: '/corporateNews',
     name: 'CorporateNews',
     component: CorporateNews
+  },
+  {
+    path: '/corporateRecruit',
+    name: 'CorporateRecruit',
+    component: CorporateRecruit
   },
   {
     path: '/corporateCelebrity',

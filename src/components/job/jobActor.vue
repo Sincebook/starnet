@@ -44,6 +44,12 @@ export default {
   created() {
     this.isApplys();
   },
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.isLogin,
+      userinfo: (state) => state.userinfo
+    })
+  },
   methods: {
     apply(jobid, id) {
       if (!this.isLogin) {
@@ -96,12 +102,6 @@ export default {
         };
       });
     }
-  },
-  computed: {
-    ...mapState({
-      isLogin: (state) => state.isLogin,
-      userinfo: (state) => state.userinfo
-    })
   },
   mounted() {
     this.isDialog();
