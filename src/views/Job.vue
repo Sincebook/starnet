@@ -3,6 +3,7 @@
     <sub-bar
       :companyType="jobType"
       :nameArr="nameArr"
+      :active='name'
       @typeSearch="searchType"
     ></sub-bar>
     <div class="select-type">
@@ -259,7 +260,7 @@ export default {
     },
     handleCurrentChange(val) {
       if (this.select === 'uptime') {
-        findJobUptime({ page: val }).then(res => {
+        findJobByThree({ page: val }).then(res => {
           window.scrollTo(0, 0);
           if (res.code === '0') {
             this.isHave = true;
@@ -347,6 +348,7 @@ export default {
     },
     // 搜索
     search() {
+      this.name = '';
       if (!this.searchVal) {
         this.handleCurrentChange(1);
       } else {
@@ -368,16 +370,19 @@ export default {
     },
     // 最新按钮
     lasted() {
+      this.name = '';
       this.select = 'uptime';
       this.handleCurrentChange(1);
     },
      // 默认按钮
     moren() {
+      this.name = '';
       this.select = 'moren';
       this.handleCurrentChange(1);
     },
     // 最热排名
     hot() {
+      this.name = '';
       findHotJob({ page: 1 }).then(res => {
         if (res.code === '0') {
           this.isHave = true;
@@ -394,6 +399,12 @@ export default {
     },
     // 根据单个类别搜索项目
     searchType(name) {
+      this.area = '';
+      this.areaFlag = false;
+      this.age = '';
+      this.ageFlag = false;
+      this.sex = '';
+      this.sexFlag = false;
       this.select = 'searchType';
       this.currentPage = 1;
       this.name = name;
@@ -413,6 +424,7 @@ export default {
     },
     // 下拉选择api
     newType() {
+      this.name = '';
       if (this.area === '' && this.age === '' && this.sex === '') {
         this.select = 'uptime';
         this.handleCurrentChange(1);

@@ -11,7 +11,7 @@
         v-for="(item, index) in companyType"
         :key="item + index"
       >
-        <div class="typeItem">
+        <div class="typeItem" :class="active === item ? 'acitve' : ''">
           {{ item }}
         </div>
       </div>
@@ -23,17 +23,21 @@
 </template>
 <script>
 export default {
-  props: ['companyType', 'nameArr'],
+  props: ['companyType', 'nameArr', 'active'],
   name: 'subBar',
   data() {
     return {
-      openDesc: false, // 默认不展开描述
-      height: Math.ceil(this.companyType.length / 8) * 60
+      openDesc: false // 默认不展开描述
     };
   },
   methods: {
     search(name) {
       this.$emit('typeSearch', name);
+    }
+  },
+  computed: {
+    height() {
+      return Math.ceil(this.companyType.length / 8) * 60;
     }
   }
 };
@@ -122,5 +126,11 @@ export default {
       border-color: #909399;
     }
   }
+  .acitve{
+    background: #909399;
+    color: #fff;
+    border-color: #909399;
+  }
 }
+
 </style>
