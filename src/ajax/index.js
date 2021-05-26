@@ -144,6 +144,6 @@ export {
   deletecomNotice,
   iscomNews,
   modifyCompanyinfo,
-  addJobandRole
+  changePasswordBycode
 }
 from './corporateCenter.js';
