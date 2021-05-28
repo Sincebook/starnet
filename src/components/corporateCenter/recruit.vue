@@ -1,9 +1,14 @@
 <template>
   <div class="info-box">
     <div class="title">
-      <!-- <div class="name">在招职位</div> -->
-      <el-page-header @back="goBack" content="在招职位">
-      </el-page-header>
+      <div style='display:flex'>
+        <div @click="goBack" v-if="active !== 1" style="cursor: pointer">
+          <i class="el-icon-back" style="font-size:14px;color:#666"></i>
+          <span style="padding-left: 5px;font-size:14px;color:#666">返回</span>
+          <span style="padding:0px 10px;cursor:auto">|</span>
+        </div>
+        <div class="name">在招职位</div>
+      </div>
       <!--click点击哪个 就显示当前的值-->
       <el-dropdown v-if="active === 2" style="cursor: pointer">
         <span class="el-dropdown-link">
@@ -336,11 +341,6 @@
           <div v-else class="list">
             <div class="item-box" v-for="item in list.applys" :key="item.id">
               <div class="item">
-                <el-image
-                  class="user-img"
-                  :src="item.roleimage"
-                  fit="cover"
-                ></el-image>
                 <div class="user-info">
                   <div class="head">
                     <span class="user-name"
@@ -378,14 +378,21 @@
                       item.status !== '已被拒绝' && item.status !== '已被录用'
                     "
                   >
-                    <el-button
+                  <el-button
+                      v-if="item.status === '有意向'"
                       type="warning"
                       size="mini"
                       plain
-                      @click="intention(item.infoid, item.status)"
-                      >{{
-                        item.status === "有意向" ? "确认录用" : "意向面试"
-                      }}</el-button
+                      @click="intention(item.infoid)"
+                      >确认录用</el-button
+                    >
+                    <el-button
+                      v-else
+                      type="warning"
+                      size="mini"
+                      plain
+                      @click="openPop(item)"
+                      >意向面试</el-button
                     >
                   </div>
                   <div
@@ -408,7 +415,7 @@
             <div class="footer-page">
               <el-pagination
                 @current-change="handleCurrentChange"
-                :current-page.sync="currentPage"
+                :current-page.sync="currentPage1"
                 :page-size="6"
                 layout="prev, pager, next"
                 :page-count="list.allpage"
@@ -420,6 +427,60 @@
         </div>
       </div>
     </div>
+    <!--弹窗-->
+    <el-dialog
+      :destroy-on-close="true"
+      :title="'发送面试通知--'+ popItem.username"
+      :visible.sync="ispop"
+      width="500px"
+    >
+      <el-form
+        :model="popruleForm"
+        :rules="poprules"
+        ref="popruleForm"
+        label-width="80px"
+        class="popruleForm"
+        :disabled="formFlag"
+      >
+        <el-form-item label="联系人" prop="name">
+          <el-input
+            v-model="popruleForm.name"
+            placeholder="请输入联系人"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="联系电话" prop="phone">
+          <el-input
+            v-model="popruleForm.phone"
+            placeholder="请输入联系电话"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="面试地点" prop="place">
+          <el-input
+            v-model="popruleForm.place"
+            placeholder="请输入面试地点"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="面试时间" prop="time">
+          <el-date-picker
+           :editable='false'
+            v-model="popruleForm.time"
+            type="datetime"
+            placeholder="请选择面试时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            @click="intentionUser()"
+            >确定</el-button
+          >
+          <el-button
+            @click="resetPop"
+            >重置</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -458,6 +519,7 @@ export default {
       flag: false,
       flag1: false,
       flag2: false,
+      formFlag: false,
       imageUrl: '',
       imageData: '',
       ruleForm: {
@@ -530,6 +592,7 @@ export default {
       isHave: true,
       list: [],
       currentPage: 1,
+      currentPage1: 1,
       jobType: [],
       sexList: [{
         value: '男'
@@ -549,12 +612,34 @@ export default {
         { id: 4, value: '已拒绝', code: 'r' },
         { id: 5, value: '已录用', code: 's' }
       ],
+      ispop: false, // 查看简历弹窗
+      popruleForm: {
+        name: '',
+        phone: '',
+        place: '',
+        time: ''
+      },
+      poprules: {
+        name: [
+          { required: true, message: '联系人不能为空', trigger: 'blur' }
+        ],
+        phone: [
+          { required: true, message: '联系电话不能为空', trigger: 'blur' }
+        ],
+        place: [
+          { required: true, message: '面试地点不能为空', trigger: 'blur' }
+        ],
+        time: [
+          { required: true, message: '面试时间不能为空', trigger: 'change' }
+        ]
+      },
+      popItem: {}, // 选中的投递
       filter: 'a' // 投递记录筛选 小写字母 a代表所有  w代表待查看  h代表已查看 r代表拒绝 s代表已录用 c代表有意向根据此条件筛选信息
     };
   },
   methods: {
     goBack() {
-      this.isHave = true;
+      this.currentPage1 = 1;
       this.active = 1;
       this.getCompanyJobs(this.currentPage);
     },
@@ -780,7 +865,7 @@ export default {
         jobid: id,
         filter: this.filter,
         num: '6',
-        page: this.currentPage
+        page: this.currentPage1
       }).then(res => {
         if (res.code === '0') {
           this.isHave = true;
@@ -870,9 +955,8 @@ export default {
         return err;
       });
     },
-    // 意向面试
-    intention(infoid, status) {
-      if (status === '有意向') {
+    // 录用
+    intention(infoid) {
         offerUser({
           id: infoid
         }).then(res => {
@@ -888,29 +972,63 @@ export default {
         }).catch(err => {
           return err;
         });
-      } else {
-        intentionUser({
-          id: infoid
-        }).then(res => {
-          if (res.code === '0') {
-            this.$message({
+    },
+    // 意向面试
+    intentionUser() {
+      this.$refs.popruleForm.validate((valid) => {
+        if (valid) {
+          this.formFlag = true;
+          localStorage.setItem('popItem', JSON.stringify(this.popruleForm));
+          intentionUser({
+            id: this.popItem.infoid,
+            place: this.popruleForm.place,
+            time: this.popruleForm.time,
+            phone: this.popruleForm.phone
+          }).then(res => {
+            if (res.code === '0') {
+              this.$message({
               message: '意向成功',
               type: 'success'
             });
+            this.ispop = false;
             this.watchDeliver(this.jobid);
-          } else {
-            this.$message.error(res.errMsg);
-          }
-        }).catch(err => {
-          return err;
-        });
-      }
+            } else {
+              this.$message.error(res.errMsg);
+            }
+            this.formFlag = false;
+          }).catch(err => {
+            this.formFlag = false;
+            return err;
+          });
+        }
+      });
     },
     // 条件筛选
     clickItem(item) {
       this.filter = item.code;
       this.currentPage = 1;
       this.watchDeliver(this.jobid);
+    },
+    // 意向面试弹窗内容重置
+    resetPop() {
+      // this.popruleForm = {
+      //   name: '',
+      //   phone: '',
+      //   place: '',
+      //   time: null
+      // };
+      this.$refs.popruleForm.resetFields();
+    },
+    openPop(item) {
+      this.ispop = true;
+      this.popItem = item;
+      const is = JSON.parse(localStorage.getItem('popItem'));
+      if (is) {
+        this.popruleForm.name = JSON.parse(localStorage.getItem('popItem')).name;
+        this.popruleForm.phone = JSON.parse(localStorage.getItem('popItem')).phone;
+        this.popruleForm.place = JSON.parse(localStorage.getItem('popItem')).place;
+        this.popruleForm.time = JSON.parse(localStorage.getItem('popItem')).time;
+      }
     }
   },
   created() {
@@ -1208,6 +1326,14 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 60px;
+  }
+  .popruleForm{
+    .el-form-item {
+      width: 100%;
+      .el-input{
+        width: 100%;
+      }
+    }
   }
 }
 /deep/.avatar-uploader .el-upload {

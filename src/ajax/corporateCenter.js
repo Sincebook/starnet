@@ -107,3 +107,7 @@ export function iscomNews(obj) {
 export function modifyCompanyinfo(obj) {
   return http.post('api/companyinfo/modifyById', obj);
 }
+// 修改公司信息
+export function changePasswordBycode(obj) {
+  return http.post('api/user/Cpassword', obj);
+}
