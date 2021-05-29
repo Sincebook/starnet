@@ -90,11 +90,7 @@ export default {
   },
   methods: {
     emailLogin() {
-      console.log('11111111111111');
-      console.log(this.ruleForm);
       this.$refs.ruleForm.validate((valid) => {
-        console.log('22222222222222222222');
-        console.log(valid);
         if (valid) {
           emailLogin(this.ruleForm)
             .then((res) => {
@@ -108,7 +104,6 @@ export default {
                   this.$router.push('/home');
                 }, 1500);
               } else {
-                console.log(res.errMsg);
                 this.$message.error(res.errMsg);
               }
             })

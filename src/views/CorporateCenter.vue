@@ -66,16 +66,6 @@
         ></components
       ></keep-alive>
     </div>
-    <el-dialog
-      v-if="jobNews = 1 "
-      :visible.sync="dialogVisible1"
-      width="30%"
-      :before-close="handleClose1">
-      <span>您有的投递，快去查看吧～</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="jobNewsTo()" class="celebrity">前往查看</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -84,9 +74,7 @@ import { mapState } from 'vuex';
 import {
   mineInfo,
   companyInfo,
-  isNews,
-  getMyinfo,
-  jobNews
+  isNews
 } from '../ajax/index';
 import userinfo from '../components/personalCenter/info';
 import info from '../components/corporateCenter/info';
@@ -104,12 +92,8 @@ import notice from '../components/corporateCenter/notice';
 export default {
   data() {
     return {
-      time: '',
-      jobNews: 0,
       type: 0,
       id: 0,
-      dialogVisible1: false,
-      flag: true,
       isCelebrity: false,
       menu: [
         { id: 1, title: '个人资料', child: 'userinfo', status: 0 },
@@ -185,42 +169,7 @@ export default {
             this.menu[4].status = 0;
           }
         });
-    },
-    handleClose1(done) {
-        this.flag = true;
-        done();
-        // this.timeCLock();
-    },
-    jobNewsTo() {
-      this.dialogVisible1 = false;
-      this.$router.push('/corporateRecruit');
-    },
-    isjobNews() {
-      getMyinfo().then(res => {
-        if (res.code === '0') {
-          this.type = res.data.user.type;
-          this.id = res.data.user.id;
-           if (this.type === 6 || this.type === 5 || this.type === 4) {
-            jobNews({
-              userid: this.id
-            }).then(res => {
-              if (res.code === '0') {
-                this.flag = false;
-                this.jobNews = 1;
-                this.dialogVisible1 = true;
-              } else {
-                console.log('没有新投递');
-                // this.jobNews = 0;
-              }
-            });
-          }
-        } else {
-        }
-      });
     }
-  },
-  beforeDestroy() {
-    clearInterval(this.time);
   },
   created() {
     companyInfo().then(res => {
@@ -230,11 +179,6 @@ export default {
     }).catch(err => {
       return err;
     });
-    this.time = setInterval(() => {
-         if (this.flag) {
-          this.isjobNews();
-         }
-      }, 2000);
   },
   computed: {
     ...mapState({
