@@ -28,11 +28,11 @@
       <div v-else class="list">
         <div class="item-box" v-for="item in list.applys" :key="item.id">
           <div class="item">
-            <el-image
+            <!-- <el-image
               class="user-img"
               :src="item.roleimage"
               fit="cover"
-            ></el-image>
+            ></el-image> -->
             <div class="user-info">
               <div class="head">
                 <span class="user-name">{{ item.rolename }}</span>

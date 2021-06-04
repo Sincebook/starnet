@@ -465,6 +465,7 @@
            :editable='false'
             v-model="popruleForm.time"
             type="datetime"
+            value-format="yyyy年MM月DD日 HH:mm"
             placeholder="请选择面试时间">
           </el-date-picker>
         </el-form-item>
@@ -486,7 +487,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { companyJob, deleteJob, getJobType, editJob, getAllRole, addRole, deleteRole, findAllDeliver, viewCv, refuseUser, intentionUser, offerUser } from '../../ajax/index';
+import { companyJob, deleteJob, getJobType, editJob, intentionUser, getAllRole, addRole, deleteRole, findAllDeliver, viewCv, refuseUser, offerUser } from '../../ajax/index';
 import { formatDate } from '../../assets/js/date.js';
 export default {
   props: ['info', 'companyInfo'],
@@ -979,8 +980,10 @@ export default {
         if (valid) {
           this.formFlag = true;
           localStorage.setItem('popItem', JSON.stringify(this.popruleForm));
+          console.log(this.popruleForm.time);
           intentionUser({
             id: this.popItem.infoid,
+            name: this.popruleForm.name,
             place: this.popruleForm.place,
             time: this.popruleForm.time,
             phone: this.popruleForm.phone
