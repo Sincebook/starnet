@@ -9,7 +9,7 @@
       width="30%"
       :before-close="handleClose1"
     >
-      <span>您有的投递，快去查看吧～</span>
+      <span>您有一封新消息，快去查看吧～</span>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="jobNewsTo()" class="celebrity"
           >前往查看</el-button

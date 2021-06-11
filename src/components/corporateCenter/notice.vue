@@ -20,7 +20,7 @@
                  </div>
                  <div class="item-status2" v-if="item.status == 2"></div>
                  <div class="item-title">{{item.title}}</div>
-                 <div class="item-word" @click="open(item)">{{item.word | ellipsis}}</div>
+                 <div class="item-word" @click="open(item)"><a>{{item.word | ellipsis}}</a></div>
                  <div class="item-time">{{Number(item.uptime) | formatDate}}</div>
               </div>
               <div class="delete-btn">

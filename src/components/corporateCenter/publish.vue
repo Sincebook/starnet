@@ -198,6 +198,7 @@
             <el-form-item label="招募人数" prop="nums">
               <el-input
                 maxlength="10"
+                type="number"
                 v-model="ruleForm1.nums"
                 placeholder="请输入招募人数"
               ></el-input>
@@ -321,7 +322,7 @@ export default {
           { required: true, message: '年龄不能为空', trigger: 'blur' }
         ],
         nums: [
-          { required: true, message: '人数不能为空', trigger: 'blur' }
+          { required: true, message: '人数不能为空，仅限数字输入', trigger: 'blur' }
         ],
         money: [
           { required: true, message: '薪资不能为空', trigger: 'blur' }

@@ -465,7 +465,6 @@
            :editable='false'
             v-model="popruleForm.time"
             type="datetime"
-            value-format="yyyy年MM月DD日 HH:mm"
             placeholder="请选择面试时间">
           </el-date-picker>
         </el-form-item>

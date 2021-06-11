@@ -21,7 +21,7 @@ import jobHeader from './jobHeader.vue';
 import jobNav from './jobNav.vue';
 import jobResume from './jobResume.vue';
 import jobWorks from './jobWorks.vue';
-import { getJobById, getAllRoles, fingComInfo, getMyinfo, jobNews } from '@/ajax';
+import { getJobById, getAllRoles, fingComInfo } from '@/ajax';
 import { mapState } from 'vuex';
 export default {
   data() {
@@ -43,11 +43,6 @@ export default {
   created() {
     this.getJob();
     this.getRoles();
-    this.time = setInterval(() => {
-         if (this.flag) {
-          this.isjobNews();
-         }
-      }, 2000);
   },
   methods: {
     // 获取工作详情
@@ -85,34 +80,34 @@ export default {
         this.flag = true;
         done();
         // this.timeCLock();
-    },
-    jobNewsTo() {
-      this.dialogVisible1 = false;
-      this.$router.push('/corporateRecruit');
-    },
-    isjobNews() {
-      getMyinfo().then(res => {
-        if (res.code === '0') {
-          this.type = res.data.user.type;
-          this.id = res.data.user.id;
-           if (this.type === 6 || this.type === 5 || this.type === 4) {
-            jobNews({
-              userid: this.id
-            }).then(res => {
-              if (res.code === '0') {
-                this.flag = false;
-                this.jobNews = 1;
-                this.dialogVisible1 = true;
-              } else {
-                console.log('没有新投递');
-                // this.jobNews = 0;
-              }
-            });
-          }
-        } else {
-        }
-      });
     }
+    // jobNewsTo() {
+    //   this.dialogVisible1 = false;
+    //   this.$router.push('/corporateRecruit');
+    // },
+    // isjobNews() {
+    //   getMyinfo().then(res => {
+    //     if (res.code === '0') {
+    //       this.type = res.data.user.type;
+    //       this.id = res.data.user.id;
+    //        if (this.type === 6 || this.type === 5 || this.type === 4) {
+    //         jobNews({
+    //           userid: this.id
+    //         }).then(res => {
+    //           if (res.code === '0') {
+    //             this.flag = false;
+    //             this.jobNews = 1;
+    //             this.dialogVisible1 = true;
+    //           } else {
+    //             console.log('没有新投递');
+    //             // this.jobNews = 0;
+    //           }
+    //         });
+    //       }
+    //     } else {
+    //     }
+    //   });
+    // }
   },
   computed: {
     ...mapState({

@@ -91,11 +91,6 @@ export default {
     }).catch(err => {
       return err;
     });
-    this.time = setInterval(() => {
-         if (this.flag) {
-          this.isjobNews();
-         }
-      }, 2000);
   },
   methods: {
     handleClose1(done) {
